@@ -1,9 +1,10 @@
 "use client";
 import { addUser } from "@/APIs/postApis";
+import UnProtectedRoute from "@/AuthenticRouting/UnProtectedRoutes";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-export default function Register() {
+const Register = ()=> {
   const [formData, setFormData] = useState({
     brandName: "",
     email: "",
@@ -45,7 +46,7 @@ export default function Register() {
               value={formData.brandName}
               onChange={handleChange}
               required
-              className="mt-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 w-full"
+              className="mt-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-[#21B5F7] focus:border-[#21B5F7] w-full"
             />
           </div>
 
@@ -63,7 +64,7 @@ export default function Register() {
               value={formData.email}
               onChange={handleChange}
               required
-              className="mt-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 w-full"
+              className="mt-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-[#21B5F7] focus:border-[#21B5F7] w-full"
             />
           </div>
 
@@ -81,7 +82,7 @@ export default function Register() {
               value={formData.name}
               onChange={handleChange}
               required
-              className="mt-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 w-full"
+              className="mt-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-[#21B5F7] focus:border-[#21B5F7] w-full"
             />
           </div>
 
@@ -99,13 +100,13 @@ export default function Register() {
               value={formData.password}
               onChange={handleChange}
               required
-              className="mt-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 w-full"
+              className="mt-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-[#21B5F7] focus:border-[#21B5F7] w-full"
             />
           </div>
 
           <button
             type="submit"
-            className="w-full bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 transition duration-300"
+            className="w-full bg-[#21B5F7] text-white py-2 px-4 rounded-md hover:bg-[#2d99cb] transition duration-300"
           >
             Register
           </button>
@@ -114,3 +115,4 @@ export default function Register() {
     </div>
   );
 }
+export default UnProtectedRoute(Register);

@@ -1,21 +1,25 @@
 "use client";
 import { loginUser } from "@/APIs/postApis";
-import { redirect, useRouter } from "next/navigation";
-import { useState } from "react";
+import UnProtectedRoute from "@/AuthenticRouting/UnProtectedRoutes";
+import { setCurrentUser } from "@/Redux/Authentication/AuthSlice";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
-export default function Login() {
+const Login = () => {
+  const dispatch = useDispatch()
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
-  const userLoggedIn = JSON.parse(localStorage.getItem("isloggedIn"));
-  const [isLoggedin, setIsLoggedIn] = useState(userLoggedIn);
   const router = useRouter();
+  const user = useSelector((state) => state.currentUser);
+  console.log(user, "🧞‍♂️🧞‍♂️");
 
-  if (isLoggedin) {
-    router.push("/");
-  }
+  useEffect(() => {
+    console.log(user, "?????????????");
 
+  }, [user])
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -24,10 +28,8 @@ export default function Login() {
     e.preventDefault();
     try {
       const user = await loginUser(formData);
-      localStorage.setItem("user", JSON.stringify(user));
-
-      localStorage.setItem("isloggedIn", true);
-      console.log("isLoggedin>>>>>", isLoggedin);
+      localStorage.setItem("currentUser", JSON.stringify({ jwtToken: user.jwtToken, ...user.userToken }));
+      dispatch(setCurrentUser())
       router.push("/");
     } catch (e) {
       alert(e);
@@ -77,7 +79,7 @@ export default function Login() {
 
           <button
             type="submit"
-            className="w-full bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 transition duration-300"
+            className="w-full bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-[#3993e8] transition duration-300"
           >
             Login
           </button>
@@ -86,3 +88,4 @@ export default function Login() {
     </div>
   );
 }
+export default UnProtectedRoute(Login);
