@@ -9,11 +9,12 @@ export const currentDataSlice = createSlice({
   reducers: {
     setCurrentUser: (state, action) => {
       state = action.payload;
-      console.log(state, ">>>>>><<<<<<<<<");
+      return state;
     },
     setLogout: (state) => {
       state = null;
       localStorage.removeItem("currentUser");
+      return state;
     },
   },
 });

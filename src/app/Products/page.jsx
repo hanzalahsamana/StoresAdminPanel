@@ -1,15 +1,16 @@
 "use client";
 
 import React, { useState } from "react";
-import FormInput from "./formInput";
 import { addProducts } from "@/APIs/postApis";
 import { uploadImagesToCloudinary } from "@/Utils/uploadToCloudinary";
 import { useSelector } from "react-redux";
+import FormInput from "@/components/FormInput";
+import ProtectedRoute from "@/AuthenticRouting/ProtectedRoutes";
+import SizeSelector from "@/components/SizesFields";
 
-const ProductAddForm = () => {
+const AddProduct = () => {
   const [selectedImages, setSelectedImages] = useState([]);
   const user = useSelector((state) => state.currentUser);
-  console.log("brandNAme", user.brandName);
   const [errors, setErrors] = useState({});
   const [formData, setFormData] = useState({
     name: "",
@@ -90,7 +91,7 @@ const ProductAddForm = () => {
           status: true,
           images: imageUrls,
         },
-        user.brandName
+        user?.brandName
       );
       // setFormData({
       //     name: "",
@@ -107,7 +108,6 @@ const ProductAddForm = () => {
       alert(error);
     }
   };
-
   return (
     <div className="w-full flex justify-center p-[30px]">
       <div className="max-w-[1300px] w-full">
@@ -175,15 +175,17 @@ const ProductAddForm = () => {
               errors={errors}
               formData={formData}
             />
+
+              <SizeSelector/>
             <div className="flex gap-[10px] w-full">
-              <FormInput
+              {/* <FormInput
                 type="number"
                 placeholder="Size (meters)"
                 handleChange={handleChange}
                 field={"size"}
                 errors={errors}
                 formData={formData}
-              />
+              /> */}
               <FormInput
                 type="text"
                 placeholder="Type"
@@ -235,7 +237,7 @@ const ProductAddForm = () => {
             </div>
           </div>
           <button className="py-[20px] w-full mt-3 bg-[#407fc4] text-[#e6e6e6] text-[18px] font-semibold rounded-md transition-all duration-300 hover:scale-105">
-            Place Order
+            Add Product
           </button>
         </form>
       </div>
@@ -243,4 +245,4 @@ const ProductAddForm = () => {
   );
 };
 
-export default ProductAddForm;
+export default ProtectedRoute(AddProduct);

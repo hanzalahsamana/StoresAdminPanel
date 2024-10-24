@@ -5,6 +5,7 @@ import "./globals.css";
 import ProviderWrap from "@/components/ProviderWrap";
 import { store } from "@/Redux/Store";
 import { Provider } from "react-redux";
+import Header from "@/components/Header";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",

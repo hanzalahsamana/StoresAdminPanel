@@ -2,15 +2,23 @@
 
 import axios from "axios";
 import Base_URL from "../../config";
-import { redirect } from "next/dist/server/api-utils";
 
-export const addProducts = async (data) => {
+export const addProducts = async (data, type) => {
   try {
-    const apiUrl = `${Base_URL}/addProduct`;
+    const apiUrl = `${Base_URL}/${type}/addProduct`;
+
     const response = await axios.post(apiUrl, data, {});
+    if (response.ok) {
+      alert("Product added successfully");
+    }
     return response.data;
   } catch (error) {
     console.log(error.response ? error.response.data.message : error.message);
+    alert(
+      "Product added failed" || error.response
+        ? error.response.data.message
+        : error.message
+    );
   }
 };
 

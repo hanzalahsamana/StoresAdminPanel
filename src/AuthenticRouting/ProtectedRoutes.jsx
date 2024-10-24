@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 
 const ProtectedRoute = (WrappedComponent) => {
     return () => {
-        const user = useSelector((state) => state.currentuser);
+        const user = useSelector((state) => state.currentUser);
         const router = useRouter();
 
         useEffect(() => {

@@ -7,19 +7,13 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 const Login = () => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
   const router = useRouter();
-  const user = useSelector((state) => state.currentUser);
-  console.log(user, "🧞‍♂️🧞‍♂️");
 
-  useEffect(() => {
-    console.log(user, "?????????????");
-
-  }, [user])
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -28,8 +22,11 @@ const Login = () => {
     e.preventDefault();
     try {
       const user = await loginUser(formData);
-      localStorage.setItem("currentUser", JSON.stringify({ jwtToken: user.jwtToken, ...user.userToken }));
-      dispatch(setCurrentUser())
+      localStorage.setItem(
+        "currentUser",
+        JSON.stringify({ jwtToken: user.jwtToken, ...user.userToken })
+      );
+      dispatch(setCurrentUser({ jwtToken: user.jwtToken, ...user.userToken }));
       router.push("/");
     } catch (e) {
       alert(e);
@@ -87,5 +84,5 @@ const Login = () => {
       </div>
     </div>
   );
-}
+};
 export default UnProtectedRoute(Login);
