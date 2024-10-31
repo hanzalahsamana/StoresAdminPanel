@@ -8,7 +8,7 @@ export const addProducts = async (data, type) => {
     const apiUrl = `${Base_URL}/${type}/addProduct`;
 
     const response = await axios.post(apiUrl, data, {});
-console.log(response.data)
+    console.log(response.data);
     return response.data;
   } catch (error) {
     console.log(error.response ? error.response.data.message : error.message);
@@ -26,7 +26,7 @@ export const addUser = async (data) => {
     const response = await axios.post(apiUrl, data, {});
     return response.data;
   } catch (error) {
-    console.log(error.response ? error.response.data.message : error.message);
+    throw error.response ? error.response.data.message : error.message;
   }
 };
 

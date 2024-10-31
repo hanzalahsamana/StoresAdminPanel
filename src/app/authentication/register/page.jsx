@@ -4,7 +4,7 @@ import UnProtectedRoute from "@/AuthenticRouting/UnProtectedRoutes";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-const Register = ()=> {
+const Register = () => {
   const [formData, setFormData] = useState({
     brandName: "",
     email: "",
@@ -23,7 +23,7 @@ const Register = ()=> {
       const user = await addUser(formData);
       router.push("/authentication/login");
     } catch (e) {
-      console.log(e.message)
+      alert(e);
     }
   };
 
@@ -114,5 +114,5 @@ const Register = ()=> {
       </div>
     </div>
   );
-}
+};
 export default UnProtectedRoute(Register);

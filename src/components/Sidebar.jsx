@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-export default function Sidebar({ isOpen }) {
+function Sidebar({ isOpen }) {
   return (
     <aside
       className={`bg-gray-800 text-white w-[250px] h-[calc(100vh-50px)] space-y-6 py-7 px-2 absolute inset-y-0 top-[50px] left-0 transform ${
@@ -33,3 +33,5 @@ export default function Sidebar({ isOpen }) {
     </aside>
   );
 }
+
+export default Sidebar;
