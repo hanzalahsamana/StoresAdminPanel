@@ -11,19 +11,20 @@ import SizeSelector from "@/components/SizesFields";
 const AddProduct = () => {
   const [selectedImages, setSelectedImages] = useState([]);
   const [selectedSizes, setSelectedSizes] = useState([]);
-
   const user = useSelector((state) => state.currentUser);
   const [errors, setErrors] = useState({});
   const [formData, setFormData] = useState({
     name: "",
-    brand: "Hannan Fabrics",
+    brand: "Fiztees",
     originalPrice: 0,
     discount: 30,
     discountedPrice: 0,
-    collectionName: "Heritage",
-    type: "Unstiched",
+    collectionName: "OverSized",
+    type: "",
     size: selectedSizes,
+    discription: "",
   });
+  console.log("hekce")
 
   const handleImageChange = (event) => {
     const files = Array.from(event.target.files);
@@ -77,7 +78,7 @@ const AddProduct = () => {
     e.preventDefault();
 
     if (!validateForm()) {
-      console.log("validation error ")
+      console.log("validation error ");
       return;
     }
     try {
@@ -170,28 +171,20 @@ const AddProduct = () => {
                 formData={formData}
               />
             </div>
-            <FormInput
-              type="number"
-              placeholder="Discounted Price = originalPrice - discount "
-              // handleChange={handleChange}
-              field={"discountedPrice"}
-              errors={errors}
-              formData={formData}
-            />
 
             <SizeSelector
               selectedSizes={selectedSizes}
               setSelectedSizes={setSelectedSizes}
             />
             <div className="flex gap-[10px] w-full">
-              {/* <FormInput
+              <FormInput
                 type="number"
-                placeholder="Size (meters)"
-                handleChange={handleChange}
-                field={"size"}
+                placeholder="Discounted Price = originalPrice - discount "
+                // handleChange={handleChange}
+                field={"discountedPrice"}
                 errors={errors}
                 formData={formData}
-              /> */}
+              />
               <FormInput
                 type="text"
                 placeholder="Type"

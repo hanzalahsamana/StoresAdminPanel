@@ -1,11 +1,12 @@
 "use client";
 import { setLogout } from "@/Redux/Authentication/AuthSlice";
+import Link from "next/link";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 export default function Header({ toggleSidebar }) {
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  const user = useSelector((state) => state.currentUser);
+  const { currUser, loading } = useSelector((state) => state.currentUser);
   const dispatch = useDispatch();
   const logout = () => {
     dispatch(setLogout());
@@ -36,7 +37,7 @@ export default function Header({ toggleSidebar }) {
           onClick={() => setDropdownOpen(!dropdownOpen)}
           className="flex items-center space-x-2 focus:outline-none"
         >
-          <span>{user?.brandName}</span>
+          <span>{currUser?.brandName}</span>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="h-5 w-5"
@@ -54,19 +55,19 @@ export default function Header({ toggleSidebar }) {
         {/* Dropdown Menu */}
         {dropdownOpen && (
           <div className="absolute right-0 mt-2 w-48 bg-white text-black rounded-lg shadow-lg">
-            <a href="#" className="block px-4 py-2 hover:bg-gray-200">
+            <Link href="#" className="block px-4 py-2 hover:bg-gray-200">
               Profile
-            </a>
-            <a href="#" className="block px-4 py-2 hover:bg-gray-200">
+            </Link>
+            <Link href="#" className="block px-4 py-2 hover:bg-gray-200">
               Settings
-            </a>
-            <a
-              href="#"
+            </Link>
+            <Link
+              href="/"
               className="block px-4 py-2 hover:bg-gray-200"
               onClick={() => logout()}
             >
               Logout
-            </a>
+            </Link>
           </div>
         )}
       </div>

@@ -1,24 +1,31 @@
 "use client";
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialState = null;
+const initialState = {
+currUser:null,
+loading:true,
+};
 
 export const currentDataSlice = createSlice({
   name: "currentUser",
   initialState,
   reducers: {
     setCurrentUser: (state, action) => {
-      state = action.payload;
+      state.currUser = action.payload;
       return state;
     },
     setLogout: (state) => {
-      state = null;
+      state.currUser = null;
       localStorage.removeItem("currentUser");
       return state;
     },
+    setLoading: (state) => {
+       state.loading = false;
+      return state;
+    }
   },
 });
 
-export const { setCurrentUser, setLogout } = currentDataSlice.actions;
+export const { setCurrentUser, setLogout , setLoading } = currentDataSlice.actions;
 
 export default currentDataSlice.reducer;
