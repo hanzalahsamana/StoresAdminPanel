@@ -10,6 +10,8 @@ import SizeSelector from "@/components/SizesFields";
 
 const AddProduct = () => {
   const [selectedImages, setSelectedImages] = useState([]);
+  const [selectedSizes, setSelectedSizes] = useState([]);
+
   const user = useSelector((state) => state.currentUser);
   const [errors, setErrors] = useState({});
   const [formData, setFormData] = useState({
@@ -20,7 +22,7 @@ const AddProduct = () => {
     discountedPrice: 0,
     collectionName: "Heritage",
     type: "Unstiched",
-    size: 2.5,
+    size: selectedSizes,
   });
 
   const handleImageChange = (event) => {
@@ -75,6 +77,7 @@ const AddProduct = () => {
     e.preventDefault();
 
     if (!validateForm()) {
+      console.log("validation error ")
       return;
     }
     try {
@@ -88,7 +91,7 @@ const AddProduct = () => {
           discountedPrice: Number(formData.discountedPrice),
           discount: Number(formData.discount),
           size: parseFloat(formData.size),
-          status: true,
+          stock: 10,
           images: imageUrls,
         },
         user?.brandName
@@ -176,7 +179,10 @@ const AddProduct = () => {
               formData={formData}
             />
 
-              <SizeSelector/>
+            <SizeSelector
+              selectedSizes={selectedSizes}
+              setSelectedSizes={setSelectedSizes}
+            />
             <div className="flex gap-[10px] w-full">
               {/* <FormInput
                 type="number"

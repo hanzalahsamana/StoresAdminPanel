@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 
-const SizeSelector = () => {
-  const [selectedSizes, setSelectedSizes] = useState([]);
+const SizeSelector = ({setSelectedSizes,selectedSizes}) => {
   const [manualSize, setManualSize] = useState("");
   const [isInputOpen, setIsInputOpen] = useState(false);
 
@@ -52,6 +51,7 @@ const SizeSelector = () => {
       )}
 
       <select
+        name="size"
         onChange={(e) => handleSelectSize(e.target.value)}
         className="p-3 border-2 border-gray-400 rounded mb-[20px] w-full"
       >
@@ -67,13 +67,14 @@ const SizeSelector = () => {
       {isInputOpen && (
         <div className="flex items-center mb-[20px]">
           <input
-            type="number"
+            type="text"
             placeholder="Size (meters)"
             value={manualSize}
             onChange={handleManualSizeChange}
             className="p-2 border rounded mr-2"
           />
           <button
+          type="button"
             onClick={handleAddManualSize}
             className="bg-blue-500 text-white p-2 rounded"
           >
