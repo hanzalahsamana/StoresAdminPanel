@@ -91,7 +91,6 @@ const AddProduct = () => {
           originalPrice: Number(formData.originalPrice),
           discountedPrice: Number(formData.discountedPrice),
           discount: Number(formData.discount),
-          size: parseFloat(formData.size),
           stock: 10,
           images: imageUrls,
         },
@@ -190,6 +189,16 @@ const AddProduct = () => {
                 placeholder="Type"
                 handleChange={handleChange}
                 field={"type"}
+                errors={errors}
+                formData={formData}
+              />
+            </div>
+            <div className="flex gap-[10px] w-full">
+              <FormInput
+                type="text"
+                placeholder="Description"
+                handleChange={handleChange}
+                field={"desc"}
                 errors={errors}
                 formData={formData}
               />
