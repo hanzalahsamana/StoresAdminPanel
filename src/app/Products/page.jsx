@@ -11,7 +11,7 @@ import SizeSelector from "@/components/SizesFields";
 const AddProduct = () => {
   const [selectedImages, setSelectedImages] = useState([]);
   const [selectedSizes, setSelectedSizes] = useState([]);
-  const user = useSelector((state) => state.currentUser);
+  const {currUser,loading} = useSelector((state) => state.currentUser);
   const [errors, setErrors] = useState({});
   const [formData, setFormData] = useState({
     name: "",
@@ -93,8 +93,9 @@ const AddProduct = () => {
           discount: Number(formData.discount),
           stock: 10,
           images: imageUrls,
+          size:selectedSizes,
         },
-        user?.brandName
+        currUser?.brandName
       );
       // setFormData({
       //     name: "",

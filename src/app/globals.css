@@ -35,3 +35,9 @@ body {
     text-wrap: balance;
   }
 }
+
+.Inputs:focus~label {
+  font-size: 10px;
+  top: 3px;
+}
+

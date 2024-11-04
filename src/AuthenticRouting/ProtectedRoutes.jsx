@@ -12,11 +12,11 @@ const ProtectedRoute = (WrappedComponent) => {
     const { currUser, loading } = useSelector((state) => state.currentUser);
     const router = useRouter();
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-    console.log(loading, currUser);
 
     if (loading) {
       return <Loader />;
     }
+
     const toggleSidebar = () => {
       setIsSidebarOpen(!isSidebarOpen);
     };

@@ -7,16 +7,13 @@ import { Provider } from "react-redux";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
-      <body
-        className={`antialiased`}
-      >
+    <html lang="en" suppressHydrationWarning>
+      <body className="antialiased" suppressHydrationWarning>
         <Provider store={store}>
-          <ProviderWrap children={children} />
-          <ToastContainer/>
+          <ProviderWrap>{children}</ProviderWrap>
+          <ToastContainer />
         </Provider>
       </body>
     </html>

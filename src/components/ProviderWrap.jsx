@@ -11,6 +11,7 @@ const ProviderWrap = ({ children }) => {
     const user = JSON.parse(localStorage.getItem("currentUser"));
     fetchOrderData(dispatch,user)
     dispatch(setCurrentUser(user));
+    dispatch(setLoading())
   }, [dispatch]);
   return <>{children}</>;
 };

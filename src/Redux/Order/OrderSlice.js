@@ -2,8 +2,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-orders:null,
-loading:false,
+  orders: null,
+  loading: true,
 };
 
 export const orderDataSlice = createSlice({
@@ -14,13 +14,13 @@ export const orderDataSlice = createSlice({
       state.orders = action.payload;
       return state;
     },
-    setLoading: (state) => {
-       state.loading = !state.loading;
+    orderLoading: (state, action) => {
+      state.loading = action.payload;
       return state;
-    }
+    },
   },
 });
 
-export const { setOrderData,setLoading } = orderDataSlice.actions;
+export const { setOrderData, orderLoading } = orderDataSlice.actions;
 
 export default orderDataSlice.reducer;
