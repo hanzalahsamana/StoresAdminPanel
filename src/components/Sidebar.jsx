@@ -18,7 +18,7 @@ function Sidebar({ isOpen }) {
           Dashboard
         </Link>
         <Link
-          href={"/Products"}
+          href={"/productsList"}
           className="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700"
         >
           Products

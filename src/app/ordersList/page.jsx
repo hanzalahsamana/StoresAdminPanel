@@ -18,16 +18,6 @@ const Order = () => {
     return <Loader />;
   }
 
-  // const totalProductCost = orders?.[0]?.orderData?.reduce((total, product) => {
-  //   return total + product.discountedPrice * product.quantity;
-  // }, 0);
-
-  // console.log("totalProductCost", totalProductCost);
-  // const shippingCost = 200;
-  // const tax = 0;
-  // const discount = 0;
-  // const total = totalProductCost + shippingCost + tax - discount;
-
   return (
     <>
       {!loading && orders?.length > 0 ? (

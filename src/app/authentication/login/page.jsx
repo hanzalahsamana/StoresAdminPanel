@@ -1,8 +1,9 @@
 "use client";
-import { loginUser } from "@/APIs/postApis";
+import { loginUser } from "@/APIs/Auth/loginUser";
 import UnProtectedRoute from "@/AuthenticRouting/UnProtectedRoutes";
 import Loader from "@/components/loader";
 import { setCurrentUser } from "@/Redux/Authentication/AuthSlice";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -89,6 +90,7 @@ const Login = () => {
               >
                 Login
               </button>
+              <p className="text-center">You Don't Have Account <Link href={"/authentication/register"} className="text-blue-600"> Sign Up</Link></p>
             </form>
           </div>
         </div>

@@ -5,10 +5,9 @@ import { orderLoading, setOrderData } from "@/Redux/Order/OrderSlice";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 
-export const fetchOrderData = async (dispatch, user) => {
+export const fetchOrderData = async (dispatch, type) => {
   try {
-    const response = await axios.get(`${BASE_URL}/${user.brandName}/getOrders`);
-    console.log(response.data)
+    const response = await axios.get(`${BASE_URL}/${type}/getOrders`);
     dispatch(setOrderData(response.data));
     dispatch(orderLoading(false));
     return response.data;

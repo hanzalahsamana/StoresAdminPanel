@@ -1,7 +1,8 @@
 "use client";
-import { addUser } from "@/APIs/postApis";
+import { addUser } from "@/APIs/Auth/addUser";
 import UnProtectedRoute from "@/AuthenticRouting/UnProtectedRoutes";
 import Loader from "@/components/loader";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
@@ -115,10 +116,11 @@ const Register = () => {
 
               <button
                 type="submit"
-                className="w-full bg-[#21B5F7] text-white py-2 px-4 rounded-md hover:bg-[#2d99cb] transition duration-300"
+                className="w-full bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-[#2d99cb] transition duration-300"
               >
                 Register
               </button>
+              <p className="text-center">You Already Have Account <Link href={"/authentication/login"} className="text-blue-600"> Log In</Link></p>
             </form>
           </div>
         </div>

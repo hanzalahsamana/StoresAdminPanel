@@ -1,17 +1,17 @@
 "use client";
 
 import React, { useState } from "react";
-import { addProducts } from "@/APIs/postApis";
+import { addProducts } from "@/APIs/addProductData";
 import { uploadImagesToCloudinary } from "@/Utils/uploadToCloudinary";
 import { useSelector } from "react-redux";
 import FormInput from "@/components/FormInput";
 import ProtectedRoute from "@/AuthenticRouting/ProtectedRoutes";
 import SizeSelector from "@/components/SizesFields";
 
-const AddProduct = () => {
+const ProductModal = ({ toggleModal, isOpen, setIsOpen }) => {
   const [selectedImages, setSelectedImages] = useState([]);
   const [selectedSizes, setSelectedSizes] = useState([]);
-  const {currUser,loading} = useSelector((state) => state.currentUser);
+  const { currUser, loading } = useSelector((state) => state.currentUser);
   const [errors, setErrors] = useState({});
   const [formData, setFormData] = useState({
     name: "",
@@ -24,7 +24,6 @@ const AddProduct = () => {
     size: selectedSizes,
     discription: "",
   });
-  console.log("hekce")
 
   const handleImageChange = (event) => {
     const files = Array.from(event.target.files);
@@ -93,7 +92,7 @@ const AddProduct = () => {
           discount: Number(formData.discount),
           stock: 10,
           images: imageUrls,
-          size:selectedSizes,
+          size: selectedSizes,
         },
         currUser?.brandName
       );
@@ -113,7 +112,7 @@ const AddProduct = () => {
     }
   };
   return (
-    <div className="w-full flex justify-center p-[30px]">
+    <div className="w-full flex justify-center p-[30px] absolute top-0">
       <div className="max-w-[1300px] w-full">
         <form
           onSubmit={handleSubmit}
@@ -254,4 +253,4 @@ const AddProduct = () => {
   );
 };
 
-export default ProtectedRoute(AddProduct);
+export default ProtectedRoute(ProductModal);

@@ -1,5 +1,6 @@
 "use client";
 import { fetchOrderData } from "@/APIs/getOrderData";
+import { fetchProducts } from "@/APIs/getProductData";
 import { setCurrentUser, setLoading } from "@/Redux/Authentication/AuthSlice";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
@@ -9,7 +10,8 @@ const ProviderWrap = ({ children }) => {
 
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem("currentUser"));
-    fetchOrderData(dispatch,user)
+    fetchOrderData(dispatch,user?.brandName)
+    fetchProducts(dispatch,user?.brandName)
     dispatch(setCurrentUser(user));
     dispatch(setLoading())
   }, [dispatch]);
