@@ -1,6 +1,6 @@
 "use client";
-import { fetchOrderData } from "@/APIs/getOrderData";
-import { fetchProducts } from "@/APIs/getProductData";
+import { fetchOrderData } from "@/APIs/Order/getOrderData";
+import { fetchProducts } from "@/APIs/Product/getProductData";
 import { setCurrentUser, setLoading } from "@/Redux/Authentication/AuthSlice";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";

@@ -1,6 +1,6 @@
 "use client";
 import axios from "axios";
-import BASE_URL from "../../config";
+import BASE_URL from "../../../config";
 import { orderLoading, setOrderData } from "@/Redux/Order/OrderSlice";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";

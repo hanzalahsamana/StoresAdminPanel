@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-const SizeSelector = ({setSelectedSizes,selectedSizes}) => {
+const SizeSelector = ({ setSelectedSizes, selectedSizes }) => {
   const [manualSize, setManualSize] = useState("");
   const [isInputOpen, setIsInputOpen] = useState(false);
 
@@ -9,7 +9,7 @@ const SizeSelector = ({setSelectedSizes,selectedSizes}) => {
   const handleSelectSize = (size) => {
     if (size === "Custom Size") {
       setIsInputOpen(true);
-    } else if (!selectedSizes.includes(size)) {
+    } else if (!selectedSizes.includes(size) && size !== "") {
       setSelectedSizes([...selectedSizes, size]);
     }
   };
@@ -30,7 +30,20 @@ const SizeSelector = ({setSelectedSizes,selectedSizes}) => {
   };
 
   return (
-    <div>
+    <div className="w-full">
+      <select
+        name="size"
+        onChange={(e) => handleSelectSize(e.target.value)}
+        className="p-[0.8rem] border-2 border-[#a1a1a1] rounded-md w-full"
+      >
+        <option value="">Select Size</option>
+        {sizeOptions.map((size) => (
+          <option key={size} value={size}>
+            {size}
+          </option>
+        ))}
+      </select>
+
       {selectedSizes.length > 0 && (
         <div className=" w-full flex gap-4 py-4">
           {selectedSizes.map((size) => (
@@ -49,20 +62,6 @@ const SizeSelector = ({setSelectedSizes,selectedSizes}) => {
           ))}
         </div>
       )}
-
-      <select
-        name="size"
-        onChange={(e) => handleSelectSize(e.target.value)}
-        className="p-3 border-2 border-gray-400 rounded mb-[20px] w-full"
-      >
-        <option value="">Select Size</option>
-        {sizeOptions.map((size) => (
-          <option key={size} value={size}>
-            {size}
-          </option>
-        ))}
-      </select>
-
       {/* If custom size is selected, show input for meters */}
       {isInputOpen && (
         <div className="flex items-center mb-[20px]">
@@ -74,7 +73,7 @@ const SizeSelector = ({setSelectedSizes,selectedSizes}) => {
             className="p-2 border rounded mr-2"
           />
           <button
-          type="button"
+            type="button"
             onClick={handleAddManualSize}
             className="bg-blue-500 text-white p-2 rounded"
           >

@@ -1,6 +1,6 @@
 "use client";
 import axios from "axios";
-import BASE_URL from "../../config";
+import BASE_URL from "../../../config";
 import { toast } from "react-toastify";
 import { setProductData, setProductLoading } from "@/Redux/Product/ProductSlice";
 

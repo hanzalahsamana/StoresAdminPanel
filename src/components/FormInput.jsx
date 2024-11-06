@@ -15,11 +15,11 @@ const FormInput = ({
   formData.discountedPrice = abc;
 
   return (
-    <div className={`mb-4 w-full relative`}>
+    <div className={`w-full relative`}>
       <input
         type={type}
         readOnly={field === "discountedPrice" ? true : false}
-        className={`Inputs mb-[6px] h-[50px] pl-[20px] flex items-center rounded-md outline-[#3973B0] p-2 border-2 w-full ${
+        className={`Inputs h-[50px] pl-[20px] flex items-center rounded-md outline-[#3973B0] p-2 border-2 w-full ${
           errors[field] ? "border-red-500" : "border-[#a1a1a1]"
         } rounded`}
         name={field}

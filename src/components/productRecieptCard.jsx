@@ -1,7 +1,6 @@
 import React from "react";
 
 const ProductRecieptCard = ({ product }) => {
-  console.log("product", product);
   return (
     <>
       <div className="flex items-center justify-between border-b py-[15px]">
