@@ -2,19 +2,25 @@
 import { fetchOrderData } from "@/APIs/Order/getOrderData";
 import { fetchProducts } from "@/APIs/Product/getProductData";
 import { setCurrentUser, setLoading } from "@/Redux/Authentication/AuthSlice";
-import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 const ProviderWrap = ({ children }) => {
   const dispatch = useDispatch();
-
+  const { currUser } = useSelector((state) => state.currentUser);
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem("currentUser"));
-    fetchOrderData(dispatch,user?.brandName)
-    fetchProducts(dispatch,user?.brandName)
     dispatch(setCurrentUser(user));
-    dispatch(setLoading())
+    dispatch(setLoading(false));
   }, [dispatch]);
+
+  useEffect(() => {
+    if (currUser) {
+      fetchOrderData(dispatch, currUser?.brandName);
+      fetchProducts(dispatch, currUser?.brandName);
+    }
+  }, [currUser]);
+
   return <>{children}</>;
 };
 

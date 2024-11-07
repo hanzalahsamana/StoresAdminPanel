@@ -8,9 +8,11 @@ import { BsFillTrash3Fill } from "react-icons/bs";
 import { CiEdit } from "react-icons/ci";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteProduct } from "@/APIs/Product/deleteProductData";
+import { fetchProducts } from "@/APIs/Product/getProductData";
 
 const ProductsList = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [updatedProduct, setUpdatedProduct] = useState(null);
   const { products, productLoading } = useSelector(
     (state) => state.productData
   );
@@ -23,6 +25,7 @@ const ProductsList = () => {
   const handleDelete = (id) => {
     deleteProduct(currUser.brandName, id, dispatch);
   };
+  
   return (
     <div>
       {productLoading ? (
@@ -72,7 +75,7 @@ const ProductsList = () => {
                 </tr>
               </thead>
               <tbody className="cursor-pointer">
-                {products.length > 0 &&
+                {products?.length > 0 &&
                   products.map((product, index) => (
                     <tr key={product._id} className="border-b border-gray-200">
                       <td className="py-4 px-2 text-gray-700">
@@ -106,7 +109,12 @@ const ProductsList = () => {
                           <div onClick={() => handleDelete(product?._id)}>
                             <BsFillTrash3Fill />
                           </div>
-                          <div className="text-blue-800 text-2xl">
+                          <div
+                            className="text-blue-800 text-2xl"
+                            onClick={() => {
+                              toggleModal(), setUpdatedProduct(product);
+                            }}
+                          >
                             <CiEdit />
                           </div>
                         </div>
@@ -118,11 +126,15 @@ const ProductsList = () => {
           </div>
         </div>
       )}
-      <ProductModal
-        isOpen={isOpen}
-        setIsOpen={setIsOpen}
-        productLoading={productLoading}
-      />
+      {isOpen && (
+        <ProductModal
+          isOpen={isOpen}
+          setIsOpen={setIsOpen}
+          productLoading={productLoading}
+          updatedData={updatedProduct}
+          setUpdatedProduct={setUpdatedProduct}
+        />
+      )}
     </div>
   );
 };

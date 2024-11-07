@@ -9,11 +9,11 @@ const SizeSelector = ({ setSelectedSizes, selectedSizes }) => {
   const handleSelectSize = (size) => {
     if (size === "Custom Size") {
       setIsInputOpen(true);
-    } else if (!selectedSizes.includes(size) && size !== "") {
+    } else if (!selectedSizes.includes(size)) {
       setSelectedSizes([...selectedSizes, size]);
     }
   };
-
+console.log("selectedSizes",selectedSizes)
   const handleManualSizeChange = (e) => {
     setManualSize(e.target.value);
   };
@@ -44,7 +44,7 @@ const SizeSelector = ({ setSelectedSizes, selectedSizes }) => {
         ))}
       </select>
 
-      {selectedSizes.length > 0 && (
+      {selectedSizes?.length > 0 && (
         <div className=" w-full flex gap-4 py-4">
           {selectedSizes.map((size) => (
             <div
@@ -77,7 +77,7 @@ const SizeSelector = ({ setSelectedSizes, selectedSizes }) => {
             onClick={handleAddManualSize}
             className="bg-blue-500 text-white p-2 rounded"
           >
-            Add Size
+            Add
           </button>
         </div>
       )}

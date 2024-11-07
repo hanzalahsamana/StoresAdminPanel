@@ -18,6 +18,16 @@ export const productDataSlice = createSlice({
       state.products.push(action.payload);
       return state;
     },
+    updateProductData: (state, action) => {
+      const index = state.products.findIndex(
+        (product) => product._id === action.payload._id
+      );
+      if (index !== -1) {
+        state.products[index] = { ...state.products[index], ...action.payload };
+      }
+      return state;
+    },
+
     deleteProductData: (state, action) => {
       state.products = state.products.filter(
         (product) => product._id !== action.payload
@@ -34,6 +44,7 @@ export const productDataSlice = createSlice({
 export const {
   setProductData,
   addProductData,
+  updateProductData,
   deleteProductData,
   setProductLoading,
 } = productDataSlice.actions;

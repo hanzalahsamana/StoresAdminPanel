@@ -2,8 +2,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-currUser:null, 
-loading:true,
+  currUser: null,
+  loading: true,
 };
 
 export const currentDataSlice = createSlice({
@@ -19,13 +19,14 @@ export const currentDataSlice = createSlice({
       localStorage.removeItem("currentUser");
       return state;
     },
-    setLoading: (state) => {
-       state.loading = false;
+    setLoading: (state, action) => {
+      state.loading = action.payload;
       return state;
-    }
+    },
   },
 });
 
-export const { setCurrentUser, setLogout , setLoading } = currentDataSlice.actions;
+export const { setCurrentUser, setLogout, setLoading } =
+  currentDataSlice.actions;
 
 export default currentDataSlice.reducer;

@@ -16,8 +16,8 @@ export const deleteProduct = async (type, id, dispatch) => {
     );
     dispatch(deleteProductData(id));
     dispatch(setProductLoading(false));
-    toast.success(response.message);
-    return response.message;
+    toast.success(response.data.message);
+    return response.data.message;
   } catch (error) {
     dispatch(setProductLoading(false));
     toast.error(error.message);
