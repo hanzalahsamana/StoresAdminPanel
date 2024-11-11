@@ -45,7 +45,7 @@ const Order = () => {
                   <th className="py-3 px-6 text-left text-gray-700 font-semibold"></th>
                 </tr>
               </thead>
-              <tbody className="cursor-pointer">
+              <tbody className="cursor-pointer hover:bg-gray-100">
                 {orders.map(
                   ({ createdAt, _id, orderInfo, customerInfo }, index) => (
                     <tr

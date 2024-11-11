@@ -25,13 +25,13 @@ const ProductModal = ({
     name: "",
     brand: "Fiztees",
     originalPrice: 0,
-    discount: 30,
+    discount: 20,
     discountedPrice: 0,
-    collectionName: "OverSized",
-    type: "",
+    collectionName: "top",
+    type: "t-shirt",
     size: selectedSizes,
     discription: "",
-    stock: 0,
+    stock: 10,
     ...updatedData,
   });
 
@@ -144,6 +144,7 @@ const ProductModal = ({
         );
       }
       dispatch(setProductLoading(false));
+      setIsOpen(false);
     } catch (error) {
       dispatch(setProductLoading(false));
       toast.error(error);
