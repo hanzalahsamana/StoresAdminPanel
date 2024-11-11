@@ -11,7 +11,7 @@ const ProtectedRoute = (WrappedComponent) => {
   return () => {
     const { currUser, loading } = useSelector((state) => state.currentUser);
     const router = useRouter();
-    const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+    const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
     if (loading) {
       return <Loader />;
