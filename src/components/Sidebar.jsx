@@ -12,7 +12,7 @@ function Sidebar({ isOpen, setIsOpen }) {
         setIsOpen(false);
       }
     };
-
+    handleResize();
     window.addEventListener("resize", handleResize);
     return () => {
       window.removeEventListener("resize", handleResize);
