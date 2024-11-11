@@ -24,13 +24,13 @@ const ProtectedRoute = (WrappedComponent) => {
     if (currUser) {
       return (
         <div className="flex h-[calc(100vh-50px)]">
-          <Sidebar isOpen={isSidebarOpen} />
+          <Sidebar isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen} />
           <div className="w-full flex justify-end">
             <Header toggleSidebar={toggleSidebar} />
             <div
               className={`${
-                !isSidebarOpen ? "w-[calc(100%-250px)]" : "w-full"
-              } mt-[50px] h-[100%] overflow-scroll no-scrollbar`}
+                isSidebarOpen ? "lg:w-[calc(100%-250px)]" : "lg:w-full"
+              } w-full mt-[50px] h-[100%] overflow-scroll no-scrollbar`}
             >
               <WrappedComponent />
             </div>

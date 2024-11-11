@@ -12,7 +12,7 @@ export default function Header({ toggleSidebar }) {
     dispatch(setLogout());
   };
   return (
-    <header className="bg-blue-500 px-10 text-white flex justify-between items-center fixed w-full z-10 top-0 left-0 h-[50px]">
+    <header className="bg-[#DE513F] px-10 text-white flex justify-between items-center fixed w-full z-10 top-0 left-0 h-[50px]">
       {/* Toggle Sidebar Button */}
       <button onClick={toggleSidebar} className="text-white focus:outline-none">
         <svg

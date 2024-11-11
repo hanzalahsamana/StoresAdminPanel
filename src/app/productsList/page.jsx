@@ -25,7 +25,6 @@ const ProductsList = () => {
   const handleDelete = (id) => {
     deleteProduct(currUser.brandName, id, dispatch);
   };
-  
   return (
     <div>
       {productLoading ? (
@@ -38,7 +37,7 @@ const ProductsList = () => {
             </p>
             <button
               onClick={toggleModal}
-              className="p-2 flex gap-x-2 bg-black text-white rounded-lg font-semibold px-4 hover:bg-gray-700 transition-all duration-300"
+              className="items-center p-2 flex gap-x-2 bg-black text-white rounded-lg font-semibold px-4 hover:bg-gray-700 transition-all duration-300"
             >
               <FaPlus />
               Add Product
