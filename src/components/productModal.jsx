@@ -292,7 +292,7 @@ const ProductModal = ({
                       <button
                         type="button"
                         onClick={() => handleRemoveImage(index)}
-                        className="absolute top-0 right-0 bg-black w-5 h-5 text-white rounded-full p-1"
+                        className="absolute top-0 right-0 bg-black w-5 h-5 text-white rounded-full"
                       >
                         &times;
                       </button>
