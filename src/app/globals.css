@@ -30,8 +30,22 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
-.Inputs:focus~label {
+.Inputs:focus ~ label {
   font-size: 10px;
   top: 3px;
 }
 
+.dropDown {
+  animation: move 0.1s ease-in-out;
+}
+
+@keyframes move {
+  0% {
+    transform: translatey(20px);
+    opacity: 0;
+  }
+  100% {
+    transform: translatey(0);
+    opacity: 1;
+  }
+}
