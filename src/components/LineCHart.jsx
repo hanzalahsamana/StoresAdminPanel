@@ -1,7 +1,14 @@
+"use client";
 import React, { useEffect, useState } from 'react';
 import ReactApexChart from 'react-apexcharts';
+import CardLoader from './CardLoader';
 
-const LineChart = () => {
+const LineChart = ({ analytics, analyticsLoading }) => {
+    if(analyticsLoading || typeof window === undefined){
+        return (
+         <CardLoader/>
+        )
+    }
     const [chartOptions, setChartOptions] = useState({
         chart: {
             id: 'line-bar',
@@ -10,10 +17,9 @@ const LineChart = () => {
                 easing: 'easeinout',
                 enabled: true,
             },
-            redrawOnWindowResize: true,
         },
         title: {
-            text: 'Products of the Month',
+            text: 'Views Of Pages',
             align: 'left',
             margin: 10,
             style: {
@@ -70,20 +76,8 @@ const LineChart = () => {
         },
     ]);
 
-    // useEffect(() => {
-    //     const handleResize = () => {
-    //         window.dispatchEvent(new Event('resize')); // Trigger chart resize
-    //     };
-
-    //     window.addEventListener('resize', handleResize);
-
-    //     return () => {
-    //         window.removeEventListener('resize', handleResize);
-    //     };
-    // }, []);
-
     return (
-        <div className='w-full max-w-[500px] pointer-events-none'>
+        <div className='w-full pointer-events-none '>
             <ReactApexChart
                 options={chartOptions}
                 series={chartSeries}

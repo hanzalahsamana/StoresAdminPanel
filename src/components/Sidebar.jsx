@@ -21,7 +21,7 @@ function Sidebar({ isOpen, setIsOpen }) {
 
   return (
     <aside
-      className={`bg-[#293438] text-white w-[250px] h-[calc(100vh-50px)] space-y-6 absolute inset-y-0 top-[50px] left-0 transform transition duration-200 ease-in-out z-10
+      className={`bg-[#071f28] text-white w-[250px] h-[calc(100vh-50px)] space-y-6 absolute inset-y-0 top-[50px] left-0 transform transition duration-200 ease-in-out z-10
     ${isOpen ? "translate-x-0" : "-translate-x-full"}
     `}
     >

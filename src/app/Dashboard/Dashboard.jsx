@@ -1,54 +1,65 @@
+"use client";
+
 import { FetchAnalytics } from "@/APIs/Analytics/FetchAnalytics";
+import CustomCard from "@/components/CustomCard";
+import CustomDropdown from "@/components/CustomDropdown";
 import LineCHart from "@/components/LineCHart";
 import MapChart from "@/components/MapChart";
 import Piechart from "@/components/Piechart";
+import StatusCard from "@/components/StatusCard";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 const Dashboard = () => {
   const [activeTab, setActiveTab] = useState(true)
   const products = useSelector((state) => state.productData.products);
-  const orders = useSelector((state) => state.orderData.orders);
+  const { orders, loading } = useSelector((state) => state?.orderData);
   const { analytics, analyticloading } = useSelector((state) => state.analytics);
+  const [selectedValue, setSelectedValue] = useState('last7days');
+if(typeof window === undefined){
+return <>ok</>
+}
+
+console.log(window , "hahahah");
+
 
   const dispatch = useDispatch()
   useEffect(() => {
-    FetchAnalytics(dispatch)
-  }, [])
+    FetchAnalytics(dispatch , selectedValue)
+  }, [selectedValue])
 
   return (
     <div className="flex min-h-screen bg-gray-100">
       <div className="flex-1 p-6">
-        <div className="flex items-center justify-between mb-6">
+        <div className="flex items-center justify-between mb-6 ">
           <h1 className="text-3xl font-bold text-gray-900">Main Dashboard</h1>
+          <CustomDropdown classes='z-[100000000]' selectedValue={selectedValue} setSelectedValue={setSelectedValue} options={[
+          'today',
+          'thisWeek',
+          'last7days',
+          'thisMonth',
+          'last30days',
+          'lastYear',
+        ]} />
         </div>
 
-<div className="flex justify-evenly items-center w-full">
+        <div className="grid grid-cols-3 grid-rows-6 gap-[20px] w-full mb-[20px]">
+          <CustomCard title={'Countries'} classes='col-span-1 row-start-1 row-span-3'>
 
-        <Piechart analytics={analytics} analyticsLoading={analyticloading} />
-        <LineCHart/>
-</div>
-        <MapChart analytics={analytics} analyticsLoading={analyticloading}/>
+            <Piechart analytics={analytics} analyticsLoading={analyticloading} />
+          </CustomCard>
+          <CustomCard title={'Pages'} classes='col-span-2 row-start-1 row-span-3'>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mb-8">
-          <div className="bg-white p-6 rounded-lg shadow-lg">
-            <h3 className="text-xl font-semibold text-gray-800">
-              Total Products
-            </h3>
-            <p className="text-2xl font-bold text-blue-500">{products?.length}</p>
-          </div>
-          <div className="bg-white p-6 rounded-lg shadow-lg">
-            <h3 className="text-xl font-semibold text-gray-800">
-              Total Orders
-            </h3>
-            <p className="text-2xl font-bold text-green-500">{orders?.length}</p>
-          </div>
-          <div className="bg-white p-6 rounded-lg shadow-lg">
-            <h3 className="text-xl font-semibold text-gray-800">
-              Pending Orders
-            </h3>
-            <p className="text-2xl font-bold text-red-500">12</p>
-          </div>
+
+            <LineCHart analytics={analytics} analyticsLoading={analyticloading} />
+          </CustomCard>
+          <CustomCard title={'Map'} classes='col-span-2 row-start-4 row-span-3'>
+
+            <MapChart analytics={analytics} analyticsLoading={analyticloading} />
+          </CustomCard>
+          <StatusCard classes='col-start-3 row-start-4' title={'Total Orders'} data={orders} loading={loading} />
+          <StatusCard classes='col-start-3 row-start-5' title={'Total Products'} data={products} loading={loading} />
+          <StatusCard classes='col-start-3 row-start-6' title={'Orders Pending'} data={orders} loading={loading}/>
         </div>
 
         <div className="bg-white p-6 rounded-lg shadow-lg mb-8">

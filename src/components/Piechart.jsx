@@ -1,16 +1,18 @@
+"use client";
 import React from "react";
 import ReactApexChart from "react-apexcharts";
+import CardLoader from "./CardLoader";
 
 
 const Piechart = ({analytics , analyticsLoading}) => {
-  if(analyticsLoading){
-      return <h1>loading..</h1>
+  if(analyticsLoading || typeof window === undefined){
+      return (
+       <CardLoader/>
+      )
   }
-
 
   const labels = analytics?.countries.map((item) => item.country);
   const series = analytics?.countries.map((item) => parseInt(item.users));
-
 
   const options = {
     chart: {
@@ -27,8 +29,11 @@ const Piechart = ({analytics , analyticsLoading}) => {
     },
     legend: {
       position: "bottom",
+      flex:'column',
       labels: {
         colors: "#000000",
+
+        
       },
     },
     dataLabels: {
@@ -40,7 +45,10 @@ const Piechart = ({analytics , analyticsLoading}) => {
   };
 
   return (
-    <ReactApexChart options={options} series={series} type="donut"  />
+    <div>
+
+    <ReactApexChart options={options} series={series} type="donut" class  />
+    </div>
   );
 };
 
