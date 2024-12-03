@@ -1,28 +1,42 @@
 "use client";
 
+import { editOrderStatus } from "@/APIs/Order/editOrderStatus";
 import ProtectedRoute from "@/AuthenticRouting/ProtectedRoutes";
 import Loader from "@/components/loader";
 import ProductsRecipt from "@/components/productsRecipt";
+import { orderLoading } from "@/Redux/Order/OrderSlice";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { FaChevronUp, FaChevronDown, FaArrowRight } from "react-icons/fa";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 const Order = () => {
   const router = useRouter();
-  const [cartIsVisible, setCartIsVisible] = useState(false);
-  const [isOpen, setIsOpen] = useState(false);
+  const [openedIndex, setOpenedIndex] = useState(null);
   const { orders, loading } = useSelector((state) => state?.orderData);
-  const statusOptions = ["Pending", "Completed", "Shipped", "Cancelled"];
+  const { currUser } = useSelector((state) => state.currentUser);
+  const statusOptions = [
+    { status: "pending", color: "#eab308" },
+    { status: "delivered", color: "#22c55e" },
+    { status: "shipped", color: "#3b82f6" },
+    { status: "cancelled", color: "#ef4444" }
+  ]
 
-  const toggleDropdown = (e) => {
-    e.stopPropagation();
-    setIsOpen(!isOpen);
-  };
+  const extractColor = (status)=>{
+    const {color} = statusOptions.find(item => item.status === status)|| '#eab308' ;
+    return color
+  }
+  const dispatch = useDispatch()
 
   if (loading) {
     return <Loader />;
+  }
+  
+  const handleStatusSelect = async(orderId , status)=>{
+    orderLoading(true)
+    await editOrderStatus(dispatch , orderId , status , currUser?.brandName )
+    orderLoading(false)
   }
 
   return (
@@ -75,30 +89,32 @@ const Order = () => {
                       </td>
                       <td
                         className="py-4 px-6 text-gray-700 relative"
-                        onClick={toggleDropdown}
+                        onClick={(e) => { 
+                          e.stopPropagation()
+                          setOpenedIndex(typeof openedIndex === 'number' ? null : index) }}
                       >
-                        <div className="cursor-pointer flex items-center gap-2">
+                        <div className="cursor-pointer flex items-center gap-2" style={{color:extractColor(orderInfo.status)}}>
                           {orderInfo.status}
                           <div
-                            className={`transition-all ${
-                              isOpen && "rotate-[-180deg]"
-                            } text-sm`}
+                            className={`transition-all ${openedIndex === index && "rotate-[-180deg]"
+                              } text-sm`}
                           >
                             <FaChevronDown />
                           </div>
                         </div>
 
-                        {isOpen && (
+                        {openedIndex === index && (
                           <div className="dropDown absolute top-10 bg-[#F5F5F5] border border-gray-300 rounded-lg shadow-lg w-32 z-10 p-4 pr-6">
                             {statusOptions
-                              .filter((option) => option !== orderInfo.status)
-                              .map((option) => (
+                              .filter(({status}) => status !== orderInfo.status)
+                              .map(({status , color}) => (
                                 <div
-                                  key={option}
-                                  // onClick={() => handleStatusSelect(option)}
-                                  className="py-2 hover:text-[#DE513F] transition-all duration-200 cursor-pointer "
+                                  key={status}
+                                  onClick={() => handleStatusSelect( _id , status)}
+                                  style={{color:color}}
+                                  className={`py-2 opacity-[0.6] transition-all duration-200 cursor-pointer `}
                                 >
-                                  {option}
+                                  {status}  
                                 </div>
                               ))}
                           </div>

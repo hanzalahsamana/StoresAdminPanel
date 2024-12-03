@@ -3,29 +3,31 @@
 import { FetchAnalytics } from "@/APIs/Analytics/FetchAnalytics";
 import CustomCard from "@/components/CustomCard";
 import CustomDropdown from "@/components/CustomDropdown";
-import LineCHart from "@/components/LineCHart";
 import MapChart from "@/components/MapChart";
-import Piechart from "@/components/Piechart";
 import StatusCard from "@/components/StatusCard";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import dynamic from 'next/dynamic';
+
+const LineChart = dynamic(() => import('@/components/LineChart'), { ssr: false });
+const Piechart = dynamic(() => import('@/components/Piechart'), { ssr: false });
 
 const Dashboard = () => {
   const [activeTab, setActiveTab] = useState(true)
   const products = useSelector((state) => state.productData.products);
   const { orders, loading } = useSelector((state) => state?.orderData);
+  console.log(orders, ' 🔌🔌🔌');
+  const statusOptions = {
+    "pending": "#eab308",
+    "delivered": "#22c55e",
+    "shipped": "#3b82f6",
+    "cancelled": "#ef4444"
+  }
   const { analytics, analyticloading } = useSelector((state) => state.analytics);
   const [selectedValue, setSelectedValue] = useState('last7days');
-if(typeof window === undefined){
-return <>ok</>
-}
-
-console.log(window , "hahahah");
-
-
   const dispatch = useDispatch()
   useEffect(() => {
-    FetchAnalytics(dispatch , selectedValue)
+    FetchAnalytics(dispatch, selectedValue)
   }, [selectedValue])
 
   return (
@@ -34,13 +36,13 @@ console.log(window , "hahahah");
         <div className="flex items-center justify-between mb-6 ">
           <h1 className="text-3xl font-bold text-gray-900">Main Dashboard</h1>
           <CustomDropdown classes='z-[100000000]' selectedValue={selectedValue} setSelectedValue={setSelectedValue} options={[
-          'today',
-          'thisWeek',
-          'last7days',
-          'thisMonth',
-          'last30days',
-          'lastYear',
-        ]} />
+            'today',
+            'thisWeek',
+            'last7days',
+            'thisMonth',
+            'last30days',
+            'lastYear',
+          ]} />
         </div>
 
         <div className="grid grid-cols-3 grid-rows-6 gap-[20px] w-full mb-[20px]">
@@ -51,7 +53,7 @@ console.log(window , "hahahah");
           <CustomCard title={'Pages'} classes='col-span-2 row-start-1 row-span-3'>
 
 
-            <LineCHart analytics={analytics} analyticsLoading={analyticloading} />
+            <LineChart analytics={analytics} analyticsLoading={analyticloading} />
           </CustomCard>
           <CustomCard title={'Map'} classes='col-span-2 row-start-4 row-span-3'>
 
@@ -59,7 +61,7 @@ console.log(window , "hahahah");
           </CustomCard>
           <StatusCard classes='col-start-3 row-start-4' title={'Total Orders'} data={orders} loading={loading} />
           <StatusCard classes='col-start-3 row-start-5' title={'Total Products'} data={products} loading={loading} />
-          <StatusCard classes='col-start-3 row-start-6' title={'Orders Pending'} data={orders} loading={loading}/>
+          <StatusCard classes='col-start-3 row-start-6' title={'Orders Pending'} data={orders} loading={loading} />
         </div>
 
         <div className="bg-white p-6 rounded-lg shadow-lg mb-8">
@@ -116,31 +118,29 @@ console.log(window , "hahahah");
           <table className="w-full text-sm text-left text-gray-500">
             <thead className="text-xs text-gray-700 uppercase bg-gray-100">
               <tr>
-                <th className="px-6 py-3">Order ID</th>
+                <th className="px-6 py-3">Order Time</th>
                 <th className="px-6 py-3">Customer</th>
                 <th className="px-6 py-3">Total Amount</th>
                 <th className="px-6 py-3">Status</th>
               </tr>
             </thead>
             <tbody>
-              <tr className="bg-white border-b">
-                <td className="px-6 py-4">#1234</td>
-                <td className="px-6 py-4">John Doe</td>
-                <td className="px-6 py-4">$120.00</td>
-                <td className="px-6 py-4 text-green-500">Completed</td>
-              </tr>
-              <tr className="bg-white border-b">
-                <td className="px-6 py-4">#1235</td>
-                <td className="px-6 py-4">Jane Smith</td>
-                <td className="px-6 py-4">$95.00</td>
-                <td className="px-6 py-4 text-yellow-500">Pending</td>
-              </tr>
-              {/* Add more rows as needed */}
+              {orders
+                ?.slice()
+                .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+                .slice(0, 4)
+                .map(({ _id, createdAt, orderInfo, customerInfo }, index) => (
+                  <tr key={_id} className="bg-white border-b">
+                    <td className="px-6 py-4">{createdAt.split("T")[0]}</td>
+                    <td className="px-6 py-4">{customerInfo.firstName}</td>
+                    <td className="px-6 py-4">{orderInfo.total}</td>
+                    <td className="px-6 py-4 text-green-500" style={{color:statusOptions[orderInfo?.status]}}>{orderInfo?.status}</td>
+                  </tr>
+                ))}
             </tbody>
           </table>
         </div>
 
-        {/* Recent Products */}
         <div className="bg-white p-6 rounded-lg shadow-lg">
           <h3 className="text-2xl font-semibold text-gray-800 mb-4">
             Recent Products

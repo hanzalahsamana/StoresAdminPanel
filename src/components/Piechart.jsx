@@ -5,7 +5,7 @@ import CardLoader from "./CardLoader";
 
 
 const Piechart = ({analytics , analyticsLoading}) => {
-  if(analyticsLoading || typeof window === undefined){
+  if(analyticsLoading){
       return (
        <CardLoader/>
       )
