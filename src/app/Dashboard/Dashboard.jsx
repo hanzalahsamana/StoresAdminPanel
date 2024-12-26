@@ -9,8 +9,8 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import dynamic from 'next/dynamic';
 
-const LineChart = dynamic(() => import('@/components/LineChart'), { ssr: false });
-const Piechart = dynamic(() => import('@/components/Piechart'), { ssr: false });
+const LineChart = dynamic(() => import('../../components/LineChart'), { ssr: false });
+const Piechart = dynamic(() => import('../../components/Piechart'), { ssr: false });
 
 const Dashboard = () => {
   const [activeTab, setActiveTab] = useState(true)
