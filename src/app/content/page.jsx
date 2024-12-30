@@ -1,6 +1,7 @@
 "use client";
 
 import ProtectedRoute from '@/AuthenticRouting/ProtectedRoutes'
+import ImageUploader from '@/components/UI/ImageUploader';
 import React from 'react'
 
 const pages = [
@@ -28,17 +29,20 @@ const pages = [
 
 const Content = () => {
     return (
-        <div>
-            <div>
+        <div className='h-full bg-[#fefefe] flex justify-center items-center'>
+            <div  className='w-full px-[20px] py-[20px] bg-white rounded-md'>
+                <ImageUploader/>
                 {pages.map((item, index) => {
                     return (
-                        <div key={index} className='flex'>
-                            <div className='flex gap-[10px] items-center'>
-                                <div className='w-[50px] h-[50px] bg-[#d8fff6] rounded-full flex justify-center items-center'>
-
-                                    <img src={item.image} alt={item.title} className='w-[80%] h-[80%]' />
+                        <div key={index} className='flex py-[15px] border-[#b7b7b780]  border-b'>
+                            <div className='flex gap-[15px] items-start'>
+                                <div className='w-[50px] h-[50px] bg-[#f5f5f5] rounded-full flex justify-center items-center'>
+                                    <img src={item.image} alt={item.title} className='w-[70%] h-[70%]' />
                                 </div>
-                                <h2>{item.title}</h2>
+                                <div className='py-[4px] flex flex-col gap-[4px]'>
+                                    <h2 className='text-[17px] font-medium text-[#161616] font-[poppins]'>{item.title}</h2>
+                                    <h2 className='text-[13px] font-semibold cursor-pointer text-[#3888be]'>Edit</h2>
+                                </div>
                             </div>
                         </div>
                     )
