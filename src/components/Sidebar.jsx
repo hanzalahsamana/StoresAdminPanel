@@ -5,10 +5,8 @@ function Sidebar({ isOpen, setIsOpen }) {
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth > 1024) {
-        console.log("hello world>>>>>");
         setIsOpen(true);
       } else {
-        console.log("hello world");
         setIsOpen(false);
       }
     };
@@ -55,6 +53,18 @@ function Sidebar({ isOpen, setIsOpen }) {
           className="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700"
         >
           Analytics
+        </Link>
+        <Link
+          href={"/media"}
+          className="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700"
+        >
+          Media
+        </Link>
+        <Link
+          href={"/content"}
+          className="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700"
+        >
+          Contents
         </Link>
       </nav>
     </aside>
