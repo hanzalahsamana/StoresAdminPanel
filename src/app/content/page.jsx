@@ -1,8 +1,13 @@
 "use client";
 
 import ProtectedRoute from '@/AuthenticRouting/ProtectedRoutes'
+import FaqUploader from '@/components/UI/FaqUploader';
 import ImageUploader from '@/components/UI/ImageUploader';
+import dynamic from 'next/dynamic';
 import React from 'react'
+
+const TextEditor = dynamic(() => import('@/components/UI/TextEditor'), { ssr: false });
+
 
 const pages = [
     {
@@ -29,9 +34,11 @@ const pages = [
 
 const Content = () => {
     return (
-        <div className='h-full bg-[#fefefe] flex justify-center items-center'>
+        <div className='min-h-full bg-[#fefefe] flex justify-center items-center'>
             <div  className='w-full px-[20px] py-[20px] bg-white rounded-md'>
                 <ImageUploader/>
+                <TextEditor/>
+                <FaqUploader/>
                 {pages.map((item, index) => {
                     return (
                         <div key={index} className='flex py-[15px] border-[#b7b7b780]  border-b'>
