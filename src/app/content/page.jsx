@@ -4,7 +4,7 @@ import ProtectedRoute from '@/AuthenticRouting/ProtectedRoutes'
 import CustomModal from '@/components/UI/CustomModal';
 import FaqUploader from '@/components/UI/FaqUploader';
 import ImageUploader from '@/components/UI/ImageUploader';
-import dynamic from 'next/dynamic';
+import dynamic from 'next/dynamic'; 
 import React, { useState } from 'react'
 
 const TextEditor = dynamic(() => import('@/components/UI/TextEditor'), { ssr: false });
@@ -34,19 +34,32 @@ const pages = [
 ]
 
 const Content = () => {
-    const [isModalOpen, setModalOpen] = useState(false);
+    const [isModalOpen, setModalOpen] = useState(true);
     return (
         <div className='min-h-full bg-[#fefefe] flex justify-center items-center'>
             <div className='w-full px-[20px] py-[20px] bg-white rounded-md'>
-            <button
-        onClick={() => setModalOpen(true)}
-        className="mt-5 rounded-lg bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
-      >
-        Open Modal
-      </button>
+                <button
+                    onClick={() => setModalOpen(true)}
+                    className="mt-5 rounded-lg bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
+                >
+                    Open Modal
+                </button>
                 <CustomModal isOpen={isModalOpen} onClose={() => setModalOpen(false)}>
-                    <ImageUploader />
-                <TextEditor />
+                    <div className='flex flex-col gap-1 justify-start'>
+                        <input
+                            type="text"
+                            placeholder="Enter title"
+                            class="w-full max-w-lg px-4 py-2 border border-gray-300 rounded-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
+                        />
+                        <input
+                            type="text"
+                            placeholder="Button Text"
+                            class="w-full max-w-lg px-4 py-2 border border-gray-300 rounded-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
+                        />
+
+                        <ImageUploader />
+                    </div>
+                    <TextEditor />
                 </CustomModal>
                 <FaqUploader />
                 {pages.map((item, index) => {

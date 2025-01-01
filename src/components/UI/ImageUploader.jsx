@@ -26,14 +26,14 @@ const ImageUploader = () => {
 
   return (
     <div
-      className="relative min-w-[230px] max-w-[230px] min-h-[230px] max-h-[230px] overflow-hidden"
+      className="relative min-w-[190px] max-w-[190px] min-h-[190px] max-h-[190px] overflow-hidden"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      <img
+      <img 
         src={image || placeHolderImage.src}
         alt="Uploaded"
-        className="w-full h-full object-cover rounded-lg"
+        className="w-[190px] h-[190px] object-cover rounded-sm"
       />
 
       <div className={`${isHovered ? 'bottom-0' : 'bottom-[-100%]'} transition-all duration-100 absolute left-0 w-full bg-opacity-80 bg-gray-800 px-2 py-1 rounded-b-lg flex justify-between items-center `}>
