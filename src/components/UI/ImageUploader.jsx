@@ -26,7 +26,7 @@ const ImageUploader = () => {
 
   return (
     <div
-      className="relative w-64 h-64 overflow-hidden"
+      className="relative min-w-[230px] max-w-[230px] min-h-[230px] max-h-[230px] overflow-hidden"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
