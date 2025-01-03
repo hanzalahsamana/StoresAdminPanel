@@ -16,7 +16,6 @@ const Dashboard = () => {
   const [activeTab, setActiveTab] = useState(true)
   const products = useSelector((state) => state.productData.products);
   const { orders, loading } = useSelector((state) => state?.orderData);
-  console.log(orders, ' 🔌🔌🔌');
   const statusOptions = {
     "pending": "#eab308",
     "delivered": "#22c55e",
@@ -24,6 +23,7 @@ const Dashboard = () => {
     "cancelled": "#ef4444"
   }
   const { analytics, analyticloading } = useSelector((state) => state.analytics);
+  console.log(analytics, ' 🔌🔌🔌');
   const [selectedValue, setSelectedValue] = useState('last7days');
   const dispatch = useDispatch()
   useEffect(() => {

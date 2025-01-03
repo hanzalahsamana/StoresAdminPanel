@@ -1,6 +1,9 @@
 "use client";
 
 import { useEffect } from "react";
+import TextEditor from "./TextEditor";
+import ImageUploader from "./ImageUploader";
+import FaqUploader from "./FaqUploader";
 
 const CustomModal = ({ isOpen, onClose, children , title = "About Us" }) => {
   useEffect(() => {
@@ -14,6 +17,33 @@ const CustomModal = ({ isOpen, onClose, children , title = "About Us" }) => {
     }
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [isOpen, onClose]);
+
+  // const componentMapping = {
+  //   'About Us': (
+  //     <>
+  //       <TextEditor value={formData.text} onChange={(value) => setFormData({ ...formData, text: value })} />
+  //       <ImageUploader value={formData.image} onChange={(value) => setFormData({ ...formData, image: value })} />
+  //     </>
+  //   ),
+  //   'FAQs': (
+  //     <FaqUploader faqs={formData.faqs} onChange={(faqs) => setFormData({ ...formData, faqs })} />
+  //   ),
+  //   'Contact Details': (
+  //     <>
+  //       <TextEditor value={formData.text} onChange={(value) => setFormData({ ...formData, text: value })} />
+  //     </>
+  //   ),
+  //   'Terms And Condition': (
+  //     <>
+  //       <TextEditor value={formData.text} onChange={(value) => setFormData({ ...formData, text: value })} />
+  //     </>
+  //   ),
+  //   'Privacy Policy': (
+  //     <>
+  //       <TextEditor value={formData.text} onChange={(value) => setFormData({ ...formData, text: value })} />
+  //     </>
+  //   ),
+  // };
 
   if (!isOpen) return null;
 

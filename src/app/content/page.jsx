@@ -1,12 +1,14 @@
 "use client";
 
+import { fetchPagesData } from '@/APIs/PagesData/getPagesData';
 import ProtectedRoute from '@/AuthenticRouting/ProtectedRoutes'
 import CustomModal from '@/components/UI/CustomModal';
 import FaqUploader from '@/components/UI/FaqUploader';
 import ImageUploader from '@/components/UI/ImageUploader';
-import dynamic from 'next/dynamic'; 
-import React, { useState } from 'react'
-
+import { dispatch } from 'd3';
+import dynamic from 'next/dynamic';
+import React, { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux';
 const TextEditor = dynamic(() => import('@/components/UI/TextEditor'), { ssr: false });
 
 
@@ -35,6 +37,15 @@ const pages = [
 
 const Content = () => {
     const [isModalOpen, setModalOpen] = useState(true);
+    const { currUser } = useSelector((state) => state.currentUser);
+
+    const dispatch = useDispatch()
+    const pagaes = fetchPagesData(dispatch, currUser?.brandName)
+
+    useEffect(() => {
+        console.log(pagaes, "<|><|><|><|><|><|><|><|><|>");
+
+    }, [pages])
     return (
         <div className='min-h-full bg-[#fefefe] flex justify-center items-center'>
             <div className='w-full px-[20px] py-[20px] bg-white rounded-md'>
