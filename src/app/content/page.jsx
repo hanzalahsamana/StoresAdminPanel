@@ -13,28 +13,14 @@ import { useDispatch, useSelector } from 'react-redux';
 const TextEditor = dynamic(() => import('@/components/UI/TextEditor'), { ssr: false });
 
 
-const pages = [
-    {
-        title: 'About Us',
-        image: 'https://img.icons8.com/color/48/about.png',
-    },
-    {
-        title: 'FAQs',
-        image: 'https://img.icons8.com/office/40/ask-question.png',
-    },
-    {
-        title: 'Contact Details',
-        image: 'https://img.icons8.com/color/48/add-contact-to-company.png',
-    },
-    {
-        title: 'Terms And Condition',
-        image: 'https://img.icons8.com/color/48/terms-and-conditions.png',
-    },
-    {
-        title: 'Privacy Policy',
-        image: 'https://img.icons8.com/color/48/privacy-policy.png',
-    },
-]
+const pagesIcons ={
+    'About Us': 'https://img.icons8.com/color/48/about.png',
+    'FAQ': 'https://img.icons8.com/office/40/ask-question.png',
+    'Contact': 'https://img.icons8.com/color/48/add-contact-to-company.png',
+    'Terms and Conditions': 'https://img.icons8.com/color/48/terms-and-conditions.png',
+    'Privacy Policy': 'https://img.icons8.com/color/48/privacy-policy.png',
+    'Site Logo': 'https://img.icons8.com/stickers/50/geometry.png',
+    }
 
 const Content = () => {
     const { currUser } = useSelector((state) => state.currentUser);
@@ -59,30 +45,14 @@ const Content = () => {
                 >
                     Open Modal
                 </button>
-                <CustomModal selectedPage={editingPage} setSelectedPage={setEditingPagee}>
-                    <div className='flex flex-col gap-1 justify-start'>
-                        <input
-                            type="text"
-                            placeholder="Enter title"
-                            className="w-full max-w-lg px-4 py-2 border border-gray-300 rounded-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
-                        />
-                        <input
-                            type="text"
-                            placeholder="Button Text"
-                            className="w-full max-w-lg px-4 py-2 border border-gray-300 rounded-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
-                        />
-
-                        <ImageUploader />
-                    </div>
-                    <TextEditor />
-                </CustomModal>
+                <CustomModal selectedPage={editingPage} setSelectedPage={setEditingPagee}/>
                 <FaqUploader />
                 {pagesData.map((item, index) => {
                     return (
                         <div key={index} className='flex py-[15px] border-[#b7b7b780]  border-b'>
                             <div className='flex gap-[15px] items-start'>
                                 <div className='w-[50px] h-[50px] bg-[#f5f5f5] rounded-full flex justify-center items-center'>
-                                    <img src={item.image} alt={item.title} className='w-[70%] h-[70%]' />
+                                    <img src={pagesIcons[item.type]} alt={item.title} className='w-[70%] h-[70%]' />
                                 </div>
                                 <div className='py-[4px] flex flex-col gap-[4px]'>
                                     <h2 className='text-[17px] font-medium text-[#161616] font-[poppins]'>{item.title}</h2>

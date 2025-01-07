@@ -8,6 +8,7 @@ import StatusCard from "@/components/StatusCard";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import dynamic from 'next/dynamic';
+import { MdArrowRightAlt } from "react-icons/md";
 
 const LineChart = dynamic(() => import('../../components/LineChart'), { ssr: false });
 const Piechart = dynamic(() => import('../../components/Piechart'), { ssr: false });
@@ -139,6 +140,7 @@ const Dashboard = () => {
                 ))}
             </tbody>
           </table>
+          <p className={'flex gap-1 '}  >See ALl <MdArrowRightAlt /></p>
         </div>
 
         <div className="bg-white p-6 rounded-lg shadow-lg">

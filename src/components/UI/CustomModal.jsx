@@ -1,10 +1,13 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import TextEditor from "./TextEditor";
 import ImageUploader from "./ImageUploader";
 import FaqUploader from "./FaqUploader";
 import InputField from "./InputField";
+import dynamic from 'next/dynamic';
+
+const TextEditor = dynamic(() => import('./TextEditor'), { ssr: false });
+
 
 const CustomModal = ({ isOpen, onClose, children, selectedPage , setSelectedPage }) => {
   useEffect(() => {
@@ -53,13 +56,13 @@ const CustomModal = ({ isOpen, onClose, children, selectedPage , setSelectedPage
         <ImageUploader image={formData.image} setImage={(image) => setFormData({ ...formData, image })} />
       </>
     ),
-    'FAQs': (
+    'FAQ': (
       <>
         <InputField value={formData.title} onChange={(e) => setFormData({ ...formData, title: e.target.value })} />
         <FaqUploader faqs={formData.faqs} onChange={(faqs) => setFormData({ ...formData, faqs })} />
       </>
     ),
-    'Contact Details': (
+    'Contact': (
       <>
         <InputField value={formData.title} onChange={(e) => setFormData({ ...formData, title: e.target.value })} />
         <InputField value={formData.email} placeholder="Email" onChange={(e) => setFormData({ ...formData, email: e.target.value })} />
@@ -67,7 +70,7 @@ const CustomModal = ({ isOpen, onClose, children, selectedPage , setSelectedPage
         <InputField value={formData.phone} placeholder="phone" onChange={(e) => setFormData({ ...formData, phone: e.target.value })} />
       </>
     ),
-    'Terms And Condition': (
+    'Terms and Conditions': (
       <>
         <InputField value={formData.title} onChange={(e) => setFormData({ ...formData, title: e.target.value })} />
         <TextEditor editorContent={formData.text} setEditorContent={(value) => setFormData({ ...formData, text: value })} />
@@ -80,16 +83,15 @@ const CustomModal = ({ isOpen, onClose, children, selectedPage , setSelectedPage
         <ImageUploader image={formData.image} setImage={(image) => setFormData({ ...formData, image })} />
       </>
     ),
-    'Terms And Condition': (
+    'Privacy Policy': (
       <>
         <InputField value={formData.title} onChange={(e) => setFormData({ ...formData, title: e.target.value })} />
         <TextEditor editorContent={formData.text} setEditorContent={(value) => setFormData({ ...formData, text: value })} />
       </>
     ),
-    'Privacy Policy': (
+    'Site Logo': (
       <>
-        <InputField value={formData.title} onChange={(e) => setFormData({ ...formData, title: e.target.value })} />
-        <TextEditor editorContent={formData.text} setEditorContent={(value) => setFormData({ ...formData, text: value })} />
+        <ImageUploader image={formData.image} setImage={(image) => setFormData({ ...formData, image })} />
       </>
     ),
   };
