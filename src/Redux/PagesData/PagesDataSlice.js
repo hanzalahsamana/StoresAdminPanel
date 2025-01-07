@@ -25,18 +25,17 @@ export const pagesDataSlice = createSlice({
       return state;
     },
     setPagesDataLoading: (state, action) => {
-      state.productLoading = action.payload;
+      state.pagesDataLoading = action.payload;
       return state;
     },
   },
 });
 
 export const {
-  setProductData,
-  addProductData,
-  updateProductData,
-  deleteProductData,
-  setProductLoading,
-} = productDataSlice.actions;
+  setPagesData,
+  updatePagesData ,
+  setPagesDataLoading,
+} = pagesDataSlice.actions;
 
-export default productDataSlice.reducer;
+const pagesDataReducer = pagesDataSlice.reducer;
+export default pagesDataReducer ;

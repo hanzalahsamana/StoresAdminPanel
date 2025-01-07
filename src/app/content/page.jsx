@@ -2,6 +2,7 @@
 
 import { fetchPagesData } from '@/APIs/PagesData/getPagesData';
 import ProtectedRoute from '@/AuthenticRouting/ProtectedRoutes'
+import Loader from '@/components/loader';
 import CustomModal from '@/components/UI/CustomModal';
 import FaqUploader from '@/components/UI/FaqUploader';
 import ImageUploader from '@/components/UI/ImageUploader';
@@ -36,16 +37,19 @@ const pages = [
 ]
 
 const Content = () => {
-    const [isModalOpen, setModalOpen] = useState(true);
     const { currUser } = useSelector((state) => state.currentUser);
-
+    const { pagesData, pagesDataLoading } = useSelector((state) => state.pagesData);
+    const [editingPage, setEditingPagee] = useState(null);
     const dispatch = useDispatch()
-    const pagaes = fetchPagesData(dispatch, currUser?.brandName)
+
 
     useEffect(() => {
-        console.log(pagaes, "<|><|><|><|><|><|><|><|><|>");
+        fetchPagesData(dispatch, currUser?.brandName)
 
-    }, [pages])
+    }, [])
+    if (pagesDataLoading) {
+        return <Loader />
+    }
     return (
         <div className='min-h-full bg-[#fefefe] flex justify-center items-center'>
             <div className='w-full px-[20px] py-[20px] bg-white rounded-md'>
@@ -55,17 +59,17 @@ const Content = () => {
                 >
                     Open Modal
                 </button>
-                <CustomModal isOpen={isModalOpen} onClose={() => setModalOpen(false)}>
+                <CustomModal selectedPage={editingPage} setSelectedPage={setEditingPagee}>
                     <div className='flex flex-col gap-1 justify-start'>
                         <input
                             type="text"
                             placeholder="Enter title"
-                            class="w-full max-w-lg px-4 py-2 border border-gray-300 rounded-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
+                            className="w-full max-w-lg px-4 py-2 border border-gray-300 rounded-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
                         />
                         <input
                             type="text"
                             placeholder="Button Text"
-                            class="w-full max-w-lg px-4 py-2 border border-gray-300 rounded-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
+                            className="w-full max-w-lg px-4 py-2 border border-gray-300 rounded-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
                         />
 
                         <ImageUploader />
@@ -73,7 +77,7 @@ const Content = () => {
                     <TextEditor />
                 </CustomModal>
                 <FaqUploader />
-                {pages.map((item, index) => {
+                {pagesData.map((item, index) => {
                     return (
                         <div key={index} className='flex py-[15px] border-[#b7b7b780]  border-b'>
                             <div className='flex gap-[15px] items-start'>
@@ -82,7 +86,11 @@ const Content = () => {
                                 </div>
                                 <div className='py-[4px] flex flex-col gap-[4px]'>
                                     <h2 className='text-[17px] font-medium text-[#161616] font-[poppins]'>{item.title}</h2>
-                                    <h2 className='text-[13px] font-semibold cursor-pointer text-[#3888be]'>Edit</h2>
+                                    <h2 className='text-[13px] font-semibold cursor-pointer text-[#3888be]'
+                                        onClick={() => {
+                                            setEditingPagee(item);
+                                        }}
+                                    >Edit</h2>
                                 </div>
                             </div>
                         </div>

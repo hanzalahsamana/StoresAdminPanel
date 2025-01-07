@@ -2,9 +2,9 @@ import React, { useEffect, useRef, useState } from 'react';
 import Quill from 'quill';
 import 'quill/dist/quill.snow.css';
 
-const TextEditor = () => {
+const TextEditor = ({editorContent, setEditorContent}) => {
     const editorRef = useRef(null);
-    const [editorContent, setEditorContent] = useState('')
+    // const [editorContent, setEditorContent] = useState('')
 
     useEffect(() => {
         const quill = new Quill(editorRef.current, {
@@ -30,14 +30,12 @@ const TextEditor = () => {
         quill.on('text-change', () => {
             const content = quill.root.innerHTML;
             setEditorContent(content);
-            console.log(content , editorRef);
 
         });
 
         return () => {
             if (quill && quill.root) {
                 quill.root.innerHTML = '';
-                // editorRef.current. = null
             }
         };
     }, []);
@@ -45,14 +43,6 @@ const TextEditor = () => {
     return (
         <div className='w-full'>
             <div ref={editorRef} className='max-h-[220px] min-h-[220px]  overflow-auto'></div>
-            <button
-                onClick={() => {
-                    const content = editorRef.current.querySelector('.ql-editor').innerHTML;
-                    console.log('Final content:', content);
-                }}
-            >
-                Save
-            </button>
         </div>
     );
 };
