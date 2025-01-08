@@ -10,17 +10,16 @@ import { dispatch } from 'd3';
 import dynamic from 'next/dynamic';
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-const TextEditor = dynamic(() => import('@/components/UI/TextEditor'), { ssr: false });
+const TextEditor = dynamic(() => import('@/components/UI/TextEditor'), { ssr: false }); sxcvb
 
-
-const pagesIcons ={
+const pagesIcons = {
     'About Us': 'https://img.icons8.com/color/48/about.png',
     'FAQ': 'https://img.icons8.com/office/40/ask-question.png',
     'Contact': 'https://img.icons8.com/color/48/add-contact-to-company.png',
     'Terms and Conditions': 'https://img.icons8.com/color/48/terms-and-conditions.png',
     'Privacy Policy': 'https://img.icons8.com/color/48/privacy-policy.png',
     'Site Logo': 'https://img.icons8.com/stickers/50/geometry.png',
-    }
+}
 
 const Content = () => {
     const { currUser } = useSelector((state) => state.currentUser);
@@ -45,7 +44,7 @@ const Content = () => {
                 >
                     Open Modal
                 </button>
-                <CustomModal selectedPage={editingPage} setSelectedPage={setEditingPagee}/>
+                <CustomModal selectedPage={editingPage} setSelectedPage={setEditingPagee} />
                 <FaqUploader />
                 {pagesData.map((item, index) => {
                     return (
