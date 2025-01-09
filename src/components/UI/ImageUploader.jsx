@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { MdOutlinePermMedia } from "react-icons/md";
 import { MdPlaylistRemove } from "react-icons/md";
 
@@ -8,20 +8,28 @@ const placeholderImageUrl =
 
 const ImageUploader = ({ image, setImage }) => {
   const [isHovered, setIsHovered] = useState(false);
+  const [objectUrl, setObjectUrl] = useState(image);
+
+  useEffect(() => {
+    if (objectUrl) {
+      return () => {
+        URL.revokeObjectURL(objectUrl);
+      };
+    }
+  }, [objectUrl]);
 
   const handleImageUpload = (event) => {
     const file = event.target.files[0];
     if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setImage(reader.result);
-      };
-      reader.readAsDataURL(file);
+      const newObjectUrl = URL.createObjectURL(file);
+      setImage(file);
+      setObjectUrl(newObjectUrl);
     }
   };
 
   const handleImageRemove = () => {
     setImage(placeholderImageUrl);
+    setObjectUrl(placeholderImageUrl);
   };
 
   const isPlaceholder = image === placeholderImageUrl;
@@ -33,7 +41,7 @@ const ImageUploader = ({ image, setImage }) => {
       onMouseLeave={() => setIsHovered(false)}
     >
       <img
-        src={image || placeholderImageUrl}
+        src={objectUrl}
         alt="Uploaded"
         className="w-full h-full object-cover rounded-sm"
       />

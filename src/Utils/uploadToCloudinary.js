@@ -1,6 +1,6 @@
 
 
-const uploadToCloudinary = async (imageFile) => {
+export const uploadToCloudinary = async (imageFile) => {
     const cloudName = 'duaxitxph';
     const uploadPreset = 'ezq9j3bi';
 
@@ -8,7 +8,7 @@ const uploadToCloudinary = async (imageFile) => {
     formData.append('file', imageFile);
     formData.append('upload_preset', uploadPreset);
 
-    const response = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, {
+    const response = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/auto/upload`, {
         method: 'POST',
         body: formData,
     });

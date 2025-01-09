@@ -6,6 +6,7 @@ import Loader from '@/components/loader';
 import CustomModal from '@/components/UI/CustomModal';
 import FaqUploader from '@/components/UI/FaqUploader';
 import ImageUploader from '@/components/UI/ImageUploader';
+import { VedioUploader } from '@/components/UI/VedioUploader';
 import { dispatch } from 'd3';
 import dynamic from 'next/dynamic';
 import React, { useEffect, useState } from 'react'
@@ -39,6 +40,7 @@ const Content = () => {
     return (
         <div className='min-h-full bg-[#fefefe] flex justify-center items-center'>
             <div className='w-full px-[20px] py-[20px] bg-white rounded-md'>
+                <VedioUploader/>
                 <CustomModal selectedPage={editingPage} setSelectedPage={setEditingPagee} />
                 {pagesData.map((item, index) => {
                     return (

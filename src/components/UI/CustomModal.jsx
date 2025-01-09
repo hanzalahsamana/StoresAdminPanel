@@ -8,10 +8,16 @@ import "./style.css";
 import dynamic from 'next/dynamic';
 import { toast } from "react-toastify";
 import { validateForm } from "@/Utils/pageDataValidate";
+import { uploadToCloudinary } from "@/Utils/uploadToCloudinary";
+import { editPagesData } from "@/APIs/PagesData/editPagesData";
+import { useDispatch, useSelector } from "react-redux";
 
 const TextEditor = dynamic(() => import('./TextEditor'), { ssr: false });
 
-const CustomModal = ({ children, selectedPage, setSelectedPage }) => {
+const CustomModal = ({ selectedPage, setSelectedPage }) => {
+
+  const dispatch = useDispatch()
+  const { currUser } = useSelector((state) => state.currentUser);
 
   const componentMapping = {
     "About Us": ["title", "text", "image"],
@@ -41,14 +47,28 @@ const CustomModal = ({ children, selectedPage, setSelectedPage }) => {
     setFormData((prev) => ({ ...prev, [key]: value }));
   };
 
-  const handleSubmit = () => {
-    const validationErrors = validateForm(componentMapping, formData);
-    if (validationErrors.length === 0) {
-      toast.success("Form submitted:", formData);
-    } else {
-      toast.error(validationErrors[0]);
+  const handleSubmit = async () => {
+    try {
+      const validationErrors = validateForm(componentMapping, formData);
+      if (validationErrors.length > 0) {
+        toast.error(validationErrors[0]);
+        return;
+      }
+
+      if (formData.image instanceof File) {
+        const uploadedImageUrl = await uploadToCloudinary(formData.image);
+        await editPagesData({ ...formData, image: uploadedImageUrl },  currUser?.brandName,selectedPage._id, dispatch);
+        toast.success("Form submitted successfully!");
+      } else {
+        await editPagesData(formData, currUser?.brandName, selectedPage._id, dispatch);
+        toast.success("Form submitted successfully!");
+      }
+    } catch (error) {
+      console.log(error , "llll"); 
+      toast.error(error?.responce?.data?.message || error || "Something went wrong");
     }
   };
+
 
   const renderComponents = () => {
     const fields = componentMapping[formData.type] || [];

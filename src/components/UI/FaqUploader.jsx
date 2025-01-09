@@ -14,8 +14,9 @@ const FaqUploader = ({ initialFaqs, setFaqs }) => {
 
   const handleInputChange = (index, event) => {
     const { name, value } = event.target;
-    const newFaqs = [...faqs];
-    newFaqs[index][name] = value;
+    const newFaqs = faqs.map((faq, i) =>
+      i === index ? { ...faq, [name]: value } : faq
+    );
     setLocalFaqs(newFaqs);
 
     if (value.trim()) {
