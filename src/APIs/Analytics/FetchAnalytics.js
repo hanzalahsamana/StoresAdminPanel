@@ -10,7 +10,7 @@ export const FetchAnalytics = async (dispatch , dateFilter) => {
     dispatch(setanalyticData(response.data));
     dispatch(setAnalyticLoading(false));
     return response.data;
-  } catch (error) {
+  } catch (error) { 
     dispatch(setAnalyticLoading(false));
     toast.error(error.message);
   }

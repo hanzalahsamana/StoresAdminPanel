@@ -8,6 +8,9 @@ const InputField = ({
   className = '',
   disabled = false
 }) => {
+
+  console.log(value , "ooop");
+  
   return (
     <input
       type={type}
@@ -15,7 +18,7 @@ const InputField = ({
       value={value}
       onChange={onChange}
       disabled={disabled}
-      className={`w-full max-w-lg px-4 py-2 border border-gray-300 rounded-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm ${className} ${
+      className={`w-full px-4 py-2 border border-gray-300 rounded-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm ${className} ${
         disabled ? 'bg-gray-200 cursor-not-allowed' : ''
       }`}
     />

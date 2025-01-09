@@ -10,7 +10,7 @@ import { dispatch } from 'd3';
 import dynamic from 'next/dynamic';
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-const TextEditor = dynamic(() => import('@/components/UI/TextEditor'), { ssr: false }); sxcvb
+const TextEditor = dynamic(() => import('@/components/UI/TextEditor'), { ssr: false });
 
 const pagesIcons = {
     'About Us': 'https://img.icons8.com/color/48/about.png',
@@ -19,6 +19,8 @@ const pagesIcons = {
     'Terms and Conditions': 'https://img.icons8.com/color/48/terms-and-conditions.png',
     'Privacy Policy': 'https://img.icons8.com/color/48/privacy-policy.png',
     'Site Logo': 'https://img.icons8.com/stickers/50/geometry.png',
+    'Manufacture Process': 'https://img.icons8.com/3d-fluency/50/chemical-plant.png',
+    'Our Quality': 'https://img.icons8.com/3d-fluency/50/guarantee.png',
 }
 
 const Content = () => {
@@ -30,7 +32,6 @@ const Content = () => {
 
     useEffect(() => {
         fetchPagesData(dispatch, currUser?.brandName)
-
     }, [])
     if (pagesDataLoading) {
         return <Loader />
@@ -38,14 +39,7 @@ const Content = () => {
     return (
         <div className='min-h-full bg-[#fefefe] flex justify-center items-center'>
             <div className='w-full px-[20px] py-[20px] bg-white rounded-md'>
-                <button
-                    onClick={() => setModalOpen(true)}
-                    className="mt-5 rounded-lg bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
-                >
-                    Open Modal
-                </button>
                 <CustomModal selectedPage={editingPage} setSelectedPage={setEditingPagee} />
-                <FaqUploader />
                 {pagesData.map((item, index) => {
                     return (
                         <div key={index} className='flex py-[15px] border-[#b7b7b780]  border-b'>

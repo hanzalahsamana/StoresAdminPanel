@@ -28,14 +28,14 @@ const ImageUploader = ({ image, setImage }) => {
 
   return (
     <div
-      className="relative min-w-[190px] max-w-[190px] min-h-[190px] max-h-[190px] overflow-hidden"
+      className="relative h-full w-full  overflow-hidden"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
       <img
         src={image || placeholderImageUrl}
         alt="Uploaded"
-        className="w-[190px] h-[190px] object-cover rounded-sm"
+        className="w-full h-full object-cover rounded-sm"
       />
 
       <div

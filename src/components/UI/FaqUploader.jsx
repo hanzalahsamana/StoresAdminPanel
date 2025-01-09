@@ -1,71 +1,70 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { IoMenu } from "react-icons/io5";
 import { MdDelete, MdErrorOutline, MdOutlinePlaylistRemove } from "react-icons/md";
 
-const FaqUploader = () => {
-  const [faqs, setFaqs] = useState([{ question: '', answer: '' }]);
+const FaqUploader = ({ initialFaqs, setFaqs }) => {
+  const [faqs, setLocalFaqs] = useState(initialFaqs);
   const [editingIndex, setEditingIndex] = useState(null);
-  const [errors, setErrors] = useState({ question: false, answer: false });
+  const [errors, setErrors] = useState({});
+
+
+  useEffect(() => {
+    setFaqs(faqs);
+  }, [faqs, setFaqs]);
 
   const handleInputChange = (index, event) => {
+    const { name, value } = event.target;
     const newFaqs = [...faqs];
-    newFaqs[index][event.target.name] = event.target.value;
-    setFaqs(newFaqs);
-    if (event.target.value.trim() !== '') {
-      setErrors((prevErrors) => ({
-        ...prevErrors,
-        [event.target.name]: false,
-      }));
+    newFaqs[index][name] = value;
+    setLocalFaqs(newFaqs);
+
+    if (value.trim()) {
+      setErrors((prevErrors) => ({ ...prevErrors, [name]: false }));
     }
   };
 
   const addFaq = () => {
     const lastFaq = faqs[faqs.length - 1];
-    if (!lastFaq.question.trim() || !lastFaq.answer.trim()) {
+    if (!lastFaq.Q.trim() || !lastFaq.A.trim()) {
       setErrors({
-        question: !lastFaq.question.trim(),
-        answer: !lastFaq.answer.trim(),
+        Q: !lastFaq.Q.trim(),
+        A: !lastFaq.A.trim(),
       });
       return;
     }
-    setFaqs([...faqs, { question: '', answer: '' }]);
+    setLocalFaqs([...faqs, { Q: '', A: '' }]);
     setEditingIndex(faqs.length);
-    setErrors({ question: false, answer: false });
   };
 
   const removeFaq = (index) => {
     const newFaqs = faqs.filter((_, i) => i !== index);
-    setFaqs(newFaqs);
-    setErrors({ question: false, answer: false });
+    setLocalFaqs(newFaqs);
+    setErrors({});
   };
 
   return (
-    <div className="p-4 space-y-4">
-      <h2 className="text-xl font-semibold text-gray-700">FAQ Uploader</h2>
-
+    <div className="space-y-4">
       {faqs.map((faq, index) => (
         <div
           key={index}
-          className={`bg-white flex flex-col relative border overflow-hidden gap-4 border-[#ababab81] p-4 transition-all duration-300 ${editingIndex === index ? 'h-[180px]' : 'h-[67px]'
-            }`}
+          className={`bg-white flex flex-col relative border overflow-hidden gap-4 border-[#ababab81] p-4 transition-all duration-300 ${editingIndex === index ? 'h-[180px]' : 'h-[67px]'}`}
         >
-          {(errors.question || errors.answer) && index === faqs.length - 1 && (
-            <p className="absolute top-[3px]  flex gap-[5px] text-red-500 text-[10px]"><MdErrorOutline /> Please Fill all fields</p>
+          {(errors.Q || errors.A) && index === faqs.length - 1 && (
+            <p className="absolute top-[3px] flex gap-[5px] text-red-500 text-[10px]">
+              <MdErrorOutline /> Please fill all fields
+            </p>
           )}
           <div className="flex items-center">
             <p className="font-semibold">Q{index + 1}.</p>
             <div className="flex-grow">
               <input
                 type="text"
-                name="question"
-                readOnly={editingIndex === index ? false : true}
-                value={faq.question}
+                name="Q"
+                readOnly={editingIndex !== index}
+                value={faq.Q}
                 onChange={(e) => handleInputChange(index, e)}
                 placeholder="Question"
-                className={`w-full p-2 rounded-sm focus:outline-none border ${editingIndex === index
-                  ? 'border-[#e5e7eb] focus:ring-2 focus:ring-blue-500'
-                  : 'border-[#fff]'
-                  }`}
+                className={`w-full p-2 rounded-sm focus:outline-none border ${editingIndex === index ? 'border-[#e5e7eb] focus:ring-2 focus:ring-blue-500' : 'border-[#fff]'}`}
               />
             </div>
             <div
@@ -86,8 +85,8 @@ const FaqUploader = () => {
             <div className="flex-grow">
               {editingIndex === index && (
                 <textarea
-                  name="answer"
-                  value={faq.answer}
+                  name="A"
+                  value={faq.A}
                   onChange={(e) => handleInputChange(index, e)}
                   placeholder="Answer"
                   rows="4"
@@ -96,22 +95,15 @@ const FaqUploader = () => {
               )}
             </div>
           </div>
-
         </div>
       ))}
 
       <div className="flex justify-end gap-2">
         <button
           onClick={addFaq}
-          className="bg-[#28a745] rounded-sm text-[14px] text-white p-2 hover:opacity-85 focus:outline-none"
+          className="bg-[#28a745] rounded-sm shadow-lg text-[14px] text-white p-2 hover:opacity-90 focus:outline-none"
         >
           Add More
-        </button>
-        <button
-        
-          className="bg-[#007bff] rounded-sm text-[14px] text-white p-2 hover:opacity-85 focus:outline-none"
-        >
-          Update
         </button>
       </div>
     </div>

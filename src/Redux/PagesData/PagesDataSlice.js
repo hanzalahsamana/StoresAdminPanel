@@ -20,7 +20,7 @@ export const pagesDataSlice = createSlice({
         (page) => page._id === action.payload._id
       );
       if (index !== -1) {
-        state.products[index] = { ...state.products[index], ...action.payload };
+        state.pagesData[index] = action.payload;
       }
       return state;
     },
