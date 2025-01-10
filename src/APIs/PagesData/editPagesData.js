@@ -16,7 +16,6 @@ export const editPagesData = async (data, type, pageId, dispatch) => {
     dispatch(setPagesDataLoading(false));
     return response.data;
   } catch (error) {
-    console.log(error , "llllll"); 
     dispatch(setPagesDataLoading(false));
     throw new Error(error?.responce?.data?.message);
   }

@@ -64,7 +64,6 @@ const CustomModal = ({ selectedPage, setSelectedPage }) => {
         toast.success("Form submitted successfully!");
       }
     } catch (error) {
-      console.log(error , "llll"); 
       toast.error(error?.responce?.data?.message || error || "Something went wrong");
     }
   };
@@ -125,7 +124,6 @@ const CustomModal = ({ selectedPage, setSelectedPage }) => {
     if (count >= 4) return 'quad';
     return '';
   };
-
 
   useEffect(() => {
     if (selectedPage) {
