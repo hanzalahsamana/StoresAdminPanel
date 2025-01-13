@@ -30,7 +30,6 @@ const Content = () => {
     useEffect(() => {
         fetchPagesData(dispatch, currUser?.brandName)
     }, [])
-    console.log(pagesData , "ooooo");
     
     if (pagesDataLoading) {
         return <Loader />
@@ -38,7 +37,7 @@ const Content = () => {
     return (
         <div className='min-h-full bg-[#fefefe] flex justify-center items-center'>
             <div className='w-full px-[20px] py-[20px] bg-white rounded-md'>
-                <VedioUploader />
+                {/* <VedioUploader /> */}
                 <CustomModal selectedPage={editingPage} setSelectedPage={setEditingPagee} />
                 {pagesData.map((item, index) => (
                     <div key={index} className='flex py-[15px] border-[#b7b7b780]  border-b'>

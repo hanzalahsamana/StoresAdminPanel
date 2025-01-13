@@ -6,6 +6,7 @@ import orderDataReducer from "../Order/OrderSlice";
 import  productDataReducer from "../Product/ProductSlice";
 import analyticDataReducer from "../Analytics/analytic.slice";
 import pagesDataReducer from "../PagesData/PagesDataSlice";
+import { categoryReducer } from "../Category/CategorySlice";
 
 const rootReducer = combineReducers({
   currentUser: currentUserReducer,
@@ -13,6 +14,7 @@ const rootReducer = combineReducers({
   productData: productDataReducer,
   analytics:analyticDataReducer,
   pagesData: pagesDataReducer,
+  categories:categoryReducer,
 });
 
 export default rootReducer;

@@ -20,7 +20,6 @@ export const VedioUploader = () => {
 
         if (!response.ok) {
             const errorData = await response.json();
-            console.error('Cloudinary Upload Error:', errorData);
             throw new Error(`Failed to upload file: ${errorData.message || response.statusText}`);
         }
 
@@ -49,7 +48,6 @@ export const VedioUploader = () => {
             setVideoUrl(url);
             alert('Video uploaded successfully!');
         } catch (error) {
-            console.error(error);
             alert('Failed to upload video.');
         } finally {
             setUploading(false);

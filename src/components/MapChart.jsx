@@ -26,8 +26,7 @@ const MapChart = ({ analytics, analyticsLoading }) => {
          <CardLoader/>
         )
     }
-    console.log(analytics);
-    
+
     const [tooltipContent, setTooltipContent] = useState({});
     const [tooltipPosition, setTooltipPosition] = useState({ top: 0, left: 0 });
     const [tooltipVisible, setTooltipVisible] = useState(false);

@@ -24,7 +24,6 @@ const Dashboard = () => {
     "cancelled": "#ef4444"
   }
   const { analytics, analyticloading } = useSelector((state) => state.analytics);
-  console.log(analytics, ' 🔌🔌🔌');
   const [selectedValue, setSelectedValue] = useState('last7days');
   const dispatch = useDispatch()
   useEffect(() => {

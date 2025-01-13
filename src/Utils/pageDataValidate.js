@@ -1,7 +1,7 @@
 const validationRules = {
   title: (value) => value.trim() !== "" || "Title is required",
   email: (value) => /\S+@\S+\.\S+/.test(value) || "Invalid email format",
-  phone: (value) => /^\d+$/.test(value) || "Phone must be numeric",
+  phone: (value) => /^[\d\s\+\-()]+$/.test(value) || "Phone must be valid",
   address: (value) => value.trim() !== "" || "Address is required",
   text: (value) => value.trim() !== "" || "Text is required",
   image: (value) => value !== "" || "Image is required",

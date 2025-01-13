@@ -13,7 +13,7 @@ const SizeSelector = ({ setSelectedSizes, selectedSizes }) => {
       setSelectedSizes([...selectedSizes, size]);
     }
   };
-console.log("selectedSizes",selectedSizes)
+
   const handleManualSizeChange = (e) => {
     setManualSize(e.target.value);
   };

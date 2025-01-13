@@ -11,7 +11,6 @@ export const editPagesData = async (data, type, pageId, dispatch) => {
   try {
     dispatch(setPagesDataLoading(true));
     const response = await axios.patch( `${BASE_URL}/${type}/editPage?id=${pageId}` , data);
-    toast.success("page updated successfully!");
     dispatch(updatePagesData(response.data));
     dispatch(setPagesDataLoading(false));
     return response.data;

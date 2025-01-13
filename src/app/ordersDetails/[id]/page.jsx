@@ -19,8 +19,6 @@ const OrderDetails = () => {
   if (loading) {
     return <Loader />;
   }
-  console.log(order , '📟📟');
-  
 
   const totalProductCost = order?.orderData?.reduce((total, product) => {
     return total + product.discountedPrice * product.quantity;

@@ -33,5 +33,5 @@
 
 .modal-grid.quad {
   grid-template-columns: 1fr 1fr;
-  grid-template-rows: repeat(2, auto);
+  grid-template-rows: 1fr 1fr;
 }

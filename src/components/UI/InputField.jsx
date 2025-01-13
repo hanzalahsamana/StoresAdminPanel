@@ -9,8 +9,6 @@ const InputField = ({
   disabled = false
 }) => {
 
-  console.log(value , "ooop");
-  
   return (
     <input
       type={type}

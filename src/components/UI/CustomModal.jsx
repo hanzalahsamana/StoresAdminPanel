@@ -5,40 +5,44 @@ import ImageUploader from "./ImageUploader";
 import FaqUploader from "./FaqUploader";
 import InputField from "./InputField";
 import "./style.css";
-import dynamic from 'next/dynamic';
+import dynamic from "next/dynamic";
 import { toast } from "react-toastify";
 import { validateForm } from "@/Utils/pageDataValidate";
 import { uploadToCloudinary } from "@/Utils/uploadToCloudinary";
 import { editPagesData } from "@/APIs/PagesData/editPagesData";
 import { useDispatch, useSelector } from "react-redux";
 
-const TextEditor = dynamic(() => import('./TextEditor'), { ssr: false });
+const TextEditor = dynamic(() => import("./TextEditor"), { ssr: false });
 
 const CustomModal = ({ selectedPage, setSelectedPage }) => {
-
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const { currUser } = useSelector((state) => state.currentUser);
+  const { pagesData } = useSelector((state) => state.pagesData);
 
   const componentMapping = {
     "About Us": ["title", "text", "image"],
+    "Hero Banner": ["image"],
     "FAQ": ["title", "faqs"],
     "Contact": ["title", "email", "phone", "address"],
     "Terms and Conditions": ["title", "text"],
-    "Our Quality": ["title", "text", "image"],
+    "Our Quality": ["title","buttonText", "text", "image" ],
     "Manufacture Process": ["title", "text", "image"],
     "Privacy Policy": ["title", "text"],
+    "Return Policy": ["title", "text"],
+    "Shipping Policy": ["title", "text"],
     "Site Logo": ["image"],
-  }
+    "Fabric Remants": ["title","buttonText", "text", "image"],
+  };
 
   const [formData, setFormData] = useState({
-    title: '',
-    type: '',
-    text: '',
-    image: '',
-    faqs: [{ Q: '', A: '' }],
-    email: '',
-    phone: '',
-    address: '',
+    title: "",
+    type: "",
+    text: "",
+    image: "",
+    faqs: [{ Q: "", A: "" }],
+    email: "",
+    phone: "",
+    address: "",
   });
 
   const pageName = selectedPage?.type;
@@ -55,25 +59,25 @@ const CustomModal = ({ selectedPage, setSelectedPage }) => {
         return;
       }
 
+      let updatedData = { ...formData };
+
       if (formData.image instanceof File) {
         const uploadedImageUrl = await uploadToCloudinary(formData.image);
-        await editPagesData({ ...formData, image: uploadedImageUrl },  currUser?.brandName,selectedPage._id, dispatch);
-        toast.success("Form submitted successfully!");
-      } else {
-        await editPagesData(formData, currUser?.brandName, selectedPage._id, dispatch);
-        toast.success("Form submitted successfully!");
+        updatedData.image = uploadedImageUrl;
       }
+
+      await editPagesData(updatedData, currUser?.brandName, selectedPage._id, dispatch);
+      toast.success("Form submitted successfully!");
+      setSelectedPage({ ...updatedData, _id: selectedPage._id });
     } catch (error) {
-      toast.error(error?.responce?.data?.message || error || "Something went wrong");
+      toast.error(error?.response?.data?.message || "Something went wrong");
     }
   };
-
 
   const renderComponents = () => {
     const fields = componentMapping[formData.type] || [];
     return fields.map((field) => {
-
-      if (['title', 'email', 'phone', 'address'].includes(field)) {
+      if (["title", "email", "phone", "address" , "buttonText"].includes(field)) {
         return (
           <InputField
             key={field}
@@ -83,16 +87,15 @@ const CustomModal = ({ selectedPage, setSelectedPage }) => {
           />
         );
       }
-      if (field === 'text') {
+      if (field === "text") {
         return (
           <TextEditor
-            key={field}
             editorContent={formData[field]}
             setEditorContent={(value) => handleInputChange(field, value)}
           />
         );
       }
-      if (field === 'faqs') {
+      if (field === "faqs") {
         return (
           <FaqUploader
             key={field}
@@ -101,7 +104,7 @@ const CustomModal = ({ selectedPage, setSelectedPage }) => {
           />
         );
       }
-      if (field === 'image') {
+      if (field === "image") {
         return (
           <ImageUploader
             key={field}
@@ -118,24 +121,27 @@ const CustomModal = ({ selectedPage, setSelectedPage }) => {
     const fields = componentMapping[formData.type] || [];
     const count = fields.length;
 
-    if (count === 1) return 'single';
-    if (count === 2) return 'double';
-    if (count === 3) return 'triple';
-    if (count >= 4) return 'quad';
-    return '';
+    if (count === 1) return "single";
+    if (count === 2) return "double";
+    if (count === 3) return "triple";
+    if (count >= 4) return "quad";
+    return "";
   };
 
   useEffect(() => {
     if (selectedPage) {
-      const { _id, __v, updatedAt, ...rest } = selectedPage;
-      setFormData((prev) => ({ ...prev, ...rest }));
+      const updatedPage = pagesData.find((page) => page._id === selectedPage._id);
+      if (updatedPage) {
+        const { _id, __v, updatedAt, ...rest } = updatedPage;
+        setFormData(rest);
+      }
     }
-  }, [selectedPage]);
+  }, [selectedPage, pagesData]);
 
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (e.key === "Escape") {
-        setSelectedPage(null)
+        setSelectedPage(null);
       }
     };
     if (selectedPage) {
@@ -152,11 +158,17 @@ const CustomModal = ({ selectedPage, setSelectedPage }) => {
         <div>
           <h1>{pageName}</h1>
         </div>
-        <button onClick={() => setSelectedPage(null)} className="absolute right-3 top-3 text-gray-500 hover:text-gray-800">
-
+        <button
+          onClick={() => setSelectedPage(null)}
+          className="absolute right-3 top-3 text-gray-500 hover:text-gray-800"
+        >
           ✖
         </button>
-        <div className={`border-t border-b border-[#c9c9c98f] customScroll py-[12px] px-[5px] modal-grid ${getGridClass()}`}>{renderComponents()}</div>
+        <div
+          className={`border-t border-b border-[#c9c9c98f] customScroll py-[12px] px-[5px] modal-grid ${getGridClass()}`}
+        >
+          {renderComponents()}
+        </div>
         <div className="flex justify-end w-full">
           <button
             onClick={handleSubmit}

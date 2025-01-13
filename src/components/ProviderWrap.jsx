@@ -1,4 +1,5 @@
 "use client";
+import { fetchCategory } from "@/APIs/Category/getCategory";
 import { fetchOrderData } from "@/APIs/Order/getOrderData";
 import { fetchProducts } from "@/APIs/Product/getProductData";
 import { setCurrentUser, setLoading } from "@/Redux/Authentication/AuthSlice";
@@ -18,6 +19,7 @@ const ProviderWrap = ({ children }) => {
     if (currUser) {
       fetchOrderData(dispatch, currUser?.brandName);
       fetchProducts(dispatch, currUser?.brandName);
+      fetchCategory(dispatch, currUser?.brandName);
     }
   }, [currUser]);
 

@@ -54,18 +54,18 @@ function Sidebar({ isOpen, setIsOpen }) {
         >
           Orders
         </Link>
-        <Link
+        {/* <Link
           href={"/analytics"}
           className="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700"
         >
           Analytics
-        </Link>
-        <Link
+        </Link> */}
+        {/* <Link
           href={"/media"}
           className="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700"
         >
           Media
-        </Link>
+        </Link> */}
         <Link
           href={"/content"}
           className="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700"

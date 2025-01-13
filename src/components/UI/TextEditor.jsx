@@ -4,10 +4,9 @@ import 'quill/dist/quill.snow.css';
 
 const TextEditor = ({ editorContent, setEditorContent }) => {
     const editorRef = useRef(null);
-    const quillRef = useRef(null); // To store the Quill instance
-
+    const quillRef = useRef(null); 
+    
     useEffect(() => {
-        // Initialize Quill editor only once
         const quill = new Quill(editorRef.current, {
             theme: 'snow',
             modules: {
@@ -28,28 +27,25 @@ const TextEditor = ({ editorContent, setEditorContent }) => {
             },
         });
 
-        quillRef.current = quill; // Store the Quill instance
+        quillRef.current = quill;
 
-        // Set initial content if provided
         if (editorContent) {
             quill.root.innerHTML = editorContent;
         }
 
-        // Update state when content changes
         quill.on('text-change', () => {
             const content = quill.root.innerHTML;
-            setEditorContent(content);
+            if(content !== editorContent){
+                setEditorContent(content);
+            }
         });
 
         return () => {
-            if (quillRef.current) {
-                quillRef.current = null; // Cleanup
-            }
+                quillRef.current = null;
         };
-    }, []); // Empty dependency array ensures this runs only once
+    }, []);
 
     useEffect(() => {
-        // Update Quill content only if editorContent changes externally
         if (quillRef.current && editorContent !== quillRef.current.root.innerHTML) {
             quillRef.current.root.innerHTML = editorContent;
         }

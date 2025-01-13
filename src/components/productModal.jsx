@@ -103,7 +103,6 @@ const ProductModal = ({
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!validateForm()) {
-      console.log("error", errors);
       return;
     }
 
@@ -111,7 +110,6 @@ const ProductModal = ({
       dispatch(setProductLoading(true));
       const imageUrls = await uploadImagesToCloudinary(selectedImages);
       if (!updatedData) {
-        console.log("add");
         await addProducts(
           {
             ...formData,

@@ -1,20 +1,19 @@
 "use client";
 import ProtectedRoute from "@/AuthenticRouting/ProtectedRoutes";
 import Loader from "@/components/loader";
-import ProductModal from "@/components/productModal";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { FaPlus } from "react-icons/fa";
 import { BsFillTrash3Fill } from "react-icons/bs";
 import { CiEdit } from "react-icons/ci";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteProduct } from "@/APIs/Product/deleteProductData";
-import { fetchProducts } from "@/APIs/Product/getProductData";
+import { deleteCategory } from "@/APIs/Category/deleteCategory";
+import CategoryAddModal from "@/components/UI/CategoryAddModal";
 
-const ProductsList = () => {
+const CategoryList = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [updatedProduct, setUpdatedProduct] = useState(null);
-  const { products, productLoading } = useSelector(
-    (state) => state.productData
+  const [updatedCategory, setUpdatedCategory] = useState(null);
+  const { categories, categoryLoading } = useSelector(
+    (state) => state.categories
   );
   const { currUser } = useSelector((state) => state.currentUser);
   const dispatch = useDispatch();
@@ -23,17 +22,17 @@ const ProductsList = () => {
     setIsOpen((prev) => !prev);
   };
   const handleDelete = (id) => {
-    deleteProduct(currUser.brandName, id, dispatch);
+    deleteCategory(currUser.brandName, id, dispatch);
   };
   return (
     <div>
-      {productLoading ? (
+      {categoryLoading ? (
         <Loader />
       ) : (
         <div className="p-2">
           <div className="flex justify-between w-full h-[50px] items-center">
             <p className="text-center py-4 font-semibold text-black text-xl">
-              Products
+              Categories
             </p>
             <button
               onClick={toggleModal}
@@ -54,19 +53,10 @@ const ProductsList = () => {
                     Image
                   </th>
                   <th className="py-3 px-2 text-left text-gray-700 font-semibold max-w-[200px] w-[200px]">
-                    Product
+                    Category
                   </th>
                   <th className="py-3 px-2 text-left text-gray-700 font-semibold">
-                    Inventory
-                  </th>
-                  <th className="py-3 px-2 text-left text-gray-700 font-semibold">
-                    Type
-                  </th>
-                  <th className="py-3 px-2 text-left text-gray-700 font-semibold">
-                    Collection
-                  </th>
-                  <th className="py-3 px-2 text-left text-gray-700 font-semibold">
-                    Vendor
+                    Link
                   </th>
                   <th className="py-3 px-2 text-left text-gray-700 font-semibold">
                     Actions
@@ -74,44 +64,35 @@ const ProductsList = () => {
                 </tr>
               </thead>
               <tbody className="cursor-pointer">
-                {products?.length > 0 &&
-                  products.map((product, index) => (
-                    <tr key={product._id} className="border-b border-gray-200">
+                {categories?.length > 0 ?
+                  categories.map((category, index) => (
+                    <tr key={category._id} className="border-b border-gray-200">
                       <td className="py-4 px-2 text-gray-700">
                         {" "}
-                        #{product?._id?.slice(0, 6)}....
+                        #{category?._id?.slice(0, 6)}....
                       </td>
                       <td className="py-4 px-2 text-gray-700">
                         <img
-                          src={product?.images[0]}
+                          src={category?.image}
                           className="max-w-[50px] w-[50px] h-[50px]"
                           alt=""
                         />
                       </td>
                       <td className="py-4 px-2 text-gray-700">
-                        {product?.name}
+                        {category?.name}
                       </td>
                       <td className="py-4 px-2 text-gray-700">
-                        {product?.stock} in stock
-                      </td>
-                      <td className="py-4 px-2 text-gray-700">
-                        {product?.type}
-                      </td>
-                      <td className="py-4 px-2 text-gray-700">
-                        {product?.collectionName}
-                      </td>
-                      <td className="py-4 px-2 text-gray-700">
-                        {product?.brand}
+                        {category?.link}
                       </td>
                       <td className="py-4 px-2 text-red-600">
                         <div className="flex items-center gap-2">
-                          <div onClick={() => handleDelete(product?._id)}>
+                          <div onClick={() => handleDelete(category?._id)}>
                             <BsFillTrash3Fill />
                           </div>
                           <div
                             className="text-blue-800 text-2xl"
                             onClick={() => {
-                              toggleModal(), setUpdatedProduct(product);
+                              toggleModal(), setUpdatedCategory(category);
                             }}
                           >
                             <CiEdit />
@@ -119,23 +100,23 @@ const ProductsList = () => {
                         </div>
                       </td>
                     </tr>
-                  ))}
+                  )):<div className="text-start text-[20px] w-full py-[20px] pl-[10px]">No Categories Found</div>}
               </tbody>
             </table>
           </div>
         </div>
       )}
       {isOpen && (
-        <ProductModal
+        <CategoryAddModal
           isOpen={isOpen}
           setIsOpen={setIsOpen}
-          productLoading={productLoading}
-          updatedData={updatedProduct}
-          setUpdatedProduct={setUpdatedProduct}
+          categoryLoading={categoryLoading}
+          updatedData={updatedCategory}
+          setUpdatedCategory={setUpdatedCategory}
         />
       )}
     </div>
   );
 };
 
-export default ProtectedRoute(ProductsList);
+export default ProtectedRoute(CategoryList);
