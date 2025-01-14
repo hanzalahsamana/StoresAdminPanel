@@ -39,13 +39,14 @@ const CategoryAddModal = ({
 
         if (!name) newErrors.name = "Category Name is required";
         if (!image) newErrors.image = "Category Image is required";
-
         if (!link) {
             newErrors.link = "Category Link is required";
         } else if (/\s/.test(link)) {
             newErrors.link = "Category Link should not contain spaces";
         } else if (/[A-Z]/.test(link)) {
             newErrors.link = "Category Link should not contain uppercase letters";
+        } else if (/\//.test(link)) {
+            newErrors.link = "Category Link should not contain slashes";
         }
 
         setErrors(newErrors);

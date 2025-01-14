@@ -19,6 +19,10 @@ const pagesIcons = {
     'Site Logo': 'https://img.icons8.com/stickers/50/geometry.png',
     'Manufacture Process': 'https://img.icons8.com/3d-fluency/50/chemical-plant.png',
     'Our Quality': 'https://img.icons8.com/3d-fluency/50/guarantee.png',
+    'Hero Banner': 'https://img.icons8.com/3d-fluency/50/old-shop.png',
+    'Return Policy': 'https://img.icons8.com/color/48/return.png',
+    'Shipping Policy': 'https://img.icons8.com/color/48/in-transit--v1.png',
+    'Fabric Remants': 'https://img.icons8.com/color/48/polishing-cloth.png',
 }
 
 const Content = () => {
@@ -39,6 +43,7 @@ const Content = () => {
             <div className='w-full px-[20px] py-[20px] bg-white rounded-md'>
                 {/* <VedioUploader /> */}
                 <CustomModal selectedPage={editingPage} setSelectedPage={setEditingPagee} />
+                <h1 className='text-[30px]'>Update Pages</h1>
                 {pagesData.map((item, index) => (
                     <div key={index} className='flex py-[15px] border-[#b7b7b780]  border-b'>
                         <div className='flex gap-[15px] items-start'>
