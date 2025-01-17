@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 
-const SizeSelector = ({ setSelectedSizes, selectedSizes }) => {
+const SizeSelector = ({ setSelectedSizes, selectedSizes , errors }) => {
+
   const [manualSize, setManualSize] = useState("");
   const [isInputOpen, setIsInputOpen] = useState(false);
 
@@ -81,6 +82,11 @@ const SizeSelector = ({ setSelectedSizes, selectedSizes }) => {
           </button>
         </div>
       )}
+      {errors?.size ?(
+
+        <p className="text-[10px] text-[red]">{errors?.size}</p>
+      ):''}
+
     </div>
   );
 };

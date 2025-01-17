@@ -10,8 +10,8 @@ import { useDispatch, useSelector } from "react-redux";
 import dynamic from 'next/dynamic';
 import { MdArrowRightAlt } from "react-icons/md";
 
-const LineChart = dynamic(() => import('../../components/LineChart'), { ssr: false });
-const Piechart = dynamic(() => import('../../components/Piechart'), { ssr: false });
+const LineChart = dynamic(async() => import('../../components/LineChart'), { ssr: false });
+const Piechart = dynamic(async() => import('../../components/Piechart'), { ssr: false });
 
 const Dashboard = () => {
   const [activeTab, setActiveTab] = useState(true)

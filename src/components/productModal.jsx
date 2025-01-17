@@ -23,11 +23,11 @@ const ProductModal = ({
   const [errors, setErrors] = useState({});
   const [formData, setFormData] = useState({
     name: "",
-    brand: "Fiztees",
+    brand: currUser.brandName,
     originalPrice: 0,
     discount: 20,
     discountedPrice: 0,
-    collectionName: "top",
+    collectionName: "tshirt",
     type: "t-shirt",
     size: selectedSizes,
     discription: "",
@@ -92,17 +92,19 @@ const ProductModal = ({
     if (!collectionName)
       newErrors.collectionName = "collectionName is required";
     if (!type) newErrors.type = "type is required";
-    if (!size) newErrors.size = "size is required";
+    if (selectedSizes.length === 0) newErrors.size = "size is required";
     if (!stock) newErrors.stock = "size is required";
     if (!selectedImages.length > 0)
       newErrors.image = "Please select max 4 and min 2 images.";
     setErrors(newErrors);
+
     return Object.keys(newErrors).length === 0;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!validateForm()) {
+
       return;
     }
 
@@ -151,7 +153,7 @@ const ProductModal = ({
 
   return (
     <div className="w-screen bg-[#000000b7] absolute top-0 left-0 h-screen flex justify-center items-center">
-      <div className="w-[60%] h-[95%] z-50 overflow-y-auto no-scrollbar rounded-lg">
+      <div className="w-[60%] min-w-[370px] h-[95%] z-50 overflow-y-auto no-scrollbar rounded-lg">
         <div className="w-[100%] bg-white shadow-lg p-6 relative rounded-lg">
           <button
             onClick={() => {
@@ -258,6 +260,7 @@ const ProductModal = ({
                 <SizeSelector
                   selectedSizes={selectedSizes}
                   setSelectedSizes={setSelectedSizes}
+                  errors={errors}
                 />
               </div>
 
@@ -298,6 +301,10 @@ const ProductModal = ({
                   ))}
                 </div>
               </div>
+              {errors?.image ? (
+
+                <p className="text-[10px] text-[red]">{errors?.image}</p>
+              ) : ''}
 
               <button className="py-4 w-full mt-2 bg-[#407fc4] text-white text-lg font-semibold rounded-md hover:scale-105 transition duration-300">
                 {!updatedData ? "Add Product" : "Edit Product"}

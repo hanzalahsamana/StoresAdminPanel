@@ -12,7 +12,7 @@ import { uploadToCloudinary } from "@/Utils/uploadToCloudinary";
 import { editPagesData } from "@/APIs/PagesData/editPagesData";
 import { useDispatch, useSelector } from "react-redux";
 
-const TextEditor = dynamic(() => import("./TextEditor"), { ssr: false });
+const TextEditor = dynamic(async() => import("./TextEditor"), { ssr: false });
 
 const CustomModal = ({ selectedPage, setSelectedPage }) => {
   const dispatch = useDispatch();
