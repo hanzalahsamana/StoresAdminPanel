@@ -23,8 +23,8 @@ const Order = () => {
     { status: "cancelled", color: "#ef4444" }
   ]
 
-  const extractColor = (status)=>{
-    const {color} = statusOptions.find(item => item.status === status)|| '#eab308' ;
+  const extractColor = (status) => {
+    const { color } = statusOptions.find(item => item.status === status) || '#eab308';
     return color
   }
   const dispatch = useDispatch()
@@ -32,18 +32,17 @@ const Order = () => {
   if (loading) {
     return <Loader />;
   }
-  
-  const handleStatusSelect = async(orderId , status)=>{
+
+  const handleStatusSelect = async (orderId, status) => {
     orderLoading(true)
-    await editOrderStatus(dispatch , orderId , status , currUser?.brandName )
+    await editOrderStatus(dispatch, orderId, status, currUser?.brandName)
     orderLoading(false)
   }
 
   return (
     <>
-      {!loading && orders?.length > 0 ? (
-        <div className="p-2">
-          <h1 className="text-center py-10">Orders List</h1>
+        <div className="">
+          <h1 className="text-center text-[28px] py-10">Orders List</h1>
           <div>
             <table className="overflow-x-auto min-w-full bg-white border border-gray-200 rounded-lg">
               <thead className="bg-gray-200">
@@ -67,74 +66,87 @@ const Order = () => {
                 </tr>
               </thead>
               <tbody className="cursor-pointer hover:bg-gray-100">
-                {orders.map(
-                  ({ createdAt, _id, orderInfo, customerInfo }, index) => (
-                    <tr
-                      key={index}
-                      className="border-b border-gray-200"
-                      onClick={() => router.push(`/ordersDetails/${_id}`)}
+                {orders.length === 0 ? (
+                  <tr>
+                    <td
+                      colSpan="6"
+                      className="py-4 px-6 text-center text-gray-700"
                     >
-                      <td className="py-4 px-6 text-gray-700 ">
-                        #{_id.slice(0, 6)}....
-                      </td>
-                      <td className="py-4 px-6 text-gray-700 ">
-                        {customerInfo?.firstName}
-                      </td>
-
-                      <td className="py-4 px-6 text-gray-700">
-                        {orderInfo?.total}
-                      </td>
-                      <td className="py-4 px-6 text-gray-700">
-                        {createdAt.split("T")[0]}
-                      </td>
-                      <td
-                        className="py-4 px-6 text-gray-700 relative"
-                        onClick={(e) => { 
-                          e.stopPropagation()
-                          setOpenedIndex(typeof openedIndex === 'number' ? null : index) }}
+                      No orders found
+                    </td>
+                  </tr>
+                ) : (
+                  orders.map(
+                    ({ createdAt, _id, orderInfo, customerInfo }, index) => (
+                      <tr
+                        key={index}
+                        className="border-b border-gray-200"
+                        onClick={() => router.push(`/ordersDetails/${_id}`)}
                       >
-                        <div className="cursor-pointer flex items-center gap-2" style={{color:extractColor(orderInfo.status)}}>
-                          {orderInfo.status}
+                        <td className="py-4 px-6 text-gray-700 ">
+                          #{_id.slice(0, 6)}....
+                        </td>
+                        <td className="py-4 px-6 text-gray-700 ">
+                          {customerInfo?.firstName}
+                        </td>
+                        <td className="py-4 px-6 text-gray-700">
+                          {orderInfo?.total}
+                        </td>
+                        <td className="py-4 px-6 text-gray-700">
+                          {createdAt.split("T")[0]}
+                        </td>
+                        <td
+                          className="py-4 px-6 text-gray-700 relative"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setOpenedIndex(
+                              typeof openedIndex === "number" ? null : index
+                            );
+                          }}
+                        >
                           <div
-                            className={`transition-all ${openedIndex === index && "rotate-[-180deg]"
-                              } text-sm`}
+                            className="cursor-pointer flex items-center gap-2"
+                            style={{ color: extractColor(orderInfo.status) }}
                           >
-                            <FaChevronDown />
+                            {orderInfo.status}
+                            <div
+                              className={`transition-all ${openedIndex === index && "rotate-[-180deg]"
+                                } text-sm`}
+                            >
+                              <FaChevronDown />
+                            </div>
                           </div>
-                        </div>
 
-                        {openedIndex === index && (
-                          <div className="dropDown absolute top-10 bg-[#F5F5F5] border border-gray-300 rounded-lg shadow-lg w-32 z-10 p-4 pr-6">
-                            {statusOptions
-                              .filter(({status}) => status !== orderInfo.status)
-                              .map(({status , color}) => (
-                                <div
-                                  key={status}
-                                  onClick={() => handleStatusSelect( _id , status)}
-                                  style={{color:color}}
-                                  className={`py-2 opacity-[0.6] transition-all duration-200 cursor-pointer `}
-                                >
-                                  {status}  
-                                </div>
-                              ))}
-                          </div>
-                        )}
-                      </td>
-                      <td className="py-4 px-6 text-gray-700">
-                        <FaArrowRight />
-                      </td>
-                    </tr>
+                          {openedIndex === index && (
+                            <div className="dropDown absolute top-10 bg-[#F5F5F5] border border-gray-300 rounded-lg shadow-lg w-32 z-10 p-4 pr-6">
+                              {statusOptions
+                                .filter(({ status }) => status !== orderInfo.status)
+                                .map(({ status, color }) => (
+                                  <div
+                                    key={status}
+                                    onClick={() => handleStatusSelect(_id, status)}
+                                    style={{ color: color }}
+                                    className="py-2 opacity-[0.6] transition-all duration-200 cursor-pointer"
+                                  >
+                                    {status}
+                                  </div>
+                                ))}
+                            </div>
+                          )}
+                        </td>
+                        <td className="py-4 px-6 text-gray-700">
+                          <FaArrowRight />
+                        </td>
+                      </tr>
+                    )
                   )
                 )}
               </tbody>
+
             </table>
           </div>
         </div>
-      ) : (
-        <div className="flex justify-center items-center h-[calc(100vh-50px)]">
-          <p className="text-xl">No Orders found</p>
-        </div>
-      )}
+
     </>
   );
 };

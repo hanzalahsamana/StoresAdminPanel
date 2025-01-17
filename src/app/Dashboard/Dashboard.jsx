@@ -9,6 +9,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import dynamic from 'next/dynamic';
 import { MdArrowRightAlt } from "react-icons/md";
+import Link from "next/link";
 
 const TimeGraph = dynamic(() => import("../../components/TimeGraph"), { ssr: true });
 const Piechart = dynamic(() => import("../../components/Piechart"), { ssr: true });
@@ -63,7 +64,7 @@ const Dashboard = () => {
           <StatusCard classes='col-start-3 row-start-5' title={'Total Products'} data={products} loading={loading} />
           <StatusCard classes='col-start-3 row-start-6' title={'Orders Pending'} data={orders} loading={loading} />
         </div>
-
+{/* 
         <div className="bg-white p-6 rounded-lg shadow-lg mb-8">
           <div className="flex justify-between items-center py-4">
 
@@ -106,10 +107,9 @@ const Dashboard = () => {
                 <td className="px-6 py-4">$95.00</td>
                 <td className="px-6 py-4 text-yellow-500">Pending</td>
               </tr>
-              {/* Add more rows as needed */}
             </tbody>
           </table>
-        </div>
+        </div> */}
         {/* Recent Orders */}
         <div className="bg-white p-6 rounded-lg shadow-lg mb-8">
           <h3 className="text-2xl font-semibold text-gray-800 mb-4">
@@ -125,6 +125,7 @@ const Dashboard = () => {
               </tr>
             </thead>
             <tbody>
+              
               {orders
                 ?.slice()
                 .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
@@ -139,7 +140,7 @@ const Dashboard = () => {
                 ))}
             </tbody>
           </table>
-          <p className={'flex gap-1 '}  >See ALl <MdArrowRightAlt /></p>
+          <Link href={'/ordersList'} className={'flex gap-1 w-full justify-center items-center hover:gap-3 transition-all pt-[20px]'}  >See all <MdArrowRightAlt /></Link>
         </div>
 
         <div className="bg-white p-6 rounded-lg shadow-lg">
@@ -147,22 +148,15 @@ const Dashboard = () => {
             Recent Products
           </h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+          {products?.slice(0, 3).map((prod , i)=>(
+
             <div className="bg-gray-100 p-4 rounded-lg shadow-md">
-              <h4 className="font-semibold text-lg text-gray-700">Product 1</h4>
-              <p className="text-sm text-gray-500">Category: Electronics</p>
-              <p className="text-sm text-gray-500">Price: $30.00</p>
+              <h4 className="font-semibold text-lg text-gray-700">{prod?.name}</h4>
+              <p className="text-sm text-gray-500">Category: {prod?.collectionName}</p>
+              <p className="text-sm text-gray-500">Price: {prod?.discountedPrice}</p>
             </div>
-            <div className="bg-gray-100 p-4 rounded-lg shadow-md">
-              <h4 className="font-semibold text-lg text-gray-700">Product 2</h4>
-              <p className="text-sm text-gray-500">Category: Clothing</p>
-              <p className="text-sm text-gray-500">Price: $25.00</p>
+          ))}
             </div>
-            <div className="bg-gray-100 p-4 rounded-lg shadow-md">
-              <h4 className="font-semibold text-lg text-gray-700">Product 3</h4>
-              <p className="text-sm text-gray-500">Category: Home Goods</p>
-              <p className="text-sm text-gray-500">Price: $40.00</p>
-            </div>
-          </div>
         </div>
       </div>
     </div>
