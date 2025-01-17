@@ -1,9 +1,9 @@
 "use client";
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 // import ReactApexChart from 'react-apexcharts';
 // import CardLoader from './CardLoader';
 
-const LineChart = ({ analytics, analyticsLoading }) => {
+const LineChart = () => {
     // const [chartOptions, setChartOptions] = useState({
     //     chart: {
     //         id: 'line-bar',
@@ -88,30 +88,31 @@ const LineChart = ({ analytics, analyticsLoading }) => {
     //     }
     // }, [analytics, viewType]);
 
-    if (analyticsLoading) {
-        return <CardLoader />;
-    }
+    // if (analyticsLoading) {
+    //     return <CardLoader />;
+    // }
 
     return (
-        <div className='w-full'>
-            {/* Dropdown for selecting view type */}
-            {/* <div className="mb-4">
-                <select
-                    value={viewType}
-                    onChange={(e) => setViewType(e.target.value)}
-                    className="p-2 border rounded"
-                >
-                    <option value="pages">Pages</option>
-                    <option value="countries">Countries</option>
-                </select>
-            </div> */}
-            {/* <ReactApexChart
-                options={chartOptions}
-                series={chartSeries}
-                type="line"
-                height={300}
-            /> */}
-        </div>
+        <h1>hello</h1>
+        // <div className='w-full'>
+        //     {/* Dropdown for selecting view type */}
+        //     {/* <div className="mb-4">
+        //         <select
+        //             value={viewType}
+        //             onChange={(e) => setViewType(e.target.value)}
+        //             className="p-2 border rounded"
+        //         >
+        //             <option value="pages">Pages</option>
+        //             <option value="countries">Countries</option>
+        //         </select>
+        //     </div> */}
+        //     {/* <ReactApexChart
+        //         options={chartOptions}
+        //         series={chartSeries}
+        //         type="line"
+        //         height={300}
+        //     /> */}
+        // </div>
     );
 };
 

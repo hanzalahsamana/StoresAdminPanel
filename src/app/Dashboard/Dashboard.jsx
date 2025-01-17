@@ -54,7 +54,7 @@ const Dashboard = () => {
           <CustomCard title={'Pages'} classes='col-span-2 row-start-1 row-span-3'>
 
 
-            <LineChart analytics={analytics} analyticsLoading={analyticloading} />
+            <LineChart  />
           </CustomCard>
           <CustomCard title={'Map'} classes='col-span-2 row-start-4 row-span-3'>
 
