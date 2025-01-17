@@ -1,10 +1,9 @@
 "use client";
-
 import React from 'react';
 // import ReactApexChart from 'react-apexcharts';
 // import CardLoader from './CardLoader';
 
-const LineChart = () => {
+const LineChart = ({ analytics, analyticsLoading }) => {
     // const [chartOptions, setChartOptions] = useState({
     //     chart: {
     //         id: 'line-bar',

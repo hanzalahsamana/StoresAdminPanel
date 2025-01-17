@@ -53,7 +53,7 @@ const Dashboard = () => {
           <CustomCard title={'Pages'} classes='col-span-2 row-start-1 row-span-3'>
 
 
-            <TimeGraph />
+            <TimeGraph analytics={analytics} analyticsLoading={analyticloading} />
           </CustomCard>
           <CustomCard title={'Map'} classes='col-span-2 row-start-4 row-span-3'>
 
