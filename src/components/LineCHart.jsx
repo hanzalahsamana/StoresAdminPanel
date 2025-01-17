@@ -62,7 +62,7 @@ const LineChart = ({ analytics, analyticsLoading }) => {
     // });
 
     // const [chartSeries, setChartSeries] = useState([]);
-    // const [viewType, setViewType] = useState('pages'); // Default view type
+    const [viewType, setViewType] = useState('pages'); // Default view type
 
     // useEffect(() => {
     //     if (!analytics) return;
@@ -95,7 +95,7 @@ const LineChart = ({ analytics, analyticsLoading }) => {
     return (
         <div className='w-full'>
             {/* Dropdown for selecting view type */}
-            {/* <div className="mb-4">
+            <div className="mb-4">
                 <select
                     value={viewType}
                     onChange={(e) => setViewType(e.target.value)}
@@ -105,7 +105,7 @@ const LineChart = ({ analytics, analyticsLoading }) => {
                     <option value="countries">Countries</option>
                 </select>
             </div>
-            <ReactApexChart
+            {/* <ReactApexChart
                 options={chartOptions}
                 series={chartSeries}
                 type="line"
