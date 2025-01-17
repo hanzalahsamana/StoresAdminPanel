@@ -9,7 +9,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import dynamic from 'next/dynamic';
 import { MdArrowRightAlt } from "react-icons/md";
-import LineChart from "@/components/LineChart";
+// import LineChart from "@/components/LineChart";
 
 // const LineChart = dynamic(() => import("../../components/LineChart"), { ssr: true });
 const Piechart = dynamic(() => import("../../components/Piechart"), { ssr: true });
@@ -54,7 +54,7 @@ const Dashboard = () => {
           <CustomCard title={'Pages'} classes='col-span-2 row-start-1 row-span-3'>
 
 
-            <LineChart analytics={analytics} analyticsLoading={analyticloading} />
+            {/* <LineChart analytics={analytics} analyticsLoading={analyticloading} /> */}
           </CustomCard>
           <CustomCard title={'Map'} classes='col-span-2 row-start-4 row-span-3'>
 
