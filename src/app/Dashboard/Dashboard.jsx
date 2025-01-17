@@ -9,8 +9,9 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import dynamic from 'next/dynamic';
 import { MdArrowRightAlt } from "react-icons/md";
+import LineChart from "@/components/LineChart";
 
-const LineChart = dynamic(() => import("../../components/LineChart"), { ssr: true });
+// const LineChart = dynamic(() => import("../../components/LineChart"), { ssr: true });
 const Piechart = dynamic(() => import("../../components/Piechart"), { ssr: true });
 
 const Dashboard = () => {
