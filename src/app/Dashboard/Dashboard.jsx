@@ -9,9 +9,8 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import dynamic from 'next/dynamic';
 import { MdArrowRightAlt } from "react-icons/md";
-import LineChart from "@/components/LineChart";
 
-// const LineChart = dynamic(() => import("../../components/LineChart"), { ssr: true });
+const TimeGraph = dynamic(() => import("../../components/TimeGraph"), { ssr: true });
 const Piechart = dynamic(() => import("../../components/Piechart"), { ssr: true });
 
 const Dashboard = () => {
@@ -54,7 +53,7 @@ const Dashboard = () => {
           <CustomCard title={'Pages'} classes='col-span-2 row-start-1 row-span-3'>
 
 
-            <LineChart  />
+            <TimeGraph />
           </CustomCard>
           <CustomCard title={'Map'} classes='col-span-2 row-start-4 row-span-3'>
 
