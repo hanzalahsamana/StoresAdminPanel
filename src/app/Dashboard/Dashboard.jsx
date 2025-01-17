@@ -10,8 +10,8 @@ import { useDispatch, useSelector } from "react-redux";
 import dynamic from 'next/dynamic';
 import { MdArrowRightAlt } from "react-icons/md";
 
-const LineChart = dynamic(() => import('../../components/LineChart'), { ssr: true });
-const Piechart = dynamic(() => import('../../components/Piechart'), { ssr: true });
+const LineChart = dynamic(() => import("../../components/LineChart"), { ssr: true });
+const Piechart = dynamic(() => import("../../components/Piechart"), { ssr: true });
 
 const Dashboard = () => {
   const [activeTab, setActiveTab] = useState(true)
@@ -134,7 +134,7 @@ const Dashboard = () => {
                     <td className="px-6 py-4">{createdAt.split("T")[0]}</td>
                     <td className="px-6 py-4">{customerInfo.firstName}</td>
                     <td className="px-6 py-4">{orderInfo.total}</td>
-                    <td className="px-6 py-4 text-green-500" style={{color:statusOptions[orderInfo?.status]}}>{orderInfo?.status}</td>
+                    <td className="px-6 py-4 text-green-500" style={{ color: statusOptions[orderInfo?.status] }}>{orderInfo?.status}</td>
                   </tr>
                 ))}
             </tbody>
