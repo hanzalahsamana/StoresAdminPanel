@@ -1,17 +1,18 @@
 "use client";
-import { addUser } from "@/APIs/Auth/addUser";
+import {  SendOTP } from "@/APIs/Auth/addUser";
 import UnProtectedRoute from "@/AuthenticRouting/UnProtectedRoutes";
 import Loader from "@/components/loader";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { toast } from "react-toastify";
 
 const Register = () => {
   const [formData, setFormData] = useState({
-    brandName: "",
-    email: "",
-    name: "",
-    password: "",
+    brandName: "unique",
+    email: "junaidhunani890@gmail.com",
+    name: "junaid",
+    password: "123456",
   });
   const router = useRouter();
   const [loading, setLoading] = useState(false);
@@ -24,12 +25,14 @@ const Register = () => {
     e.preventDefault();
     try {
       setLoading(true);
-      const user = await addUser(formData);
+      const user = await SendOTP({...formData , isResend:false,});
+      localStorage.setItem("emailForVerify" , formData.email)
+      router.push("/authentication/verifyotp");
       setLoading(false);
-      router.push("/authentication/login");
-    } catch (e) {
+    } catch (error) {
       setLoading(false);
-      alert(e);
+      console.log("⚱️" , error);
+      toast.error(error.response ? error.response.data.message : error.message)
     }
   };
 
