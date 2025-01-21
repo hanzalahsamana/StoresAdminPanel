@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
-import { verifyOtp } from "@/APIs/Auth/verifyOtp";
+import { verifyOtp } from "@/APIs/Auth/verifyOTP";
 import { toast } from "react-toastify";
 import { SendOTP } from "@/APIs/Auth/addUser";
 import Loader from "@/components/loader";
