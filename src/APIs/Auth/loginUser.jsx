@@ -9,6 +9,6 @@ export const loginUser = async (data) => {
     const response = await axios.post(apiUrl, data);
     return response.data;
   } catch (error) {
-    throw error.response ? error.response.data.message : error.message;
+    throw error;
   }
 };

@@ -27,11 +27,9 @@ const Register = () => {
       setLoading(true);
       const user = await SendOTP({...formData , isResend:false,});
       localStorage.setItem("emailForVerify" , formData.email)
-      router.push("/authentication/verifyotp");
-      setLoading(false);
+      return router.push("/authentication/verifyotp");
     } catch (error) {
       setLoading(false);
-      console.log("⚱️" , error);
       toast.error(error.response ? error.response.data.message : error.message)
     }
   };

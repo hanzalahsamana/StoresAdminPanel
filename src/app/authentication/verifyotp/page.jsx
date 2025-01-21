@@ -11,24 +11,21 @@ const OtpVerification = () => {
     const [otp, setOtp] = useState(["", "", "", "", "", ""]);
     const [loading, setLoading] = useState(true);
     const [resendLoading, setResendLoading] = useState(false);
-    const [cooldown, setCooldown] = useState(4);
+    const [cooldown, setCooldown] = useState(120);
     const inputRefs = useRef([]);
     const router = useRouter();
 
     const [email, setEmail] = useState(null);
 
     useEffect(() => {
-        // Check if running on the client side
         if (typeof window !== "undefined") {
-            console.log("ghus gaya");
-            setLoading(false)
-
+            
             const savedEmail = localStorage.getItem("emailForVerify");
-            setEmail(savedEmail); // Set email from localStorage
+            setEmail(savedEmail);
             if (!savedEmail) {
-                console.log(email);
-
                 router.push("/authentication/register");
+            }else{
+                setLoading(false)
             }
         }
     }, []);
@@ -78,18 +75,14 @@ const OtpVerification = () => {
         try {
             await verifyOtp({ email, otp: otpCode })
             localStorage.removeItem("emailForVerify");
-            // router.push("/login");
-            console.log("⚱️dangerous 📟");
+            return router.push("/authentication/login");
 
         } catch (error) {
-            console.log("⚱️", error);
+            setLoading(false);
             toast.error(error.response ? error.response.data.message : error.message)
-
             if (error?.response?.data?.errorCode === "OTP_EXPIRED") {
                 setCooldown(0);
             }
-        } finally {
-            setLoading(false);
         }
     };
 
@@ -104,7 +97,6 @@ const OtpVerification = () => {
             toast.success("A new OTP has been sent to your email.")
             setCooldown(120);
         } catch (error) {
-            console.error(error.message);
             toast.error(error.response ? error.response.data.message : error.message)
 
         } finally {
@@ -113,7 +105,7 @@ const OtpVerification = () => {
     };
 
     if (loading) {
-        <Loader />
+        return <Loader />
     }
 
     return (

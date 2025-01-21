@@ -7,6 +7,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -31,11 +32,10 @@ const Login = () => {
         JSON.stringify({ jwtToken: user.jwtToken, ...user.userToken })
       );
       dispatch(setCurrentUser({ jwtToken: user.jwtToken, ...user.userToken }));
-      router.push("/");
+      return router.push("/");
+    } catch (error) {
       setLoading(false);
-    } catch (e) {
-      setLoading(false);
-      alert(e);
+      toast.error(error.response ? error.response.data.message : error.message)
     }
   };
 
