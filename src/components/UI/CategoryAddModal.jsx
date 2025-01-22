@@ -33,21 +33,26 @@ const CategoryAddModal = ({
         setFormData((prevData) => ({ ...prevData, [name]: value }));
     };
 
+    function convertToSlug(str) {
+        return str
+          .toLowerCase()          
+          .replace(/\s+/g, '-')    
+          .replace(/[^\w\-]+/g, '')
+          .replace(/\-\-+/g, '-')  
+          .trim();                
+      }
+      
+
     const validateForm = () => {
         const newErrors = {};
-        const { name, image, link } = formData;
+        const { name, image } = formData;
 
-        if (!name) newErrors.name = "Category Name is required";
-        if (!image) newErrors.image = "Category Image is required";
-        if (!link) {
-            newErrors.link = "Category Link is required";
-        } else if (/\s/.test(link)) {
-            newErrors.link = "Category Link should not contain spaces";
-        } else if (/[A-Z]/.test(link)) {
-            newErrors.link = "Category Link should not contain uppercase letters";
-        } else if (/\//.test(link)) {
-            newErrors.link = "Category Link should not contain slashes";
+        if (!name) {
+            newErrors.name = "Category Name is required"
+        } else if (/\//.test(name)) {
+            newErrors.name = "Category name should not contain slashes";
         }
+        if (!image) newErrors.image = "Category Image is required";
 
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0;
@@ -66,7 +71,8 @@ const CategoryAddModal = ({
                 await addCategory(
                     {
                         ...formData,
-                        image: imageUrl
+                        image: imageUrl,
+                        link: convertToSlug(formData.name),
                     },
                     currUser?.brandName,
                     dispatch
@@ -75,7 +81,8 @@ const CategoryAddModal = ({
                 await editCategory(
                     {
                         ...formData,
-                        image: imageUrl
+                        image: imageUrl,
+                        link: convertToSlug(formData.name),
                     },
                     currUser?.brandName,
                     updatedData._id,
@@ -122,15 +129,6 @@ const CategoryAddModal = ({
                                     placeholder="Name"
                                     handleChange={handleChange}
                                     field={"name"}
-                                    errors={errors}
-                                    formData={formData}
-                                />
-
-                                <FormInput
-                                    type="text"
-                                    placeholder="Link"
-                                    handleChange={handleChange}
-                                    field={"link"}
                                     errors={errors}
                                     formData={formData}
                                 />

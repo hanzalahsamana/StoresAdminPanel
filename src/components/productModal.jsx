@@ -35,6 +35,12 @@ const ProductModal = ({
     ...updatedData,
   });
 
+  const { categories, categoryLoading } = useSelector(
+    (state) => state.categories
+  );
+
+  console.log(categories, "🪼🐞");
+
   useEffect(() => {
     setSelectedImages(updatedData ? updatedData?.images : []);
     const test = !Array.isArray(updatedData?.size)
@@ -168,7 +174,7 @@ const ProductModal = ({
             Add Product
           </h3>
 
-          {productLoading ? (
+          {productLoading || categoryLoading ? (
             <Loader />
           ) : (
             <form
@@ -194,15 +200,38 @@ const ProductModal = ({
                   errors={errors}
                   formData={formData}
                 />
+                <div className="w-full flex flex-col">
 
-                <FormInput
+
+                  <select
+                    id="dropdown"
+                    value={formData.collectionName}
+                    name="collectionName"
+                    onChange={handleChange}
+                    className={`Inputs h-[50px] pl-[20px] flex items-center rounded-md outline-[#3973B0] p-2 border-2 w-full ${errors.collectionName ? "border-red-500" : "border-[#a1a1a1]"
+                      } rounded`}
+                  >
+                    <option value="">Select...</option>
+                    {
+                      categories.map((categ) => (
+                        <option id={categ?._id} value={categ?.link}>{categ?.link}</option>
+                      ))
+                    }
+                  </select>
+
+                  <div>
+                    {errors.collectionName && <p className="text-red-500 text-xs">{errors.collectionName}</p>}
+                  </div>
+                </div>
+
+                {/* <FormInput
                   type="text"
                   placeholder="Collection Name"
                   handleChange={handleChange}
                   field={"collectionName"}
                   errors={errors}
                   formData={formData}
-                />
+                /> */}
               </div>
 
               <div className="flex gap-4">
@@ -313,7 +342,7 @@ const ProductModal = ({
           )}
         </div>
       </div>
-    </div>
+    </div >
   );
 };
 

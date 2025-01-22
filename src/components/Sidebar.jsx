@@ -61,10 +61,10 @@ function Sidebar({ isOpen, setIsOpen }) {
           Analytics
         </Link> */}
         {/* <Link
-          href={"/media"}
+          href={"/domain"}
           className="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700"
         >
-          Media
+          Add Domain <span className="text-[10px]">(working)</span>
         </Link> */}
         <Link
           href={"/content"}
