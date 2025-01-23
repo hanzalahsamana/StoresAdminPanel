@@ -99,7 +99,7 @@ const ProductModal = ({
       newErrors.collectionName = "collectionName is required";
     if (!type) newErrors.type = "type is required";
     if (selectedSizes.length === 0) newErrors.size = "size is required";
-    if (!stock) newErrors.stock = "size is required";
+    if ((!stock && stock !== 0) || stock < 0 ) newErrors.stock = "stock must be greater or equal then zero";
     if (!selectedImages.length > 0)
       newErrors.image = "Please select max 4 and min 2 images.";
     setErrors(newErrors);
@@ -125,7 +125,6 @@ const ProductModal = ({
             originalPrice: Number(formData.originalPrice),
             discountedPrice: Number(formData.discountedPrice),
             discount: Number(formData.discount),
-            stock: 10,
             images: imageUrls,
             size: selectedSizes,
           },
@@ -140,7 +139,6 @@ const ProductModal = ({
             originalPrice: Number(formData.originalPrice),
             discountedPrice: Number(formData.discountedPrice),
             discount: Number(formData.discount),
-            stock: 10,
             images: imageUrls,
             size: selectedSizes,
           },
