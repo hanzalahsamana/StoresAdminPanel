@@ -60,12 +60,12 @@ function Sidebar({ isOpen, setIsOpen }) {
         >
           Analytics
         </Link> */}
-        {/* <Link
+        <Link
           href={"/domain"}
           className="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700"
         >
           Add Domain <span className="text-[10px]">(working)</span>
-        </Link> */}
+        </Link>
         <Link
           href={"/content"}
           className="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700"

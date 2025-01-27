@@ -4,11 +4,11 @@ import ReactApexChart from "react-apexcharts";
 import CardLoader from "./CardLoader";
 
 
-const Piechart = ({analytics , analyticsLoading}) => {
-  if(analyticsLoading){
-      return (
-       <CardLoader/>
-      )
+const Piechart = ({ analytics, analyticsLoading }) => {
+  if (analyticsLoading) {
+    return (
+      <CardLoader />
+    )
   }
 
   const labels = analytics?.countries.map((item) => item.country);
@@ -29,11 +29,9 @@ const Piechart = ({analytics , analyticsLoading}) => {
     },
     legend: {
       position: "bottom",
-      flex:'column',
+      flex: 'column',
       labels: {
         colors: "#000000",
-
-        
       },
     },
     dataLabels: {
@@ -46,8 +44,7 @@ const Piechart = ({analytics , analyticsLoading}) => {
 
   return (
     <div>
-
-    <ReactApexChart options={options} series={series} type="donut" class  />
+      <ReactApexChart options={options} series={series} type="donut" class />
     </div>
   );
 };
