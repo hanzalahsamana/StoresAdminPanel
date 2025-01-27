@@ -1,7 +1,11 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family: Arial, Helvetica, sans-serif;
+}
 :root {
   --background: #ffffff;
   --foreground: #171717;
@@ -30,25 +34,33 @@ body {
 .dropDown {
   animation: move 0.1s ease-in-out;
 }
+.customScroll {
+  overflow: auto;
+}
+
 .customScroll::-webkit-scrollbar {
-  width: 8px; 
-  height: 8px; 
+  width: 12px;
 }
 
 .customScroll::-webkit-scrollbar-track {
-  background: #f3f4f6; 
-  border-radius: 4px; 
+  background-color: #f1f1f1;
+  border-radius: 10px;
 }
 
 .customScroll::-webkit-scrollbar-thumb {
-  background: #9ca3af; 
-  border-radius: 4px; 
+  background-color: #b7b7b7;
+  border-radius: 10px;
+  border: 3px solid #f1f1f1;
 }
 
 .customScroll::-webkit-scrollbar-thumb:hover {
-  background: #6b7280; 
+  background-color: #555;
 }
-
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
 
 @keyframes move {
   0% {

@@ -1,0 +1,319 @@
+.febric-category {
+  padding: 30px 3rem;
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  background-color: #f7f7f7;
+}
+
+.img-wrap {
+  width: 50%;
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: center;
+  align-items: center;
+}
+
+.img-two {
+  width: 75%;
+  height: 100%;
+}
+
+.img-two img {
+  width: 100%;
+  height: 100%;
+}
+
+.text-wrap {
+  width: 50%;
+  padding: 0px 30px;
+}
+
+.text-wrap h1 {
+  font-weight: 700;
+  margin: 20px 0;
+}
+
+.text-wrap p {
+  /* text-align: justify; */
+  font-size: 18px;
+  color: rgb(73, 73, 73);
+  line-height: 25px;
+  text-align: justify;
+}
+
+.collection-wrap {
+  background-image: url(https://cdn.shopify.com/s/files/1/0889/9651/2017/files/unstich-bg-convert.png?v=1724063280);
+  width: 100%;
+  height: 100vh;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.collection-hd {
+  color: white;
+  font-weight: 700;
+  margin: 0px;
+}
+
+.collection-text {
+  color: white;
+  font-weight: 600;
+}
+
+.collection-wrap button {
+  padding: 15px 30px;
+  font-size: 18px;
+  background-color: transparent;
+  color: white;
+  border: 1px solid white;
+  outline: none;
+}
+
+.fabric-container {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  height: 100%;
+  width: 100%;
+  padding: 100px 5rem;
+  background-color: #f7f7f7;
+}
+
+.fabric-container .fabric-text-wrap {
+  width: 35%;
+  padding: 20px;
+  min-height: 300px;
+  background-color: white;
+  position: absolute;
+  left: -25%;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  box-shadow: 0px 1px 16px -2px rgba(245, 245, 245, 0.75);
+  -webkit-box-shadow: 0px 1px 16px -2px rgba(245, 245, 245, 0.75);
+  -moz-box-shadow: 0px 1px 16px -2px rgba(245, 245, 245, 0.75);
+}
+
+.fabric-container .fabric-img {
+  width: 80%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  position: relative;
+}
+
+.fabric-container .fabric-img img {
+  width: 100%;
+}
+
+.fabric-cutting-container {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  height: 100%;
+  width: 100%;
+  background-color: #f7f7f7;
+  padding: 50px 3rem;
+}
+
+.fabric-cutting-container .fabric-text-wrap {
+  width: 75%;
+  padding: 30px;
+  height: auto;
+  background-color: white;
+  position: absolute;
+  left: -60%;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  box-shadow: 0px 1px 66px -27px rgba(201, 201, 201, 0.75);
+  -webkit-box-shadow: 0px 1px 66px -27px rgba(201, 201, 201, 0.75);
+  -moz-box-shadow: 0px 1px 66px -27px rgba(201, 201, 201, 0.75);
+}
+
+.fabric-cutting-container .fabric-img {
+  /* height: 100%; */
+  width: 60%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  position: relative;
+}
+
+.fabric-cutting-container .fabric-img img {
+  width: 100%;
+  max-height: 100vh;
+}
+
+.fabric-cutting-container h2 {
+  margin: 5px 0px;
+  font-weight: 700;
+}
+
+.fabric-cutting-container p {
+  margin: 5px 0px;
+  font-size: 18px;
+}
+
+@media (max-width: 800px) {
+  .img-two {
+    width: 100%;
+  }
+
+  /* .grid{
+      column-gap:10px !important;
+    } */
+  .febric-category {
+    flex-direction: column;
+    padding: 30px 1rem;
+  }
+
+  .img-wrap {
+    width: 100%;
+  }
+
+  .text-wrap {
+    width: 100%;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .text-wrap h1 {
+    text-align: center;
+  }
+
+  .text-wrap p {
+    text-align: center;
+  }
+
+  .fabric-container {
+    padding: 30px 1rem;
+  }
+
+  .fabric-container .fabric-img {
+    width: 100%;
+    display: flex;
+    flex-direction: column-reverse;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+  }
+
+  .fabric-container .fabric-text-wrap {
+    width: 100%;
+    background-color: unset;
+    position: unset;
+    text-align: center;
+    min-height: unset;
+    height: unset;
+    padding: 20px 0px;
+  }
+
+  .fabric-cutting-container {
+    padding: 30px 1rem;
+  }
+
+  .text-wrap p {
+    font-size: 16px;
+  }
+
+  .fabric-cutting-container .fabric-text-wrap {
+    padding: 30px 0px;
+    width: 100%;
+    background-color: unset;
+    position: unset;
+    text-align: center;
+    min-height: unset;
+    height: unset;
+  }
+
+  .fabric-cutting-container .fabric-img {
+    width: 100%;
+    display: flex;
+    flex-direction: column-reverse;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+  }
+
+  .fabric-cutting-container h2 {
+    font-size: 25px !important;
+  }
+
+  .fabric-cutting-container p {
+    font-size: 16px;
+  }
+}
+
+/* header styling  */
+
+.search-modal__content-bottom {
+  background-color: white !important;
+}
+
+.search__input.field__input {
+  background-color: white !important;
+  color: black !important;
+}
+
+predictive-search[open] .predictive-search,
+predictive-search[loading] .predictive-search {
+  background-color: white;
+}
+
+.menu-drawer {
+  width: 100% !important;
+}
+
+.scrolled-past-header .header__heading-logo-wrapper img {
+  content: url("https://cdn.shopify.com/s/files/1/0889/9651/2017/files/hannan_7768abc5-2678-4ebb-940a-fee0cf168f4b.png?v=1724238502") !important;
+}
+
+/* product page css */
+.product-type span {
+  font-weight: 700;
+}
+
+.product-type {
+  color: black;
+}
+
+.card__heading a {
+  font-size: 1.8rem;
+  color: black;
+  font-weight: 600;
+  letter-spacing: 0px;
+}
+
+@media (max-width: 600px) {
+  .footer__content-top {
+    flex-direction: column;
+  }
+}
+
+.inputLine {
+  content: '';
+  position: absolute;
+  width: 0%;
+  bottom: 0;
+  border-bottom: 3px solid #F5A700;
+  transition: 0.2s ease-in all;
+}
+.reviewInput:hover ~ .inputLine{
+  width: 10%;
+}
+.reviewInput:focus~.inputLine {
+  width: 100%;
+}
