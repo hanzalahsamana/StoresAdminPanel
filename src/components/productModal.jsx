@@ -39,8 +39,6 @@ const ProductModal = ({
     (state) => state.categories
   );
 
-  console.log(categories, "🪼🐞");
-
   useEffect(() => {
     setSelectedImages(updatedData ? updatedData?.images : []);
     const test = !Array.isArray(updatedData?.size)

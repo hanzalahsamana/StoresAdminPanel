@@ -3,31 +3,47 @@
 import React, { useEffect } from 'react'
 import Header from './header'
 import Footer from './footer'
+import Loader from '@/components/loader';
 import { useDispatch, useSelector } from 'react-redux'
-import { setCartData } from '@/Redux/CartData/cartDataSlice'
 import { fetchPagesData } from '@/APIs/PagesData/getPagesData';
 import { fetchProducts } from '@/APIs/Product/getProductData';
 import { fetchCategory } from '@/APIs/Category/getCategory';
-import Loader from '@/components/loader';
+import { setCartData } from '@/Redux/CartData/cartDataSlice';
+import { setSiteName } from '@/Redux/SiteName/SiteNameSlice';
 
-const LayoutWithReduxState = ({ children }) => {
+const LayoutWithReduxState = ({ children, params }) => {
+
   const dispatch = useDispatch();
+  
   const { siteName } = useSelector((state) => state.siteName);
   const { productLoading } = useSelector((state) => state.productData);
   const { pagesDataLoading } = useSelector((state) => state.pagesData);
   const { categoryLoading } = useSelector((state) => state.categories);
 
   useEffect(() => {
+    if (params?.site_id) {
+      dispatch(setSiteName(params.site_id));
+    }
+  }, [dispatch, params?.site_id]);
+
+  useEffect(() => {
     const fetchData = async () => {
       await fetchProducts(dispatch, siteName);
       await fetchPagesData(dispatch, siteName);
       await fetchCategory(dispatch, siteName);
+
+      if (typeof window !== "undefined") {
+        const cartData = localStorage.getItem(`${siteName}_cartId`);
+        dispatch(setCartData(cartData));
+      }
     };
-    fetchData();
-    if (typeof window !== "undefined") {
-      dispatch(setCartData(localStorage.getItem('cartId')))
+
+    if (siteName) {
+      fetchData();
     }
-  }, [dispatch])
+  }, [dispatch, siteName]);
+
+
 
   if (productLoading || pagesDataLoading || categoryLoading) {
     return <Loader />

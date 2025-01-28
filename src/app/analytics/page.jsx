@@ -1,4 +1,4 @@
-"use client"; 
+"use client";
 import ProtectedRoute from '@/AuthenticRouting/ProtectedRoutes'
 import React from 'react'
 
@@ -8,4 +8,4 @@ const Analytics = () => {
   )
 }
 
-export default ProtectedRoute(Analytics)
+export default ProtectedRoute(Analytics);

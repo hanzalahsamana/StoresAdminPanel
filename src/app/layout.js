@@ -15,19 +15,16 @@ const geistSans = localFont({
   weight: "100 900",
 });
 const geistMono = localFont({
-
   src: "../assets/fonts/GeistMonoVF.woff",
   variable: "--font-geist-mono",
   weight: "100 900",
 });
 
 export default function RootLayout({ children }) {
+
   return (
     <html lang="en" suppressHydrationWarning>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-        suppressHydrationWarning
-      >
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`} suppressHydrationWarning>
         <Provider store={store}>
           <ProviderWrap>{children}</ProviderWrap>
           <ToastContainer />

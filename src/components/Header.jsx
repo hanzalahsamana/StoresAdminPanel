@@ -2,7 +2,6 @@
 import { setLogout } from "@/Redux/Authentication/AuthSlice";
 import Link from "next/link";
 import { useState } from "react";
-import { FaRegEye } from "react-icons/fa";
 import { MdRemoveRedEye } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -15,7 +14,6 @@ export default function Header({ toggleSidebar }) {
   };
   return (
     <header className="bg-[#DE513F] px-10 text-white flex justify-between items-center fixed w-full z-10 top-0 left-0 h-[50px]">
-      {/* Toggle Sidebar Button */}
       <button onClick={toggleSidebar} className="text-white focus:outline-none">
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -34,7 +32,6 @@ export default function Header({ toggleSidebar }) {
       </button>
       <div className="flex items-center gap-4">
 
-        {/* Right Side with User Name and Dropdown */}
         <div className="relative hover:opacity-80">
           <button
             onClick={() => setDropdownOpen(!dropdownOpen)}
@@ -55,7 +52,6 @@ export default function Header({ toggleSidebar }) {
             </svg>
           </button>
 
-          {/* Dropdown Menu */}
           {dropdownOpen && (
             <div className="absolute right-0 mt-2 w-48 bg-white text-black rounded-lg shadow-lg">
               <Link href="#" className="block px-4 py-2 hover:bg-gray-200">
@@ -74,7 +70,7 @@ export default function Header({ toggleSidebar }) {
             </div>
           )}
         </div>
-        <a href="/abc" className="flex gap-2 items-center cursor-pointer hover:opacity-80">
+        <a target="_blank" href={`${currUser?.brandName}`} className="flex gap-2 items-center cursor-pointer hover:opacity-80">
           View Site
           <MdRemoveRedEye />
         </a>

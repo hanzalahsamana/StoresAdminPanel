@@ -22,7 +22,7 @@ export default function Home({ params }) {
       />
       <FabricsLiberary />
       {/* <AddReviews/> */}
-      <Contact />
+      {/* <Contact /> */}
     </div>
   );
 }

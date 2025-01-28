@@ -13,7 +13,7 @@ export const siteNameSlice = createSlice({
   initialState,
   reducers: {
     setSiteName: (state, action) => {
-      state.products = action.payload;
+      state.siteName = action.payload;
     },
     // setLoading: (state, action) => {
     //   state.loading = action.payload;

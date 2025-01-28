@@ -2,6 +2,7 @@
 
 import { useSelector } from "react-redux";
 import "./style.css";
+import { selectPageByType } from "@/Redux/PagesData/PagesDataSlice";
 
 const FabricsLiberary = () => {
 

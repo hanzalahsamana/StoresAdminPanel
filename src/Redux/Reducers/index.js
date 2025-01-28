@@ -8,6 +8,7 @@ import analyticDataReducer from "../Analytics/analytic.slice";
 import pagesDataReducer from "../PagesData/PagesDataSlice";
 import { categoryReducer } from "../Category/CategorySlice";
 import { siteNameReducer } from "../SiteName/SiteNameSlice";
+import cartDataReducer from "../CartData/cartDataSlice";
 import { networkReducer } from "../Network/networkSlice";
 
 const rootReducer = combineReducers({
@@ -18,6 +19,7 @@ const rootReducer = combineReducers({
   analytics: analyticDataReducer,
   network: networkReducer,
   productData: productDataReducer,
+  cartData: cartDataReducer,
   categories: categoryReducer,
 });
 
