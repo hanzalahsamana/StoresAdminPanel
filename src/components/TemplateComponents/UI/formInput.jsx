@@ -1,6 +1,6 @@
 import React from "react";
 
-const FormInput = ({ type, placeholder , handleChange , field , formData , errors }) => {
+const FormInput = ({ type, placeholder , handleChange , field , formData , errors = {} }) => {
   return (
     <div className='mb-4 w-full'>
       <input type={type} placeholder={placeholder}

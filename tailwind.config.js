@@ -1,23 +1,24 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: [
-    "./src/**/*.{js,ts,jsx,tsx,mdx}",
-  ],
+  content: ["./src/**/*.{js,ts,jsx,tsx,mdx}"],
 
   theme: {
     extend: {
       colors: {
-        background: "var(--background)",
-        foreground: "var(--foreground)",
+        primaryC: "var(--primary-color)",
+        secondaryC: "var(--secondary-color)",
+        accentC: "var(--accent-color)",
+        backgroundC: "var(--background-color)",
+        textC: "var(--text-color)",
       },
       animation: {
-        bounceSlow: 'bounceSlow 0.3s forwards',
+        bounceSlow: "bounceSlow 0.3s forwards",
         spin988: "spin988 3s linear infinite",
       },
       keyframes: {
         bounceSlow: {
-          '0%': { opacity:0 },
-          '100%': { opacity:1 },
+          "0%": { opacity: 0 },
+          "100%": { opacity: 1 },
         },
         spin988: {
           "0%": { transform: "scale(1) rotate(0deg)" },

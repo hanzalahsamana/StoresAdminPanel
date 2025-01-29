@@ -11,20 +11,16 @@ import { fetchCategory } from '@/APIs/Category/getCategory';
 import { setCartData } from '@/Redux/CartData/cartDataSlice';
 import { setSiteName } from '@/Redux/SiteName/SiteNameSlice';
 
-const LayoutWithReduxState = ({ children, params }) => {
+const LayoutWithReduxState = ({ children }) => {
 
   const dispatch = useDispatch();
-  
+
   const { siteName } = useSelector((state) => state.siteName);
   const { productLoading } = useSelector((state) => state.productData);
   const { pagesDataLoading } = useSelector((state) => state.pagesData);
   const { categoryLoading } = useSelector((state) => state.categories);
 
-  useEffect(() => {
-    if (params?.site_id) {
-      dispatch(setSiteName(params.site_id));
-    }
-  }, [dispatch, params?.site_id]);
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -32,7 +28,7 @@ const LayoutWithReduxState = ({ children, params }) => {
       await fetchPagesData(dispatch, siteName);
       await fetchCategory(dispatch, siteName);
 
-      if (typeof window !== "undefined") {
+      if (typeof window !== "undefined" && siteName) {
         const cartData = localStorage.getItem(`${siteName}_cartId`);
         dispatch(setCartData(cartData));
       }
@@ -41,6 +37,7 @@ const LayoutWithReduxState = ({ children, params }) => {
     if (siteName) {
       fetchData();
     }
+
   }, [dispatch, siteName]);
 
 

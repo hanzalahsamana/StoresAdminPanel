@@ -1,20 +1,23 @@
 "use client";
 
-import { useSelector } from "react-redux";
-import { selectPageByType } from "@/Redux/PagesData/PagesDataSlice";
+import { useDispatch, useSelector } from "react-redux";
 import Head from "next/head";
+import { selectPageByType } from "@/Redux/PagesData/PagesDataSlice";
 
-const Favicon = () => {
-    const SiteLogo = useSelector((state) => selectPageByType(state, "Site Logo"));
+const Favicon = ({ title, faviconUrl }) => {
     const { siteName } = useSelector((state) => state.siteName);
-    console.log(siteName , SiteLogo , "okj");
-    
+    const SiteLogo = useSelector((state) => selectPageByType(state, "Site Logo"));
+    const dispatch = useDispatch();
+
+
+    const pageTitle = title || siteName;
+    const faviconImage = faviconUrl || SiteLogo?.image;
 
     return (
-            <head>
-                <link rel="icon" href={SiteLogo?.image} sizes="any" type="image/webp" />
-                <title>{siteName}</title>
-            </head>
+        <Head>
+            <link rel="icon" href={faviconImage} sizes="any" type="image/webp" />
+            <title>{pageTitle}</title>
+        </Head>
     );
 };
 

@@ -2,7 +2,6 @@
 
 import React, { useState } from "react";
 import emailjs from "emailjs-com";
-import FormInput from "./formInput";
 import { Input } from "postcss";
 import { toast } from "react-toastify";
 import { clearCartData, deleteCartData } from "@/Redux/CartData/cartDataSlice";
@@ -11,6 +10,7 @@ import { addOrderDataApi } from "@/Apis/PlaceOrder";
 import { SITE_NAME } from "../../../config";
 import { selectPageByType } from "@/Redux/PagesContent/PagesContentSlice";
 import Loader from "./loader";
+import FormInput from "./formInput";
 
 const PaymentForm = ({ shipping, total, tax, discount, cartItem }) => {
   const dispatch = useDispatch();

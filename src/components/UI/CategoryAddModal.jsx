@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { uploadToCloudinary } from "@/Utils/uploadToCloudinary";
 import { useDispatch, useSelector } from "react-redux";
-import FormInput from "@/components/FormInput";
+import FormInput from "@/components/Forms/FormInput";
 import { toast } from "react-toastify";
 import { setCategoryLoading } from "@/Redux/Category/CategorySlice";
 import { addCategory } from "@/APIs/Category/addCategory";

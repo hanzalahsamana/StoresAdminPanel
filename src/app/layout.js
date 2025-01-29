@@ -1,6 +1,6 @@
 "use client";
 
-import "./globals.css";
+import "../Styles/globals.css";
 import ProviderWrap from "@/components/ProviderWrap";
 import { store } from "@/Redux/Store";
 import { Provider } from "react-redux";
