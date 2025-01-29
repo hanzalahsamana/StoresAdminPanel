@@ -31,6 +31,10 @@ export const pagesDataSlice = createSlice({
   },
 });
 
+export const selectPageByType = (state, pageType) =>{
+  return state.pagesData?.pagesData?.find((page) => page.type === pageType);
+}
+
 export const {
   setPagesData,
   updatePagesData ,

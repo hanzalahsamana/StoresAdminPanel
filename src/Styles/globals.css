@@ -1,0 +1,90 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family: Arial, Helvetica, sans-serif;
+}
+:root {
+  --primary-color: #06A5A7;      /* Purple */
+  --secondary-color: #f7ffff;    /* Light purple */
+  --accent-color: #FF5733;       /* Red */
+  --background-color: #f5f8ff;   /* Light grey */
+  --text-color: #333939;         /* Dark grey */
+}
+
+@layer utilities {
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.Inputs:focus ~ label {
+  font-size: 10px;
+  top: -10px;
+}
+
+.dropDown {
+  animation: move 0.1s ease-in-out;
+}
+.customScroll {
+  overflow: auto;
+}
+
+.customScroll::-webkit-scrollbar {
+  width: 12px;
+}
+
+.customScroll::-webkit-scrollbar-track {
+  background-color: #f1f1f1;
+  border-radius: 10px;
+}
+
+.customScroll::-webkit-scrollbar-thumb {
+  background-color: #b7b7b7;
+  border-radius: 10px;
+  border: 3px solid #f1f1f1;
+}
+
+.customScroll::-webkit-scrollbar-thumb:hover {
+  background-color: #555;
+}
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+@keyframes move {
+  0% {
+    transform: translatey(20px);
+    opacity: 0;
+  }
+  100% {
+    transform: translatey(0);
+    opacity: 1;
+  }
+}
+
+
+@keyframes dots {
+  0%, 100% { transform: scale(0.5); opacity: 0.3; }
+  50% { transform: scale(1); opacity: 1; }
+}
+
+.animate-dots {
+  animation: dots 1.2s infinite ease-in-out;
+}
