@@ -9,7 +9,7 @@ const UnProtectedRoute = (WrappedComponent) => {
     if (loading) {
       return <Loader />;
     }
-
+//teporarily
     const router = useRouter();
     if (!currUser) {
       return <WrappedComponent />;

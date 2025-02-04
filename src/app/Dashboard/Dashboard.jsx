@@ -11,8 +11,8 @@ import dynamic from 'next/dynamic';
 import { MdArrowRightAlt } from "react-icons/md";
 import Link from "next/link";
 
-const TimeGraph = dynamic(() => import("../../components/TimeGraph"), { ssr: true });
-const Piechart = dynamic(() => import("../../components/Piechart"), { ssr: true });
+const TimeGraph = dynamic(() => import("../../components/TimeGraph"), { ssr: false });
+const Piechart = dynamic(() => import("../../components/Piechart"), { ssr: false });
 
 const Dashboard = () => {
   const [activeTab, setActiveTab] = useState(true)
@@ -32,7 +32,7 @@ const Dashboard = () => {
   }, [selectedValue])
 
   return (
-    <div className="flex min-h-screen bg-gray-100">
+    <div className="flex min-h-screen ">
       <div className="flex-1 p-6">
         <div className="flex items-center justify-between mb-6 ">
           <h1 className="text-3xl font-bold text-gray-900">Main Dashboard</h1>
@@ -150,7 +150,7 @@ const Dashboard = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
           {products?.slice(0, 3).map((prod , i)=>(
 
-            <div className="bg-gray-100 p-4 rounded-lg shadow-md">
+            <div key={i} className="bg-gray-100 p-4 rounded-lg shadow-md">
               <h4 className="font-semibold text-lg text-gray-700">{prod?.name}</h4>
               <p className="text-sm text-gray-500">Category: {prod?.collectionName}</p>
               <p className="text-sm text-gray-500">Price: {prod?.discountedPrice}</p>

@@ -13,10 +13,10 @@ import { toast } from "react-toastify";
 
 const Register = () => {
   const [formData, setFormData] = useState({
-    brandName: "unique",
-    email: "junaidhunani890@gmail.com",
-    name: "junaid",
-    password: "123456",
+    brandName: "",
+    email: "",
+    name: "",
+    password: "",
   });
   const router = useRouter();
   const [loading, setLoading] = useState(false);
@@ -45,7 +45,9 @@ const Register = () => {
         handleSubmit={handleSubmit}
         loading={loading}
         lable={"Create Brand"}
-        extra={<CustomLink text="Already Have an Account" link="/authentication/login" linkText="Login" />}>
+        extra={<CustomLink text="Already Have an Account" link="/authentication/login" linkText="Login" />}
+        className="max-w-md"
+        buttonLabel={'Sign Up'}>
 
         <FormInput
           errors={{}}

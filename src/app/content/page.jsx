@@ -39,8 +39,8 @@ const Content = () => {
         return <Loader />
     }
     return (
-        <div className='min-h-full bg-[#fefefe] flex justify-center items-center'>
-            <div className='w-full px-[20px] py-[20px] bg-white rounded-md'>
+        <div className='min-h-full  flex justify-center items-center'>
+            <div className='w-full px-[20px] py-[20px] rounded-md'>
                 {/* <VedioUploader /> */}
                 <CustomModal selectedPage={editingPage} setSelectedPage={setEditingPagee} />
                 <h1 className='text-[30px]'>Update Pages</h1>

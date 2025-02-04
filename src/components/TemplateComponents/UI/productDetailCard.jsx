@@ -10,8 +10,8 @@ import { TbTruckDelivery } from "react-icons/tb";
 import QuantityControl from "./quantityControl";
 import { useRouter } from "next/navigation";
 import ButtonLoader from "./buttonLoader";
-import { ConvertArray } from "@/Utils/CovertArray";
 import SizeController from "./SizeController";
+import { ConvertArray } from "@/Utils/CovertArray";
 
 const ProductDetailCard = ({ product }) => {
 
