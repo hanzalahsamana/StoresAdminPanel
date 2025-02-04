@@ -1,7 +1,6 @@
 "use client";
 import ProtectedRoute from "@/AuthenticRouting/ProtectedRoutes";
 import Loader from "@/components/loader";
-import ProductModal from "@/components/productModal";
 import React, { useEffect, useState } from "react";
 import { FaPlus } from "react-icons/fa";
 import { BsFillTrash3Fill } from "react-icons/bs";
@@ -9,6 +8,7 @@ import { CiEdit } from "react-icons/ci";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteProduct } from "@/APIs/Product/deleteProductData";
 import { fetchProducts } from "@/APIs/Product/getProductData";
+import Add_Edit_Product from "@/components/productModal";
 
 const ProductsList = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -27,7 +27,7 @@ const ProductsList = () => {
   };
   return (
     <div>
-      {productLoading ? (
+      {productLoading && false ? (
         <Loader />
       ) : (
         <div className="p-2">
@@ -75,7 +75,7 @@ const ProductsList = () => {
               </thead>
               <tbody className="cursor-pointer">
                 {products?.length > 0 &&
-                  products.map((product, index) => (
+                  products?.map((product, index) => (
                     <tr key={product._id} className="border-b border-gray-200">
                       <td className="py-4 px-2 text-gray-700">
                         {" "}
@@ -125,15 +125,16 @@ const ProductsList = () => {
           </div>
         </div>
       )}
-      {isOpen && (
-        <ProductModal
+      {/* {isOpen && ( */}
+        <Add_Edit_Product
+
           isOpen={isOpen}
           setIsOpen={setIsOpen}
           productLoading={productLoading}
           updatedData={updatedProduct}
           setUpdatedProduct={setUpdatedProduct}
         />
-      )}
+      {/* )} */}
     </div>
   );
 };

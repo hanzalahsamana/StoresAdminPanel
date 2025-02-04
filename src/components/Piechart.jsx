@@ -44,7 +44,7 @@ const Piechart = ({ analytics, analyticsLoading }) => {
 
   return (
     <div>
-      <ReactApexChart options={options} series={series} type="donut" class />
+      <ReactApexChart options={options} series={series} type="donut"   />
     </div>
   );
 };

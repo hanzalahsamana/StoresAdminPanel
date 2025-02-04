@@ -35,7 +35,7 @@ const SizeSelector = ({ setSelectedSizes, selectedSizes , errors }) => {
       <select
         name="size"
         onChange={(e) => handleSelectSize(e.target.value)}
-        className="p-[0.8rem] border-2 border-[#a1a1a1] rounded-md w-full"
+        className="p-[0.8rem] border outline-[#3973B0]  border-[#a6a6a668] rounded-md w-full"
       >
         <option value="">Select Size</option>
         {sizeOptions.map((size) => (
@@ -84,7 +84,7 @@ const SizeSelector = ({ setSelectedSizes, selectedSizes , errors }) => {
       )}
       {errors?.size ?(
 
-        <p className="text-[10px] text-[red]">{errors?.size}</p>
+        <p className="text-xs text-red-500">{errors?.size}</p>
       ):''}
 
     </div>

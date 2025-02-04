@@ -10,34 +10,53 @@ import { setProductLoading } from "@/Redux/Product/ProductSlice";
 import { toast } from "react-toastify";
 import { editProductData } from "@/APIs/Product/editProductData";
 import FormInput from "./Forms/FormInput";
+import { calculateDiscountedPrice } from "@/Utils/CalculateDiscountedPrice";
+import MultiImageUploader from "./Uploaders/MultiImageUploader";
+import Button from "./Actions/Button";
+import Form from "./Forms/Form";
+import Modal from "./Modals/Modal";
+import MultiSelectDropdown from "./Actions/MultiSelectDropdown";
+import DropDown from "./Actions/DropDown";
+import { productUploadValidate } from "@/Utils/ProductUploadValidate";
 
-const ProductModal = ({
+const Add_Edit_Product = ({
+  isOpen,
   setIsOpen,
   productLoading,
   updatedData = null,
   setUpdatedProduct,
 }) => {
+  const dispatch = useDispatch();
   const [selectedImages, setSelectedImages] = useState([]);
   const [selectedSizes, setSelectedSizes] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState("");
+  const { categories } = useSelector((state) => state.categories);
   const { currUser } = useSelector((state) => state.currentUser);
   const [errors, setErrors] = useState({});
+
   const [formData, setFormData] = useState({
     name: "",
-    brand: currUser.brandName,
-    originalPrice: 0,
+    brand: currUser?.brandName,
+    originalPrice: 100,
     discount: 20,
-    discountedPrice: 0,
-    collectionName: "tshirt",
+    discountedPrice: calculateDiscountedPrice(100, 20),
+    collectionName: "",
     type: "t-shirt",
     size: selectedSizes,
-    discription: "",
+    description: "",
     stock: 10,
     ...updatedData,
   });
 
-  const { categories, categoryLoading } = useSelector(
-    (state) => state.categories
-  );
+  useEffect(() => {
+    setFormData((prev) => ({
+      ...prev,
+      discountedPrice: calculateDiscountedPrice(prev.originalPrice, prev.discount),
+      collectionName: selectedCategory,
+      size: selectedSizes
+    }));
+  }, [formData.originalPrice, formData.discount , selectedCategory , selectedSizes]);
+
 
   useEffect(() => {
     setSelectedImages(updatedData ? updatedData?.images : []);
@@ -53,61 +72,23 @@ const ProductModal = ({
       size: test,
     }));
   }, [updatedData]);
-  const dispatch = useDispatch();
 
-  const handleImageChange = (event) => {
-    const files = Array.from(event.target.files);
-    const newImages = files.filter(
-      (file) => !selectedImages?.some((image) => image.name === file.name)
-    );
-    setSelectedImages((prevImages) => [...prevImages, ...newImages]);
-  };
-
-  const handleRemoveImage = (index) => {
-    const newImages = selectedImages.filter((_, i) => i !== index);
-    setSelectedImages(newImages);
-  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
 
-  const validateForm = () => {
-    const newErrors = {};
-    const {
-      name,
-      brand,
-      originalPrice,
-      discountedPrice,
-      discount,
-      collectionName,
-      type,
-      size,
-      stock,
-    } = formData;
+  useEffect(() => {
+    if (isOpen === false) {
+      setUpdatedProduct(null)
+    }
+  }, [isOpen])
 
-    if (!name) newErrors.name = "name is required";
-    if (!brand) newErrors.brand = "brand Name is required";
-    if (!originalPrice || originalPrice == 0)
-      newErrors.originalPrice = "original Price is required";
-    if (discount > 90 || discount < 0)
-      newErrors.discount = "max discount is 90%";
-    if (!collectionName)
-      newErrors.collectionName = "collectionName is required";
-    if (!type) newErrors.type = "type is required";
-    if (selectedSizes.length === 0) newErrors.size = "size is required";
-    if ((!stock && stock !== 0) || stock < 0 ) newErrors.stock = "stock must be greater or equal then zero";
-    if (!selectedImages.length > 0)
-      newErrors.image = "Please select max 4 and min 2 images.";
-    setErrors(newErrors);
-
-    return Object.keys(newErrors).length === 0;
-  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!validateForm()) {
+    if (!productUploadValidate(formData , setErrors , selectedImages)) {
 
       return;
     }
@@ -154,184 +135,120 @@ const ProductModal = ({
   };
 
   return (
-    <div className="w-screen bg-[#000000b7] absolute top-0 left-0 h-screen flex justify-center items-center">
-      <div className="w-[60%] min-w-[370px] h-[95%] z-50 overflow-y-auto no-scrollbar rounded-lg">
-        <div className="w-[100%] bg-white shadow-lg p-6 relative rounded-lg">
-          <button
-            onClick={() => {
-              setIsOpen(false), setUpdatedProduct(null);
-            }}
-            className="absolute top-[0px] right-2 text-gray-600 hover:text-gray-800 text-3xl"
-          >
-            &times;
-          </button>
+    <Modal isOpen={isOpen} setIsOpen={setIsOpen}>
+      <Form
+        encType="multipart/formdata"
+        handleSubmit={handleSubmit}
+        buttonLabel={!updatedData ? "Add Product" : "Edit Product"}
+        loading={productLoading}
+        lable={!updatedData ? "Add Product" : "Edit Product"}
+        className="shadow-none"
+      >
 
-          <h3 className="text-[28px] font-semibold mb-5 text-center">
-            Add Product
-          </h3>
+        <div className="flex gap-4">
+          <FormInput
+            placeholder="Name"
+            handleChange={handleChange}
+            name={"name"}
+            value={formData.name}
+            error={errors.name}
+          />
 
-          {productLoading || categoryLoading ? (
-            <Loader />
-          ) : (
-            <form
-              onSubmit={handleSubmit}
-              className="flex flex-col gap-4"
-              encType="multipart/formdata"
-            >
-              <div className="flex gap-4">
-                <FormInput
-                  type="text"
-                  placeholder="Name"
-                  handleChange={handleChange}
-                  field={"name"}
-                  errors={errors}
-                  formData={formData}
-                />
-
-                <FormInput
-                  type="text"
-                  placeholder="Brand Name"
-                  handleChange={handleChange}
-                  field={"brand"}
-                  errors={errors}
-                  formData={formData}
-                />
-                <div className="w-full flex flex-col">
-
-
-                  <select
-                    id="dropdown"
-                    value={formData.collectionName}
-                    name="collectionName"
-                    onChange={handleChange}
-                    className={`Inputs h-[50px] pl-[20px] flex items-center rounded-md outline-[#3973B0] p-2 border-2 w-full ${errors.collectionName ? "border-red-500" : "border-[#a1a1a1]"
-                      } rounded`}
-                  >
-                    <option value="">Select...</option>
-                    {
-                      categories.map((categ) => (
-                        <option id={categ?._id} value={categ?.link}>{categ?.link}</option>
-                      ))
-                    }
-                  </select>
-
-                  <div>
-                    {errors.collectionName && <p className="text-red-500 text-xs">{errors.collectionName}</p>}
-                  </div>
-                </div>
-
-              </div>
-
-              <div className="flex gap-4">
-                <FormInput
-                  type="number"
-                  placeholder="Original Price"
-                  handleChange={handleChange}
-                  field={"originalPrice"}
-                  errors={errors}
-                  formData={formData}
-                />
-                <FormInput
-                  type="number"
-                  placeholder="Discount % (optional)"
-                  handleChange={handleChange}
-                  field={"discount"}
-                  errors={errors}
-                  formData={formData}
-                />
-                <FormInput
-                  type="number"
-                  placeholder="Discounted Price"
-                  field={"discountedPrice"}
-                  errors={errors}
-                  formData={formData}
-                />
-              </div>
-              <div className="flex gap-4">
-                <FormInput
-                  type="text"
-                  placeholder="Discription"
-                  handleChange={handleChange}
-                  field={"discription"}
-                  errors={errors}
-                  formData={formData}
-                />
-              </div>
-              <div className="flex gap-4">
-                <FormInput
-                  type="text"
-                  placeholder="Type"
-                  handleChange={handleChange}
-                  field={"type"}
-                  errors={errors}
-                  formData={formData}
-                />
-                <FormInput
-                  type="number"
-                  placeholder="Stock"
-                  handleChange={handleChange}
-                  field={"stock"}
-                  errors={errors}
-                  formData={formData}
-                />
-                <SizeSelector
-                  selectedSizes={selectedSizes}
-                  setSelectedSizes={setSelectedSizes}
-                  errors={errors}
-                />
-              </div>
-
-              <div className="flex gap-2 items-center">
-                <label className="flex flex-col items-center justify-center w-24 h-24 border-2 border-dashed border-gray-300 rounded-lg p-3 cursor-pointer hover:bg-gray-100 transition duration-300">
-                  <span className="text-gray-600 text-[10px] text-center ">
-                    Upload Images (min 2, max 4)
-                  </span>
-                  <input
-                    type="file"
-                    accept="image/*"
-                    multiple
-                    onChange={handleImageChange}
-                    className="hidden"
-                  />
-                </label>
-
-                <div className="flex gap-2 overflow-auto">
-                  {selectedImages?.map((image, index) => (
-                    <div key={index} className="relative">
-                      <img
-                        src={
-                          typeof image === "object"
-                            ? URL.createObjectURL(image)
-                            : image
-                        }
-                        alt={`Selected ${index}`}
-                        className="w-24 h-24 object-cover rounded-md"
-                      />
-                      <button
-                        type="button"
-                        onClick={() => handleRemoveImage(index)}
-                        className="absolute top-0 right-0 bg-black w-5 h-5 text-white rounded-full"
-                      >
-                        &times;
-                      </button>
-                    </div>
-                  ))}
-                </div>
-              </div>
-              {errors?.image ? (
-
-                <p className="text-[10px] text-[red]">{errors?.image}</p>
-              ) : ''}
-
-              <button className="py-4 w-full mt-2 bg-[#407fc4] text-white text-lg font-semibold rounded-md hover:scale-105 transition duration-300">
-                {!updatedData ? "Add Product" : "Edit Product"}
-              </button>
-            </form>
-          )}
+          <FormInput
+            placeholder="Brand Name"
+            handleChange={handleChange}
+            name={"brand"}
+            value={formData.brand}
+            error={errors.brand}
+          />
         </div>
-      </div>
-    </div >
+
+        <div className="flex gap-4">
+          <FormInput
+            type="number"
+            placeholder="Original Price"
+            handleChange={handleChange}
+            name={"originalPrice"}
+            value={formData.originalPrice}
+            error={errors.originalPrice}
+          />
+
+          <FormInput
+            type="number"
+            placeholder="Discount %"
+            handleChange={handleChange}
+            name={"discount"}
+            value={formData.discount}
+            error={errors.discount}
+            required={false}
+          />
+
+          <FormInput
+            type="number"
+            placeholder="Discounted Price"
+            name={"discountedPrice"}
+            value={formData.discountedPrice}
+            error={errors.discountedPrice}
+            readOnly={true}
+          />
+        </div>
+
+        <div className="flex gap-4">
+          <FormInput
+            type="text"
+            placeholder="Type"
+            handleChange={handleChange}
+            name={"type"}
+            value={formData.type}
+            error={errors.type}
+          />
+
+          <FormInput
+            type="number"
+            placeholder="Stock"
+            handleChange={handleChange}
+            name={"stock"}
+            value={formData.stock}
+            error={errors.stock}
+          />
+        </div>
+
+        <div className="flex gap-4">
+          <FormInput
+            placeholder="Discription"
+            handleChange={handleChange}
+            name={"discription"}
+            value={formData.discription}
+            error={errors.discription}
+            required={false}
+          />
+        </div>
+
+        <div className="flex gap-4">
+          <MultiSelectDropdown
+            defaultOptions={["L", "S", "M", "XL"]}
+            selectedOptions={selectedSizes}
+            setSelectedOptions={setSelectedSizes}
+            wantsMultipleSelect={true}
+            wantsCustomOption={true}
+            placeholder="Select Sizes"
+            error={errors.size}
+          />
+
+          <DropDown
+            defaultOptions={categories?.map((cat) => cat?.link)}
+            selectedOption={selectedCategory}
+            setSelectedOption={setSelectedCategory}
+            placeholder="Select Category"
+            error={errors.collectionName}
+          />
+        </div>
+
+        <MultiImageUploader images={selectedImages} setImages={setSelectedImages} error={errors.image} />
+
+      </Form>
+    </Modal>
   );
 };
 
-export default ProductModal;
+export default Add_Edit_Product;

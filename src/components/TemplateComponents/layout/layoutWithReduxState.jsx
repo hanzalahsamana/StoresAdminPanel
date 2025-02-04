@@ -43,6 +43,8 @@ const LayoutWithReduxState = ({ children }) => {
 
 
   if (productLoading || pagesDataLoading || categoryLoading) {
+    console.log("yahi he");
+    
     return <Loader />
   }
 

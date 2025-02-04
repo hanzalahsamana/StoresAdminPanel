@@ -1,21 +1,20 @@
 "use client";
 
 import React, { useState } from "react";
-import emailjs from "emailjs-com";
-import { Input } from "postcss";
 import { toast } from "react-toastify";
-import { clearCartData, deleteCartData } from "@/Redux/CartData/cartDataSlice";
+import { deleteCartData } from "@/Redux/CartData/cartDataSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { addOrderDataApi } from "@/Apis/PlaceOrder";
-import { SITE_NAME } from "../../../config";
-import { selectPageByType } from "@/Redux/PagesContent/PagesContentSlice";
 import Loader from "./loader";
 import FormInput from "./formInput";
+import { selectPageByType } from "@/Redux/PagesData/PagesDataSlice";
+import { addOrderDataApi } from "@/APIs/Order/PlaceOrder";
 
 const PaymentForm = ({ shipping, total, tax, discount, cartItem }) => {
   const dispatch = useDispatch();
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false)
+  const { siteName } = useSelector((state) => state.siteName);
+
   const [formData, setFormData] = useState({
     email: "",
     country: "",
@@ -83,7 +82,7 @@ const PaymentForm = ({ shipping, total, tax, discount, cartItem }) => {
     }));
 
     const data = {
-      from: SITE_NAME,
+      from: siteName,
       to: SiteLogo?.image, //temporary
       customerInfo: {
         email,
@@ -108,7 +107,7 @@ const PaymentForm = ({ shipping, total, tax, discount, cartItem }) => {
 
     try {
       setLoading(true)
-      await addOrderDataApi(data);
+      await addOrderDataApi(siteName, data);
       dispatch(deleteCartData())
       localStorage.removeItem('cartId')
       setFormData({

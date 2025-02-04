@@ -24,6 +24,9 @@ export default function RootLayout({ children }) {
 
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        <title>Web Nest</title>
+      </head>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`} suppressHydrationWarning>
         <Provider store={store}>
           <ProviderWrap>{children}</ProviderWrap>
