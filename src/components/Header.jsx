@@ -2,8 +2,13 @@
 import { setLogout } from "@/Redux/Authentication/AuthSlice";
 import Link from "next/link";
 import { useState } from "react";
+import { CiLogout, CiSettings } from "react-icons/ci";
+import { HiOutlineUser } from "react-icons/hi2";
 import { MdRemoveRedEye } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
+import { FiLogOut } from "react-icons/fi";
+import { FaRegUser } from "react-icons/fa";
+
 
 export default function Header({ toggleSidebar }) {
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -13,9 +18,9 @@ export default function Header({ toggleSidebar }) {
     dispatch(setLogout());
   };
   return (
-    <header className="bg-[#DE513F] px-10 text-white flex justify-between items-center fixed w-full z-10 top-0 left-0 h-[50px]">
-      <button onClick={toggleSidebar} className="text-white focus:outline-none">
-        <svg
+    <header className="bg-backgroundC border-b border-gray-300 px-10 text-textC flex justify-between items-center fixed w-full z-10 top-0 left-0 h-[60px]">
+      <button onClick={toggleSidebar} className="text-textC focus:outline-none text-2xl font-semibold ">
+        {/* <svg
           xmlns="http://www.w3.org/2000/svg"
           className="h-6 w-6"
           fill="none"
@@ -28,11 +33,12 @@ export default function Header({ toggleSidebar }) {
             strokeWidth="2"
             d="M4 6h16M4 12h16M4 18h16"
           />
-        </svg>
+        </svg> */}
+        Multi Nest
       </button>
       <div className="flex items-center gap-4">
 
-        <div className="relative hover:opacity-80">
+        {/* <div className="relative">
           <button
             onClick={() => setDropdownOpen(!dropdownOpen)}
             className="flex items-center space-x-2 focus:outline-none"
@@ -53,27 +59,39 @@ export default function Header({ toggleSidebar }) {
           </button>
 
           {dropdownOpen && (
-            <div className="absolute right-0 mt-2 w-48 bg-white text-black rounded-lg shadow-lg">
-              <Link href="#" className="block px-4 py-2 hover:bg-gray-200">
+            <div className="absolute right-0 mt-2 w-[120px] overflow-hidden bg-[#454545dc] text-backgroundC rounded-lg shadow-lg">
+              <Link href="#" className="block px-4 py-2 hover:bg-[#454545c4]">
                 Profile
               </Link>
-              <Link href="#" className="block px-4 py-2 hover:bg-gray-200">
+              <Link href="#" className="block px-4 py-2 hover:bg-[#454545c4]">
                 Settings
               </Link>
               <Link
                 href="/"
-                className="block px-4 py-2 hover:bg-gray-200"
+                className="block px-4 py-2 hover:bg-[#454545c4]"
                 onClick={() => logout()}
               >
                 Logout
               </Link>
             </div>
           )}
-        </div>
-        <a target="_blank" href={`${currUser?.brandName}`} className="flex gap-2 items-center cursor-pointer hover:opacity-80">
-          View Site
+        </div> */}
+        <a target="_blank" href={`${currUser?.brandName}`} className="flex gap-2 items-center text-primaryC cursor-pointer bg-secondaryC px-[18px] rounded-md py-[7px] hover:opacity-80">
           <MdRemoveRedEye />
+          View Store
         </a>
+        <a target="_blank" href={`${currUser?.brandName}`} className="cursor-not-allowed flex gap-2 items-center text-primaryC  bg-secondaryC px-[18px] rounded-md py-[7px] hover:opacity-80">
+        <FaRegUser />
+          {currUser?.brandName}
+          
+        </a>
+        <a target="_blank" href={`${currUser?.brandName}`} className="cursor-not-allowed text-[25px]">
+        <CiSettings />
+        
+        </a>
+        <p onClick={() => logout()} className="text-[25px] cursor-pointer hover:text-[red]">
+        <CiLogout />
+        </p>
       </div>
 
     </header>

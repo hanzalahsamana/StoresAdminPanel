@@ -9,10 +9,10 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 :root {
-  --primary-color: #06A5A7;      /* Purple */
-  --secondary-color: #f7ffff;    /* Light purple */
+  --primary-color: #06989a;      /* Purple */
+  --secondary-color: #06a4a720;    /* Light purple */
   --accent-color: #FF5733;       /* Red */
-  --background-color: #f5f8ff;   /* Light grey */
+  --background-color: #ffffff;   /* Light grey */
   --text-color: #333939;         /* Dark grey */
 }
 

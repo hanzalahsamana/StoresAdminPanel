@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState } from "react";
-import emailjs from "emailjs-com";
 import { Input } from "postcss";
 import { toast } from "react-toastify";
 import { clearCartData, deleteCartData } from "@/Redux/CartData/cartDataSlice";

@@ -30,7 +30,7 @@ const ProtectedRoute = (WrappedComponent) => {
             <div
               className={`${
                 isSidebarOpen ? "lg:w-[calc(100%-250px)]" : "lg:w-full"
-              } w-full mt-[50px] h-[100%] overflow-scroll no-scrollbar`}
+              } w-full mt-[60px] h-[100%] overflow-scroll no-scrollbar bg-[#06a4a712]`}
             >
               <WrappedComponent />
             </div>
