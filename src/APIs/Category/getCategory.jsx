@@ -7,8 +7,6 @@ import { setcategory, setCategoryLoading } from "@/Redux/Category/CategorySlice"
 export const fetchCategory = async (dispatch, type) => {
   try {
     const response = await axios.get(`${BASE_URL}/${type}/getCategory`);
-    console.log("okh");
-    
     dispatch(setcategory(response.data));
     dispatch(setCategoryLoading(false));
     return response.data;

@@ -1,6 +1,6 @@
 "use client";
 import { verifyDomain } from '@/APIs/Domain/domainVerify';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 
@@ -21,6 +21,11 @@ const DomainVerification = () => {
       setStatus('');
     }
   };
+
+  useEffect(() => {
+    document.title = 'Domain';
+  }, []);
+
 
   return (
     <div>

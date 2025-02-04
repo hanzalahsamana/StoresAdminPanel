@@ -4,12 +4,12 @@ import React, { useEffect, useState } from "react";
 import { addProducts } from "@/APIs/Product/addProductData";
 import { uploadImagesToCloudinary } from "@/Utils/uploadToCloudinary";
 import { useDispatch, useSelector } from "react-redux";
-import FormInput from "@/components/FormInput";
 import SizeSelector from "@/components/SizesFields";
 import Loader from "./loader";
 import { setProductLoading } from "@/Redux/Product/ProductSlice";
 import { toast } from "react-toastify";
 import { editProductData } from "@/APIs/Product/editProductData";
+import FormInput from "./Forms/FormInput";
 
 const ProductModal = ({
   setIsOpen,
@@ -38,8 +38,6 @@ const ProductModal = ({
   const { categories, categoryLoading } = useSelector(
     (state) => state.categories
   );
-
-  console.log(categories, "🪼🐞");
 
   useEffect(() => {
     setSelectedImages(updatedData ? updatedData?.images : []);
@@ -222,14 +220,6 @@ const ProductModal = ({
                   </div>
                 </div>
 
-                {/* <FormInput
-                  type="text"
-                  placeholder="Collection Name"
-                  handleChange={handleChange}
-                  field={"collectionName"}
-                  errors={errors}
-                  formData={formData}
-                /> */}
               </div>
 
               <div className="flex gap-4">
