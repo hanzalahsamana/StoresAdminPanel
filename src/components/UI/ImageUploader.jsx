@@ -47,9 +47,8 @@ const ImageUploader = ({ image, setImage }) => {
       />
 
       <div
-        className={`${
-          isHovered ? "bottom-0" : "bottom-[-100%]"
-        } transition-all duration-100 absolute left-0 w-full bg-opacity-80 bg-gray-800 px-2 py-1 rounded-b-lg flex justify-between items-center`}
+        className={`${isHovered ? "bottom-0" : "bottom-[-100%]"
+          } transition-all duration-100 absolute left-0 w-full bg-opacity-80 bg-gray-800 px-2 py-1 rounded-b-lg flex justify-between items-center`}
       >
         <label
           htmlFor="image-upload"

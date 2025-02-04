@@ -35,13 +35,13 @@ const CategoryAddModal = ({
 
     function convertToSlug(str) {
         return str
-          .toLowerCase()          
-          .replace(/\s+/g, '-')    
-          .replace(/[^\w\-]+/g, '')
-          .replace(/\-\-+/g, '-')  
-          .trim();                
-      }
-      
+            .toLowerCase()
+            .replace(/\s+/g, '-')
+            .replace(/[^\w\-]+/g, '')
+            .replace(/\-\-+/g, '-')
+            .trim();
+    }
+
 
     const validateForm = () => {
         const newErrors = {};

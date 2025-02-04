@@ -15,21 +15,21 @@
 }
 
 .modal-grid.triple {
-    grid-template-columns: repeat(5 , 1fr);
-    grid-template-rows: 0.5fr 1fr;
-  }
-  
-  .modal-grid.triple > :first-child {
-    grid-column: span 5;
-  }
-  
-  .modal-grid.triple > :nth-child(2) {
-    grid-column: span 3;
-  }
-  
-  .modal-grid.triple > :nth-child(3) {
-    grid-column: span 2;
-  }
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: 0.5fr 1fr;
+}
+
+.modal-grid.triple > :first-child {
+  grid-column: span 5;
+}
+
+.modal-grid.triple > :nth-child(2) {
+  grid-column: span 3;
+}
+
+.modal-grid.triple > :nth-child(3) {
+  grid-column: span 2;
+}
 
 .modal-grid.quad {
   grid-template-columns: 1fr 1fr;
