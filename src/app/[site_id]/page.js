@@ -7,7 +7,7 @@ import FabricsLiberary from "@/components/TemplateComponents/sections/fabricsLib
 import Hero from "@/components/TemplateComponents/sections/hero";
 import ProductsSection from "@/components/TemplateComponents/sections/productsSection";
 
-export default function Home({ params }) {
+export default function Home() {
   return (
     <div className="max-w-[1500px]">
       <Hero />

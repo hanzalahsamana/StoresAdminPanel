@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import { ReactNode } from "react";
 import Head from "next/head";
 import Script from "next/script";
-import { readSiteById } from "@/APIs/Domain/ReadSiteById";
 import LayoutWithReduxState from "@/components/TemplateComponents/layout/layoutWithReduxState";
 import { setSiteName } from "@/Redux/SiteName/SiteNameSlice";
 import Loader from "@/components/TemplateComponents/UI/loader";
