@@ -16,7 +16,7 @@ const ProtectedRoute = (WrappedComponent) => {
     if (loading) {
       return <Loader />;
     }
-
+    
     const toggleSidebar = () => {
       setIsSidebarOpen(!isSidebarOpen);
     };
