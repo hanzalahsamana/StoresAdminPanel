@@ -2,18 +2,17 @@
 @tailwind components;
 @tailwind utilities;
 
-
 body {
   color: var(--foreground);
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
 }
 :root {
-  --primary-color: #06989a;      /* Purple */
-  --secondary-color: #06a4a720;    /* Light purple */
-  --accent-color: #FF5733;       /* Red */
-  --background-color: #ffffff;   /* Light grey */
-  --text-color: #333939;         /* Dark grey */
+  --primary-color: #06989a; /* Purple */
+  --secondary-color: #06a4a720; /* Light purple */
+  --accent-color: #ff5733; /* Red */
+  --background-color: #ffffff; /* Light grey */
+  --text-color: #333939; /* Dark grey */
 }
 
 @layer utilities {
@@ -79,12 +78,60 @@ body {
   }
 }
 
-
 @keyframes dots {
-  0%, 100% { transform: scale(0.5); opacity: 0.3; }
-  50% { transform: scale(1); opacity: 1; }
+  0%,
+  100% {
+    transform: scale(0.5);
+    opacity: 0.3;
+  }
+  50% {
+    transform: scale(1);
+    opacity: 1;
+  }
 }
 
 .animate-dots {
   animation: dots 1.2s infinite ease-in-out;
+}
+
+.LaptopFrame {
+  background-image: url("../Assets/Images/laptopFrame1.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 800px 400px;
+  width: 800px;
+  height: 400px;
+  padding: 18px 13px;
+  overflow: hidden;
+  transform: scale(0.8);
+  transform-origin: top left;
+  border-radius: 7px 7px 0px 0px;
+}
+.MobileFrame {
+  width: 300px;
+  height: 440px;
+  padding: 10px 12px;
+  overflow: hidden;
+  transform: scale(0.73);
+  transform-origin: top left;
+}
+.MobileFrameCover {
+  width: 300px;
+  height: 440px;
+  padding: 18px 13px;
+  overflow: hidden;
+  transform: scale(0.73);
+  position: absolute;
+  top: 0;
+  transform-origin: top left;
+  background-image: url("../Assets/Images/mobileFrame1.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  z-index: 100;
+  background-size: 300px 440px;
+  pointer-events: none;
+}
+.bgImageI {
+  width: 650px;
+  overflow: hidden;
 }

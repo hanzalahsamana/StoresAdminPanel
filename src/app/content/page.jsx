@@ -8,7 +8,7 @@ import { VedioUploader } from '@/components/UI/VedioUploader';
 import dynamic from 'next/dynamic';
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-const TextEditor = dynamic(async() => import('@/components/UI/TextEditor'), { ssr: false });
+const TextEditor = dynamic(async () => import('@/components/UI/TextEditor'), { ssr: false });
 
 const pagesIcons = {
     'About Us': 'https://img.icons8.com/color/48/about.png',
@@ -26,15 +26,11 @@ const pagesIcons = {
 }
 
 const Content = () => {
-    const { currUser } = useSelector((state) => state.currentUser);
     const { pagesData, pagesDataLoading } = useSelector((state) => state.pagesData);
     const [editingPage, setEditingPagee] = useState(null);
-    const dispatch = useDispatch()  
 
-    useEffect(() => {
-        fetchPagesData(dispatch, currUser?.brandName)
-    }, [])
-    
+
+
     if (pagesDataLoading) {
         return <Loader />
     }

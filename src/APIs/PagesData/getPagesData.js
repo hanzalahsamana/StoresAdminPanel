@@ -7,6 +7,8 @@ import { setPagesData, setPagesDataLoading } from "@/Redux/PagesData/PagesDataSl
 export const fetchPagesData = async (dispatch, type) => {
   try {
     const response = await axios.get(`${BASE_URL}/${type}/getPages`);
+    console.log("ok.ru" , response);
+    
     dispatch(setPagesData(response.data));
     dispatch(setPagesDataLoading(false));
 

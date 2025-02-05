@@ -1,6 +1,7 @@
 "use client";
 import { fetchCategory } from "@/APIs/Category/getCategory";
 import { fetchOrderData } from "@/APIs/Order/getOrderData";
+import { fetchPagesData } from "@/APIs/PagesData/getPagesData";
 import { fetchProducts } from "@/APIs/Product/getProductData";
 import { setCurrentUser, setLoading } from "@/Redux/Authentication/AuthSlice";
 import { useEffect } from "react";
@@ -20,6 +21,11 @@ const ProviderWrap = ({ children }) => {
       fetchOrderData(dispatch, currUser?.brandName);
       fetchProducts(dispatch, currUser?.brandName);
       fetchCategory(dispatch, currUser?.brandName);
+      console.log("woww");
+      
+      fetchPagesData(dispatch, currUser?.brandName)
+
+
     }
   }, [currUser]);
 
