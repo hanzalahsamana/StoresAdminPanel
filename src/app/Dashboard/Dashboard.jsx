@@ -12,6 +12,7 @@ import { MdArrowRightAlt } from "react-icons/md";
 import Link from "next/link";
 
 import WebPrevFrame from "@/components/Layout/WebPrevFrame";
+import OrderTracking from "@/components/Sections/OrderTracking";
 
 
 const TimeGraph = dynamic(() => import("../../components/TimeGraph"), { ssr: false });
@@ -38,6 +39,7 @@ const Dashboard = () => {
     <div className="flex min-h-screen ">
       <div className="flex-1 py-[50px]">
         <WebPrevFrame/>
+        <OrderTracking/>
         <div className="flex items-center justify-between mb-6 ">
           <h1 className="text-3xl font-bold text-gray-900">Main Dashboard</h1>
           <CustomDropdown classes='z-[100000000]' selectedValue={selectedValue} setSelectedValue={setSelectedValue} options={[

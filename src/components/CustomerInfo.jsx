@@ -1,9 +1,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
 
-const CustomerInfo = ({ id }) => {
-  const { orders, loading } = useSelector((state) => state?.orderData);
-  const order = orders.find((order) => order._id === id);
+const CustomerInfo = ({ order }) => {
   const { customerInfo } = order;
   const {
     address,
@@ -33,13 +31,18 @@ const CustomerInfo = ({ id }) => {
 
   return (
     <div className="h-[100%] flex flex-col justify-between gap-y-2">
+      <h1 className="text-black text-[20px] font-semibold">Order Details</h1>
       {customerData.length > 0 &&
         customerData?.map((item, index) => {
           return (
-            <p className="border border-gray-300 bg-gray-100 p-2 rounded-lg">
-              <b>{item?.label}:</b>{" "}
-              <span className="text-black ml-4">{item?.value || "--"}</span>
-            </p>
+            <div className="py-[16px] flex justify-between items-center border-b border-borderC" key={index}>
+              <p className="text-textC text-[16px] font-semibold ">
+                {item?.label}
+              </p>
+              <p className="text-[16px] text-[#6b7280]">
+                {item?.value}
+              </p>
+            </div>
           );
         })}
     </div>

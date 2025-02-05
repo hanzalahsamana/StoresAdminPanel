@@ -8,6 +8,7 @@ const Button = ({
     label = "Click",
     className = "",
     loading = false,
+    
     action = () => { },
 }) => {
     return (
