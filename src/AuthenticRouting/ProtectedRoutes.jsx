@@ -13,15 +13,15 @@ const ProtectedRoute = (WrappedComponent) => {
     const router = useRouter();
     const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
-    // if (loading) {
-    //   return <Loader />;
-    // }
+    if (loading) {
+      return <Loader />;
+    }
 
     const toggleSidebar = () => {
       setIsSidebarOpen(!isSidebarOpen);
     };
 
-    // if (currUser) {
+    if (currUser) {
       return (
         <div className="flex h-[calc(100vh-50px)]">
           <Sidebar isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen} />
@@ -37,9 +37,9 @@ const ProtectedRoute = (WrappedComponent) => {
           </div>
         </div>
       );
-    // }
+    }
 
-    // return router.push("/authentication/login");
+    return router.push("/authentication/login");
   };
 };
 
