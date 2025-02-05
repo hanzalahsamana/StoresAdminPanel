@@ -1,93 +1,83 @@
 "use client";
 
+import React, { useState } from "react";
 import ProtectedRoute from "@/AuthenticRouting/ProtectedRoutes";
 import CustomerInfo from "@/components/CustomerInfo";
 import Loader from "@/components/loader";
 import ProductsRecipt from "@/components/productsRecipt";
-import { useParams, useRouter } from "next/navigation";
-import React, { useState } from "react";
-import { FaChevronUp, FaChevronDown } from "react-icons/fa";
+import { useParams } from "next/navigation";
 import { useSelector } from "react-redux";
 
 const OrderDetails = () => {
-  const router = useRouter();
-  const [cartIsVisible, setCartIsVisible] = useState(false);
   const { orders, loading } = useSelector((state) => state?.orderData);
   const { id } = useParams();
-  const order = orders?.find((order) => order._id === id);
 
-  if (loading) {
-    return <Loader />;
-  }
+  // if (loading) {
+  //   return <Loader />;
+  // };
 
-  const totalProductCost = order?.orderData?.reduce((total, product) => {
-    return total + product.discountedPrice * product.quantity;
-  }, 0);
+  // if (orders.length === 0) {
+  //   return (
+  //     <div className="flex justify-center items-center h-[calc(100vh-50px)]">
+  //       <h1>No Orders found</h1>
+  //     </div>
+  //   )
+  // };
 
-  const shippingCost = 200;
-  const tax = 0;
-  const discount = 0;
-  const total = totalProductCost + shippingCost + tax - discount;
+
+  // const order = orders?.find((order) => order._id === id);
+  const order = {
+    createdAt: "2024-12-03T10:56:11.920Z",
+    customerInfo: {
+      address: "Ut illo blanditiis e",
+      appartment: "Nisi labore in qui a",
+      city: "Animi necessitatibu",
+      country: "Accusamus incididunt",
+      email: "boxe@mailinator.com",
+      firstName: "Marny",
+      lastName: "Strong",
+      method: "COD",
+      phone: "+1 (499) 836-2763",
+      postalCode: 55,
+    },
+    from: "Hannan Fabrics",
+    orderData: [
+      {
+        image: "https://res.cloudinary.com/duaxitxph/image/upload/v1729245284/sja5sztlyleoxlizyrc0.jpg",
+        name: "Carol Light Blue - 100% Pure Cotton Unstitched Fabric",
+        quantity: 4,
+        totalOfProduct: 13000,
+        _id: "6712306598aff7829704dc44",
+      },
+    ],
+    orderInfo: {
+      discount: 0,
+      shipping: 200,
+      status: "shipped",
+      tax: 0,
+      total: 13200,
+    },
+    to: "Hanzalah Samana",
+    updatedAt: "2024-12-30T10:46:13.201Z",
+    __v: 0,
+    _id: "674ee3cb50325beab4552987",
+  };
 
   return (
-    <>
-      {!loading && order ? (
-        <div className="flex w-full max-[700px]:flex-col-reverse">
-          <div className="w-full bg-white p-2 h-[calc(100vh-50px)]">
-            <CustomerInfo id={id} />
-          </div>
-          <div
-            className={`bg-[#F5F5F5] w-full p-[30px] lg:h-[calc(100vh-50px)] max-[700px]:py-[0px] ${
-              cartIsVisible ? "max-[700px]:h-auto" : "max-[700px]:h-[60px]"
-            } transition-all duration-500 max-[700px]:overflow-hidden`}
-          >
-            <div className="h-[60px] w-full hidden max-[700px]:flex justify-between items-center">
-              <p
-                className="flex items-center gap-2 text-[#299ae0]"
-                onClick={() => setCartIsVisible(!cartIsVisible)}
-              >
-                Show Order summary{" "}
-                {cartIsVisible ? <FaChevronUp /> : <FaChevronDown />}
-              </p>
-              <p className="text-[#252525]">Rs {total?.toFixed(2)}</p>
-            </div>
-            <div className="h-[100%]">
-              <div className="max-h-[70%] overflow-scroll no-scrollbar">
-                <ProductsRecipt products={order} />
-              </div>
-              <div className="max-w-[500px] flex flex-col gap-2 py-[25px]">
-                <p className="w-full flex justify-between text-[14px]  font-semibold">
-                  <span>Total Product Cost</span>
-                  <span>Rs {totalProductCost?.toFixed(2)}</span>
-                </p>
-                <p className="w-full flex justify-between text-[14px]  font-semibold">
-                  <span>Shipping Cost</span>
-                  <span>Rs {shippingCost?.toFixed(2)}</span>
-                </p>
-                <p className="w-full flex justify-between text-[14px]  font-semibold">
-                  <span>Tax</span>
-                  <span>{tax > 0 ? `Rs ${tax?.toFixed(2)}` : "---"} </span>
-                </p>
-                <p className="w-full flex justify-between text-[14px]  font-semibold">
-                  <span>Discount</span>
-                  <span>
-                    {discount > 0 ? `Rs ${discount?.toFixed(2)}` : "---"}{" "}
-                  </span>
-                </p>
-                <p className="w-full flex justify-between text-[18px]  font-semibold mt-[10px]">
-                  <span>Total</span>
-                  <span>Rs {total?.toFixed(2)}</span>
-                </p>
-              </div>
-            </div>
-          </div>
+    <div className="flex justify-center items-center p-0 w-full bg-backgroundC">
+      <div className="flex md:flex-row flex-col-reverse gap-4 rounded-lg w-full h-full px-4 py-6">
+
+        <div className={`bg-backgroundC w-full p-[10px 24px] max-[700px]:py-[0px]`}>
+          <ProductsRecipt products={order} />
         </div>
-      ) : (
-        <div className="flex justify-center items-center h-[calc(100vh-50px)]">
-          <h1>No Orders found</h1>
+
+        <div className="w-full bg-[#f9fafb] p-6 rounded-lg">
+          <CustomerInfo order={order} />
         </div>
-      )}
-    </>
+
+      </div>
+
+    </div>
   );
 };
 

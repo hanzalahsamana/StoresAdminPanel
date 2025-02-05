@@ -10,6 +10,7 @@ module.exports = {
         accentC: "var(--accent-color)",
         backgroundC: "var(--background-color)",
         textC: "var(--text-color)",
+        borderC: "var(--border-color)",
       },
       animation: {
         bounceSlow: "bounceSlow 0.3s forwards",
