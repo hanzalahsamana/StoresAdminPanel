@@ -53,17 +53,18 @@ const Login = () => {
         buttonLabel={"Log In"}>
 
         <FormInput
-          errors={{}}
-          field={"email"}
-          formData={formData}
+          type="email"
+          error={null}
+          value={formData.email}
+          name={"email"}
           handleChange={handleChange}
           placeholder="Email"
         />
 
         <FormInput
-          errors={{}}
-          field={"password"}
-          formData={formData}
+          error={null}
+          name={"password"}
+          value={formData.password}
           handleChange={handleChange}
           placeholder="Password"
         />

@@ -50,33 +50,34 @@ const Register = () => {
         buttonLabel={'Sign Up'}>
 
         <FormInput
-          errors={{}}
-          field={"email"}
-          formData={formData}
+        type="email"
+          value={formData.email}
+          name={"email"}
+          error={null}
           handleChange={handleChange}
           placeholder="Email"
         />
 
         <FormInput
-          errors={{}}
-          field={"brandName"}
-          formData={formData}
+          error={null}
+          value={formData.brandName}
+          name={"brandName"}
           handleChange={handleChange}
           placeholder="Brand Name"
         />
         <FormInput
-          errors={{}}
-          field={"name"}
-          formData={formData}
+          error={null}
+          name={"name"}
+          value={formData.name}
           handleChange={handleChange}
           placeholder="User Name"
 
         />
 
         <FormInput
-          errors={{}}
-          field={"password"}
-          formData={formData}
+          error={null}
+          name={"password"}
+          value={formData.password}
           handleChange={handleChange}
           placeholder="Password"
         />

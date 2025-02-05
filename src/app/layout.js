@@ -11,7 +11,7 @@ import NetworkStatus from "@/components/TemplateComponents/sections/NetworkError
 
 // const geistSans = localFont({
 //   src: "../assets/fonts/GeistVF.woff",
-//   variable: "--font-geist-sans",
+//   variable: "--font-geist-sans",x  
 //   weight: "100 900",
 // });
 // const geistMono = localFont({
