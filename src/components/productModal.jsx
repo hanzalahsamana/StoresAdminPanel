@@ -1,23 +1,20 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { addProducts } from "@/APIs/Product/addProductData";
-import { uploadImagesToCloudinary } from "@/Utils/uploadToCloudinary";
-import { useDispatch, useSelector } from "react-redux";
-import SizeSelector from "@/components/SizesFields";
-import Loader from "./loader";
-import { setProductLoading } from "@/Redux/Product/ProductSlice";
-import { toast } from "react-toastify";
-import { editProductData } from "@/APIs/Product/editProductData";
 import FormInput from "./Forms/FormInput";
-import { calculateDiscountedPrice } from "@/Utils/CalculateDiscountedPrice";
 import MultiImageUploader from "./Uploaders/MultiImageUploader";
-import Button from "./Actions/Button";
 import Form from "./Forms/Form";
 import Modal from "./Modals/Modal";
 import MultiSelectDropdown from "./Actions/MultiSelectDropdown";
 import DropDown from "./Actions/DropDown";
+import { toast } from "react-toastify";
+import { addProducts } from "@/APIs/Product/addProductData";
+import { editProductData } from "@/APIs/Product/editProductData";
+import { setProductLoading } from "@/Redux/Product/ProductSlice";
 import { productUploadValidate } from "@/Utils/ProductUploadValidate";
+import { uploadImagesToCloudinary } from "@/Utils/uploadToCloudinary";
+import { useDispatch, useSelector } from "react-redux";
+import { calculateDiscountedPrice } from "@/Utils/CalculateDiscountedPrice";
 
 const Add_Edit_Product = ({
   isOpen,
@@ -47,6 +44,9 @@ const Add_Edit_Product = ({
     stock: 10,
     ...updatedData,
   });
+
+  console.log(updatedData , "okay2");
+  
 
   useEffect(() => {
     setFormData((prev) => ({

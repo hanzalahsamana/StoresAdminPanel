@@ -9,6 +9,18 @@ import { useDispatch, useSelector } from "react-redux";
 import { deleteProduct } from "@/APIs/Product/deleteProductData";
 import { fetchProducts } from "@/APIs/Product/getProductData";
 import Add_Edit_Product from "@/components/productModal";
+import DynamicTable from "@/components/Tables/dynamicTable";
+
+
+const data = [
+  { name: "John Doe", email: "https://example.com", role: "Admin", profile: "https://via.placeholder.com/40" },
+  { name: "Jane Doe", email: "https://example.com", role: "User", profile: "https://via.placeholder.com/40" }
+];
+
+const actions = {
+  edit: (row) => { toggleModal(); setUpdatedProduct(row) },
+  delete: (row) => { handleDelete(row?._id) },
+};
 
 const ProductsList = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -25,12 +37,25 @@ const ProductsList = () => {
   const handleDelete = (id) => {
     deleteProduct(currUser.brandName, id, dispatch);
   };
+
+  const columns = [
+    { key: "images", label: "Image", type: "image" },
+    { key: "name", label: "Title" },
+    { key: "collectionName", label: "Collection", },
+    { key: "brand", label: "Vendor", },
+    { key: "alt ", label: "Stock" , type:"boolean"},
+  ];
+
   return (
     <div>
-      {productLoading && false ? (
+      {productLoading ? (
         <Loader />
       ) : (
         <div className="p-2">
+
+
+          <DynamicTable columns={columns} data={products} actions={actions} />;
+
           <div className="flex justify-between w-full h-[50px] items-center">
             <p className="text-center py-4 font-semibold text-black text-xl">
               Products
@@ -126,14 +151,14 @@ const ProductsList = () => {
         </div>
       )}
       {/* {isOpen && ( */}
-        <Add_Edit_Product
+      <Add_Edit_Product
 
-          isOpen={isOpen}
-          setIsOpen={setIsOpen}
-          productLoading={productLoading}
-          updatedData={updatedProduct}
-          setUpdatedProduct={setUpdatedProduct}
-        />
+        isOpen={isOpen}
+        setIsOpen={setIsOpen}
+        productLoading={productLoading}
+        updatedData={updatedProduct}
+        setUpdatedProduct={setUpdatedProduct}
+      />
       {/* )} */}
     </div>
   );

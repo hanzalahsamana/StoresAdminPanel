@@ -15,8 +15,7 @@ const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [showMobileMenu, setShowMobileMenu] = useState(false);
   const pathname = usePathname();
-  const headerRef = useRef(null); // Reference to the header container
-
+  const headerRef = useRef(null);
   const SiteLogo = useSelector((state) => selectPageByType(state, "Site Logo"));
   const { cartData } = useSelector((state) => state?.cartData || []);
   const { siteName } = useSelector((state) => state.siteName);
@@ -37,7 +36,7 @@ const Header = () => {
       }
     };
 
-    checkHeaderWidth(); // Run once on mount
+    checkHeaderWidth();
     window.addEventListener('resize', checkHeaderWidth);
     return () => window.removeEventListener('resize', checkHeaderWidth);
   }, []);
