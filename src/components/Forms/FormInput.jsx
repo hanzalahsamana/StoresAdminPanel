@@ -2,6 +2,7 @@
 
 import React from "react";
 import "../../Styles/globals.css"
+import { FaEye } from "react-icons/fa";
 
 const FormInput = ({
   handleChange,
@@ -13,6 +14,7 @@ const FormInput = ({
   readOnly = false,
   disabled = false,
   required = true,
+  actionIcon = null,
 }) => {
 
 
@@ -36,6 +38,11 @@ const FormInput = ({
       >
         {placeholder}{required && <span className="text-red-500"> *</span>}
       </label>
+      {!actionIcon && (
+        <div className="absolute right-[12px] text-[#7f7b7b] text-[18px] top-1/3">
+          <FaEye />
+        </div>
+      )}
       {error && <p className="text-red-500 text-xs">{error}</p>}
     </div>
   );
