@@ -19,12 +19,12 @@ const OtpVerification = () => {
 
     useEffect(() => {
         if (typeof window !== "undefined") {
-            
+
             const savedEmail = localStorage.getItem("emailForVerify");
             setEmail(savedEmail);
             if (!savedEmail) {
                 router.push("/authentication/register");
-            }else{
+            } else {
                 setLoading(false)
             }
         }

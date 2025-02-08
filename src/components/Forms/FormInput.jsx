@@ -2,7 +2,6 @@
 
 import React from "react";
 import "../../Styles/globals.css"
-import { FaEye } from "react-icons/fa";
 
 const FormInput = ({
   handleChange,
@@ -27,7 +26,7 @@ const FormInput = ({
         readOnly={readOnly}
         disabled={disabled}
         value={value}
-        className={`Inputs h-[50px] bg-backgroundC pl-[20px] flex items-center rounded-md outline-[#3973B0] p-2 border w-full ${error ? "border-red-500" : "border-[#a6a6a668]"
+        className={`Inputs pr-[40px] h-[50px] bg-backgroundC pl-[20px] flex items-center rounded-md outline-[#3973B0] p-2 border w-full ${error ? "border-red-500" : "border-[#a6a6a668]"
           } rounded`}
       />
       <label
@@ -38,11 +37,7 @@ const FormInput = ({
       >
         {placeholder}{required && <span className="text-red-500"> *</span>}
       </label>
-      {!actionIcon && (
-        <div className="absolute right-[12px] text-[#7f7b7b] text-[18px] top-1/3">
-          <FaEye />
-        </div>
-      )}
+      {actionIcon && actionIcon}
       {error && <p className="text-red-500 text-xs">{error}</p>}
     </div>
   );

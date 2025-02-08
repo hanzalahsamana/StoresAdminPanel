@@ -14,6 +14,7 @@ body {
   --background-color: #ffffff; /* Light grey */
   --text-color: #333939; /* Dark grey */
   --border-color: #e5e7eb; /* Dark grey */
+  --light-text-color: #5f6571; /* Dark grey */
 }
 
 @layer utilities {
@@ -135,4 +136,10 @@ body {
 .bgImageI {
   width: 650px;
   overflow: hidden;
+}
+
+
+input:-webkit-autofill {
+  background-color: transparent !important;
+  box-shadow: 0 0 0px 1000px white inset !important;
 }
