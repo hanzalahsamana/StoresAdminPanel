@@ -16,7 +16,12 @@ const OrderDetails = () => {
     return <Loader />;
   };
 
-  if (orders.length === 0) {
+  console.log("gayaa",orders);
+  
+  const order = orders?.find((order) => order._id === id);
+  
+  if (!order || orders.length === 0) {
+    console.log("gaya");
     return (
       <div className="flex justify-center items-center h-[calc(100vh-50px)]">
         <h1>No Orders found</h1>
@@ -25,7 +30,6 @@ const OrderDetails = () => {
   };
 
 
-  const order = orders?.find((order) => order._id === id);
   // const order = {
   //   createdAt: "2024-12-03T10:56:11.920Z",
   //   customerInfo: {

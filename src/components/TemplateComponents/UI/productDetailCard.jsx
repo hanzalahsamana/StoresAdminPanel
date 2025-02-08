@@ -37,6 +37,10 @@ const ProductDetailCard = ({ product }) => {
     setQuantity(1)
   };
 
+
+  console.log(product , "okay");
+  
+
   return (
     <div className={styles.container}>
       <div className={`max-[900px]:flex-col ${styles.productSection}`}>
@@ -89,10 +93,10 @@ const ProductDetailCard = ({ product }) => {
           </p>
           <p
             className={
-              product?.stock ? `${styles.InStock}` : `${styles.OutStock}`
+              product?.stock || product?.status ? `${styles.InStock}` : `${styles.OutStock}`
             }
           >
-            {product?.stock ? "In Stock" : "Out Of Stock"}
+            {product?.stock || product?.status ? "In Stock" : "Out Of Stock"}
           </p>
 
           <div className="flex flex-col gap-[20px]">

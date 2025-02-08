@@ -5,10 +5,9 @@ import Link from 'next/link';
 import Loader from '../UI/loader';
 import { MdSignalWifiConnectedNoInternet2 } from "react-icons/md";
 
-
-
 const ProductsSection = ({ maxLength, collection, name }) => {
     const { products, loading, error } = useSelector((state) => state.productData);
+    const { siteName } = useSelector((state) => state.siteName);
 
     if (loading) {
         return <Loader />;
@@ -33,7 +32,7 @@ const ProductsSection = ({ maxLength, collection, name }) => {
                         <Link
                             className="cursor-pointer"
                             key={product._id}
-                            href={`/products/${product._id}`}
+                            href={`/${siteName}/products/${product._id}`}
                         >
                             <ProductCard product={product} />
                         </Link>

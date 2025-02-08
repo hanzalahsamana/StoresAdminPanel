@@ -50,7 +50,7 @@ const Register = () => {
         buttonLabel={'Sign Up'}>
 
         <FormInput
-        type="email"
+          type="email"
           value={formData.email}
           name={"email"}
           error={null}
@@ -75,6 +75,7 @@ const Register = () => {
         />
 
         <FormInput
+          type="password"
           error={null}
           name={"password"}
           value={formData.password}

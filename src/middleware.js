@@ -52,8 +52,7 @@ export async function middleware(request) {
       ? "hannanfabrics.com"
       : "localhost:3000";
 
-
-      console.log( "🔖🔖", url ,"👍", host ,"🥀", pathname ,"😂", BaseDomain);
+  console.log("🔖🔖", url, "👍", host, "🥀", pathname, "😂", BaseDomain);
 
   if (host.includes(".vercel.app") || pathname.endsWith("/not-found")) {
     return NextResponse.next();
@@ -98,6 +97,8 @@ export async function middleware(request) {
     //   );
     // }
 
+    console.log(potentialSlug, pathname, request.url, "<><><><><><>");
+
     return NextResponse.rewrite(
       new URL(`${potentialSlug}${pathname}${url.search}`, request.url)
     );
@@ -114,5 +115,5 @@ export async function middleware(request) {
 // };
 
 export const config = {
-    matcher: '/', // Exclude static assets & API routes
+  matcher: "/", // Exclude static assets & API routes
 };

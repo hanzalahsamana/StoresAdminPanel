@@ -8,56 +8,43 @@ import Loader from "./loader";
 import FormInput from "./formInput";
 import { selectPageByType } from "@/Redux/PagesData/PagesDataSlice";
 import { addOrderDataApi } from "@/APIs/Order/PlaceOrder";
+import { paymentFormValidate } from "@/Utils/PaymentFormValidate";
+
+
+const initialFormData = {
+  email: "",
+  country: "",
+  firstName: "",
+  lastName: "",
+  address: "",
+  appartment: "",
+  city: "",
+  postalCode: "",
+  phone: "",
+}
+
 
 const PaymentForm = ({ shipping, total, tax, discount, cartItem }) => {
   const dispatch = useDispatch();
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false)
-  const { siteName } = useSelector((state) => state.siteName);
+  const { siteName, SiteLogo } = useSelector((state) => ({
+    siteName: state.siteName,
+    SiteLogo: selectPageByType(state, "Site Logo"),
+  }));
 
-  const [formData, setFormData] = useState({
-    email: "",
-    country: "",
-    firstName: "",
-    lastName: "",
-    address: "",
-    appartment: "",
-    city: "",
-    postalCode: "",
-    phone: "",
-  });
+  const [formData, setFormData] = useState(initialFormData);
 
   const handleChange = (e) => {
-
     const { name, value } = e.target;
     setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
 
-  const SiteLogo = useSelector((state) =>
-    selectPageByType(state, "Site Logo")
-  );
-
-  const validateForm = () => {
-    const newErrors = {};
-    const { email, country, firstName, lastName, address, city, phone } =
-      formData;
-
-    if (!email) newErrors.email = "email is required";
-    if (!country) newErrors.country = "Country is required";
-    if (!firstName) newErrors.firstName = "First name is required";
-    if (!lastName) newErrors.lastName = "Last name is required";
-    if (!address) newErrors.address = "Address is required";
-    if (!city) newErrors.city = "City is required";
-    if (!phone) newErrors.phone = "Phone number is required";
-
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
 
   const handleSubmit = async (e) => {
-
     e.preventDefault();
-    if (!validateForm()) {
+
+    if (!paymentFormValidate(formData)) {
       return;
     }
 
@@ -83,7 +70,7 @@ const PaymentForm = ({ shipping, total, tax, discount, cartItem }) => {
 
     const data = {
       from: siteName,
-      to: SiteLogo?.image, //temporary
+      to: SiteLogo?.image,
       customerInfo: {
         email,
         firstName,
@@ -110,17 +97,7 @@ const PaymentForm = ({ shipping, total, tax, discount, cartItem }) => {
       await addOrderDataApi(siteName, data);
       dispatch(deleteCartData())
       localStorage.removeItem('cartId')
-      setFormData({
-        email: '',
-        country: "",
-        firstName: "",
-        lastName: "",
-        address: "",
-        appartment: "",
-        city: "",
-        postalCode: "",
-        phone: "",
-      });
+      setFormData(initialFormData);
       setErrors({});
       setLoading(false)
       toast.success("Your order has confirmed and will deliverd in 2 to 3 working days")
