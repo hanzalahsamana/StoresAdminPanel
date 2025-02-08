@@ -27,7 +27,6 @@ const DynamicTable = ({ columns = [], data = [], actions = {} }) => {
                         >
                             {columns.map((col) => (
                                 <td key={col.key} className="p-2 text-[14px] text-[#5f6571]">
-                                    {console.log(row , col.key , row[col.key], "hello")}
                                     {col.type === "image" ? (
                                         <img
                                         src={row[col.key][0] || "https://via.placeholder.com/50"}
@@ -47,7 +46,6 @@ const DynamicTable = ({ columns = [], data = [], actions = {} }) => {
 
                                         <p className='bg-secondaryC flex gap-1 justify-center items-center text-primaryC text-center text-sm w-max px-[13px] rounded-2xl' >
                                             <GoDotFill />
-                                            {/* {console.log("hello", row, col.key, row[col.key])} */}
                                             {row[col.key] ? 'in stock' : 'out of stock'}
                                         </p>
                                     ) : col.type === "dropdown" ? (

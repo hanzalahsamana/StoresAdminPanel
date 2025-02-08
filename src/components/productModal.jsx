@@ -15,6 +15,7 @@ import { productUploadValidate } from "@/Utils/ProductUploadValidate";
 import { uploadImagesToCloudinary } from "@/Utils/uploadToCloudinary";
 import { useDispatch, useSelector } from "react-redux";
 import { calculateDiscountedPrice } from "@/Utils/CalculateDiscountedPrice";
+import { uploadImagesToS3 } from "@/APIs/uploadImageS3";
 
 const Add_Edit_Product = ({
   isOpen,
@@ -74,6 +75,11 @@ const Add_Edit_Product = ({
   }, [updatedData]);
 
 
+  useEffect(()=>{
+    console.log(selectedImages , "🔗" );
+  },[selectedImages])
+
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({ ...prevData, [name]: value }));
@@ -95,40 +101,45 @@ const Add_Edit_Product = ({
 
     try {
       dispatch(setProductLoading(true));
-      const imageUrls = await uploadImagesToCloudinary(selectedImages);
-      if (!updatedData) {
-        await addProducts(
-          {
-            ...formData,
-            alt: formData.name,
-            originalPrice: Number(formData.originalPrice),
-            discountedPrice: Number(formData.discountedPrice),
-            discount: Number(formData.discount),
-            images: imageUrls,
-            size: selectedSizes,
-          },
-          currUser?.brandName,
-          dispatch
-        );
-      } else {
-        await editProductData(
-          {
-            ...formData,
-            alt: formData.name,
-            originalPrice: Number(formData.originalPrice),
-            discountedPrice: Number(formData.discountedPrice),
-            discount: Number(formData.discount),
-            images: imageUrls,
-            size: selectedSizes,
-          },
-          currUser?.brandName,
-          updatedData._id,
-          dispatch
-        );
-      }
+      // const imageUrls = await uploadImagesToCloudinary(selectedImages);
+      const imageUrls = await uploadImagesToS3(currUser.brandName, selectedImages);
+      // if (!updatedData) {
+      //   await addProducts(
+      //     {
+      //       ...formData,
+      //       alt: formData.name,
+      //       originalPrice: Number(formData.originalPrice),
+      //       discountedPrice: Number(formData.discountedPrice),
+      //       discount: Number(formData.discount),
+      //       images: imageUrls,
+      //       size: selectedSizes,
+      //     },
+      //     currUser?.brandName,
+      //     dispatch
+      //   );
+      // } else {
+      //   await editProductData(
+      //     {
+      //       ...formData,
+      //       alt: formData.name,
+      //       originalPrice: Number(formData.originalPrice),
+      //       discountedPrice: Number(formData.discountedPrice),
+      //       discount: Number(formData.discount),
+      //       images: imageUrls,
+      //       size: selectedSizes,
+      //     },
+      //     currUser?.brandName,
+      //     updatedData._id,
+      //     dispatch
+      //   );
+      // }
       dispatch(setProductLoading(false));
-      setIsOpen(false);
+      console.log("ok");
+      
+      console.log("ok");
+      // setIsOpen(false);
     } catch (error) {
+      console.log("no");
       dispatch(setProductLoading(false));
       toast.error(error);
     }

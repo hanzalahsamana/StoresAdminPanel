@@ -62,6 +62,7 @@ const Login = () => {
         />
 
         <FormInput
+          type="password"
           error={null}
           name={"password"}
           value={formData.password}
