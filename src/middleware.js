@@ -49,7 +49,7 @@ export async function middleware(request) {
   const pathname = url.pathname;
   const BaseDomain =
     process.env.NODE_ENV === "production"
-      ? "hannanfabrics.com"
+      ? "hannanfabrics"
       : "localhost:3000";
 
   console.log("🔖🔖", url, "👍", host, "🥀", pathname, "😂", BaseDomain);
@@ -108,12 +108,12 @@ export async function middleware(request) {
   return NextResponse.next();
 }
 
-// export const config = {
-//   matcher: [
-//     "/((?!api | _next/static | _next/Image | favicon.ico | logo* | robots.txt | service-worker.js).*)",
-//   ],
-// };
-
 export const config = {
-  matcher: "/", // Exclude static assets & API routes
+  matcher: [
+    "/((?!api|_next/static|_next/image|favicon.ico|logo.*|robots.txt|service-worker.js).*)",
+  ],
 };
+
+// export const config = {
+//   matcher: "/", // Exclude static assets & API routes
+// };

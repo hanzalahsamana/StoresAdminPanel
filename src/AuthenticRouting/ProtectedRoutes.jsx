@@ -4,7 +4,7 @@ import Header from "@/components/Header";
 import Loader from "@/components/loader";
 import Sidebar from "@/components/Sidebar";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useSelector } from "react-redux";
 
 const ProtectedRoute = (WrappedComponent) => {
@@ -16,7 +16,7 @@ const ProtectedRoute = (WrappedComponent) => {
     if (loading) {
       return <Loader />;
     }
-    
+
     const toggleSidebar = () => {
       setIsSidebarOpen(!isSidebarOpen);
     };
@@ -28,9 +28,8 @@ const ProtectedRoute = (WrappedComponent) => {
           <div className="w-full flex justify-end">
             <Header toggleSidebar={toggleSidebar} />
             <div
-              className={`${
-                isSidebarOpen ? "lg:w-[calc(100%-250px)]" : "lg:w-full"
-              } w-full mt-[60px] h-[100%] overflow-scroll no-scrollbar bg-[#06a4a712]`}
+              className={`${isSidebarOpen ? "lg:w-[calc(100%-250px)]" : "lg:w-full"
+                } w-full mt-[60px] h-[100%] overflow-scroll no-scrollbar bg-[#06a4a712]`}
             >
               <WrappedComponent />
             </div>

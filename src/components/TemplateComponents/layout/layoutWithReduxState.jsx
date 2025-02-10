@@ -28,6 +28,7 @@ const LayoutWithReduxState = ({ children }) => {
       await fetchPagesData(dispatch, siteName);
       await fetchCategory(dispatch, siteName);
 
+
       if (typeof window !== "undefined" && siteName) {
         const cartData = localStorage.getItem(`${siteName}_cartId`);
         dispatch(setCartData(cartData));
@@ -36,6 +37,8 @@ const LayoutWithReduxState = ({ children }) => {
 
     if (siteName) {
       fetchData();
+      console.log("ye bhi chala");
+      
     }
 
   }, [dispatch, siteName]);

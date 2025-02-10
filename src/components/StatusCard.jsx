@@ -1,11 +1,12 @@
 "use client";
 import React from 'react'
 import CardLoader from './CardLoader'
+import BarLoader from './Loader/BarLoader';
 
 const StatusCard = ({title , data , classes , loading}) => {
     if(loading){
         return (
-         <CardLoader/>
+         <BarLoader/>
         )
     }
   return (

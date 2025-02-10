@@ -2,12 +2,13 @@
 import React from "react";
 import ReactApexChart from "react-apexcharts";
 import CardLoader from "./CardLoader";
+import BarLoader from "./Loader/BarLoader";
 
 
 const Piechart = ({ analytics, analyticsLoading }) => {
   if (analyticsLoading) {
     return (
-      <CardLoader />
+      <BarLoader />
     )
   }
 

@@ -3,9 +3,17 @@ import Link from 'next/link';
 import { useSelector } from 'react-redux';
 import { FaArrowRightLong } from 'react-icons/fa6';
 import { selectPageByType } from '@/Redux/PagesData/PagesDataSlice';
+import { useState } from 'react';
+import OrderTrackModal from '@/components/Modals/OrderTrackModal';
+import { getBasePath } from '@/Utils/GetBasePath';
 
 const Footer = () => {
   const { siteName } = useSelector((state) => state.siteName);
+  const [isOpen , setIsOpen] = useState(false);
+  const path = getBasePath();
+
+  console.log(path , "{}{}{}{}{}{}{}{}");
+  
 
   const SiteLogo = useSelector((state) =>
     selectPageByType(state, "Site Logo")
@@ -18,8 +26,10 @@ const Footer = () => {
   const { categories } = useSelector((state) => state?.categories);
 
   return (
-    <div className="bg-[#21222A] py-10 px-10 text-white w-full max-w-[1500px]">
+    <div className="bg-black py-10 px-10 text-white w-full max-w-[1500px]">
       <div className="container mx-auto grid items-start grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 text-sm px-4 md:px-0">
+
+        <OrderTrackModal isOpen={isOpen} setIsOpen={setIsOpen}/>
 
         <div>
           <Link href={'/'}>
@@ -34,6 +44,7 @@ const Footer = () => {
         <div>
           <h4 className="font-bold mb-4">ORDER INFO</h4>
           <ul>
+            <li className="mb-2 hover:opacity-[0.7] cursor-pointer" onClick={()=>setIsOpen(true)}>Track Your Order</li>
             <li className="mb-2 hover:opacity-[0.7]"><a href="/pages/return-policy">RETURN POLICY</a></li>
             <li className="mb-2 hover:opacity-[0.7]"><a href="/pages/privacy-policy">PRIVACY POLICY</a></li>
             <li className="mb-2 hover:opacity-[0.7]"><a href="/pages/terms-of-service">TERMS OF SERVICE</a></li>

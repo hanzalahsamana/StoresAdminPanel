@@ -1,34 +1,24 @@
 "use client";
 import ProtectedRoute from "@/AuthenticRouting/ProtectedRoutes";
-import Loader from "@/components/loader";
-import React, { useEffect, useState } from "react";
-import { FaPlus } from "react-icons/fa";
-import { BsFillTrash3Fill } from "react-icons/bs";
-import { CiEdit } from "react-icons/ci";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteProduct } from "@/APIs/Product/deleteProductData";
-import { fetchProducts } from "@/APIs/Product/getProductData";
 import Add_Edit_Product from "@/components/productModal";
-import DynamicTable from "@/components/Tables/dynamicTable";
+import DynamicTable from "@/components/Tables/DynamicTable";
 import Button from "@/components/Actions/Button";
-
-
 
 
 const ProductsList = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [updatedProduct, setUpdatedProduct] = useState(null);
+  const { currUser } = useSelector((state) => state.currentUser);
   const { products, productLoading } = useSelector(
     (state) => state.productData
   );
-  const { currUser } = useSelector((state) => state.currentUser);
   const dispatch = useDispatch();
 
   const toggleModal = () => {
     setIsOpen((prev) => !prev);
-  };
-  const handleDelete = (id) => {
-    deleteProduct(currUser.brandName, id, dispatch);
   };
 
   const columns = [
@@ -36,21 +26,14 @@ const ProductsList = () => {
     { key: "name", label: "Title" },
     { key: "collectionName", label: "Collection", },
     { key: "brand", label: "Vendor", },
-    { key: "alt ", label: "Stock", type: "boolean" },
-  ];
-  const data = [
-    // { name: "John Doe", email: "https://example.com", role: "Admin", profile: "https://via.placeholder.com/40" },
-    // { name: "Jane Doe", email: "https://example.com", role: "User", profile: "https://via.placeholder.com/40" }
+    { key: "stock", label: "Stock", type: "stock" },
   ];
 
   const actions = {
     edit: (row) => { toggleModal(); setUpdatedProduct(row) },
-    delete: (row) => { handleDelete(row?._id) },
+    delete: (row) => { deleteProduct(currUser.brandName, row?._id, dispatch) },
   };
 
-  if(productLoading){
-    return <Loader/>
-  }
   return (
     <div className="p-2">
       <div className="flex justify-between py-4 w-full items-center">
@@ -65,7 +48,7 @@ const ProductsList = () => {
       </div>
 
 
-      <DynamicTable columns={columns} data={products} actions={actions} loading={productLoading} />
+      <DynamicTable columns={columns} data={products} actions={actions} loading={productLoading} notFoundText="There are no products to show" />
 
       <Add_Edit_Product
         isOpen={isOpen}

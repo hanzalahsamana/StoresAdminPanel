@@ -4,6 +4,7 @@ import { scaleLinear } from "d3-scale";
 import { ComposableMap, Geographies, Geography } from "react-simple-maps";
 import Tooltip from "./Tooltip";
 import CardLoader from "./CardLoader";
+import BarLoader from "./Loader/BarLoader";
 
 const data = [
     { name: "Pakistan", value: 8 },
@@ -23,7 +24,7 @@ const geoUrl =
 const MapChart = ({ analytics, analyticsLoading }) => {
     if(analyticsLoading || typeof window === undefined){
         return (
-         <CardLoader/>
+         <BarLoader/>
         )
     }
 

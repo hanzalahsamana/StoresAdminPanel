@@ -10,7 +10,7 @@ import { useSelector } from "react-redux";
 
 const OrderDetails = () => {
   const { orders, loading } = useSelector((state) => state?.orderData);
-  const { id } = useParams();
+  const { orderid } = useParams();
 
   if (loading) {
     return <Loader />;
