@@ -7,7 +7,7 @@ import Loader from "@/components/loader";
 import { orderLoading } from "@/Redux/Order/OrderSlice";
 import { useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
-import DynamicTable from "@/components/Tables/DynamicTable";
+import DynamicTable from "@/components/Tables/Table";
 
 const Order = () => {
   const router = useRouter();

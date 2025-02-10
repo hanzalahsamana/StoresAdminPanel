@@ -4,8 +4,8 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteProduct } from "@/APIs/Product/deleteProductData";
 import Add_Edit_Product from "@/components/productModal";
-import DynamicTable from "@/components/Tables/DynamicTable";
 import Button from "@/components/Actions/Button";
+import DynamicTable from "@/components/Tables/Table";
 
 
 const ProductsList = () => {

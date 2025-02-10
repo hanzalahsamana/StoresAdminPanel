@@ -8,8 +8,8 @@ import { CiEdit } from "react-icons/ci";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteCategory } from "@/APIs/Category/deleteCategory";
 import CategoryAddModal from "@/components/UI/CategoryAddModal";
-import DynamicTable from "@/components/Tables/DynamicTable";
 import Button from "@/components/Actions/Button";
+import DynamicTable from "@/components/Tables/Table";
 
 const CategoryList = () => {
   const [isOpen, setIsOpen] = useState(false);
