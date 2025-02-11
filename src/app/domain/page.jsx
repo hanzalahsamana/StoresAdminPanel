@@ -1,11 +1,11 @@
 "use client";
-import { verifyDomain } from '@/APIs/Domain/domainVerify';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import FormInput from '@/components/Forms/FormInput';
 import Button from '@/components/Actions/Button';
 import ProtectedRoute from '@/AuthenticRouting/ProtectedRoutes';
+import { addDomainToVercel, checkDNSRecords } from '@/APIs/Domain/domainVerify';
 
 const DomainVerification = () => {
   const [domain, setDomain] = useState('');
@@ -13,18 +13,37 @@ const DomainVerification = () => {
   const [loading, setLoading] = useState(false);
   const { currUser } = useSelector((state) => state.currentUser);
 
-  const handleVerifyDomain = async () => {
+  const handleAddDomain = async () => {
     try {
       setLoading(true);
       setStatus('');
-      const data = await verifyDomain(currUser?.brandName, domain);
-      setStatus(data.message);
+      const abc = await addDomainToVercel(domain);
+      console.log(abc, "cocomo");
+
+
+      setStatus(abc?.message);
     } catch (error) {
       toast.error(error.response ? error.response.data.message : error.message);
     } finally {
       setLoading(false);
     }
   };
+
+  const handleVerifyDomai = async (domain2) => {
+    try {
+      setLoading(true)
+      const abc2 = await checkDNSRecords(domain2);
+      console.log(abc2, "jelly");
+
+      setLoading(false);
+
+    } catch (error) {
+      setLoading(false);
+      console.log(error, "error22");
+
+
+    }
+  }
 
   useEffect(() => {
     document.title = 'Domain';
@@ -45,8 +64,13 @@ const DomainVerification = () => {
 
           <Button
             loading={loading}
+            label='add Domain'
+            action={handleAddDomain}
+          />
+          <Button
+            loading={loading}
             label='Verify Domain'
-            action={handleVerifyDomain}
+            action={() => handleVerifyDomai('xperiode.com')}
           />
 
 
