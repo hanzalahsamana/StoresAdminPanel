@@ -56,7 +56,7 @@ const Register = () => {
 
 
   return (
-    <div className="min-h-screen p-4 flex items-center justify-center bg-primaryC">
+    <div className="min-h-screen p-4 flex items-center justify-center bg-secondaryC">
       <Form
         handleSubmit={handleSubmit}
         loading={loading}

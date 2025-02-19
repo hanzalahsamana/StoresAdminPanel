@@ -37,8 +37,31 @@
 
 // // Define the middleware matcher
 // export const config = {
-//     matcher: '/', // Exclude static assets & API routes
-// };
+  //     matcher: '/', // Exclude static assets & API routes
+  // };
+  // const basePath = getBasePath();
+  
+  // const response = await fetch(${basePath}/api/validate-slug, {
+  //   method: "POST",
+  //   body: JSON.stringify({ slug: potentialSlug }),
+  //   headers: { "Content-Type": "application/json" },
+  // });
+  
+  // const restaurant = await response.json();
+  
+  // if (!restaurant?.invalid) {
+  //   console.log("Invalid slug", host, subdomain, pathname, potentialSlug);
+  //   return NextResponse.redirect(
+  //     new URL(${basePath}/not-found, request.url),
+  //     302
+  //   );
+  // }
+  
+  // if (!restaurant?.isActive && !pathname.Includes("subscription-expired")) {
+  //   return NextResponse.redirect(
+  //     ${getBasePath(potentialSlug)}/subscription-expired
+  //   );
+  // }
 
 import { NextResponse } from "next/server";
 // import { BaseDomain, getBasePath } from "./lib/utils";
@@ -73,29 +96,6 @@ export async function middleware(request) {
   }
 
   try {
-    // const basePath = getBasePath();
-
-    // const response = await fetch(${basePath}/api/validate-slug, {
-    //   method: "POST",
-    //   body: JSON.stringify({ slug: potentialSlug }),
-    //   headers: { "Content-Type": "application/json" },
-    // });
-
-    // const restaurant = await response.json();
-
-    // if (!restaurant?.invalid) {
-    //   console.log("Invalid slug", host, subdomain, pathname, potentialSlug);
-    //   return NextResponse.redirect(
-    //     new URL(${basePath}/not-found, request.url),
-    //     302
-    //   );
-    // }
-
-    // if (!restaurant?.isActive && !pathname.Includes("subscription-expired")) {
-    //   return NextResponse.redirect(
-    //     ${getBasePath(potentialSlug)}/subscription-expired
-    //   );
-    // }
 
     console.log(potentialSlug, pathname, request.url, "<><><><><><>");
 

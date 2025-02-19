@@ -60,7 +60,7 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-primaryC">
+    <div className="min-h-screen flex items-center justify-center bg-secondaryC">
       <Form
         handleSubmit={handleSubmit}
         loading={loading}
