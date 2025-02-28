@@ -17,7 +17,7 @@ const CustomDropdown = ({ selectedValue, setSelectedValue, options, classes }) =
             {/* Dropdown Button */}
             <button
                 onClick={toggleDropdown}
-                className=" w-full text-[12px] px-4 py-2 text-left bg-white border-2 border-gray-300 rounded-md focus:outline-none"
+                className=" w-full text-[12px] px-4 py-2 text-left bg-white border border-borderC rounded-md focus:outline-none"
             >
                 {selectedValue || "Select an option"}
                 <span className="float-right pl-[10px]"><IoIosArrowDown /></span>

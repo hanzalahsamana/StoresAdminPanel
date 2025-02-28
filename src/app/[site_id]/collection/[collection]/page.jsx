@@ -1,5 +1,5 @@
 "use client";
-import ProductsSection from '@/components/TemplateComponents/sections/productsSection';
+import ProductsSection from '@/components/Widgets/productsSection';
 import Loader from '@/components/TemplateComponents/UI/loader';
 import React from 'react'
 import { MdSignalWifiConnectedNoInternet2 } from 'react-icons/md';

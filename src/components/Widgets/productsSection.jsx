@@ -1,9 +1,10 @@
 "use client";
 import { useSelector } from 'react-redux';
-import ProductCard from '../UI/productCard';
+import ProductCard from '../TemplateComponents/UI/productCard';
 import Link from 'next/link';
-import Loader from '../UI/loader';
+import Loader from '../TemplateComponents/UI/loader';
 import { MdSignalWifiConnectedNoInternet2 } from "react-icons/md";
+import { getBasePath } from '@/Utils/GetBasePath';
 
 const ProductsSection = ({ maxLength, collection, name }) => {
     const { products, loading, error } = useSelector((state) => state.productData);
@@ -32,7 +33,7 @@ const ProductsSection = ({ maxLength, collection, name }) => {
                         <Link
                             className="cursor-pointer"
                             key={product._id}
-                            href={`/${siteName}/products/${product._id}`}
+                            href={`${getBasePath()}/products/${product._id}`}
                         >
                             <ProductCard product={product} />
                         </Link>

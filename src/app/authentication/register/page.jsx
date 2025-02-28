@@ -9,6 +9,8 @@ import { useState } from "react";
 import { toast } from "react-toastify";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import IconButton from "@/components/Actions/IconButton";
+import { generateSlug } from "@/Utils/GenerateSlug";
+import { Base_Domain } from "../../../../config";
 
 const validateForm = (formData, setErrors) => {
   const newErrors = {};
@@ -43,9 +45,9 @@ const Register = () => {
     e.preventDefault();
     setErrors({});
     try {
-      if(!validateForm(formData , setErrors))return;
+      if (!validateForm(formData, setErrors)) return;
       setLoading(true);
-      const user = await SendOTP({ ...formData, isResend: false, });
+      const user = await SendOTP({ ...formData, subDomain: generateSlug(formData?.brandName), isResend: false, });
       localStorage.setItem("emailForVerify", formData.email)
       return router.push("/authentication/verifyotp");
     } catch (error) {
@@ -54,16 +56,29 @@ const Register = () => {
     }
   };
 
-
   return (
+
     <div className="min-h-screen p-4 flex items-center justify-center bg-secondaryC">
       <Form
         handleSubmit={handleSubmit}
         loading={loading}
-        lable={"Create Brand"}
+        lable={"Create Your Store"}
         extra={<CustomLink text="Already Have an Account" link="/authentication/login" linkText="Login" />}
         className="max-w-md"
         buttonLabel={'Sign Up'}>
+        <div>
+
+          <FormInput
+            error={errors.brandName}
+            value={formData.brandName}
+            name={"brandName"}
+            handleChange={handleChange}
+            placeholder="Brand Name"
+          />
+          {formData?.brandName && (
+            <p className="text-[10px] mt-[4px] text-textTC ">Your store subdomain will be <span className="text-primaryC">{generateSlug(formData.brandName)}.{Base_Domain}</span></p>
+          )}
+        </div>
 
         <FormInput
           type="email"
@@ -72,14 +87,6 @@ const Register = () => {
           error={errors.email}
           handleChange={handleChange}
           placeholder="Email"
-        />
-
-        <FormInput
-          error={errors.brandName}
-          value={formData.brandName}
-          name={"brandName"}
-          handleChange={handleChange}
-          placeholder="Brand Name"
         />
         <FormInput
           error={errors.name}

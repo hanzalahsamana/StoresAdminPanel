@@ -28,11 +28,10 @@ const PaymentForm = ({ shipping, total, tax, discount, cartItem }) => {
   const dispatch = useDispatch();
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false)
-  const { siteName, SiteLogo } = useSelector((state) => ({
-    siteName: state.siteName,
-    SiteLogo: selectPageByType(state, "Site Logo"),
-  }));
-
+  const { siteName } = useSelector((state) => state.siteName);
+  const SiteLogo = useSelector((state) =>
+    selectPageByType(state, "Site Logo")
+  );
   const [formData, setFormData] = useState(initialFormData);
 
   const handleChange = (e) => {
@@ -44,7 +43,7 @@ const PaymentForm = ({ shipping, total, tax, discount, cartItem }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!paymentFormValidate(formData)) {
+    if (!paymentFormValidate(formData, setErrors)) {
       return;
     }
 
@@ -95,7 +94,7 @@ const PaymentForm = ({ shipping, total, tax, discount, cartItem }) => {
     try {
       setLoading(true)
       await addOrderDataApi(siteName, data);
-      dispatch(deleteCartData())
+      dispatch(deleteCartData({ siteName }))
       localStorage.removeItem('cartId')
       setFormData(initialFormData);
       setErrors({});

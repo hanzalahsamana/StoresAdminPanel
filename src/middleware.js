@@ -82,7 +82,7 @@ export async function middleware(request) {
   }
 
   const subdomain = host.split(".")[0];
-  const potentialSlug = subdomain?.replace(`${BaseDomain}`, "");
+  const potentialSlug = subdomain?.replace(`${BaseDomain}`, ""  );
 
   if (!potentialSlug || potentialSlug === "www") {
     console.log("No potential slug", {
@@ -98,10 +98,12 @@ export async function middleware(request) {
   try {
 
     console.log(potentialSlug, pathname, request.url, "<><><><><><>");
-
-    return NextResponse.rewrite(
-      new URL(`${potentialSlug}${pathname}${url.search}`, request.url)
+    const abc = NextResponse.rewrite(
+      new URL(`/${potentialSlug}${pathname}${url.search}`, request.url)
     );
+    console.log("🚀🚀" ,abc );
+    
+    return abc;
   } catch (error) {
     console.error("Error validating slag:", error);
   }

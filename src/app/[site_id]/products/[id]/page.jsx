@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 import { MdSignalWifiConnectedNoInternet2 } from "react-icons/md";
 import Loader from "@/components/TemplateComponents/UI/loader";
 import ProductDetailCard from "@/components/TemplateComponents/UI/productDetailCard";
-import ProductsSection from "@/components/TemplateComponents/sections/productsSection";
+import ProductsSection from "@/components/Widgets/productsSection";
 
 const ProductDetail = ({ params }) => {
   const { products, loading, error } = useSelector((state) => state.productData);
@@ -31,7 +31,7 @@ const ProductDetail = ({ params }) => {
           <ProductDetailCard product={product} />
           <ProductsSection collection={product?.collectionName} name={'You may also like,'} maxLength={4} />
         </>
-      ) : <p className="w-full text-center py-[100px] text-[24px] text-[#3a3a3a] ">No product Fount</p>}
+      ) : <p className="w-full text-center py-[100px] text-[24px] text-[#3a3a3a] ">No product Found</p>}
     </>
   );
 };

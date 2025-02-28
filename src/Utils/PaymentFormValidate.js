@@ -1,4 +1,4 @@
-export const paymentFormValidate = (formData) => {
+export const paymentFormValidate = (formData , setErrors) => {
   const newErrors = {};
   const { email, country, firstName, lastName, address, city, phone } =
     formData;

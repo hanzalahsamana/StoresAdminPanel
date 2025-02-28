@@ -1,15 +1,20 @@
 import React from "react";
-import ProductRecieptCard from "./productRecieptCard";
+import OrderRecieptCard from "./TemplateComponents/UI/OrderRecieptCard";
 
-const ProductsRecipt = ({ products }) => {
+const OrderRecipt = ({ products }) => {
   const { shipping, tax, discount, total } = products?.orderInfo;
 
   return (
     <div className="w-full max-w-[500px]">
+
       <div className="max-h-[70%] overflow-scroll no-scrollbar">
-        <ProductRecieptCard product={products.orderData} />
+        {products.orderData?.map((item, index) => (
+          <OrderRecieptCard key={item._id} product={item} />
+        ))}
       </div>
+
       <div className="max-w-[500px] flex flex-col gap-2 py-[25px]">
+
         <p className="w-full flex justify-between text-[14px]">
           <span>Shipping Cost</span>
           <span className="text-[#6b7280]">Rs {shipping?.toFixed(2)}</span>
@@ -29,10 +34,11 @@ const ProductsRecipt = ({ products }) => {
           <span>Total</span>
           <span className="">Rs {total?.toFixed(2)}</span>
         </p>
+
       </div>
 
     </div>
   );
 };
 
-export default ProductsRecipt;
+export default OrderRecipt;

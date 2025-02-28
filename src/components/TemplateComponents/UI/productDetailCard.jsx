@@ -12,6 +12,7 @@ import { useRouter } from "next/navigation";
 import ButtonLoader from "./buttonLoader";
 import SizeController from "./SizeController";
 import { ConvertArray } from "@/Utils/CovertArray";
+import { getBasePath } from "@/Utils/GetBasePath";
 
 const ProductDetailCard = ({ product }) => {
 
@@ -22,6 +23,8 @@ const ProductDetailCard = ({ product }) => {
   const sizes = ConvertArray(product?.size)
   const [selectedSize, setSelectedSize] = useState(sizes[0])
   const { loading } = useSelector((state) => state?.cartData || []);
+  const { siteName } = useSelector((state) => state.siteName);
+
 
 
   const increaseQuantity = () => {
@@ -33,13 +36,14 @@ const ProductDetailCard = ({ product }) => {
   };
 
   const handleAddToCart = () => {
-    dispatch(addCartData({ quantity: quantity, selectedSize, ...product }));
+
+    dispatch(addCartData({ addedProduct: { quantity, selectedSize, ...product }, siteName }));
     setQuantity(1)
   };
 
 
-  console.log(product , "okay");
-  
+  console.log(product, "okay");
+
 
   return (
     <div className={styles.container}>
@@ -116,34 +120,35 @@ const ProductDetailCard = ({ product }) => {
 
           <div className={`flex-col sm:flex-row ${styles.buttons}`}>
             <button
-            disabled={!product?.stock ? true : false}
+              disabled={!product?.stock ? true : false}
               onClick={handleAddToCart}
-              className={`py-[15px] w-full mt-3 bg-white border-black border-[2px] text-[#000000] text-[16px]  transition-all duration-300 hover:scale-105 ${!product?.stock ? 'cursor-not-allowed':''}`}
+              className={`py-[15px] w-full mt-3 bg-white border-black border-[2px] text-[#000000] text-[16px]  transition-all duration-300 hover:scale-105 ${!product?.stock ? 'cursor-not-allowed' : ''}`}
             >
               {loading ? <ButtonLoader /> : 'Add To Cart'}
             </button>
             <button disabled={!product?.stock ? true : false} onClick={() => {
               handleAddToCart();
-              router.push("/checkout")
-            }}
-              className={`py-[15px] overflow-hidden w-full mt-3 bg-black text-[#e6e6e6] text-[16px]  transition-all duration-300 hover:scale-105 ${!product?.stock ? 'cursor-not-allowed':''}`}>
-              Buy It Now
-            </button>
-          </div>
-          <p className={styles.note}>
-            *Please note that the actual color of the fabric may vary slightly
-            due to photography lighting and screen settings.
-          </p>
+              router.push(`${getBasePath()}/checkout`);
 
-          <div className={styles.deliveryInfo}>
-            <p className="flex gap-2 items-center">
-              <TbTruckDelivery className="text-xl" /> Delivery in 2-3 working
-              days
-            </p>
-          </div>
+            }}
+            className={`py-[15px] overflow-hidden w-full mt-3 bg-black text-[#e6e6e6] text-[16px]  transition-all duration-300 hover:scale-105 ${!product?.stock ? 'cursor-not-allowed' : ''}`}>
+            Buy It Now
+          </button>
+        </div>
+        <p className={styles.note}>
+          *Please note that the actual color of the fabric may vary slightly
+          due to photography lighting and screen settings.
+        </p>
+
+        <div className={styles.deliveryInfo}>
+          <p className="flex gap-2 items-center">
+            <TbTruckDelivery className="text-xl" /> Delivery in 2-3 working
+            days
+          </p>
         </div>
       </div>
     </div>
+    </div >
   );
 };
 

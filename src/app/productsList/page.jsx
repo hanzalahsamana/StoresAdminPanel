@@ -35,13 +35,14 @@ const ProductsList = () => {
   };
 
   return (
-    <div className="p-2">
-      <div className="flex justify-between py-4 w-full items-center">
-        <p className="text-center font-semibold text-black text-[30px]">
+    <div className="p-5">
+      <div className="flex flex-col gap-3 justify-between w-full items-center bg-backgroundC p-4 rounded-md shadow-md">
+      <div className="flex justify-between w-full items-center">
+        <p className="text-center font-semibold text-textC text-[30px]">
           Products
         </p>
         <Button
-          label="Add New Product"
+          label="Add Product"
           action={toggleModal}
           className="w-max !py-2"
         />
@@ -58,6 +59,7 @@ const ProductsList = () => {
         setUpdatedProduct={setUpdatedProduct}
       />
 
+    </div>
     </div>
   );
 };

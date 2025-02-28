@@ -1,8 +1,9 @@
 "use client";
 
-import ProductsRecipt from '@/components/productsRecipt';
 import Loader from '@/components/TemplateComponents/UI/loader';
 import PaymentForm from '@/components/TemplateComponents/UI/PaymentForm';
+import ProductsRecipt from '@/components/TemplateComponents/UI/productsRecipt';
+import { getBasePath } from '@/Utils/GetBasePath';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react'
 import { FaChevronUp, FaChevronDown } from "react-icons/fa";
@@ -18,17 +19,18 @@ const Checkout = () => {
   })
 
   useEffect(() => {
-
-    if (!cartData || cartData?.length === 0) {
-      router.push('/cart')
+    if (!initialLoading) {
+      if (!cartData || cartData?.length === 0) {
+        router.push(`${getBasePath()}/cart`)
+      }
+      setLoading(false)
     }
-    setLoading(false)
 
   }, [cartData, router])
   if (initialLoading || loading) {
-    return (
-      <Loader />
-    )
+    // return (
+    //   <Loader />
+    // )
   }
 
   const totalProductCost = cartData?.reduce((total, product) => {

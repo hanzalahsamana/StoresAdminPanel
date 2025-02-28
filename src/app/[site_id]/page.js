@@ -1,11 +1,11 @@
 "use client";
 
-import CollectionAbout from "@/components/TemplateComponents/sections/collectionAbout";
-import CollectionSection from "@/components/TemplateComponents/sections/collectionSection";
-import FabricsAbout from "@/components/TemplateComponents/sections/fabricsAbout";
-import FabricsLiberary from "@/components/TemplateComponents/sections/fabricsLiberary";
-import Hero from "@/components/TemplateComponents/sections/hero";
-import ProductsSection from "@/components/TemplateComponents/sections/productsSection";
+import CollectionAbout from "@/components/Widgets/collectionAbout";
+import CollectionSection from "@/components/Widgets/collectionSection";
+import FabricsAbout from "@/components/Widgets/fabricsAbout";
+import FabricsLiberary from "@/components/Widgets/fabricsLiberary";
+import Hero from "@/components/Widgets/hero";
+import ProductsSection from "@/components/Widgets/productsSection";
 
 export default function Home() {
   return (

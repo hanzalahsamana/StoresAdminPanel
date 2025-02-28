@@ -1,30 +1,22 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { scaleLinear } from "d3-scale";
 import { ComposableMap, Geographies, Geography } from "react-simple-maps";
-import Tooltip from "./Tooltip";
-import CardLoader from "./CardLoader";
-import BarLoader from "./Loader/BarLoader";
-
-const data = [
-    { name: "Pakistan", value: 8 },
-    { name: "India", value: 1 },
-];
-
-
-
+import Tooltip from "../Tooltip";
+import CardLoader from "../CardLoader";
+import BarLoader from "../Loader/BarLoader";
 
 const colorScale = scaleLinear()
     .domain([1, 8])
-    .range(["#b3d7ff", "#003366"]);
+    .range(["#06a4a740", "#06989a"]);
 
 const geoUrl =
     "https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world.geojson";
 
 const MapChart = ({ analytics, analyticsLoading }) => {
-    if(analyticsLoading || typeof window === undefined){
+    if (analyticsLoading || typeof window === undefined) {
         return (
-         <BarLoader/>
+            <BarLoader />
         )
     }
 
@@ -33,11 +25,11 @@ const MapChart = ({ analytics, analyticsLoading }) => {
     const [tooltipVisible, setTooltipVisible] = useState(false);
 
     const handleMouseMove = (event) => {
-        const cursorX = event.clientX ;
+        const cursorX = event.clientX;
         const cursorY = event.clientY;
 
         setTooltipPosition({
-            top: cursorY -100,
+            top: cursorY - 100,
             left: cursorX - 250,
         });
     };
@@ -48,16 +40,23 @@ const MapChart = ({ analytics, analyticsLoading }) => {
     const handleMouseLeave = () => {
         setTooltipVisible(false);
     };
+    useEffect(() => {
+        const svgElement = document.querySelector(".MapChartSvg svg");
+        if (svgElement) {
+            svgElement.setAttribute("viewBox", "0 -150 900 700");
+        }
+    }, []);
 
     return (
-        <div className="flex justify-center flex-col items-center w-full mt-[90px] scale-105"
+        <div className="MapChartSvg flex justify-center h-[300px] flex-col items-center w-full"
             onMouseMove={handleMouseMove}
         >
             <ComposableMap
                 projection="geoMercator"
 
+
                 projectionConfig={{
-                    scale: 80,
+                    scale: 140,
                 }}
             >
                 <Geographies geography={geoUrl} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
@@ -96,28 +95,7 @@ const MapChart = ({ analytics, analyticsLoading }) => {
                 </Geographies>
             </ComposableMap>
 
-            <Tooltip tooltipPosition={tooltipPosition}  tooltipVisible={tooltipVisible} tooltipContent={tooltipContent} />
-
-            {/* <table style={{ marginTop: "20px", borderCollapse: "collapse" }}>
-                <thead>
-                    <tr>
-                        <th style={{ border: "1px solid #ddd", padding: "8px" }}>Country</th>
-                        <th style={{ border: "1px solid #ddd", padding: "8px" }}>Value</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {data.map((row) => (
-                        <tr key={row.name}>
-                            <td style={{ border: "1px solid #ddd", padding: "8px" }}>
-                                {row.name}
-                            </td>
-                            <td style={{ border: "1px solid #ddd", padding: "8px" }}>
-                                {row.value}
-                            </td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table> */}
+            <Tooltip tooltipPosition={tooltipPosition} tooltipVisible={tooltipVisible} tooltipContent={tooltipContent} />
         </div>
     );
 };

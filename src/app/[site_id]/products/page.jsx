@@ -1,6 +1,6 @@
 "use client";
 
-import ProductsSection from "@/components/TemplateComponents/sections/productsSection";
+import ProductsSection from "@/components/Widgets/productsSection";
 
 const Products = () => {
   return (

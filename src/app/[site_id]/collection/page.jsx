@@ -1,4 +1,4 @@
-import CollectionSection from '@/components/TemplateComponents/sections/collectionSection'
+import CollectionSection from '@/components/Widgets/collectionSection'
 import React from 'react'
 
 const AllCollections = () => {

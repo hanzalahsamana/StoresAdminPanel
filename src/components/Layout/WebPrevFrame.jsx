@@ -2,7 +2,7 @@
 
 import React from 'react'
 import Header from '../TemplateComponents/layout/header';
-import Hero from '../TemplateComponents/sections/hero';
+import Hero from '../Widgets/hero';
 import Button from '../Actions/Button';
 import { useRouter } from 'next/navigation';
 import { selectPageByType } from '@/Redux/PagesData/PagesDataSlice';
@@ -10,18 +10,20 @@ import { useSelector } from 'react-redux';
 import { GoDotFill } from "react-icons/go";
 import Link from 'next/link';
 import { FiArrowUpRight } from 'react-icons/fi';
+import { Base_Domain } from '../../../config';
 
 
 const WebPrevFrame = () => {
     const router = useRouter()
     const SiteLogo = useSelector((state) => selectPageByType(state, "Site Logo"));
-    const { siteName } = useSelector((state) => state.siteName);
+    const { currUser } = useSelector((state) => state.currentUser);
+
 
 
     return (
         <div className='pb-[40px]'>
 
-            <div className='flex w-full justify-center gap-[25px]'>
+            <div className='flex w-full overflow-auto justify-center gap-[25px]'>
                 <div className="h-[320px] w-[650px] overflow-hidden">
                     <div className="LaptopFrame">
                         <Header />
@@ -39,8 +41,8 @@ const WebPrevFrame = () => {
             </div>
             <div>
                 <div className='w-full flex justify-between items-center py-[20px] px-[20px] bg-backgroundC shadow-md'>
-                    <div className='flex gap-2'>
-                        <div className='w-[100px] h-[100px] flex justify-center items-center bg-secondaryC p-2'>
+                    <div className='flex gap-4'>
+                        <div className='w-[100px] h-[100px] flex justify-center items-start bg-transparent'>
                             <img src={SiteLogo?.image} alt="Site Logo" className='object-contain' />
                         </div>
                         <div className='flex flex-col gap-2'>
@@ -48,8 +50,8 @@ const WebPrevFrame = () => {
                                 <GoDotFill />
                                 live
                             </p>
-                            <p className='text-textC'>{siteName} </p>
-                            <Link className='text-blue-400 flex gap-1 items-center ' href={`https://stores-admin-panel.vercel.app/${siteName} `}>stores-admin-panel.vercel.app/{siteName} <FiArrowUpRight /></Link>
+                            <p className='text-textC'>{currUser?.brandName} </p>
+                            <Link className='text-blue-400 flex gap-1 items-center ' href={`${currUser?.subDomain||currUser?.brandName}.${Base_Domain}`}>{currUser?.subDomain ||currUser?.brandName }.{Base_Domain} <FiArrowUpRight /></Link>
                         </div>
                     </div>
                     <div>

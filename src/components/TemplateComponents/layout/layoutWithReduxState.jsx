@@ -10,6 +10,7 @@ import { fetchProducts } from '@/APIs/Product/getProductData';
 import { fetchCategory } from '@/APIs/Category/getCategory';
 import { setCartData } from '@/Redux/CartData/cartDataSlice';
 import { setSiteName } from '@/Redux/SiteName/SiteNameSlice';
+import { fetchOrderData } from '@/APIs/Order/getOrderData';
 
 const LayoutWithReduxState = ({ children }) => {
 
@@ -27,18 +28,21 @@ const LayoutWithReduxState = ({ children }) => {
       await fetchProducts(dispatch, siteName);
       await fetchPagesData(dispatch, siteName);
       await fetchCategory(dispatch, siteName);
+      await fetchOrderData(dispatch, siteName);
+
 
 
       if (typeof window !== "undefined" && siteName) {
-        const cartData = localStorage.getItem(`${siteName}_cartId`);
-        dispatch(setCartData(cartData));
+        const cartId = localStorage.getItem(`${siteName}_cartId`);
+        console.log("okk2", cartId, siteName);
+        dispatch(setCartData({ cartId, siteName }));
       }
     };
 
     if (siteName) {
       fetchData();
       console.log("ye bhi chala");
-      
+
     }
 
   }, [dispatch, siteName]);
@@ -47,7 +51,7 @@ const LayoutWithReduxState = ({ children }) => {
 
   if (productLoading || pagesDataLoading || categoryLoading) {
     console.log("yahi he");
-    
+
     return <Loader />
   }
 

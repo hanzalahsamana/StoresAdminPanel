@@ -9,6 +9,7 @@ import { AiOutlineClose } from 'react-icons/ai';
 import { FaBars } from 'react-icons/fa';
 import { HiOutlineShoppingBag } from "react-icons/hi2";
 import { totalCalculate } from '@/Utils/TotalCalculator';
+import { getBasePath } from '@/Utils/GetBasePath';
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -20,6 +21,10 @@ const Header = () => {
   const { cartData } = useSelector((state) => state?.cartData || []);
   const { siteName } = useSelector((state) => state.siteName);
   const { categories } = useSelector((state) => state?.categories);
+  const { currUser } = useSelector((state) => state.currentUser);
+
+  const Storepath = getBasePath();
+
 
   useEffect(() => {
     const handleScroll = () => {
@@ -41,13 +46,18 @@ const Header = () => {
     return () => window.removeEventListener('resize', checkHeaderWidth);
   }, []);
 
+  useEffect(() => {
+    console.log(pathname, Storepath, "oooooooooooooo");
+
+  }, [pathname])
+
   const toggleMenu = () => setIsOpen(!isOpen);
 
   const generateLink = (path, label, i) => (
     <Link
       key={i}
-      href={`/${siteName}${path}`}
-      className={`text-[18px] cursor-pointer hover:opacity-[0.6] ${pathname === path ? 'underline font-semibold' : ''}`}
+      href={`${Storepath}${path}`}
+      className={`text-[18px] cursor-pointer hover:opacity-[0.6] ${pathname === `${Storepath}${path}` || (pathname === Storepath && path === '/') ? 'underline font-semibold' : ''}`}
       prefetch={true}
     >
       {label}
@@ -55,12 +65,12 @@ const Header = () => {
   );
 
   return (
-    <header 
-      ref={headerRef} 
+    <header
+      ref={headerRef}
       className={`w-full transition-all duration-300 ease-in-out top-0 z-10 
         ${pathname === "/a" ? 'fixed' : 'sticky'} 
-        ${pathname === `/a${siteName}` && !isScrolled && !isOpen ? 
-          'bg-gradient-to-b from-[#000000c4] to-transparent text-white' : 
+        ${pathname === `/a${siteName}` && !isScrolled && !isOpen ?
+          'bg-gradient-to-b from-[#000000c4] to-transparent text-white' :
           'bg-white text-black shadow-md '}`}
     >
       <div className="container mx-auto flex justify-between gap-10 items-center max-w-[1200px] py-4 px-[20px] md:px-[40px]">
@@ -72,7 +82,7 @@ const Header = () => {
           </div>
         )}
 
-        <Link href={'/'} className="flex items-center">
+        <Link href={`${Storepath}/`} className="flex items-center">
           <img src={SiteLogo?.image} alt={siteName} className="w-20 max-h-16 object-contain" />
         </Link>
 
@@ -87,7 +97,7 @@ const Header = () => {
 
         <div className="flex items-center space-x-4 text-[24px]">
           <button className="hover:text-yellow-500 relative">
-            <Link href={`/${siteName}/cart`}>
+            <Link href={`${Storepath}/cart`}>
               <HiOutlineShoppingBag />
               <span className="absolute text-black flex justify-center items-center text-[12px] w-[18px] h-[18px] rounded-full bg-white right-[-4px] bottom-[-6px]">
                 {totalCalculate(cartData)}
@@ -98,7 +108,7 @@ const Header = () => {
       </div>
 
       {showMobileMenu && (
-        <div className={`max-w-[1500px] transition-all duration-3000 ease-in-out ${isOpen ? 'max-h-[260px]' : 'max-h-[0px] overflow-hidden'}`}> 
+        <div className={`max-w-[1500px] transition-all duration-3000 ease-in-out ${isOpen ? 'max-h-[260px]' : 'max-h-[0px] overflow-hidden'}`}>
           <nav className="flex flex-col gap-6 p-[30px] py-4">
             {generateLink("/", "Home")}
             {categories?.slice(0, 2).map((category, i) => generateLink(`/collection/${category?.link}`, category?.name, i))}

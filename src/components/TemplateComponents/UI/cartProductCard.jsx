@@ -1,23 +1,24 @@
 "use client";
 import React from "react";
 import QuantityControl from "./quantityControl";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addCartData, deleteCartData } from "@/Redux/CartData/cartDataSlice";
 
 const CartProductCard = ({ product }) => {
   const dispatch = useDispatch();
+  const { siteName } = useSelector((state) => state.siteName);
 
   const quantity = product?.quantity || 1;
 
   const incrementQuantity = () => {
     if (product?._id) {
-      dispatch(addCartData({ _id: product?._id, quantity: 1, selectedSize: product?.selectedSize }));
+      dispatch(addCartData({ addedProduct: { _id: product?._id, quantity: 1, selectedSize: product?.selectedSize }, siteName }));
     }
   };
 
   const decrementQuantity = () => {
     if (quantity > 1 && product?._id) {
-      dispatch(addCartData({ _id: product?._id, quantity: -1, selectedSize: product?.selectedSize }));
+      dispatch(addCartData({ addedProduct: { _id: product?._id, quantity: -1, selectedSize: product?.selectedSize }, siteName }));
     }
   };
   return (
@@ -60,7 +61,7 @@ const CartProductCard = ({ product }) => {
 
         <button
           className="ml-4 text-gray-600 hover:text-red-500"
-          onClick={() => dispatch(deleteCartData(product?._id))}
+          onClick={() => dispatch(deleteCartData({productId:product?._id, siteName}))}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"

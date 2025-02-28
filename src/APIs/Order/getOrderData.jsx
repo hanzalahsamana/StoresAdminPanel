@@ -7,6 +7,8 @@ import { toast } from "react-toastify";
 
 export const fetchOrderData = async (dispatch, type) => {
   try {
+    console.log("wowwwwwwwww");
+    
     const response = await axios.get(`${BASE_URL}/${type}/getOrders`);
     dispatch(setOrderData(response.data));
     dispatch(orderLoading(false));

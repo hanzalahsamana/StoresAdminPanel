@@ -23,10 +23,10 @@ const ProviderWrap = ({ children }) => {
       fetchOrderData(dispatch, currUser?.brandName);
       fetchProducts(dispatch, currUser?.brandName);
       fetchCategory(dispatch, currUser?.brandName);
+      fetchPagesData(dispatch, currUser?.brandName)
       
       console.log("ye chala");
       
-      fetchPagesData(dispatch, currUser?.brandName)
 
 
     }

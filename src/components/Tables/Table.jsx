@@ -10,8 +10,8 @@ import { copyToClipboard } from "@/Utils/CopyText";
 
 const DynamicTable = ({ columns = [], data = [], actions = {}, loading = false, notFoundText = 'Not Found' }) => {
     return (
-        <div className="overflow-x-auto p-4 rounded-tl-lg rounded-tr-lg bg-white border-primaryC shadow-sm">
-            <table className="w-full border-collapse rounded-tl-lg rounded-tr-lg  overflow-hidden">
+        <div className="overflow-x-auto p-4 rounded-tl-lg rounded-tr-lg bg-white w-full border-primaryC">
+            <table className="w-full border-collapse rounded-tl-lg rounded-tr-lg  overflow-hidden text-nowrap">
                 <thead>
                     <tr className="bg-secondaryC border-secondaryC border-b-[2px] text-primaryC uppercase text-sm">
                         {columns.map((col) => (

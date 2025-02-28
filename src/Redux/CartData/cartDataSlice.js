@@ -1,22 +1,26 @@
 "use client";
 
-import { addCartDataApi, deleteCartDataApi, setCartDataApi } from "@/APIs/Cart/CartRefrenceApis";
+import {
+  addCartDataApi,
+  deleteCartDataApi,
+  setCartDataApi,
+} from "@/APIs/Cart/CartRefrenceApis";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-
 
 const initialState = {
   cartData: [],
   loading: false,
-  initialLoading: false,
+  initialLoading: true,
   error: null,
 };
 
 export const setCartData = createAsyncThunk(
   "cartData/setCartData",
-  async (cartId, { rejectWithValue }) => {
+  async ({ cartId, siteName }, { rejectWithValue }) => {
+    
     if (cartId && cartId !== "undefined" && cartId !== "null") {
       try {
-        const response = await setCartDataApi(cartId);
+        const response = await setCartDataApi(cartId, siteName);
         return response.products;
       } catch (error) {
         return rejectWithValue(error.message);
@@ -43,8 +47,8 @@ export const deleteCartData = createAsyncThunk(
   async ({ productId, siteName }, { rejectWithValue }) => {
     try {
       const cartID = localStorage.getItem(`${siteName}_cartId`);
-      const updatedState = await deleteCartDataApi(cartID, productId);
-      return [];
+      const updatedState = await deleteCartDataApi(cartID, productId, siteName);
+      return updatedState?.products;
     } catch (error) {
       return rejectWithValue(error.message);
     }

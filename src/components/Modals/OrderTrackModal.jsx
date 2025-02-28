@@ -3,6 +3,7 @@ import Modal from "./Modal";
 import FormInput from "../Forms/FormInput";
 import Button from "../Actions/Button";
 import { useRouter } from "next/navigation";
+import { getBasePath } from "@/Utils/GetBasePath";
 
 const isValidMongoId = (id) => /^[a-f\d]{24}$/i.test(id); // Checks if ID is a valid MongoDB ObjectId
 
@@ -37,7 +38,7 @@ const OrderTrackModal = ({ isOpen, setIsOpen }) => {
         }
 
         setLoading(true);
-        router.push(`/track/${orderId}`);
+        router.push(`${getBasePath()}/track/${orderId}`);
     };
 
     return (

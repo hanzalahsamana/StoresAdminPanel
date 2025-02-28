@@ -3,18 +3,16 @@ import React from 'react'
 import CardLoader from './CardLoader'
 import BarLoader from './Loader/BarLoader';
 
-const StatusCard = ({title , data , classes , loading}) => {
-    if(loading){
-        return (
-         <BarLoader/>
-        )
-    }
+const StatusCard = ({ title, data, classes, loading }) => {
+  if (loading) {
+    return (
+      <BarLoader />
+    )
+  }
   return (
-    <div className={`bg-white p-6 rounded-lg shadow-lg ${classes}`}>
-      <h3 className="text-xl font-semibold text-gray-800">
-        {title}
-      </h3>
-      <p className="text-2xl font-bold text-blue-500">{data?.length}</p>
+    <div className={`bg-white px-[15px] py-[10px] rounded-lg border border-borderC shadow-sm ${classes}`}>
+      <p className='text-textC text-[16px] font-medium font-[inter] text-left'>{title}</p>
+      <p className="text-xl mt-[10px] font-bold text-primaryC">{data?.length}</p>
     </div>
   )
 }

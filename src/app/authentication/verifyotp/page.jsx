@@ -109,7 +109,7 @@ const OtpVerification = () => {
     }
 
     return (
-        <div className="w-full h-screen flex items-center justify-center">
+        <div className="w-full h-screen bg-secondaryC flex items-center justify-center">
             <div className="flex flex-col p-[25px] bg-white rounded-md items-center justify-center mt-8 shadow-lg">
                 <h2 className="text-2xl font-semibold">OTP Verification</h2>
                 <p className="mt-[20px] w-full text-start text-[#414141] text-[14px]">OTP sent to:{" "} <b>{email}</b></p>
@@ -119,7 +119,7 @@ const OtpVerification = () => {
                         disabled={resendLoading || cooldown > 0}
                         className={` ${resendLoading || cooldown > 0
                             ? "text-gray-400 cursor-not-allowed"
-                            : "text-indigo-500"
+                            : "text-primaryC"
                             }`}
                     >
                         {resendLoading
@@ -140,7 +140,7 @@ const OtpVerification = () => {
                                 onChange={(e) => handleOtpChange(e, index)}
                                 onKeyDown={(e) => handleKeyDown(e, index)}
                                 ref={(el) => (inputRefs.current[index] = el)}
-                                className="w-12 h-12 text-center text-lg font-semibold border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                                className="w-12 h-12 text-center text-lg font-semibold border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primaryC"
                             />
                         ))}
                     </div>
@@ -149,7 +149,7 @@ const OtpVerification = () => {
                         <button
                             type="submit"
                             disabled={loading || otp.includes("")}
-                            className={`px-6 py-3 w-full rounded-sm font-semibold  ${loading || otp.includes("") ? "bg-gray-200 text-gray-400 cursor-not-allowed" : "bg-indigo-500 text-white hover:bg-indigo-600"
+                            className={`px-6 py-3 w-full rounded-sm font-semibold  ${loading || otp.includes("") ? "bg-gray-200 text-gray-400 cursor-not-allowed" : "bg-primaryC text-white hover:opacity-80"
                                 }`}
                         >
                             {loading ? "Verifying..." : "Verify OTP"}

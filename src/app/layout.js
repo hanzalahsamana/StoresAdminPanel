@@ -8,6 +8,7 @@ import { ToastContainer } from "react-toastify";
 // import localFont from "next/font/local";
 import "react-toastify/dist/ReactToastify.css";
 import NetworkStatus from "@/components/TemplateComponents/sections/NetworkError";
+import { Tooltip } from "react-tooltip";
 
 // const geistSans = localFont({
 //   src: "../assets/fonts/GeistVF.woff",
@@ -31,6 +32,7 @@ export default function RootLayout({ children }) {
         <Provider store={store}>
           <ProviderWrap>{children}</ProviderWrap>
           <ToastContainer />
+          <Tooltip className="!text-[12px]" id="my-tooltip" />
           <NetworkStatus />
         </Provider>
       </body>

@@ -4,6 +4,7 @@ import Link from "next/link";
 import "./style.css";
 import { useSelector } from "react-redux";
 import { selectPageByType } from "@/Redux/PagesData/PagesDataSlice";
+import { getBasePath } from "@/Utils/GetBasePath";
 
 const CollectionAbout = () => {
   const selectedPage = useSelector((state) =>
@@ -25,7 +26,7 @@ const CollectionAbout = () => {
         <h1 className="text-[25px]">{selectedPage?.title}</h1>
         <div className=" leading-6 max-h-[230px] pr-[15px] customScroll overflow-auto  text-[#4a4a4a]" dangerouslySetInnerHTML={{ __html: selectedPage?.text }}>
         </div>
-        <Link href={'/products'} className="flex justify-center py-[15px] w-full mt-6 bg-black text-[#e6e6e6] text-[16px]  transition-all duration-300 hover:scale-105">
+        <Link href={`${getBasePath()}/products`} className="flex justify-center py-[15px] w-full mt-6 bg-black text-[#e6e6e6] text-[16px]  transition-all duration-300 hover:scale-105">
           {selectedPage?.buttonText|| "Shop Now"}
         </Link>
       </div>

@@ -1,6 +1,5 @@
 import Loader from "@/components/loader";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
 import { useSelector } from "react-redux";
 
 const UnProtectedRoute = (WrappedComponent) => {
@@ -9,7 +8,6 @@ const UnProtectedRoute = (WrappedComponent) => {
     if (loading) {
       return <Loader />;
     }
-//teporarily
     const router = useRouter();
     if (!currUser) {
       return <WrappedComponent />;

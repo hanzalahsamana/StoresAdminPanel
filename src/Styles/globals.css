@@ -46,18 +46,18 @@ body {
 }
 
 .customScroll::-webkit-scrollbar {
-  width: 12px;
+  width: 5px;
 }
 
 .customScroll::-webkit-scrollbar-track {
-  background-color: #f1f1f1;
-  border-radius: 10px;
+  background-color: #E4E4E4;
+  border-radius: 0px;
 }
 
 .customScroll::-webkit-scrollbar-thumb {
   background-color: #b7b7b7;
   border-radius: 10px;
-  border: 3px solid #f1f1f1;
+  border: 0px solid #f1f1f1;
 }
 
 .customScroll::-webkit-scrollbar-thumb:hover {
@@ -129,10 +129,11 @@ body {
   background-image: url("../Assets/Images/mobileFrame1.png");
   background-repeat: no-repeat;
   background-position: center;
-  z-index: 100;
+  z-index: 10;
   background-size: 300px 440px;
   pointer-events: none;
 }
+
 .bgImageI {
   width: 650px;
   overflow: hidden;
@@ -142,4 +143,36 @@ body {
 input:-webkit-autofill {
   background-color: transparent !important;
   box-shadow: 0 0 0px 1000px white inset !important;
+}
+
+
+@keyframes expandWidth {
+  0% {
+    width: 0;
+  }
+  100% {
+    width: 100%;
+  }
+}
+
+.animate-expand {
+  animation: expandWidth 0.3s ease-in forwards;
+}
+@keyframes expandWidth2 {
+  0% {
+    width: 25px;
+    height: 25px;
+    visibility: hidden;
+    opacity:0.5;
+  }
+  100% {
+    width: 25px;
+    height: 25px;
+    visibility: visible;
+    opacity: 1;
+  }
+}
+
+.animate-expand2 {
+  animation: expandWidth2 0.3s ease-out forwards;
 }

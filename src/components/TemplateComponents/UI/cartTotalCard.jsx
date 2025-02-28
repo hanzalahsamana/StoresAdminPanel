@@ -1,3 +1,4 @@
+import { getBasePath } from "@/Utils/GetBasePath";
 import Link from "next/link";
 import React from "react";
 
@@ -12,7 +13,7 @@ const CartTotalCard = ({ totalPrice }) => {
         <p className="text-center">Taxes, discounts and shipping calculated at checkout.</p>
       </div>
       <div className="w-[450px] max-[750px]:w-[80%]">
-        <Link href={"/checkout"}>
+        <Link href={`${getBasePath()}/checkout`}>
           <button
             className="py-[15px] w-full mt-3 bg-black text-[#ffffff] text-[16px]  transition-all duration-300 hover:scale-105"
           >

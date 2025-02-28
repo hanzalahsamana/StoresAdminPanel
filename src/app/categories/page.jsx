@@ -35,31 +35,34 @@ const CategoryList = () => {
     delete: (row) => { deleteCategory(currUser.brandName, row?._id, dispatch) },
   };
   return (
-    <div className="p-2">
-      <div className="flex justify-between py-4 w-full items-center">
-        <p className="text-center font-semibold text-black text-[30px]">
-          Categories
-        </p>
-        <Button
-          label="Add New Category"
-          action={toggleModal}
-          className="w-max !py-2"
-        />
-      </div>
+    <div className="p-4">
+      <div className="flex flex-col gap-3 justify-between w-full items-center bg-backgroundC p-4 rounded-md shadow-md">
 
-      <DynamicTable columns={columns} data={categories} actions={actions} loading={categoryLoading} notFoundText="There are no categories to show" />
+        <div className="flex justify-between w-full items-center">
+          <p className="text-center font-semibold text-textC text-[30px]">
+            Categories
+          </p>
+          <Button
+            label="Add Category"
+            action={toggleModal}
+            className="w-max !py-2"
+          />
+        </div>
+
+        <DynamicTable columns={columns} data={categories} actions={actions} loading={categoryLoading} notFoundText="There are no categories to show" />
 
 
-      {isOpen && (
-        <CategoryAddModal
-          isOpen={isOpen}
-          setIsOpen={setIsOpen}
-          categoryLoading={categoryLoading}
-          updatedData={updatedCategory}
-          setUpdatedCategory={setUpdatedCategory}
-        />
-      )
-      }
+        {isOpen && (
+          <CategoryAddModal
+            isOpen={isOpen}
+            setIsOpen={setIsOpen}
+            categoryLoading={categoryLoading}
+            updatedData={updatedCategory}
+            setUpdatedCategory={setUpdatedCategory}
+          />
+        )
+        }
+      </div >
     </div >
   );
 };
