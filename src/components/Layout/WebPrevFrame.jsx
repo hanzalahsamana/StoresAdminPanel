@@ -10,7 +10,7 @@ import { useSelector } from 'react-redux';
 import { GoDotFill } from "react-icons/go";
 import Link from 'next/link';
 import { FiArrowUpRight } from 'react-icons/fi';
-import { Base_Domain } from '../../../config';
+import { Base_Domain, HTTP } from '../../../config';
 
 
 const WebPrevFrame = () => {
@@ -51,7 +51,7 @@ const WebPrevFrame = () => {
                                 live
                             </p>
                             <p className='text-textC'>{currUser?.brandName} </p>
-                            <Link className='text-blue-400 flex gap-1 items-center ' href={`${currUser?.subDomain||currUser?.brandName}.${Base_Domain}`}>{currUser?.subDomain ||currUser?.brandName }.{Base_Domain} <FiArrowUpRight /></Link>
+                            <Link target='_blank' className='text-blue-400 flex gap-1 items-center ' href={`${HTTP}${currUser?.subDomain||currUser?.brandName}.${Base_Domain}`}>{currUser?.subDomain ||currUser?.brandName }.{Base_Domain} <FiArrowUpRight /></Link>
                         </div>
                     </div>
                     <div>

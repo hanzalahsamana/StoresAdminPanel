@@ -1,4 +1,5 @@
 "use client";
+import { getUserFromToken } from "@/APIs/Auth/getUserFromToken";
 import { fetchCategory } from "@/APIs/Category/getCategory";
 import { fetchOrderData } from "@/APIs/Order/getOrderData";
 import { fetchPagesData } from "@/APIs/PagesData/getPagesData";
@@ -13,8 +14,9 @@ const ProviderWrap = ({ children }) => {
   const { currUser } = useSelector((state) => state.currentUser);
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem("currentUser"));
-    dispatch(setCurrentUser(user));
-    dispatch(setLoading(false));
+    getUserFromToken(dispatch, user?.brandName)
+    // dispatch(setCurrentUser(user));
+    // dispatch(setLoading(false));
   }, [dispatch]);
 
   useEffect(() => {
@@ -24,9 +26,9 @@ const ProviderWrap = ({ children }) => {
       fetchProducts(dispatch, currUser?.brandName);
       fetchCategory(dispatch, currUser?.brandName);
       fetchPagesData(dispatch, currUser?.brandName)
-      
+
       console.log("ye chala");
-      
+
 
 
     }

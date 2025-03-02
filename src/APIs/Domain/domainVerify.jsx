@@ -4,11 +4,11 @@ import axios from "axios";
 import BASE_URL from "../../../config";
 
 
-export const addDomainDns = async (domain) => {
+export const addDomainDns = async (domain , sitename) => {
     try {
         console.log(BASE_URL, domain, "♀️♀️");
 
-        const response = await axios.post(`${BASE_URL}/${'abc'}/addDomainDns`, { domain });
+        const response = await axios.post(`${BASE_URL}/${sitename}/addDomainDns`, { domain });
         console.log(response, "♀️♀️♀️");
 
         return response.data;
@@ -23,7 +23,7 @@ export const addDomainDns = async (domain) => {
 export const genrateSSl = async (domain) => {
     try {
         console.log(BASE_URL, domain, "♀️♀️");
-        const response = await axios.post(`${BASE_URL}/${'abc'}/genrateSSl`, { domain });
+        const response = await axios.post(`${BASE_URL}/${'abc'}/genrateSSl`, { userDomain:domain });
         console.log(response, "♀️♀️♀️");
 
         return response.data;
