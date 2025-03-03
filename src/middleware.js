@@ -37,43 +37,41 @@
 
 // // Define the middleware matcher
 // export const config = {
-  //     matcher: '/', // Exclude static assets & API routes
-  // };
-  // const basePath = getBasePath();
-  
-  // const response = await fetch(${basePath}/api/validate-slug, {
-  //   method: "POST",
-  //   body: JSON.stringify({ slug: potentialSlug }),
-  //   headers: { "Content-Type": "application/json" },
-  // });
-  
-  // const restaurant = await response.json();
-  
-  // if (!restaurant?.invalid) {
-  //   console.log("Invalid slug", host, subdomain, pathname, potentialSlug);
-  //   return NextResponse.redirect(
-  //     new URL(${basePath}/not-found, request.url),
-  //     302
-  //   );
-  // }
-  
-  // if (!restaurant?.isActive && !pathname.Includes("subscription-expired")) {
-  //   return NextResponse.redirect(
-  //     ${getBasePath(potentialSlug)}/subscription-expired
-  //   );
-  // }
+//     matcher: '/', // Exclude static assets & API routes
+// };
+// const basePath = getBasePath();
 
+// const response = await fetch(${basePath}/api/validate-slug, {
+//   method: "POST",
+//   body: JSON.stringify({ slug: potentialSlug }),
+//   headers: { "Content-Type": "application/json" },
+// });
+
+// const restaurant = await response.json();
+
+// if (!restaurant?.invalid) {
+//   console.log("Invalid slug", host, subdomain, pathname, potentialSlug);
+//   return NextResponse.redirect(
+//     new URL(${basePath}/not-found, request.url),
+//     302
+//   );
+// }
+
+// if (!restaurant?.isActive && !pathname.Includes("subscription-expired")) {
+//   return NextResponse.redirect(
+//     ${getBasePath(potentialSlug)}/subscription-expired
+//   );
+// }
 import { NextResponse } from "next/server";
-// import { BaseDomain, getBasePath } from "./lib/utils";
+import axios from "axios";
+import BASE_URL from "../config"; // Ensure correct path to your config file
 
 export async function middleware(request) {
   const url = request.nextUrl.clone();
   const host = request.headers.get("host") || "";
   const pathname = url.pathname;
   const BaseDomain =
-    process.env.NODE_ENV === "production"
-      ? "hannanfabrics"
-      : "localhost:3000";
+    process.env.NODE_ENV === "production" ? "hannanfabrics" : "localhost:3000";
 
   console.log("🔖🔖", url, "👍", host, "🥀", pathname, "😂", BaseDomain);
 
@@ -82,7 +80,7 @@ export async function middleware(request) {
   }
 
   const subdomain = host.split(".")[0];
-  const potentialSlug = subdomain?.replace(`${BaseDomain}`, ""  );
+  const potentialSlug = subdomain?.replace(`${BaseDomain}`, "");
 
   if (!potentialSlug || potentialSlug === "www") {
     console.log("No potential slug", {
@@ -96,18 +94,23 @@ export async function middleware(request) {
   }
 
   try {
-
-    console.log(potentialSlug, pathname, request.url, "<><><><><><>");
-    const abc = NextResponse.rewrite(
-      new URL(`/${potentialSlug}${pathname}${url.search}`, request.url)
+    // 🔥 Call API to check if the site exists
+    const response = await axios.get(
+      `${BASE_URL}/fetchSiteByDomain?domain=${potentialSlug}`
     );
-    console.log("🚀🚀" ,abc );
-    
-    return abc;
+
+    if (response?.data?.siteName) {
+      console.log("✅ Site found:", response.data.siteName);
+      return NextResponse.rewrite(
+        new URL(`/${response.data.siteName}${pathname}${url.search}`, request.url)
+      );
+    }
   } catch (error) {
-    console.error("Error validating slag:", error);
+    console.error("🚨 Site not found:", error.message);
   }
-  return NextResponse.next();
+
+  // 🚨 If site not found, redirect to /not-found
+  return NextResponse.rewrite(new URL("/not-found", request.url));
 }
 
 export const config = {
@@ -115,7 +118,3 @@ export const config = {
     "/((?!api|_next/static|_next/image|favicon.ico|logo.*|robots.txt|service-worker.js).*)",
   ],
 };
-
-// export const config = {
-//   matcher: "/", // Exclude static assets & API routes
-// };

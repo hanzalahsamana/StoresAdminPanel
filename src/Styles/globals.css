@@ -129,7 +129,7 @@ body {
   background-image: url("../Assets/Images/mobileFrame1.png");
   background-repeat: no-repeat;
   background-position: center;
-  z-index: 10;
+  z-index: 1;
   background-size: 300px 440px;
   pointer-events: none;
 }

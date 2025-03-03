@@ -5,6 +5,9 @@ import { toast } from "react-toastify";
 import { setCurrentUser, setLoading } from "@/Redux/Authentication/AuthSlice";
 
 export const getUserFromToken = async (dispatch, type) => {
+    if(!type){
+        dispatch(setCurrentUser(null));
+    }
     try {
         dispatch(setLoading(true));
         const response = await axios.get(`${BASE_URL}/${type}/getUserFromToken`);
@@ -15,6 +18,5 @@ export const getUserFromToken = async (dispatch, type) => {
     } catch (error) {
         console.error(error, "hello world");
         dispatch(setLoading(false));
-        toast.error(error.message);
     }
 };

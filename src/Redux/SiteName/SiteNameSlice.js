@@ -3,7 +3,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  siteName: "",
+  siteName: null,
   loading: true,
   error: null,
 };
@@ -15,15 +15,15 @@ export const siteNameSlice = createSlice({
     setSiteName: (state, action) => {
       state.siteName = action.payload;
     },
-    // setLoading: (state, action) => {
-    //   state.loading = action.payload;
-    // },
+    setSiteNameLoading: (state, action) => {
+      state.loading = action.payload;
+    },
     // setError: (state, action) => {
     //   state.error = action.payload;
     // },
   },
 });
 
-export const { setSiteName } = siteNameSlice.actions;
+export const { setSiteName , setSiteNameLoading } = siteNameSlice.actions;
 
 export const siteNameReducer = siteNameSlice.reducer;

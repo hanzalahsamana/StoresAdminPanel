@@ -34,7 +34,7 @@ const PopupMenu = () => {
       <button
         onClick={() => setIsOpen((prev) => !prev)}
         className={`flex gap-2 items-center text-primaryC bg-secondaryC px-[18px] rounded-md py-[7px] hover:opacity-80 cursor-pointer transition-all ease-in-out duration-300 ${
-          isOpen ? "scale-105 shadow-sm" : "scale-100"
+          isOpen ? "scale-105 shadow-am" : "scale-100"
         }`}
       >
         <FaRegUser />
@@ -44,7 +44,7 @@ const PopupMenu = () => {
 
       {isOpen && (
         <nav
-          className="w-max min-w-[120px] z-20  absolute p-2.5 bg-backgroundC text-gray-700 font-sans rounded-lg shadow-md border border-gray-300 transition-transform duration-300 transform scale-100 opacity-100"
+          className="w-max min-w-[120px] z-20 mt-[5px]  absolute p-2.5 bg-backgroundC text-gray-700 font-sans rounded-lg shadow-md border border-gray-300 transition-transform duration-300 transform scale-100 opacity-100"
         >
           <legend className="text-gray-500 text-[10px] font-semibold uppercase py-1">
             Quick Start
