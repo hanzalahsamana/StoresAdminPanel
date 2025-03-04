@@ -1,16 +1,15 @@
 "use client";
 
 import ProtectedRoute from "@/AuthenticRouting/ProtectedRoutes";
-import Loader from "@/components/loader";
-import CustomModal from "@/components/UI/CustomModal";
+import Loader from "@/components/Loader/loader";
 import dynamic from "next/dynamic";
 import React, { useEffect, useState } from "react";
 import { LuPlus } from "react-icons/lu";
 import { RiDraggable } from "react-icons/ri";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 import { useSelector } from "react-redux";
-import { Tooltip } from "react-tooltip";
 import WidgetsModal from "@/components/Modals/WidgetsModal";
+import PageEditModal from "@/components/UI/PageEditModal";
 
 const pagesIcons = {
     "About Us": "https://img.icons8.com/color/48/about.png",
@@ -54,7 +53,7 @@ const Content = () => {
     return (
         <div className="min-h-full px-5 py-5 flex justify-center items-center">
             <div className="w-full px-5 bg-backgroundC py-5 rounded-md shadow-md">
-                <CustomModal selectedPage={editingPage} setSelectedPage={setEditingPage} />
+                <PageEditModal selectedPage={editingPage} setSelectedPage={setEditingPage} />
                 <h1 className="text-2xl font-semibold mb-4">Update Pages</h1>
                 {/* <div className="w-full flex text-textTC pt-2 pb-4 border-b border-gray-300">
                    <div>Order</div>
@@ -84,19 +83,19 @@ const Content = () => {
                                                 <div className="ml-3 flex flex-col">
                                                     <h2 className="text-lg font-medium text-gray-900">{item.type}</h2>
                                                     <div className="flex gap-3">
-                                                    <h2
-                                                        className="text-sm cursor-pointer text-primaryC"
-                                                        onClick={() => setEditingPage(item)}
+                                                        <h2
+                                                            className="text-sm cursor-pointer text-primaryC"
+                                                            onClick={() => setEditingPage(item)}
                                                         >
-                                                        Edit
-                                                    </h2>
-                                                    <h2
-                                                        className="text-sm cursor-pointer text-red-500"
-                                                        onClick={() => setEditingPage(item)}
+                                                            Edit
+                                                        </h2>
+                                                        <h2
+                                                            className="text-sm cursor-pointer text-red-500"
+                                                            onClick={() => setEditingPage(item)}
                                                         >
-                                                        Delete
-                                                    </h2>
-                                                        </div>
+                                                            Delete
+                                                        </h2>
+                                                    </div>
                                                 </div>
 
                                                 <div
@@ -124,7 +123,7 @@ const Content = () => {
                     </Droppable>
                 </DragDropContext>
             </div>
-            <WidgetsModal isOpen={isOpen} setIsOpen={setIsOpen}/>
+            <WidgetsModal isOpen={isOpen} setIsOpen={setIsOpen} />
         </div>
     );
 };

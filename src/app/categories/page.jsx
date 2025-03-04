@@ -1,6 +1,6 @@
 "use client";
 import ProtectedRoute from "@/AuthenticRouting/ProtectedRoutes";
-import Loader from "@/components/loader";
+import Loader from "@/components/Loader/loader";
 import React, { useState } from "react";
 import { FaPlus } from "react-icons/fa";
 import { BsFillTrash3Fill } from "react-icons/bs";

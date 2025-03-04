@@ -2,11 +2,11 @@
 
 import React, { useState } from "react";
 import ProtectedRoute from "@/AuthenticRouting/ProtectedRoutes";
-import CustomerInfo from "@/components/CustomerInfo";
-import Loader from "@/components/loader";
-import ProductsRecipt from "@/components/OderRecipt";
+import Loader from "@/components/Loader/loader";
 import { useParams } from "next/navigation";
 import { useSelector } from "react-redux";
+import CustomerInfoTable from "@/components/Tables/CustomerInfoTable";
+import OrderRecipt from "@/components/UI/OrderRecipt";
 
 const OrderDetails = () => {
   const { orders, loading } = useSelector((state) => state?.orderData);
@@ -16,10 +16,10 @@ const OrderDetails = () => {
     return <Loader />;
   };
 
-  console.log("gayaa",orders);
-  
+  console.log("gayaa", orders);
+
   const order = orders?.find((order) => order._id === id);
-  
+
   if (!order || orders.length === 0) {
     console.log("gaya");
     return (
@@ -34,11 +34,11 @@ const OrderDetails = () => {
       <div className="flex md:flex-row flex-col-reverse gap-4 rounded-lg w-full h-full px-4 py-6">
 
         <div className={`bg-backgroundC w-full p-[10px 24px] max-[700px]:py-[0px]`}>
-          <ProductsRecipt products={order} />
+          <OrderRecipt products={order} />
         </div>
 
         <div className="w-full bg-[#f9fafb] p-6 rounded-lg">
-          <CustomerInfo order={order} />
+          <CustomerInfoTable order={order} />
         </div>
 
       </div>

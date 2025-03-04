@@ -7,7 +7,7 @@ import { useState } from 'react';
 import OrderTrackModal from '@/components/Modals/OrderTrackModal';
 import { getBasePath } from '@/Utils/GetBasePath';
 
-const Footer = () => {
+const TemplateFooter = () => {
   const { siteName } = useSelector((state) => state.siteName);
   const [isOpen, setIsOpen] = useState(false);
   const path = getBasePath();
@@ -87,4 +87,4 @@ const Footer = () => {
   );
 };
 
-export default Footer;
+export default TemplateFooter;

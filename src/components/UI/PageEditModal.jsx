@@ -1,9 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import ImageUploader from "./ImageUploader";
-import FaqUploader from "./FaqUploader";
-import InputField from "./InputField";
+import ImageUploader from "../Uploaders/ImageUploader";
+import FaqUploader from "../Uploaders/FaqUploader";
 import "./style.css";
 import dynamic from "next/dynamic";
 import { toast } from "react-toastify";
@@ -11,10 +10,13 @@ import { validateForm } from "@/Utils/pageDataValidate";
 import { uploadToCloudinary } from "@/Utils/uploadToCloudinary";
 import { editPagesData } from "@/APIs/PagesData/editPagesData";
 import { useDispatch, useSelector } from "react-redux";
+import FormInput from "../Forms/FormInput";
+import Modal from "../Modals/Modal";
+import Button from "../Actions/Button";
 
-const TextEditor = dynamic(async() => import("./TextEditor"), { ssr: false });
+const TextEditor = dynamic(async () => import("../Uploaders/TextEditor"), { ssr: false });
 
-const CustomModal = ({ selectedPage, setSelectedPage }) => {
+const PageEditModal = ({ selectedPage, setSelectedPage }) => {
   const dispatch = useDispatch();
   const { currUser } = useSelector((state) => state.currentUser);
   const { pagesData } = useSelector((state) => state.pagesData);
@@ -25,13 +27,13 @@ const CustomModal = ({ selectedPage, setSelectedPage }) => {
     "FAQ": ["title", "faqs"],
     "Contact": ["title", "email", "phone", "address"],
     "Terms and Conditions": ["title", "text"],
-    "Our Quality": ["title","buttonText", "text", "image" ],
+    "Our Quality": ["title", "buttonText", "text", "image"],
     "Manufacture Process": ["title", "text", "image"],
     "Privacy Policy": ["title", "text"],
     "Return Policy": ["title", "text"],
     "Shipping Policy": ["title", "text"],
     "Site Logo": ["image"],
-    "Fabric Remants": ["title","buttonText", "text", "image"],
+    "Fabric Remants": ["title", "buttonText", "text", "image"],
   };
 
   const [formData, setFormData] = useState({
@@ -77,13 +79,13 @@ const CustomModal = ({ selectedPage, setSelectedPage }) => {
   const renderComponents = () => {
     const fields = componentMapping[formData.type] || [];
     return fields.map((field) => {
-      if (["title", "email", "phone", "address" , "buttonText"].includes(field)) {
+      if (["title", "email", "phone", "address", "buttonText"].includes(field)) {
         return (
-          <InputField
+          <FormInput
             key={field}
             value={formData[field]}
             placeholder={field.charAt(0).toUpperCase() + field.slice(1)}
-            onChange={(e) => handleInputChange(field, e.target.value)}
+            handleChange={(e) => handleInputChange(field, e.target.value)}
           />
         );
       }
@@ -153,33 +155,25 @@ const CustomModal = ({ selectedPage, setSelectedPage }) => {
   if (!selectedPage) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
-      <div className="relative w-[80%] p-8 max-w-[900px] min-w-[300px] rounded-lg bg-white shadow-lg flex flex-col items-center gap-3">
-        <div>
-          <h1>{pageName}</h1>
-        </div>
-        <button
-          onClick={() => setSelectedPage(null)}
-          className="absolute right-3 top-3 text-gray-500 hover:text-gray-800"
-        >
-          ✖
-        </button>
-        <div
-          className={`border-t border-b border-[#c9c9c98f] customScroll py-[12px] px-[5px] modal-grid ${getGridClass()}`}
-        >
-          {renderComponents()}
-        </div>
-        <div className="flex justify-end w-full">
-          <button
-            onClick={handleSubmit}
-            className="px-8 py-3 bg-[#000000] text-white rounded-sm shadow-lg transform transition-transform duration-300 ease-out hover:scale-105 hover:shadow-xl focus:outline-none"
-          >
-            Update
-          </button>
-        </div>
+    <Modal className={'px-[20px] py-[15px]'} isOpen={selectedPage} setIsOpen={setSelectedPage}>
+
+      <div>
+        <p className="text-[20px] ">{pageName}</p>
       </div>
-    </div>
+      <div
+        className={`border-y my-[15px] shadow-[inset_0_-26px_18px_-31px_rgb(0_0_0_/_0.3)] border-[#c9c9c98f] customScroll py-[25px] px-[20px] modal-grid ${getGridClass()}`}
+      >
+        {renderComponents()}
+      </div>
+      <div className="flex justify-end w-full">
+        <Button
+          action={handleSubmit}
+          label="Update"
+          className="w-max"
+        />
+      </div>
+    </Modal>
   );
 };
 
-export default CustomModal;
+export default PageEditModal;

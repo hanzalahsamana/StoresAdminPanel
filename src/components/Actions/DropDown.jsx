@@ -9,7 +9,8 @@ const DropDown = ({
     setSelectedOption,
     placeholder = "Select",
     required = true,
-    error = null
+    error = null,
+    className='',
 }) => {
     const [isOpen, setIsOpen] = useState(false);
     const dropdownRef = useRef(null);
@@ -33,7 +34,7 @@ const DropDown = ({
 
 
     return (
-        <div className="w-full flex flex-col ">
+        <div className={`w-full flex flex-col ${className}`}>
 
             <div ref={dropdownRef} className="relative flex flex-col w-full gap-2">
                 <div onClick={() => setIsOpen(true)} >

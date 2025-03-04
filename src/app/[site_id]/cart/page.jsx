@@ -2,10 +2,10 @@
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import Loader from "@/components/TemplateComponents/UI/loader";
-import CartProductCard from "@/components/TemplateComponents/UI/cartProductCard";
-import CartTotalCard from "@/components/TemplateComponents/UI/cartTotalCard";
-import EmptyCart from "@/components/TemplateComponents/sections/emptyCart";
+import Loader from "@/components/Loader/TemplateLoader";
+import CartProductCard from "@/components/Cards/cartProductCard";
+import CartTotalCard from "@/components/Cards/cartTotalCard";
+import EmptyCart from "@/components/UI/emptyCart";
 import { getBasePath } from "@/Utils/GetBasePath";
 
 const Cart = () => {

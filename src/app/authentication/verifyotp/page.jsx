@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { verifyOtp } from "@/APIs/Auth/verifyOTP";
 import { toast } from "react-toastify";
 import { SendOTP } from "@/APIs/Auth/addUser";
-import Loader from "@/components/loader";
+import Loader from "@/components/Loader/loader";
 
 const OtpVerification = () => {
     const [otp, setOtp] = useState(["", "", "", "", "", ""]);

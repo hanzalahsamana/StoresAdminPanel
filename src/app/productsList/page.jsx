@@ -3,9 +3,9 @@ import ProtectedRoute from "@/AuthenticRouting/ProtectedRoutes";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteProduct } from "@/APIs/Product/deleteProductData";
-import Add_Edit_Product from "@/components/productModal";
 import Button from "@/components/Actions/Button";
 import DynamicTable from "@/components/Tables/Table";
+import AddEditProductModal from "@/components/Modals/AddEditProductModal";
 
 
 const ProductsList = () => {
@@ -51,7 +51,7 @@ const ProductsList = () => {
 
       <DynamicTable columns={columns} data={products} actions={actions} loading={productLoading} notFoundText="There are no products to show" />
 
-      <Add_Edit_Product
+      <AddEditProductModal
         isOpen={isOpen}
         setIsOpen={setIsOpen}
         productLoading={productLoading}

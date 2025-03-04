@@ -14,6 +14,8 @@ const ProviderWrap = ({ children }) => {
   const { currUser } = useSelector((state) => state.currentUser);
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem("currentUser"));
+    console.log(user , "yahi he u");
+    
     getUserFromToken(dispatch, user?.brandName)
     // dispatch(setCurrentUser(user));
     // dispatch(setLoading(false));

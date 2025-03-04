@@ -1,5 +1,5 @@
 
-const Loader = () => {
+const TemplateLoader = () => {
     return (
         <div className="fixed top-0 left-0 flex items-center justify-center h-screen z-[100000] backdrop-blur-md bg-[#ffffff] w-full">
             <div className="relative w-10 h-10 animate-spin988">
@@ -12,4 +12,4 @@ const Loader = () => {
     )
 }
 
-export default Loader
+export default TemplateLoader;

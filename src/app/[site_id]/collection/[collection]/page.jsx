@@ -1,6 +1,6 @@
 "use client";
 import ProductsSection from '@/components/Widgets/productsSection';
-import Loader from '@/components/TemplateComponents/UI/loader';
+import Loader from '@/components/Loader/TemplateLoader';
 import React from 'react'
 import { MdSignalWifiConnectedNoInternet2 } from 'react-icons/md';
 import { useSelector } from 'react-redux';

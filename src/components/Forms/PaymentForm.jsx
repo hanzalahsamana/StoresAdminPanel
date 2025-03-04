@@ -4,11 +4,11 @@ import React, { useState } from "react";
 import { toast } from "react-toastify";
 import { deleteCartData } from "@/Redux/CartData/cartDataSlice";
 import { useDispatch, useSelector } from "react-redux";
-import Loader from "./loader";
-import FormInput from "./formInput";
+import Loader from "../Loader/TemplateLoader";
 import { selectPageByType } from "@/Redux/PagesData/PagesDataSlice";
 import { addOrderDataApi } from "@/APIs/Order/PlaceOrder";
 import { paymentFormValidate } from "@/Utils/PaymentFormValidate";
+import FormInput from "@/components/Forms/FormInput";
 
 
 const initialFormData = {
@@ -130,81 +130,79 @@ const PaymentForm = ({ shipping, total, tax, discount, cartItem }) => {
             <FormInput
               type="email"
               placeholder="Email"
+              name={"email"}
+              value={formData?.email}
               handleChange={handleChange}
-              field={"email"}
-              errors={errors}
-              formData={formData}
+              error={errors?.email}
             />
           </div>
-          <div className="w-full">
+          <div className="w-full flex flex-col space-y-[18px]">
             <h3 className="text-[24px] font-medium mb-6 mt-3">Billing address</h3>
+
             <FormInput
-              type="text"
               placeholder="Country"
               handleChange={handleChange}
-              field={"country"}
-              errors={errors}
-              formData={formData}
+              name={"country"}
+              error={errors?.country}
+              value={formData?.country}
             />
+
             <div className="flex gap-[10px] w-full">
               <FormInput
-                type="text"
                 placeholder="First Name"
                 handleChange={handleChange}
-                field={"firstName"}
-                errors={errors}
-                formData={formData}
+                name={"firstName"}
+                error={errors?.firstName}
+                value={formData?.firstName}
               />
               <FormInput
-                type="text"
                 placeholder="Last Name"
                 handleChange={handleChange}
-                field={"lastName"}
-                errors={errors}
-                formData={formData}
+                name={"lastName"}
+                error={errors?.lastName}
+                value={formData?.lastName}
               />
             </div>
             <FormInput
-              type="text"
               placeholder="Address"
               handleChange={handleChange}
-              field={"address"}
-              errors={errors}
-              formData={formData}
+              name={"address"}
+              error={errors?.address}
+              value={formData?.address}
             />
             <FormInput
-              type="text"
-              placeholder="Appartment (Optional)"
+              placeholder="Appartment"
               handleChange={handleChange}
-              field={"appartment"}
-              errors={errors}
-              formData={formData}
+              name={"appartment"}
+              error={errors?.appartment}
+              value={formData?.appartment}
+              required={false}
             />
             <div className="flex gap-[10px] w-full">
               <FormInput
-                type="text"
                 placeholder="City"
                 handleChange={handleChange}
-                field={"city"}
-                errors={errors}
-                formData={formData}
+                name={"city"}
+                error={errors?.city}
+                value={formData?.city}
               />
               <FormInput
                 type="number"
-                placeholder="Postal Code (Optional)"
+                placeholder="Postal Code"
                 handleChange={handleChange}
-                field={"postalCode"}
-                errors={errors}
-                formData={formData}
+                name={"postalCode"}
+                error={errors?.postalCode}
+                value={formData?.postalCode}
+                required={false}
               />
             </div>
             <FormInput
               type="tel"
               placeholder="Phone"
               handleChange={handleChange}
-              field={"phone"}
-              errors={errors}
-              formData={formData}
+              name={"phone"}
+              error={errors?.phone}
+              value={formData?.phone}
             />
           </div>
           <button className="py-[20px] w-full mt-3 bg-[#407fc4] text-[#e6e6e6] text-[18px] font-semibold rounded-md transition-all duration-300 hover:scale-105">

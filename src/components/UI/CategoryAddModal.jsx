@@ -8,8 +8,8 @@ import { toast } from "react-toastify";
 import { setCategoryLoading } from "@/Redux/Category/CategorySlice";
 import { addCategory } from "@/APIs/Category/addCategory";
 import { editCategory } from "@/APIs/Category/editCategory";
-import ImageUploader from "./ImageUploader";
-import Loader from "../loader";
+import ImageUploader from "../Uploaders/ImageUploader";
+import Loader from "../Loader/loader";
 
 const CategoryAddModal = ({
     setIsOpen,

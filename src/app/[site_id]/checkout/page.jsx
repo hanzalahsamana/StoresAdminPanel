@@ -1,8 +1,8 @@
 "use client";
 
-import Loader from '@/components/TemplateComponents/UI/loader';
-import PaymentForm from '@/components/TemplateComponents/UI/PaymentForm';
-import ProductsRecipt from '@/components/TemplateComponents/UI/productsRecipt';
+import Loader from '@/components/Loader/TemplateLoader';
+import PaymentForm from '@/components/Forms/PaymentForm';
+import ProductsRecipt from '@/components/UI/productsRecipt';
 import { getBasePath } from '@/Utils/GetBasePath';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react'

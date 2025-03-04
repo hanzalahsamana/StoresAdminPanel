@@ -2,8 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { scaleLinear } from "d3-scale";
 import { ComposableMap, Geographies, Geography } from "react-simple-maps";
-import Tooltip from "../Tooltip";
-import CardLoader from "../CardLoader";
+import Tooltip from "../Actions/Tooltip";
 import BarLoader from "../Loader/BarLoader";
 
 const colorScale = scaleLinear()

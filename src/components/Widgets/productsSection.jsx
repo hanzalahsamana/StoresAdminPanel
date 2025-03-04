@@ -1,8 +1,8 @@
 "use client";
 import { useSelector } from 'react-redux';
-import ProductCard from '../TemplateComponents/UI/productCard';
+import ProductCard from '../Cards/productCard';
 import Link from 'next/link';
-import Loader from '../TemplateComponents/UI/loader';
+import Loader from '../Loader/TemplateLoader';
 import { MdSignalWifiConnectedNoInternet2 } from "react-icons/md";
 import { getBasePath } from '@/Utils/GetBasePath';
 

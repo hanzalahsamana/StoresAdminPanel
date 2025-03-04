@@ -1,7 +1,7 @@
 "use client";
 import { useSelector } from "react-redux";
-import { Base_Domain, HTTP } from "../../config";
-import PopupMenu from "./Modals/PopupMenu";
+import { Base_Domain, HTTP } from "../../../config";
+import PopupMenu from "../Modals/PopupMenu";
 import { IoEyeOutline } from "react-icons/io5";
 
 

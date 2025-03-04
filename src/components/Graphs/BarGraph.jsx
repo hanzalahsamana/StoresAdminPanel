@@ -2,7 +2,6 @@
 
 import React, { useEffect, useState } from "react";
 import ReactApexChart from "react-apexcharts";
-import CardLoader from "../CardLoader";
 import BarLoader from "../Loader/BarLoader";
 
 const BarGraph = ({ analytics, analyticsLoading }) => {

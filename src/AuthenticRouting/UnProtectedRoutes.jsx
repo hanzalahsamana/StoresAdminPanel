@@ -1,4 +1,4 @@
-import Loader from "@/components/loader";
+import Loader from "@/components/Loader/loader";
 import { useRouter } from "next/navigation";
 import { useSelector } from "react-redux";
 

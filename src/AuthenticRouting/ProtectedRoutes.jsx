@@ -1,8 +1,8 @@
 "use client";
 
-import Header from "@/components/Header";
-import Loader from "@/components/loader";
-import Sidebar from "@/components/Sidebar";
+import Header from "@/components/Layout/Header";
+import Loader from "@/components/Loader/loader";
+import Sidebar from "@/components/Layout/Sidebar";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useSelector } from "react-redux";

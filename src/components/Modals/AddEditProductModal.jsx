@@ -1,12 +1,12 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import FormInput from "./Forms/FormInput";
-import MultiImageUploader from "./Uploaders/MultiImageUploader";
-import Form from "./Forms/Form";
-import Modal from "./Modals/Modal";
-import MultiSelectDropdown from "./Actions/MultiSelectDropdown";
-import DropDown from "./Actions/DropDown";
+import FormInput from "../Forms/FormInput";
+import MultiImageUploader from "../Uploaders/MultiImageUploader";
+import Form from "../Forms/Form";
+import Modal from "./Modal";
+import MultiSelectDropdown from "../Actions/MultiSelectDropdown";
+import DropDown from "../Actions/DropDown";
 import { toast } from "react-toastify";
 import { addProducts } from "@/APIs/Product/addProductData";
 import { editProductData } from "@/APIs/Product/editProductData";
@@ -17,7 +17,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { calculateDiscountedPrice } from "@/Utils/CalculateDiscountedPrice";
 import { uploadImagesToS3 } from "@/APIs/uploadImageS3";
 
-const Add_Edit_Product = ({
+const AddEditProductModal = ({
   isOpen,
   setIsOpen,
   productLoading,
@@ -262,4 +262,4 @@ const Add_Edit_Product = ({
   );
 };
 
-export default Add_Edit_Product;
+export default AddEditProductModal;

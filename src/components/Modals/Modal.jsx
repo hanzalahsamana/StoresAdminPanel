@@ -1,8 +1,11 @@
 import { useEffect, useCallback } from "react";
 import { IoMdClose } from "react-icons/io";
 
-const Modal = ({ isOpen, setIsOpen, children, className }) => {
-  const closeModal = useCallback(() => setIsOpen(false), [setIsOpen]);
+const Modal = ({ isOpen, setIsOpen, children, className , extraFuntion=() => { } }) => {
+  const closeModal = useCallback(() => {
+    extraFuntion()
+    setIsOpen(false)
+  }, [extraFuntion ,setIsOpen]);
 
   useEffect(() => {
     if (isOpen) {

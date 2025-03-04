@@ -1,7 +1,7 @@
 "use client";
 
 import React from 'react'
-import Header from '../TemplateComponents/layout/header';
+import Header from './TemplateHeader';
 import Hero from '../Widgets/hero';
 import { useRouter } from 'next/navigation';
 import { selectPageByType } from '@/Redux/PagesData/PagesDataSlice';

@@ -8,7 +8,7 @@ import ProtectedRoute from "@/AuthenticRouting/ProtectedRoutes";
 import { addDomainDns, genrateSSl } from "@/APIs/Domain/domainVerify";
 import { IoBagCheck, IoBagCheckOutline, IoCheckmarkCircle, IoCheckmarkDone } from "react-icons/io5";
 import ActionCard from "@/components/Cards/ActionCard";
-import DnsInstructions from "@/components/TemplateComponents/UI/DNSInstruction";
+import DnsInstructions from "@/components/UI/DNSInstruction";
 import Link from "next/link";
 
 

@@ -1,10 +1,10 @@
 "use client";
 import { FetchAnalytics } from '@/APIs/Analytics/FetchAnalytics';
 import ProtectedRoute from '@/AuthenticRouting/ProtectedRoutes'
-import CustomCard from '@/components/CustomCard';
-import CustomDropdown from '@/components/CustomDropdown';
+import DropDown from '@/components/Actions/DropDown';
+import CustomCard from '@/components/Cards/CustomCard';
 import MapChart from '@/components/Graphs/MapChart';
-import StatusCard from '@/components/StatusCard';
+import StatusCard from '@/components/Cards/StatusCard';
 import OrderListTable from '@/components/Tables/OrderListTable';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
@@ -44,7 +44,7 @@ const Analytics = () => {
     <div className='p-[20px]'>
       <div className="flex items-center justify-between mb-6 ">
         <h1 className="text-3xl font-bold text-gray-900">Overview</h1>
-        <CustomDropdown classes='' selectedValue={selectedValue} setSelectedValue={setSelectedValue} options={options} />
+        <DropDown className='!max-w-[200px]' placeholder='Duration' selectedOption={selectedValue} setSelectedOption={setSelectedValue} defaultOptions={options} />
       </div>
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-5 w-full mb-5">
         <StatusCard title="Total Orders" data={orders} loading={loading} />

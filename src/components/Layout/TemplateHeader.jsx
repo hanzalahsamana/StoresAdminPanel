@@ -11,7 +11,7 @@ import { HiOutlineShoppingBag } from "react-icons/hi2";
 import { totalCalculate } from '@/Utils/TotalCalculator';
 import { getBasePath } from '@/Utils/GetBasePath';
 
-const Header = () => {
+const TemplateHeader = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [showMobileMenu, setShowMobileMenu] = useState(false);
@@ -121,4 +121,4 @@ const Header = () => {
   );
 };
 
-export default Header;
+export default TemplateHeader;

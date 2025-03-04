@@ -1,16 +1,15 @@
 "use client";
 
 import React, { useEffect } from 'react'
-import Header from './header'
-import Footer from './footer'
-import Loader from '@/components/loader';
+import Loader from '@/components/Loader/loader';
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchPagesData } from '@/APIs/PagesData/getPagesData';
 import { fetchProducts } from '@/APIs/Product/getProductData';
 import { fetchCategory } from '@/APIs/Category/getCategory';
 import { setCartData } from '@/Redux/CartData/cartDataSlice';
-import { setSiteName } from '@/Redux/SiteName/SiteNameSlice';
 import { fetchOrderData } from '@/APIs/Order/getOrderData';
+import TemplateHeader from './TemplateHeader';
+import TemplateFooter from './TemplateFooter';
 
 const LayoutWithReduxState = ({ children }) => {
 
@@ -57,9 +56,9 @@ const LayoutWithReduxState = ({ children }) => {
 
   return (
     <div className='flex flex-col items-center'>
-      <Header />
+      <TemplateHeader />
       {children}
-      <Footer />
+      <TemplateFooter />
     </div>
   );
 }

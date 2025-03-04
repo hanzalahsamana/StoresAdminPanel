@@ -3,8 +3,8 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { MdSignalWifiConnectedNoInternet2 } from "react-icons/md";
-import Loader from "@/components/TemplateComponents/UI/loader";
-import ProductDetailCard from "@/components/TemplateComponents/UI/productDetailCard";
+import Loader from "@/components/Loader/TemplateLoader";
+import ProductDetailCard from "@/components/Cards/productDetailCard";
 import ProductsSection from "@/components/Widgets/productsSection";
 
 const ProductDetail = ({ params }) => {

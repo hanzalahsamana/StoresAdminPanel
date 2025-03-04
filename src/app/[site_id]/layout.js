@@ -1,20 +1,17 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { ReactNode } from "react";
-import Head from "next/head";
-import Script from "next/script";
-import LayoutWithReduxState from "@/components/TemplateComponents/layout/layoutWithReduxState";
+import { useEffect } from "react";
 import { setSiteName } from "@/Redux/SiteName/SiteNameSlice";
-import Loader from "@/components/TemplateComponents/UI/loader";
 import { selectPageByType } from "@/Redux/PagesData/PagesDataSlice";
 import { useDispatch, useSelector } from "react-redux";
+import Script from "next/script";
+import Loader from "@/components/Loader/TemplateLoader";
+import LayoutWithReduxState from "@/components/Layout/LayoutWithReduxState";
 
 export default function SiteLayout({ params, children }) {
   const { siteName } = useSelector((state) => state.siteName);
+  const SiteLogo = useSelector((state) => selectPageByType(state, "Site Logo"));
   const dispatch = useDispatch();
-
-  // const SiteLogo = useSelector((state) => selectPageByType(state, "Site Logo"));
 
   useEffect(() => {
     if (params?.site_id) {
@@ -22,33 +19,19 @@ export default function SiteLayout({ params, children }) {
     }
   }, [dispatch, params?.site_id]);
 
-  // useEffect(() => {
-  //   const fetchSiteData = async () => {
-  //     const result = await readSiteById(params?.site_id);
-
-  //     if (!result) {
-  //       console.log("okh", result);
-  //     }
-
-  //     setSiteData(result);
-  //   };
-
-  //   fetchSiteData();
-  // }, [params?.site_id]);
-
   useEffect(() => {
     if (siteName) {
       document.title = siteName;
     }
-    // if (siteLogo) {
-    //   let link = document.querySelector("link[rel='icon']");
-    //   if (!link) {
-    //     link = document.createElement("link");
-    //     link.rel = "icon";
-    //     document.head.appendChild(link);
-    //   }
-    //   link.href = siteLogo;
-    // }
+    if (SiteLogo) {
+      let link = document.querySelector("link[rel='icon']");
+      if (!link) {
+        link = document.createElement("link");
+        link.rel = "icon";
+        document.head.appendChild(link);
+      }
+      link.href = SiteLogo;
+    }
   }, [siteName]);
 
   if (!siteName) {
@@ -79,12 +62,6 @@ export default function SiteLayout({ params, children }) {
           style={{ display: "none", visibility: "hidden" }}
         ></iframe>
       </noscript>
-
-      {/* <NavBar
-          title={site_name}
-          description={site_description}
-          logo={site_logo}
-        /> */}
       <LayoutWithReduxState params={params}>{children}</LayoutWithReduxState>
     </>
   );

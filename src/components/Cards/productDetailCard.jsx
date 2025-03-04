@@ -1,18 +1,18 @@
 "use client";
 
 import React from "react";
-import styles from "./style.module.css";
+import styles from "../UI/style.module.css";
 import { FaStar } from "react-icons/fa";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addCartData } from "@/Redux/CartData/cartDataSlice";
 import { TbTruckDelivery } from "react-icons/tb";
-import QuantityControl from "./quantityControl";
+import QuantityControl from "../Actions/quantityControl";
 import { useRouter } from "next/navigation";
-import ButtonLoader from "./buttonLoader";
-import SizeController from "./SizeController";
+import SizeController from "../Actions/SizeController";
 import { ConvertArray } from "@/Utils/CovertArray";
 import { getBasePath } from "@/Utils/GetBasePath";
+import ButtonLoader from "../Loader/ButtonLoader";
 
 const ProductDetailCard = ({ product }) => {
 

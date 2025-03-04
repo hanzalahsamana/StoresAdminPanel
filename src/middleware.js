@@ -73,7 +73,7 @@ export async function middleware(request) {
   const BaseDomain =
     process.env.NODE_ENV === "production" ? "hannanfabrics" : "localhost:3000";
 
-  console.log("🔖🔖", url, "👍", host, "🥀", pathname, "😂", BaseDomain);
+  // console.log("🔖🔖", url, "👍", host, "🥀", pathname, "😂", BaseDomain);
 
   if (host.includes(".vercel.app") || pathname.endsWith("/not-found")) {
     return NextResponse.next();
@@ -83,26 +83,32 @@ export async function middleware(request) {
   const potentialSlug = subdomain?.replace(`${BaseDomain}`, "");
 
   if (!potentialSlug || potentialSlug === "www") {
-    console.log("No potential slug", {
-      host,
-      subdomain,
-      pathname,
-      potentialSlug,
-    });
+    // console.log("No potential slug", {
+    //   host,
+    //   subdomain,
+    //   pathname,
+    //   potentialSlug,
+    // });
 
     return NextResponse.next();
   }
 
   try {
-    // 🔥 Call API to check if the site exists
-    const response = await axios.get(
+    // 🔥 Call API to check if the site exists using fetch
+    const response = await fetch(
       `${BASE_URL}/fetchSiteByDomain?domain=${potentialSlug}`
     );
 
-    if (response?.data?.siteName) {
-      console.log("✅ Site found:", response.data.siteName);
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    const data = await response.json();
+
+    if (data?.siteName) {
+      // console.log("✅ Site found:", data.siteName);
       return NextResponse.rewrite(
-        new URL(`/${response.data.siteName}${pathname}${url.search}`, request.url)
+        new URL(`/${data.siteName}${pathname}${url.search}`, request.url)
       );
     }
   } catch (error) {

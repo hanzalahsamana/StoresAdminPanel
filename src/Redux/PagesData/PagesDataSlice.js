@@ -2,7 +2,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  pagesData: null,
+  pagesData: [],
   pagesDataLoading: true,
 };
 
@@ -11,8 +11,7 @@ export const pagesDataSlice = createSlice({
   initialState,
   reducers: {
     setPagesData: (state, action) => {
-      state.pagesData = action.payload;
-      return state;
+      state.pagesData = action.payload ?? [];
     },
 
     updatePagesData: (state, action) => {
@@ -22,24 +21,23 @@ export const pagesDataSlice = createSlice({
       if (index !== -1) {
         state.pagesData[index] = action.payload;
       }
-      return state;
     },
+
     setPagesDataLoading: (state, action) => {
       state.pagesDataLoading = action.payload;
-      return state;
     },
   },
 });
 
-export const selectPageByType = (state, pageType) =>{
-  return state.pagesData?.pagesData?.find((page) => page.type === pageType);
-}
+export const selectPageByType = (state, pageType) =>
+  state.pagesData?.pagesData?.find((page) => page.type === pageType) || null;
 
-export const {
-  setPagesData,
-  updatePagesData ,
-  setPagesDataLoading,
-} = pagesDataSlice.actions;
+export const selectPageByID = (state, pageId) => {
+  
+  return state.pagesData?.pagesData?.find((page) => page._id === pageId) || null;
+};
 
-const pagesDataReducer = pagesDataSlice.reducer;
-export default pagesDataReducer ;
+export const { setPagesData, updatePagesData, setPagesDataLoading } =
+  pagesDataSlice.actions;
+
+export default pagesDataSlice.reducer;

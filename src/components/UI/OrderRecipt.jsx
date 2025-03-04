@@ -1,5 +1,5 @@
 import React from "react";
-import OrderRecieptCard from "./TemplateComponents/UI/OrderRecieptCard";
+import OrderRecieptCard from "../Cards/OrderRecieptCard";
 
 const OrderRecipt = ({ products }) => {
   const { shipping, tax, discount, total } = products?.orderInfo;

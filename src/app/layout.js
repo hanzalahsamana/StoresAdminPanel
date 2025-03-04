@@ -1,13 +1,13 @@
 "use client";
 
 import "../Styles/globals.css";
-import ProviderWrap from "@/components/ProviderWrap";
+import ProviderWrap from "@/components/Layout/ProviderWrap";
 import { store } from "@/Redux/Store";
 import { Provider } from "react-redux";
 import { ToastContainer } from "react-toastify";
 // import localFont from "next/font/local";
 import "react-toastify/dist/ReactToastify.css";
-import NetworkStatus from "@/components/TemplateComponents/sections/NetworkError";
+import NetworkStatus from "@/components/UI/NetworkError";
 import { Tooltip } from "react-tooltip";
 
 // const geistSans = localFont({

@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import styles from "./style.module.css";
+import styles from "../UI/style.module.css";
 const ProductCard = ({ product }) => {
   
   const [imageUrl, setImageUrl] = useState(product?.images[0]);

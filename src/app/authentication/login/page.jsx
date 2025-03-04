@@ -5,7 +5,7 @@ import CustomLink from "@/components/Actions/CustomLink";
 import IconButton from "@/components/Actions/IconButton";
 import Form from "@/components/Forms/Form";
 import FormInput from "@/components/Forms/FormInput";
-import Loader from "@/components/loader";
+import Loader from "@/components/Loader/loader";
 import { setCurrentUser } from "@/Redux/Authentication/AuthSlice";
 import Link from "next/link";
 import { useRouter } from "next/navigation";

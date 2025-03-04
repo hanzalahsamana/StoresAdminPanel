@@ -14,3 +14,4 @@ export const paymentFormValidate = (formData , setErrors) => {
   setErrors(newErrors);
   return Object.keys(newErrors).length === 0;
 };
+  

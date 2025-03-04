@@ -1,6 +1,4 @@
 import { useSelector } from "react-redux";
-import Loader from "./loader";
-import ButtonLoader from "./buttonLoader";
 
 const QuantityControl = ({ quantity, increaseQuantity, decreaseQuantity }) => {
   const { loading } = useSelector((state) => state?.cartData)

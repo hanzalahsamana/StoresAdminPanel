@@ -1,7 +1,6 @@
 import React from "react";
-import { useSelector } from "react-redux";
 
-const CustomerInfo = ({ order }) => {
+const CustomerInfoTable = ({ order }) => {
   const { customerInfo } = order;
   const {
     address,
@@ -49,4 +48,4 @@ const CustomerInfo = ({ order }) => {
   );
 };
 
-export default CustomerInfo;
+export default CustomerInfoTable;

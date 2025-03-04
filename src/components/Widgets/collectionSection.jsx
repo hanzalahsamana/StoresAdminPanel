@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { FaArrowRightLong } from "react-icons/fa6";
 import { useSelector } from "react-redux";
-import CollectionCard from "../TemplateComponents/UI/collectionCard";
+import CollectionCard from "../Cards/collectionCard";
 import { getBasePath } from "@/Utils/GetBasePath";
 
 const CollectionSection = ({ CategoryNumber, toShowLink = true }) => {

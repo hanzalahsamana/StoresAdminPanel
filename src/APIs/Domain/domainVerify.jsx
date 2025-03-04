@@ -3,7 +3,6 @@
 import axios from "axios";
 import BASE_URL from "../../../config";
 
-
 export const addDomainDns = async (domain , sitename) => {
     try {
         console.log(BASE_URL, domain, "♀️♀️");
