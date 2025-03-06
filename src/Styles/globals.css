@@ -164,3 +164,57 @@ input:-webkit-autofill {
 .animate-expand2 {
   animation: expandWidth2 0.3s ease-out forwards;
 }
+
+.abc {
+  background: linear-gradient(#ffffff, #ffffff) 50% 50%/calc(100% - 3px) calc(100% - 3px) no-repeat,
+    linear-gradient(177deg, #d33479 0%, rgba(197, 52, 180, 1) 26%, rgba(115, 52, 199, 1) 75%, #7334d3 100%);
+}
+
+
+
+
+.ql-toolbar.ql-snow{
+  border: none  !important;
+  border-bottom: 1px solid var(--primary-color) !important;
+}
+
+.ql-toolbar .ql-active .ql-fill {
+  fill: var(--primary-color)  !important; /* Active button color */
+}
+.ql-toolbar button:hover .ql-fill {
+  fill: var(--primary-color)  !important; /* Active button color */
+}
+
+.ql-toolbar button:hover{
+  color: var(--primary-color)  !important;
+}
+
+.ql-editor {
+  color: var(--light-text-color) !important; /* White text */
+}
+
+.ql-editor::placeholder {
+  color: #94a3b8 !important; /* Light gray placeholder text */
+}
+.ql-toolbar button,
+.ql-toolbar .ql-picker {
+  color: var(--light-text-color) !important; /* White icons */
+}
+
+/* Change the default blue color everywhere */
+.ql-toolbar * {
+  color: #facc15 !important; /* Your custom color (yellow in this case) */
+  fill: #facc15 !important; /* Change color of SVG icons */
+}
+
+/* Change the default blue color everywhere */
+.ql-toolbar * {
+  color: #facc15 !important; /* Your custom color (yellow in this case) */
+  fill: #facc15 !important; /* Change color of SVG icons */
+}
+
+/* Optional: Change the color of active tools */
+.ql-toolbar .ql-active {
+  color: #f87171 !important; /* Custom active color (red in this case) */
+  fill: #f87171 !important;
+}

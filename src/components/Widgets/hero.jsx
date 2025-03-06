@@ -3,7 +3,7 @@ import { selectPageByType } from "@/Redux/PagesData/PagesDataSlice";
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 
-const Hero = () => {
+const Hero = ({content}) => {
   const HeroBanner = useSelector((state) =>
     selectPageByType(state, "Hero Banner")
   );

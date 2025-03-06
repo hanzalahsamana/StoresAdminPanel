@@ -1,58 +1,66 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
-import Quill from "quill";
+import React, { useEffect, useRef, useState } from "react";
+import dynamic from "next/dynamic";
 import "quill/dist/quill.snow.css";
+
+// Dynamic import to prevent SSR issues
+const Quill = dynamic(() => import("quill"), { ssr: false, loading: () => <p>Loading editor...</p> });
 
 const TextEditor = ({ editorContent, setEditorContent }) => {
     const editorRef = useRef(null);
-    const quillRef = useRef(null); 
+    const quillRef = useRef(null);
+    const [isClient, setIsClient] = useState(false);
 
     useEffect(() => {
-        if (typeof window === "undefined") return; // Ensure client-side execution
+        setIsClient(true); // Ensures we're on the client
+    }, []);
 
-        if (!editorRef.current) return;
+    useEffect(() => {
+        if (!isClient || !editorRef.current) return;
 
-        quillRef.current = new Quill(editorRef.current, {
-            theme: "snow",
-            modules: {
-                toolbar: [
-                    [{ font: [] }],
-                    [{ size: ["small", false, "large", "huge"] }],
-                    ["bold", "italic", "underline", "strike"],
-                    [{ color: [] }, { background: [] }],
-                    [{ script: "sub" }, { script: "super" }],
-                    [{ header: 1 }, { header: 2 }],
-                    [{ align: [] }],
-                    [{ list: "ordered" }, { list: "bullet" }],
-                    [{ indent: "-1" }, { indent: "+1" }],
-                    ["blockquote", "code-block"],
-                    ["link", "image", "video"],
-                    ["clean"],
-                ],
-            },
-        });
+        import("quill").then(({ default: Quill }) => {
+            quillRef.current = new Quill(editorRef.current, {
+                theme: "snow",
+                modules: {
+                    toolbar: [
+                        [{ font: [] }],
+                        [{ size: ["small", false, "large", "huge"] }],
+                        ["bold", "italic", "underline", "strike"],
+                        [{ color: [] }, { background: [] }],
+                        [{ script: "sub" }, { script: "super" }],
+                        [{ header: 1 }, { header: 2 }],
+                        [{ align: [] }],
+                        [{ list: "ordered" }, { list: "bullet" }],
+                        [{ indent: "-1" }, { indent: "+1" }],
+                        ["blockquote", "code-block"],
+                        ["link", "image", "video"],
+                        ["clean"],
+                    ],
+                },
+            });
 
-        const quill = quillRef.current;
+            const quill = quillRef.current;
 
-        if (editorContent) {
-            quill.root.innerHTML = editorContent;
-        }
-
-        quill.on("text-change", () => {
-            const content = quill.root.innerHTML;
-            if (content !== editorContent) {
-                setEditorContent(content);
+            if (editorContent) {
+                quill.root.innerHTML = editorContent;
             }
+
+            quill.on("text-change", () => {
+                const content = quill.root.innerHTML;
+                if (content !== editorContent) {
+                    setEditorContent(content);
+                }
+            });
         });
 
         return () => {
             if (quillRef.current) {
-                quillRef.current.off("text-change"); // Remove event listener
+                quillRef.current.off("text-change");
                 quillRef.current = null;
             }
         };
-    }, []);
+    }, [isClient]);
 
     useEffect(() => {
         if (quillRef.current && editorContent !== quillRef.current.root.innerHTML) {
@@ -61,8 +69,8 @@ const TextEditor = ({ editorContent, setEditorContent }) => {
     }, [editorContent]);
 
     return (
-        <div className="w-full">
-            <div ref={editorRef} className="max-h-[190px] min-h-[190px] overflow-auto"></div>
+        <div className="w-full !border-[1.5px] !border-primaryC">
+            <div ref={editorRef} className="max-h-[190px] min-h-[190px] overflow-auto !border-none"></div>
         </div>
     );
 };

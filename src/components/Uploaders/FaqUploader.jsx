@@ -44,7 +44,7 @@ const FaqUploader = ({ initialFaqs, setFaqs }) => {
   };
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 w-full">
       {faqs.map((faq, index) => (
         <div
           key={index}

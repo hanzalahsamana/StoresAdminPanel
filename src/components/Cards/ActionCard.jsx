@@ -10,7 +10,7 @@ const ActionCard = ({ lable, className, children, actions, error }) => {
                 )}
             </div>
             {children}
-            <div className="flex justify-end items-center mt-[15px] gap-[20px]">
+            <div className="flex justify-start items-center mt-[15px] gap-[20px]">
                 {actions}
             </div>
         </div>

@@ -1,5 +1,4 @@
 "use client";
-
 import { selectPageByType } from '@/Redux/PagesData/PagesDataSlice';
 import React from 'react';
 import { useSelector } from 'react-redux';

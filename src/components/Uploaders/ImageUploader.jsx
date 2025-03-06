@@ -43,7 +43,7 @@ const ImageUploader = ({ image, setImage }) => {
 
   return (
     <div
-      className="relative max-w-3xl flex gap-3 justify-center  border-[1.5px] border-primaryC items-center px-[20px]  h-full w-full bg-[#06a4a708] rounded-lg overflow-hidden"
+      className="relative flex gap-3 justify-center  border-[1.5px] border-primaryC items-center p-[20px]  h-full w-full rounded-sm overflow-hidden"
     >
       <div className="flex flex-1  items-center flex-col gap-4">
         <BsFillCloudArrowUpFill className="text-primaryC text-[100px]" />
@@ -64,7 +64,7 @@ const ImageUploader = ({ image, setImage }) => {
         <img
           src={objectUrl}
           alt="Uploaded"
-          className="w-[350px] h-[250px] bg-backgroundC object-contain border border-solid border-borderC shadow-inner rounded-sm"
+          className="w-[350px] h-[250px] bg-backgroundC object-cover border border-solid border-borderC shadow-inner rounded-sm"
         />
         {!isPlaceholder && (
           <button
