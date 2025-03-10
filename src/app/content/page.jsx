@@ -33,7 +33,6 @@ const Content = () => {
     const [items, setItems] = useState([]);
     const [isOpen, setIsOpen] = useState(false);
 
-
     useEffect(() => {
         setItems(pagesData || []);
     }, [pagesData]);
@@ -55,12 +54,6 @@ const Content = () => {
             <div className="w-full px-5 bg-backgroundC py-5 rounded-md shadow-md">
                 <PageEditModal selectedPage={editingPage} setSelectedPage={setEditingPage} />
                 <h1 className="text-2xl font-semibold mb-4">Update Pages</h1>
-                {/* <div className="w-full flex text-textTC pt-2 pb-4 border-b border-gray-300">
-                   <div>Order</div>
-                   <div>Title</div>
-                   <div>Title</div>
-                </div> */}
-
                 <DragDropContext onDragEnd={handleDragEnd}>
                     <Droppable droppableId="pagesList">
                         {(provided) => (

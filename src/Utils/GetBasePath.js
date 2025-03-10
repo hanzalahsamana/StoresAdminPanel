@@ -1,3 +1,5 @@
+import { Base_Domain } from "../../config";
+
 export const getBasePath = () => {
   if (typeof window !== "undefined") {
     const host = window.location.host;
@@ -17,7 +19,7 @@ export const getBasePath = () => {
     const pathname = window.location.pathname.split("/").filter(Boolean);
     const storeName = pathname.length > 0 ? pathname[0] : ""; // Get first segment
 
-    return storeName ? `/${storeName}` : ""; // Return empty if no store name exists
+    return storeName && host.includes(Base_Domain) ? `/${storeName}` : ""; // Return empty if no store name exists
   }
   return "";
 };

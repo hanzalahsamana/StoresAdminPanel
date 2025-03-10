@@ -26,7 +26,7 @@ const Button = ({
             disabled={loading}
             type={type}
             className={`w-full flex gap-2 justify-center text-[17px] py-[12px] px-[25px] rounded-sm min-w-[150px] hover:opacity-90 transition duration-300 
-                ${loading ? 'cursor-not-allowed bg-gray-400' : buttonStyles[variant] || buttonStyles.primary} 
+                ${loading ? 'cursor-not-allowed bg-[#c5c5c589]' : buttonStyles[variant] || buttonStyles.primary} 
                 ${className}`}
         >
             {loading 

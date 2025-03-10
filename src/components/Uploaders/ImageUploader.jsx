@@ -43,7 +43,7 @@ const ImageUploader = ({ image, setImage }) => {
 
   return (
     <div
-      className="relative flex gap-3 justify-center  border-[1.5px] border-primaryC items-center p-[20px]  h-full w-full rounded-sm overflow-hidden"
+      className="relative flex gap-3 justify-center border-[1.5px] border-primaryC items-center p-[20px]  h-full w-full rounded-sm overflow-hidden"
     >
       <div className="flex flex-1  items-center flex-col gap-4">
         <BsFillCloudArrowUpFill className="text-primaryC text-[100px]" />

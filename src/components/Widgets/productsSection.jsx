@@ -8,11 +8,13 @@ import { getBasePath } from '@/Utils/GetBasePath';
 
 const ProductsSection = ({ maxLength, collection, name }) => {
     const { products, loading, error } = useSelector((state) => state.productData);
-    const { siteName } = useSelector((state) => state.siteName);
 
-    if (loading) {
+    if (loading) {  
         return <Loader />;
     }
+
+    console.log(collection , "abcdefgh");
+    
 
     if (error) {
         return (
@@ -27,7 +29,7 @@ const ProductsSection = ({ maxLength, collection, name }) => {
             <h1 className='m-6 text-[30px] font-semibold text-center'>{name}</h1>
             <div className="grid grid-cols-4 max-[1024px]:grid-cols-3 max-[750px]:grid-cols-2 max-[470px]:grid-cols-1 gap-2 m-6">
                 {products
-                    ?.filter(product => product?.collectionName?.toLowerCase() === collection.toLowerCase() || collection === "all")
+                    ?.filter(product => product?.collectionName?.toLowerCase() === collection?.toLowerCase() || collection === "all")
                     .slice(0, maxLength)
                     .map((product) => (
                         <Link

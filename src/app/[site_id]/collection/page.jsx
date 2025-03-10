@@ -3,7 +3,7 @@ import React from 'react'
 
 const AllCollections = () => {
     return (
-        <CollectionSection CategoryNumber={"all"}  toShowLink={false} />
+        <CollectionSection Categories={["all"]}  toShowLink={false} />
     )
 }
 

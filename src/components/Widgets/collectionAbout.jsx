@@ -15,9 +15,6 @@ const CollectionAbout = () => {
       <div className="img-wrap">
         <div
           className="img-two"
-          data-aos="fade-up"
-          data-aos-easing="linear"
-          data-aos-duration="1000"
         >
           <img className="aspect-square object-cover" src={selectedPage?.image} alt={selectedPage?.title} />
         </div>

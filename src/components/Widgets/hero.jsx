@@ -4,9 +4,7 @@ import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 
 const Hero = ({content}) => {
-  const HeroBanner = useSelector((state) =>
-    selectPageByType(state, "Hero Banner")
-  );
+
   const [videoSrc, setVideoSrc] = useState("/videos/WebsiteBannerVideo.mp4");
 
   useEffect(() => {
@@ -30,7 +28,7 @@ const Hero = ({content}) => {
         Your browser does not support the video tag.
       </video> */}
 
-      <img className="w-full h-full bg-cover object-cover" src={HeroBanner?.image} alt={HeroBanner?.type} />
+      <img className="w-full h-full bg-cover object-cover" src={content?.image} alt={content?.title} />
     </div>
   );
 };

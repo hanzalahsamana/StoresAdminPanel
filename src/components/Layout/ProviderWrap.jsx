@@ -4,6 +4,7 @@ import { fetchCategory } from "@/APIs/Category/getCategory";
 import { fetchOrderData } from "@/APIs/Order/getOrderData";
 import { fetchPagesData } from "@/APIs/PagesData/getPagesData";
 import { fetchProducts } from "@/APIs/Product/getProductData";
+import { fetchSectionsData } from "@/APIs/SectionsData/getSectonsData";
 import { setCurrentUser, setLoading } from "@/Redux/Authentication/AuthSlice";
 import { setSiteName } from "@/Redux/SiteName/SiteNameSlice";
 import { useEffect } from "react";
@@ -28,6 +29,7 @@ const ProviderWrap = ({ children }) => {
       fetchProducts(dispatch, currUser?.brandName);
       fetchCategory(dispatch, currUser?.brandName);
       fetchPagesData(dispatch, currUser?.brandName)
+      fetchSectionsData(dispatch, currUser?.brandName)
 
       console.log("ye chala");
 

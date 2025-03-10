@@ -23,56 +23,93 @@ import CollectionAbout from '@/components/Widgets/collectionAbout';
 import ContentPage from '@/components/Sections/ContentPage';
 
 
+const fields = {
+  title: {
+    name: 'title',
+    uploader: 'input',
+  },
+  image: {
+    name: 'image',
+    uploader: 'image'
+  }
+
+}
+
 const componentMapping = {
-  "About Us": {
-    component: ContentPage,
-    fields: ["title", "text"]
+
+  hero_banner: {
+    fields: ["title", "image"],
+    formData: { title: "", image: "" },
   },
-  "Hero Banner": {
-    fields: ["image"],
-    component: '',
+  feature_collection: {
+    fields: ["collections", "title"],
+    defaultValues: { title: '', collections: [] }, // This will store an array of collection IDs
   },
-  "FAQ": {
-    fields: ["title", "faqs"],
-    component: FAQs,
+  promo_section: {
+    fields: ["title", "description", "image", "buttonText", "buttonLink"],
+    defaultValues: { title: "", description: "", image: "", buttonText: "", buttonLink: "" },
   },
-  "Contact": {
-    fields: ["title", "email", "phone", "address"],
-    component: '',
+  products_section: {
+    fields: ["maxLength", "products", "title"],
+    defaultValues: { maxLength: 4, products: [], title: "Best Sellers" },
   },
-  "Terms and Conditions": {
-    fields: ["title", "text"],
-    component: ContentPage,
-  },
-  "Our Quality": {
-    fields: ["title", "buttonText", "text", "image"],
-    component: CollectionAbout,
-  },
-  "Manufacture Process": {
-    fields: ["title", "text", "image"],
-    component: FabricsLiberary,
-  },
-  "Privacy Policy": {
-    fields: ["title", "text"],
-    component: ContentPage,
-  },
-  "Return Policy": {
-    fields: ["title", "text"],
-    component: ContentPage,
-  },
-  "Shipping Policy": {
-    fields: ["title", "text"],
-    component: ContentPage,
-  },
-  "Site Logo": {
-    fields: ["image"],
-    component: '',
-  },
-  "Fabric Remants": {
-    fields: ["title", "buttonText", "text", "image"],
-    component: FabricsAbout,
+  rich_text: {
+    fields: ["content"],
+    defaultValues: { content: "" },
   },
 };
+
+
+// const componentMapping = {
+//   "About Us": {
+//     component: ContentPage,
+//     fields: ["title", "text"]
+//   },
+//   "Hero Banner": {
+//     fields: ["image"],
+//     component: '',
+//   },
+//   "FAQ": {
+//     fields: ["title", "faqs"],
+//     component: FAQs,
+//   },
+//   "Contact": {
+//     fields: ["title", "email", "phone", "address"],
+//     component: '',
+//   },
+//   "Terms and Conditions": {
+//     fields: ["title", "text"],
+//     component: ContentPage,
+//   },
+//   "Our Quality": {
+//     fields: ["title", "buttonText", "text", "image"],
+//     component: CollectionAbout,
+//   },
+//   "Manufacture Process": {
+//     fields: ["title", "text", "image"],
+//     component: FabricsLiberary,
+//   },
+//   "Privacy Policy": {
+//     fields: ["title", "text"],
+//     component: ContentPage,
+//   },
+//   "Return Policy": {
+//     fields: ["title", "text"],
+//     component: ContentPage,
+//   },
+//   "Shipping Policy": {
+//     fields: ["title", "text"],
+//     component: ContentPage,
+//   },
+//   "Site Logo": {
+//     fields: ["image"],
+//     component: '',
+//   },
+//   "Fabric Remants": {
+//     fields: ["title", "buttonText", "text", "image"],
+//     component: FabricsAbout,
+//   },
+// };
 
 
 
@@ -111,7 +148,7 @@ const ContentEdit = () => {
             placeholder={field.charAt(0).toUpperCase() + field.slice(1)}
             handleChange={(e) => handleInputChange(field, e.target.value)}
             className='!outline-primaryC !bg-transparent'
-            
+
           />
         );
       }
@@ -145,17 +182,6 @@ const ContentEdit = () => {
     });
   };
 
-  const getGridClass = () => {
-    const fields = componentMapping[formData.type] || [];
-    const count = fields.length;
-
-    if (count === 1) return "single";
-    if (count === 2) return "double";
-    if (count === 3) return "triple";
-    if (count >= 4) return "quad";
-    return "";
-  };
-
   useEffect(() => {
     if (page) {
       const { _id, __v, updatedAt, ...rest } = page;
@@ -178,13 +204,13 @@ const ContentEdit = () => {
       <ActionCard
         actions={<Button label="Save" className="w-max" />}
         lable={page.type}
-        className ={ '!p-4'}
+        className={'!p-4'}
       >
         <div
           className={` border-[#c9c9c98f] shadow-[inset_0px_0px_12px_#dadada] p-[20px] max-h-[340px] overflow-y-auto customScroll flex flex-col`}
         >
           <div className='flex flex-col gap-3'>
-          {renderComponents()}
+            {renderComponents()}
           </div>
         </div>
       </ActionCard>

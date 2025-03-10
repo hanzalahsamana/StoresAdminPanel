@@ -24,15 +24,17 @@ export default function SiteLayout({ params, children }) {
       document.title = siteName;
     }
     if (SiteLogo) {
+      
       let link = document.querySelector("link[rel='icon']");
       if (!link) {
+        console.log("hello" , SiteLogo);
         link = document.createElement("link");
         link.rel = "icon";
         document.head.appendChild(link);
       }
-      link.href = SiteLogo;
+      link.href = SiteLogo?.image;
     }
-  }, [siteName]);
+  }, [siteName , SiteLogo]);
 
   if (!siteName) {
     return <Loader />;

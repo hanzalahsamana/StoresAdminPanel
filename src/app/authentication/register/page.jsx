@@ -14,11 +14,10 @@ import { Base_Domain } from "../../../../config";
 
 const validateForm = (formData, setErrors) => {
   const newErrors = {};
-  const { brandName, email, name, password } = formData;
+  const { brandName, email, password } = formData;
 
   if (!email) newErrors.email = "Email is required";
   if (!brandName) newErrors.brandName = "Brand Name is required";
-  if (!name) newErrors.name = "User Name is required";
   if (!password) newErrors.password = "Password is required";
 
   setErrors(newErrors);
@@ -29,7 +28,6 @@ const Register = () => {
   const [formData, setFormData] = useState({
     brandName: "",
     email: "",
-    name: "",
     password: "",
   });
   const router = useRouter();
@@ -87,14 +85,6 @@ const Register = () => {
           error={errors.email}
           handleChange={handleChange}
           placeholder="Email"
-        />
-        <FormInput
-          error={errors.name}
-          name={"name"}
-          value={formData.name}
-          handleChange={handleChange}
-          placeholder="User Name"
-
         />
 
         <FormInput

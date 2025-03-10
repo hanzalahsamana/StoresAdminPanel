@@ -1,6 +1,7 @@
 import React from 'react'
+import TextLoader from '../Loader/TextLoader'
 
-const ActionCard = ({ lable, className, children, actions, error }) => {
+const ActionCard = ({ lable, className, children, actions, error, loading = false, loader = <TextLoader /> }) => {
     return (
         <div className={`relative p-8 w-full border  rounded-md flex flex-col gap-[20px] bg-white ${error ? 'border-[red]' : 'border-borderC'} ${className}`}>
             <div className='flex justify-between items-start'>
@@ -9,8 +10,12 @@ const ActionCard = ({ lable, className, children, actions, error }) => {
                     <p className=' text-red-500 text-[14px] '>{error?.message}</p>
                 )}
             </div>
-            {children}
-            <div className="flex justify-start items-center mt-[15px] gap-[20px]">
+            {loading ? (
+                loader
+            ) : (
+                 children
+            )}
+            <div className="flex justify-end items-center mt-[15px] gap-[20px]">
                 {actions}
             </div>
         </div>

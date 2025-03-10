@@ -10,11 +10,13 @@ import { categoryReducer } from "../Category/CategorySlice";
 import { siteNameReducer } from "../SiteName/SiteNameSlice";
 import cartDataReducer from "../CartData/cartDataSlice";
 import { networkReducer } from "../Network/networkSlice";
+import { sectionsDataReducer } from "../SectionsData/SectionsDataSlice";
 
 const rootReducer = combineReducers({
   orderData: orderDataReducer,
   currentUser: currentUserReducer,
   pagesData: pagesDataReducer,
+  sectionsData: sectionsDataReducer,
   siteName: siteNameReducer,
   analytics: analyticDataReducer,
   network: networkReducer,

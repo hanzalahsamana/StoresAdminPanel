@@ -87,26 +87,45 @@ body {
 }
 
 .LaptopFrame {
-  background-image: url("../Assets/Images/laptopFrame1.png");
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: 800px 400px;
+
   width: 800px;
   height: 400px;
-  padding: 18px 13px;
-  overflow: hidden;
+  padding: 14px 13px;
+  overflow-x: hidden;
+  overflow-y: auto;
   transform: scale(0.8);
   transform-origin: top left;
   border-radius: 7px 7px 0px 0px;
+  background-color: white;
+  /* pointer-events: none; */
+  cursor: not-allowed;
 }
 
 .MobileFrame {
   width: 300px;
   height: 440px;
   padding: 10px 12px;
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: auto;
   transform: scale(0.73);
   transform-origin: top left;
+}
+
+.LaptopFrameCover {
+  width: 800px;
+  height: 400px;
+  padding: 18px 13px;
+  overflow: hidden;
+  transform: scale(0.8);
+  position: absolute;
+  top: 0;
+  transform-origin: top left;
+  background-image: url("../Assets/Images/laptopFrame1.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 800px 400px;
+  z-index: 1;
+  pointer-events: none;
 }
 
 .MobileFrameCover {
@@ -176,45 +195,16 @@ input:-webkit-autofill {
 .ql-toolbar.ql-snow{
   border: none  !important;
   border-bottom: 1px solid var(--primary-color) !important;
+  background-color: var(--secondary-color) !important;
 }
 
-.ql-toolbar .ql-active .ql-fill {
-  fill: var(--primary-color)  !important; /* Active button color */
-}
-.ql-toolbar button:hover .ql-fill {
-  fill: var(--primary-color)  !important; /* Active button color */
+.ql-toolbar .ql-stroke {
+  stroke: var(--primary-color) !important; /* Yellow stroke for SVG icons */
 }
 
-.ql-toolbar button:hover{
-  color: var(--primary-color)  !important;
+.ql-toolbar .ql-fill {
+  fill: var(--primary-color) !important; /* Yellow fill for filled icons */
 }
-
-.ql-editor {
-  color: var(--light-text-color) !important; /* White text */
-}
-
-.ql-editor::placeholder {
-  color: #94a3b8 !important; /* Light gray placeholder text */
-}
-.ql-toolbar button,
-.ql-toolbar .ql-picker {
-  color: var(--light-text-color) !important; /* White icons */
-}
-
-/* Change the default blue color everywhere */
-.ql-toolbar * {
-  color: #facc15 !important; /* Your custom color (yellow in this case) */
-  fill: #facc15 !important; /* Change color of SVG icons */
-}
-
-/* Change the default blue color everywhere */
-.ql-toolbar * {
-  color: #facc15 !important; /* Your custom color (yellow in this case) */
-  fill: #facc15 !important; /* Change color of SVG icons */
-}
-
-/* Optional: Change the color of active tools */
-.ql-toolbar .ql-active {
-  color: #f87171 !important; /* Custom active color (red in this case) */
-  fill: #f87171 !important;
+.ql-toolbar .ql-picker-label {
+  color: var(--primary-color) !important; /* Yellow fill for filled icons */
 }

@@ -6,7 +6,7 @@ import { setCurrentUser, setLoading } from "@/Redux/Authentication/AuthSlice";
 
 export const getUserFromToken = async (dispatch, type) => {
     if(!type){
-        dispatch(setCurrentUser(null));
+        return dispatch(setCurrentUser(null));
     }
     try {
         dispatch(setLoading(true));

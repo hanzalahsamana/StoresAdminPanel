@@ -44,6 +44,7 @@ import Loader from "../Loader/loader";
 
 function Sidebar({ isOpen, setIsOpen }) {
   const { pagesData, pagesDataLoading } = useSelector((state) => state.pagesData);
+  const { sectionsData } = useSelector((state) => state.sectionsData);
 
 
 
@@ -69,16 +70,16 @@ function Sidebar({ isOpen, setIsOpen }) {
       ],
     },
     
-    // {
-    //   name: "Design / Layout", icon: <PiTreeStructureLight />, path: "/domain",
-    //   subLinks: [
-    //     { name: "Over View", path: "/domain" },
-    //     ...(Array.isArray(pagesData) ? pagesData.map(item => ({
-    //       name: item.type,
-    //       path: `/content/${item._id}`
-    //     })) : [])
-    //   ],
-    // },
+    {
+      name: "Design / Layout", icon: <PiTreeStructureLight />, path: "/domain",
+      subLinks: [
+        { name: "Over View", path: "/design" },
+        ...(Array.isArray(sectionsData) ? sectionsData.map(item => ({
+          name: item.content?.title || item?.type,
+          path: `/design/${item._id}`
+        })) : [])
+      ],
+    },
   ];
 
   useEffect(() => {

@@ -10,6 +10,7 @@ import { setCartData } from '@/Redux/CartData/cartDataSlice';
 import { fetchOrderData } from '@/APIs/Order/getOrderData';
 import TemplateHeader from './TemplateHeader';
 import TemplateFooter from './TemplateFooter';
+import { fetchSectionsData } from '@/APIs/SectionsData/getSectonsData';
 
 const LayoutWithReduxState = ({ children }) => {
 
@@ -28,6 +29,7 @@ const LayoutWithReduxState = ({ children }) => {
       await fetchPagesData(dispatch, siteName);
       await fetchCategory(dispatch, siteName);
       await fetchOrderData(dispatch, siteName);
+      await fetchSectionsData(dispatch, siteName);
 
 
 
@@ -49,8 +51,6 @@ const LayoutWithReduxState = ({ children }) => {
 
 
   if (productLoading || pagesDataLoading || categoryLoading) {
-    console.log("yahi he");
-
     return <Loader />
   }
 

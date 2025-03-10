@@ -1,23 +1,25 @@
 import React from 'react'
 import ContentLoader from 'react-content-loader'
 
-const HackerNewsLoader = props => (
+const TextLoader = (props) => (
   <ContentLoader
     speed={1}
-    width={340}
-    height={84}
-    viewBox="0 0 340 84"
-    backgroundColor="#f6f6ef"
+    width={"100%"} // Make width responsive
+    height={150} // Set fixed heighta
+    viewBox="0 0 100% 150" // Adjust the viewBox to match dimensions
+    backgroundColor="#ededeb"
     foregroundColor="#e8e8e3"
     {...props}
   >
-    <rect x="9" y="4" rx="0" ry="0" width="320" height="22" />
-    <rect x="18" y="14" rx="0" ry="0" width="303" height="6" />
-    <rect x="11" y="33" rx="0" ry="0" width="108" height="13" />
-    <rect x="129" y="33" rx="0" ry="0" width="60" height="13" />
-    <rect x="196" y="33" rx="0" ry="0" width="60" height="13" />
+    {/* Adjusted rectangles to scale with new dimensions */}
+    <rect x="0%" y="20" rx="5" ry="5" width="100%" height="30" />
+    <rect x="0%" y="70" rx="5" ry="5" width="60%" height="15" />
+    <rect x="0%" y="100" rx="5" ry="5" width="30%" height="15" />
+    <rect x="40%" y="100" rx="5" ry="5" width="30%" height="15" />
+    <rect x="75%" y="100" rx="5" ry="5" width="20%" height="15" />
+    {/* <rect x="68%" y="180" rx="5" ry="5" width="15%" height="40" /> */}
+    {/* <rect x="85%" y="180" rx="5" ry="5" width="15%" height="40" /> */}
   </ContentLoader>
 )
 
-
-export default HackerNewsLoader;
+export default TextLoader;

@@ -9,7 +9,6 @@ const Favicon = ({ title, faviconUrl }) => {
     const SiteLogo = useSelector((state) => selectPageByType(state, "Site Logo"));
     const dispatch = useDispatch();
 
-
     const pageTitle = title || siteName;
     const faviconImage = faviconUrl || SiteLogo?.image;
 

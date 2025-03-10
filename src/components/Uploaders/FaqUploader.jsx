@@ -48,7 +48,7 @@ const FaqUploader = ({ initialFaqs, setFaqs }) => {
       {faqs.map((faq, index) => (
         <div
           key={index}
-          className={`bg-white flex flex-col relative border overflow-hidden gap-4 border-[#ababab81] p-4 transition-all duration-300 ${editingIndex === index ? 'h-[180px]' : 'h-[67px]'}`}
+          className={` flex flex-col relative border overflow-hidden gap-4 border-[#ababab81] p-4 transition-all duration-300 ${editingIndex === index ? 'h-[180px]' : 'h-[67px]'}`}
         >
           {(errors.Q || errors.A) && index === faqs.length - 1 && (
             <p className="absolute top-[3px] flex gap-[5px] text-red-500 text-[10px]">
@@ -65,7 +65,7 @@ const FaqUploader = ({ initialFaqs, setFaqs }) => {
                 value={faq.Q}
                 onChange={(e) => handleInputChange(index, e)}
                 placeholder="Question"
-                className={`w-full p-2 rounded-sm focus:outline-none border ${editingIndex === index ? 'border-[#e5e7eb] focus:ring-2 focus:ring-blue-500' : 'border-[#fff]'}`}
+                className={`w-full p-2 rounded-sm focus:outline-none border ${editingIndex === index ? 'border-[#e5e7eb] focus:ring-2 focus:ring-primaryC' : 'border-[#fff]'}`}
               />
             </div>
             <div
@@ -91,7 +91,7 @@ const FaqUploader = ({ initialFaqs, setFaqs }) => {
                   onChange={(e) => handleInputChange(index, e)}
                   placeholder="Answer"
                   rows="4"
-                  className="w-full p-2 border rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full p-2 border rounded-sm focus:outline-none focus:ring-2 focus:ring-primaryC"
                 />
               )}
             </div>

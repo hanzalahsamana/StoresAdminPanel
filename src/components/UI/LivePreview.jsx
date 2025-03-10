@@ -114,7 +114,7 @@ const LivePreviewContent = ({
                 transition: dragging ? 'none' : 'transform 0.2s ease-out',
 
             }}
-            className={`  ${maximized ? 'relative' : `fixed flex w-[360px] h-[270px]  ${transformOrigin}`} z-50`}
+            className={`  ${maximized ? 'relative' : `fixed flex w-[360px] h-[270px] pointer-events-none  ${transformOrigin}`} z-50`}
             onMouseMove={handleMouseMove}
             onMouseUp={handleMouseUp}
             onMouseLeave={handleMouseUp} // Stop dragging if mouse leaves window
@@ -126,13 +126,13 @@ const LivePreviewContent = ({
                 onMouseEnter={() => setIsHovered(true)}
                 onMouseLeave={() => setIsHovered(false)}
                 onMouseDown={handleMouseDown}
-                className={`${maximized ? 'w-full h-full' : isHovered || alwaysExtend ? 'w-[360px] h-[270px]' : 'w-[180px] h-[120px]'} bg-backgroundC cursor-move transition-all border-[1.4px] border-[#000000d1] shadow-xl relative overflow-hidden`}
+                className={`${maximized ? 'w-full h-full' : isHovered || alwaysExtend ? 'w-[360px] h-[270px] shadow-xl' : 'w-[180px] h-[120px] shadow-xl'} bg-backgroundC pointer-events-auto cursor-move transition-all border-[1.4px] border-primaryC  relative overflow-hidden`}
                 style={{ transformOrigin }}
             >
 
                 {/* Top Controls */}
-                <div className={`w-full ${isHovered || alwaysExtend || maximized ? 'h-[30px]' : 'h-0'} cursor-default overflow-hidden flex items-center px-[10px] gap-2 transition-all bg-[#000000d1]`}>
-                    <div className='text-[14px] text-backgroundC flex-1'>
+                <div className={`w-full ${isHovered || alwaysExtend || maximized ? 'h-[30px]' : 'h-0'} text-primaryC cursor-default overflow-hidden flex items-center px-[10px] gap-2 transition-all bg-secondaryC`}>
+                    <div className='text-[14px]  flex-1'>
                         Live preview
                     </div>
                     {/* Maximize Button */}
@@ -141,15 +141,15 @@ const LivePreviewContent = ({
                             data-tooltip-id="preview"
                             data-tooltip-content={alwaysExtend ? "Toggle Expand" : "Remain Expand"}
                             onClick={() => setAlwaysExtend(!alwaysExtend)}
-                            className='text-white cursor-pointer flex items-center justify-center rounded-full w-[25px] h-[25px]  text-[14px] rotate-90'>
+                            className=' cursor-pointer flex items-center justify-center rounded-full w-[25px] h-[25px]  text-[14px] rotate-90'>
                             {alwaysExtend ? <FiMinimize2 /> : <FiMaximize2 />}
                         </div>
                     )}
                     <div
                         data-tooltip-id="preview"
                         data-tooltip-content={maximized ? "Minimize" : "Maximize"}
-                        onClick={() => setMaximized(!maximized)}
-                        className='text-white cursor-pointer flex items-center justify-center rounded-full w-[25px] h-[25px] mr-[10px] text-[14px] rotate-90'>
+                        onClick={() => { setMaximized(!maximized); setIsHovered(false) }}
+                        className='cursor-pointer flex items-center justify-center rounded-full w-[25px] h-[25px] mr-[10px] text-[14px] rotate-90'>
                         {maximized ? <CgMinimize /> : <CgMaximize />}
                     </div>
 

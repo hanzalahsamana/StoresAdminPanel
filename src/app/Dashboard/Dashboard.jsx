@@ -18,22 +18,21 @@ const Dashboard = () => {
 
 
   return (
-    <div className="flex flex-col min-h-screen ">
+    <div className="flex flex-col justify-end h-[calc(100vh-60px)] w-full">
       <div className="pt-[50px]">
         <WebPrevFrame />
       </div>
       <div>
-        <div className='w-full flex justify-between items-start sm:items-center py-[20px] px-[20px] bg-backgroundC shadow-md flex-col gap-[10px]  sm:flex-row'>
+        <div className='w-full flex justify-between items-start sm:items-center py-[40px] md:px-[30px] px-[15px] bg-backgroundC shadow-md flex-col gap-[10px]  sm:flex-row'>
           <div className='flex gap-4'>
-            <div className='w-[100px] h-[100px] flex justify-center items-start bg-transparent'>
-              <img src={SiteLogo?.image} alt="Site Logo" className='object-contain' />
-            </div>
-            <div className='flex flex-col gap-2'>
+            <div className='flex flex-col gap-3'>
+            <div className='flex gap-2'>
+              <p className='text-textC capitalize text-[18px]'>{currUser?.brandName} </p>
               <p className='bg-secondaryC flex gap-1 justify-center items-center text-primaryC text-center text-sm w-max px-[13px] rounded-2xl' >
                 <GoDotFill />
                 live
               </p>
-              <p className='text-textC'>{currUser?.brandName} </p>
+            </div>
               <Link target='_blank' className='text-blue-400 flex gap-1 items-center ' href={`${HTTP}${currUser?.subDomain || currUser?.brandName}.${Base_Domain}`}>{currUser?.subDomain || currUser?.brandName}.{Base_Domain} <FiArrowUpRight /></Link>
             </div>
           </div>

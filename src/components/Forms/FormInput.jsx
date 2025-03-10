@@ -14,6 +14,7 @@ const FormInput = ({
   disabled = false,
   required = true,
   actionIcon = null,
+  className = '',
 }) => {
 
 
@@ -26,7 +27,7 @@ const FormInput = ({
         readOnly={readOnly}
         disabled={disabled}
         value={value}
-        className={`Inputs pr-[40px] h-[50px] text-textTC bg-backgroundC pl-[20px] flex items-center rounded-md outline-[#3973B0] p-2 border w-full ${error ? "border-red-500" : "border-[#a6a6a668]"
+        className={`Inputs pr-[40px] h-[50px] text-textTC bg-backgroundC pl-[20px] flex items-center rounded-md outline-[#3973B0] p-2 border w-full ${className} ${error ? "border-red-500" : "border-[#a6a6a668]"
           } rounded`}
       />
       <label

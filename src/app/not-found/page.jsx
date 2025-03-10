@@ -11,7 +11,7 @@ export default function NotFoundPage() {
 
                 <div className="mt-6">
                     <img
-                        src="https://illustrations.popsy.co/white/resistance-band.svg"
+                        src="https://illustrations.popsy.co/teal/resistance-band.svg"
                         alt="Not Found Illustration"
                         className="w-48 mx-auto"
                     />
