@@ -30,12 +30,12 @@ const WidgetsModal = ({ isOpen, setIsOpen }) => {
 
             {isOpen && (
                 <div
-                    className="fixed inset-0 bg-black bg-opacity-50 z-50"
+                    className="fixed inset-0 bg-black bg-opacity-50 z-[100]"
                     onClick={() => setIsOpen(false)}
                 ></div>
             )}
 
-            <div className={`fixed top-0 right-0 h-full w-80 bg-white shadow-lg z-50 transform ${isOpen ? "translate-x-0" : "translate-x-full"} transition-transform duration-300`}>
+            <div className={`fixed top-0 right-0 h-full w-80 bg-white shadow-lg z-[100] transform ${isOpen ? "translate-x-0" : "translate-x-full"} transition-transform duration-300`}>
                 <div className="flex justify-between items-center p-4 border-b">
                     <h2 className="text-2xl font-semibold">Widgets</h2>
                     <button className="text-[18px]" onClick={() => setIsOpen(false)}>

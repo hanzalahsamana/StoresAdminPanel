@@ -14,13 +14,17 @@ import LivePreview from '@/components/UI/LivePreview';
 import RichText from '@/components/Widgets/RichText';
 import { selectPageByID } from '@/Redux/PagesData/PagesDataSlice';
 import { useParams } from 'next/navigation';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import FabricsAbout from '@/components/Widgets/fabricsAbout';
 import FAQs from '@/components/Widgets/Faqs';
 import { Base_Domain, HTTP } from '../../../../config';
 import FabricsLiberary from '@/components/Widgets/fabricsLiberary';
 import CollectionAbout from '@/components/Widgets/collectionAbout';
 import ContentPage from '@/components/Sections/ContentPage';
+import { validateForm } from '@/Utils/pageDataValidate';
+import { uploadToCloudinary } from '@/Utils/uploadToCloudinary';
+import { editPagesData } from '@/APIs/PagesData/editPagesData';
+import { toast } from 'react-toastify';
 
 
 const componentMapping = {
@@ -79,6 +83,8 @@ const componentMapping = {
 const ContentEdit = () => {
 
   const params = useParams()
+  const dispatch = useDispatch();
+
   const page = useSelector((state) => selectPageByID(state, params?.pageid));
   const { currUser } = useSelector((state) => state.currentUser);
   const [formData, setFormData] = useState({
@@ -102,22 +108,23 @@ const ContentEdit = () => {
 
   const renderComponents = () => {
     const fields = componentMapping[formData.type]?.fields || [];
-    return fields.map((field) => {
+    return fields.map((field, index) => {
       if (["title", "email", "phone", "address", "buttonText"].includes(field)) {
         return (
           <FormInput
-            key={field}
+            key={index}
             value={formData[field]}
             placeholder={field.charAt(0).toUpperCase() + field.slice(1)}
             handleChange={(e) => handleInputChange(field, e.target.value)}
             className='!outline-primaryC !bg-transparent'
-            
+
           />
         );
       }
       if (field === "text") {
         return (
           <TextEditor
+            key={index}
             editorContent={formData[field]}
             setEditorContent={(value) => handleInputChange(field, value)}
           />
@@ -126,7 +133,7 @@ const ContentEdit = () => {
       if (field === "faqs") {
         return (
           <FaqUploader
-            key={field}
+            key={index}
             initialFaqs={formData[field]}
             setFaqs={(faqs) => handleInputChange(field, faqs)}
           />
@@ -135,7 +142,7 @@ const ContentEdit = () => {
       if (field === "image") {
         return (
           <ImageUploader
-            key={field}
+            key={index}
             image={formData[field]}
             setImage={(image) => handleInputChange(field, image)}
           />
@@ -145,16 +152,29 @@ const ContentEdit = () => {
     });
   };
 
-  const getGridClass = () => {
-    const fields = componentMapping[formData.type] || [];
-    const count = fields.length;
+  const handleSubmit = async () => {
+    try {
+      const validationErrors = validateForm(componentMapping, formData);
+      if (validationErrors.length > 0) {
+        toast.error(validationErrors[0]);
+        return;
+      }
 
-    if (count === 1) return "single";
-    if (count === 2) return "double";
-    if (count === 3) return "triple";
-    if (count >= 4) return "quad";
-    return "";
+      let updatedData = { ...formData };
+
+      if (formData.image instanceof File) {
+        const uploadedImageUrl = await uploadToCloudinary(formData.image);
+        updatedData.image = uploadedImageUrl;
+      }
+      await editPagesData(updatedData, currUser?.brandName, page?._id, dispatch);
+      toast.success("Form submitted successfully!");
+    } catch (error) {
+      console.log(error);
+
+      toast.error(error?.response?.data?.message || "Something went wrong");
+    }
   };
+
 
   useEffect(() => {
     if (page) {
@@ -176,15 +196,15 @@ const ContentEdit = () => {
     <BackgroundFrame>
 
       <ActionCard
-        actions={<Button label="Save" className="w-max" />}
+        actions={<Button label="Save" className="w-max" action={handleSubmit} />}
         lable={page.type}
-        className ={ '!p-4'}
+        className={'!p-4'}
       >
         <div
-          className={` border-[#c9c9c98f] shadow-[inset_0px_0px_12px_#dadada] p-[20px] max-h-[340px] overflow-y-auto customScroll flex flex-col`}
+          className={` border-[#c9c9c98f]  p-[20px] max-h-[340px] overflow-y-auto customScroll flex flex-col`}
         >
           <div className='flex flex-col gap-3'>
-          {renderComponents()}
+            {renderComponents()}
           </div>
         </div>
       </ActionCard>

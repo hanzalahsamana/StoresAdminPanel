@@ -25,9 +25,7 @@ const WebPrevFrame = () => {
                     <div className="LaptopFrame no-scrollbar">
                         <Header />
                         <Hero />
-                        <CollectionSection Categories={["all"]} />
                         <FabricsAbout />
-                        <ProductsSection maxLength={4} collection={"all"} name={"Best Sellers"} />
                         <CollectionAbout />
                     </div>
                     <div className="LaptopFrameCover no-scrollbar">

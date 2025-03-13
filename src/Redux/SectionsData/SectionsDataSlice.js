@@ -4,6 +4,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   sectionsData: [],
   sectionsDataLoading: true,
+  editSectionLoading: false,
 };
 
 export const SectionsDataSlice = createSlice({
@@ -26,6 +27,9 @@ export const SectionsDataSlice = createSlice({
     setSectionsDataLoading: (state, action) => {
       state.sectionsDataLoading = action.payload;
     },
+    setEditSectionLoading: (state, action) => {
+      state.editSectionLoading = action.payload;
+    },
   },
 });
 
@@ -42,7 +46,7 @@ export const selectSectionByID = (state, sectionId) => {
   );
 };
 
-export const { setSectionsData, updateSectionsData, setSectionsDataLoading } =
+export const { setSectionsData, updateSectionsData, setSectionsDataLoading , setEditSectionLoading } =
   SectionsDataSlice.actions;
 
 export const sectionsDataReducer = SectionsDataSlice.reducer;

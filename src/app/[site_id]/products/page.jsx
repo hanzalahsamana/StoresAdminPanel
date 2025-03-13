@@ -4,9 +4,13 @@ import ProductsSection from "@/components/Widgets/productsSection";
 
 const Products = () => {
   return (
-    <>
-      <ProductsSection maxLength={Infinity} collection={'all'} />
-    </>
+    <ProductsSection
+      content={{
+        title: "All Products",
+        maxLength: Infinity,
+        productType: "All",
+      }}
+    />
   );
 };
 

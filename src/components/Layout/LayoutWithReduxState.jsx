@@ -19,9 +19,8 @@ const LayoutWithReduxState = ({ children }) => {
   const { siteName } = useSelector((state) => state.siteName);
   const { productLoading } = useSelector((state) => state.productData);
   const { pagesDataLoading } = useSelector((state) => state.pagesData);
+  const { sectionDataLoading } = useSelector((state) => state.categories);
   const { categoryLoading } = useSelector((state) => state.categories);
-
-
 
   useEffect(() => {
     const fetchData = async () => {
@@ -31,26 +30,21 @@ const LayoutWithReduxState = ({ children }) => {
       await fetchOrderData(dispatch, siteName);
       await fetchSectionsData(dispatch, siteName);
 
-
-
       if (typeof window !== "undefined" && siteName) {
         const cartId = localStorage.getItem(`${siteName}_cartId`);
-        console.log("okk2", cartId, siteName);
         dispatch(setCartData({ cartId, siteName }));
       }
     };
 
     if (siteName) {
       fetchData();
-      console.log("ye bhi chala");
-
     }
 
   }, [dispatch, siteName]);
 
 
 
-  if (productLoading || pagesDataLoading || categoryLoading) {
+  if (productLoading || pagesDataLoading || categoryLoading || sectionDataLoading) {
     return <Loader />
   }
 

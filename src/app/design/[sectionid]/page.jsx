@@ -12,184 +12,166 @@ import ImageUploader from '@/components/Uploaders/ImageUploader';
 import TextEditor from '@/components/Uploaders/TextEditor';
 import LivePreview from '@/components/UI/LivePreview';
 import RichText from '@/components/Widgets/RichText';
-import { selectPageByID } from '@/Redux/PagesData/PagesDataSlice';
 import { useParams } from 'next/navigation';
-import { useSelector } from 'react-redux';
-import FabricsAbout from '@/components/Widgets/fabricsAbout';
-import FAQs from '@/components/Widgets/Faqs';
-import { Base_Domain, HTTP } from '../../../../config';
-import FabricsLiberary from '@/components/Widgets/fabricsLiberary';
-import CollectionAbout from '@/components/Widgets/collectionAbout';
-import ContentPage from '@/components/Sections/ContentPage';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectSectionByID, setEditSectionLoading } from '@/Redux/SectionsData/SectionsDataSlice';
+import Hero from '@/components/Widgets/hero';
+import PromoWidget from '@/components/Widgets/PromoWidget';
+import ProductsSection from '@/components/Widgets/productsSection';
+import CollectionSection from '@/components/Widgets/collectionSection';
+import { SectionStructure } from '@/Structure/SectionStructure';
+import DropDown from '@/components/Actions/DropDown';
+import MultiSelectDropdown from '@/components/Actions/MultiSelectDropdown';
+import { uploadToCloudinary } from '@/Utils/uploadToCloudinary';
+import { editSectionsData } from '@/APIs/SectionsData/editSectionsData';
+import { toast } from 'react-toastify';
 
-
-const fields = {
-  title: {
-    name: 'title',
-    uploader: 'input',
-  },
-  image: {
-    name: 'image',
-    uploader: 'image'
-  }
-
-}
-
-const componentMapping = {
-
-  hero_banner: {
-    fields: ["title", "image"],
-    formData: { title: "", image: "" },
-  },
-  feature_collection: {
-    fields: ["collections", "title"],
-    defaultValues: { title: '', collections: [] }, // This will store an array of collection IDs
-  },
-  promo_section: {
-    fields: ["title", "description", "image", "buttonText", "buttonLink"],
-    defaultValues: { title: "", description: "", image: "", buttonText: "", buttonLink: "" },
-  },
-  products_section: {
-    fields: ["maxLength", "products", "title"],
-    defaultValues: { maxLength: 4, products: [], title: "Best Sellers" },
-  },
-  rich_text: {
-    fields: ["content"],
-    defaultValues: { content: "" },
-  },
-};
-
-
-// const componentMapping = {
-//   "About Us": {
-//     component: ContentPage,
-//     fields: ["title", "text"]
-//   },
-//   "Hero Banner": {
-//     fields: ["image"],
-//     component: '',
-//   },
-//   "FAQ": {
-//     fields: ["title", "faqs"],
-//     component: FAQs,
-//   },
-//   "Contact": {
-//     fields: ["title", "email", "phone", "address"],
-//     component: '',
-//   },
-//   "Terms and Conditions": {
-//     fields: ["title", "text"],
-//     component: ContentPage,
-//   },
-//   "Our Quality": {
-//     fields: ["title", "buttonText", "text", "image"],
-//     component: CollectionAbout,
-//   },
-//   "Manufacture Process": {
-//     fields: ["title", "text", "image"],
-//     component: FabricsLiberary,
-//   },
-//   "Privacy Policy": {
-//     fields: ["title", "text"],
-//     component: ContentPage,
-//   },
-//   "Return Policy": {
-//     fields: ["title", "text"],
-//     component: ContentPage,
-//   },
-//   "Shipping Policy": {
-//     fields: ["title", "text"],
-//     component: ContentPage,
-//   },
-//   "Site Logo": {
-//     fields: ["image"],
-//     component: '',
-//   },
-//   "Fabric Remants": {
-//     fields: ["title", "buttonText", "text", "image"],
-//     component: FabricsAbout,
-//   },
-// };
 
 
 
 const ContentEdit = () => {
 
   const params = useParams()
-  const page = useSelector((state) => selectPageByID(state, params?.pageid));
+  const dispatch = useDispatch()
+  const section = useSelector((state) => selectSectionByID(state, params?.sectionid));
   const { currUser } = useSelector((state) => state.currentUser);
-  const [formData, setFormData] = useState({
-    title: "",
-    type: "",
-    text: "",
-    image: "",
-    faqs: [{ Q: "", A: "" }],
-    email: "",
-    phone: "",
-    address: "",
-  });
+  const { products } = useSelector((state) => state.productData);
+  const { categories } = useSelector((state) => state.categories);
+  const { editSectionLoading } = useSelector((state) => state.sectionsData);
+
+  const [formData, setFormData] = useState(SectionStructure?.[section?.type]?.data);
 
   const handleInputChange = (key, value) => {
     setFormData((prev) => ({ ...prev, [key]: value }));
   };
 
-  // const getPageLink = () => {
-  //   return `${HTTP}${currUser?.subDomain}.${Base_Domain}/pages/${}`
-  // }
 
   const renderComponents = () => {
-    const fields = componentMapping[formData.type]?.fields || [];
-    return fields.map((field) => {
-      if (["title", "email", "phone", "address", "buttonText"].includes(field)) {
+    const fields = SectionStructure[section?.type]?.fields || [];
+    return fields.map(({ name, placeholder, input, options, dependsOn }) => {
+
+      if (dependsOn) {
+        const { field: depField, value: expectedValue } = dependsOn;
+        if (formData?.[depField] !== expectedValue) {
+          return null;
+        }
+      }
+
+      if (input === "text" || input === "number") {
         return (
           <FormInput
-            key={field}
-            value={formData[field]}
-            placeholder={field.charAt(0).toUpperCase() + field.slice(1)}
-            handleChange={(e) => handleInputChange(field, e.target.value)}
+            type={input}
+            key={name}
+            value={formData?.[name]}
+            placeholder={placeholder}
+            handleChange={(e) => handleInputChange(name, e.target.value)}
             className='!outline-primaryC !bg-transparent'
 
           />
         );
       }
-      if (field === "text") {
+
+      if (input === "textEditor") {
         return (
           <TextEditor
-            editorContent={formData[field]}
-            setEditorContent={(value) => handleInputChange(field, value)}
+            key={name}
+            editorContent={formData?.[name]}
+            setEditorContent={(value) => handleInputChange(name, value)}
           />
         );
       }
-      if (field === "faqs") {
+
+      if (input === "faqs") {
         return (
           <FaqUploader
-            key={field}
-            initialFaqs={formData[field]}
-            setFaqs={(faqs) => handleInputChange(field, faqs)}
+            key={name}
+            initialFaqs={formData?.[name]}
+            setFaqs={(faqs) => handleInputChange(name, faqs)}
           />
         );
       }
-      if (field === "image") {
+
+      if (input === "imageUploader") {
         return (
           <ImageUploader
-            key={field}
-            image={formData[field]}
-            setImage={(image) => handleInputChange(field, image)}
+            key={name}
+            image={formData?.[name]}
+            setImage={(image) => handleInputChange(name, image)}
           />
         );
       }
+
+      if (input === "dropdown") {
+        return (
+          <DropDown
+            defaultOptions={options}
+            selectedOption={formData?.[name]}
+            setSelectedOption={(option) => handleInputChange(name, option)}
+            key={name}
+            placeholder={placeholder}
+            className='!outline-primaryC !bg-transparent'
+          />
+        );
+      }
+
+      if (input === "multiDropdown") {
+        const optionsData =
+          options === "products"
+            ? products.map((product) => product?.name)
+            : options === "collections"
+              ? categories.map((category) => category?.link)
+              : [];
+
+        return (
+          <MultiSelectDropdown
+            key={name}
+            wantsCustomOption={false}
+            defaultOptions={optionsData}
+            selectedOptions={Array.isArray(formData?.[name]) ? formData?.[name] : []}
+            setSelectedOptions={(options) => handleInputChange(name, options)}
+            placeholder={placeholder}
+            className='!outline-primaryC !bg-transparent'
+          />
+        );
+      }
+
       return null;
     });
   };
 
-  useEffect(() => {
-    if (page) {
-      const { _id, __v, updatedAt, ...rest } = page;
-      setFormData(rest);
-    }
-  }, [page]);
+  const handleSubmit = async () => {
+    try {
+      // const validationErrors = validateForm(componentMapping, formData);
+      // if (validationErrors.length > 0) {
+      //   toast.error(validationErrors[0]);
+      //   return;
+      // }
 
-  if (!page) {
+      let updatedData = { ...formData };
+      console.log(updatedData, "junaid");
+      dispatch(setEditSectionLoading(true));
+      
+      if (formData?.image && formData?.image instanceof File) {
+        console.log(formData, "junaid");
+        const uploadedImageUrl = await uploadToCloudinary(formData.image);
+        console.log(uploadedImageUrl, "junaid");
+        updatedData.image = uploadedImageUrl;
+      }
+      await editSectionsData(updatedData, currUser?.brandName, section?._id, dispatch);
+      toast.success("Form submitted successfully!");
+    } catch (error) {
+      console.log(error);
+      toast.error(error?.response?.data?.message || "Something went wrong");
+    }
+  };
+
+  useEffect(() => {
+    if (section) {
+      setFormData(section?.content);
+    }
+  }, [section]);
+
+  if (!section) {
     return (
       <div className='flex w-full justify-center py-[75px] text-center text-textTC text-[18px]'>
         <p>There is no any Content At this page .</p>
@@ -202,12 +184,12 @@ const ContentEdit = () => {
     <BackgroundFrame>
 
       <ActionCard
-        actions={<Button label="Save" className="w-max" />}
-        lable={page.type}
-        className={'!p-4'}
+        actions={<Button label="Save" loading={editSectionLoading} className="w-max !bg-[black]" action={handleSubmit} />}
+        lable={section.sectionName}
+        className={'!px-5 !py-3'}
       >
         <div
-          className={` border-[#c9c9c98f] shadow-[inset_0px_0px_12px_#dadada] p-[20px] max-h-[340px] overflow-y-auto customScroll flex flex-col`}
+          className={` border-[#c9c9c98f] shadow-[inset_0px_0px_12px_#dadada] p-[20px] h-[340px] overflow-y-auto customScroll flex flex-col`}
         >
           <div className='flex flex-col gap-3'>
             {renderComponents()}
@@ -215,8 +197,8 @@ const ContentEdit = () => {
         </div>
       </ActionCard>
       <LivePreview>
-        {componentMapping[formData.type]?.component &&
-          React.createElement(componentMapping[formData.type].component, { content: formData })
+        {SectionStructure[section?.type]?.component && formData &&
+          React.createElement(SectionStructure[section?.type].component, { content: formData })
         }
       </LivePreview>
     </BackgroundFrame>

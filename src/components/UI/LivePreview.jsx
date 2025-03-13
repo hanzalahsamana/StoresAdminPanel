@@ -11,7 +11,7 @@ const LivePreview = ({ children }) => {
     const [maximized, setMaximized] = useState(false);
 
     return maximized ? (
-        <ActionCard lable={'Live Preview'}>
+        // <ActionCard lable={'Live Preview'}>
             <LivePreviewContent
                 children={children}
                 isHovered={isHovered}
@@ -21,7 +21,7 @@ const LivePreview = ({ children }) => {
                 maximized={maximized}
                 setMaximized={setMaximized}
             />
-        </ActionCard>
+        // </ActionCard>
     ) : (
         <LivePreviewContent
             children={children}
@@ -47,7 +47,7 @@ const LivePreviewContent = ({
     setMaximized
 }) => {
     const containerRef = useRef(null);
-    const [position, setPosition] = useState({ x: window.innerWidth - 370, y: window.innerHeight - 280 });
+    const [position, setPosition] = useState({ x: window.innerWidth - 488, y: window.innerHeight - 255 });
     const [dragging, setDragging] = useState(false);
     const [offset, setOffset] = useState({ x: 0, y: 0 });
 
@@ -72,8 +72,8 @@ const LivePreviewContent = ({
         // Prevent going out of screen
         const screenWidth = window.innerWidth;
         const screenHeight = window.innerHeight;
-        const containerWidth = containerRef.current?.offsetWidth || 360;
-        const containerHeight = containerRef.current?.offsetHeight || 270;
+        const containerWidth = containerRef.current?.offsetWidth || 488;
+        const containerHeight = containerRef.current?.offsetHeight || 255;
 
         setPosition({
             x: Math.max(0, Math.min(screenWidth - containerWidth, newX)),
@@ -112,21 +112,19 @@ const LivePreviewContent = ({
                 left: maximized ? 0 : `${position.x}px`,
                 top: maximized ? 0 : `${position.y}px`,
                 transition: dragging ? 'none' : 'transform 0.2s ease-out',
-
             }}
-            className={`  ${maximized ? 'relative' : `fixed flex w-[360px] h-[270px] pointer-events-none  ${transformOrigin}`} z-50`}
+            className={`  ${maximized ? 'sticky top-[60px]' : `fixed flex w-[488px] h-[255px] pointer-events-none  ${transformOrigin}`} z-50`}
             onMouseMove={handleMouseMove}
             onMouseUp={handleMouseUp}
             onMouseLeave={handleMouseUp} // Stop dragging if mouse leaves window
         >
-            {console.log(position, "qwerty")}
 
             <Tooltip id='preview' className='!text-[10px]' />
             <div
                 onMouseEnter={() => setIsHovered(true)}
                 onMouseLeave={() => setIsHovered(false)}
                 onMouseDown={handleMouseDown}
-                className={`${maximized ? 'w-full h-full' : isHovered || alwaysExtend ? 'w-[360px] h-[270px] shadow-xl' : 'w-[180px] h-[120px] shadow-xl'} bg-backgroundC pointer-events-auto cursor-move transition-all border-[1.4px] border-primaryC  relative overflow-hidden`}
+                className={`${maximized ? 'w-[488px] h-[calc(100vh-60px)]' : isHovered || alwaysExtend ? 'w-[488px] h-[255px] shadow-xl' : 'w-[258px] h-[120px] shadow-xl'} bg-backgroundC pointer-events-auto cursor-move transition-all border-[1.4px] border-primaryC  relative overflow-hidden`}
                 style={{ transformOrigin }}
             >
 
@@ -153,21 +151,19 @@ const LivePreviewContent = ({
                         {maximized ? <CgMinimize /> : <CgMaximize />}
                     </div>
 
-                    {/* Expand Toggle */}
-
-                    {/* Close Button */}
-                    {/* <div
-                        data-tooltip-id="preview"
-                        data-tooltip-content="Close"
-                        className='text-white cursor-pointer flex items-center justify-center rounded-full w-[25px] h-[25px] text-[14px]'>
-                        <IoClose />
-                    </div> */}
                 </div>
 
-                {/* Content Preview (scaled version) */}
-                <div className={`${maximized ? 'scale-100 w-full h-full' : isHovered || alwaysExtend ? 'scale-[0.3] top-[30px] w-[1200px] h-[800px] absolute' : 'scale-[0.15] top-0 w-[1200px] h-[800px] absolute'} left-0 transition-all overflow-y-auto origin-top-left pointer-events-none no-scrollbar`} >
+                <div
+                    className={`${maximized
+                            ? 'scale-x-[0.38] scale-y-[0.38] w-[1280px] h-[calc(((100vh-62px)/38)*100)]'
+                            : isHovered || alwaysExtend
+                                ? 'scale-[0.38] top-[30px] w-[1280px] h-[600px] absolute'
+                                : 'scale-[0.2] top-0 w-[1280px] h-[600px] absolute'
+                        } left-0 transition-all overflow-y-auto origin-top-left no-scrollbar`}
+                >
                     {children}
                 </div>
+
             </div>
         </div>
     );

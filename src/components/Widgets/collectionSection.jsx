@@ -6,7 +6,9 @@ import { useSelector } from "react-redux";
 import CollectionCard from "../Cards/collectionCard";
 import { getBasePath } from "@/Utils/GetBasePath";
 
-const CollectionSection = ({ Categories, content, toShowLink = true }) => {
+const CollectionSection = ({ content = {}, toShowLink = true }) => {
+  const { title = "Featured Collections" , selectedCategories = []} = content
+
   const { categories } = useSelector((state) => state.categories);
   const basePath = getBasePath();
 
@@ -20,24 +22,24 @@ const CollectionSection = ({ Categories, content, toShowLink = true }) => {
 
   let categoriesToDisplay = [];
 
-  if (Array.isArray(Categories)) {
-    if (Categories.includes("all")) {
+  if (Array.isArray(selectedCategories)) {
+    if (selectedCategories?.length === 0) {
       categoriesToDisplay = categories; // Show all categories
     } else {
-      categoriesToDisplay = categories.filter(cat => Categories.includes(cat.name));
+      categoriesToDisplay = categories.filter(cat => selectedCategories.includes(cat.link));
     }
   } else {
-    categoriesToDisplay = categories.slice(0, Categories);
+    categoriesToDisplay = categories;
   }
 
   return (
     <div className="m-6 flex flex-col gap-[25px]">
       {toShowLink && (
         <div className="flex justify-between items-center">
-          <h1 className="mt-2 text-[30px] font-semibold text-start">{content?.title || 'Collections'}</h1>
+          <h1 className="mt-2 text-[30px] font-semibold text-start">{title || 'Collections'}</h1>
           <Link
             href={`${basePath}/collection`}
-            className="mt-2 text-[15px] w-[100px] cursor-pointer flex gap-[10px] hover:gap-[17px] transition-all items-center"
+            className="mt-2 text-[15px] w-[130px] cursor-pointer flex gap-[10px] hover:gap-[17px] transition-all items-center"
           >
             Browse All <FaArrowRightLong />
           </Link>

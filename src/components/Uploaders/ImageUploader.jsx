@@ -9,19 +9,19 @@ const placeholderImageUrl =
   "https://res.cloudinary.com/duaxitxph/image/upload/v1736247980/cjzl4ivq2lduxqbtnfj1.webp";
 
 const ImageUploader = ({ image, setImage }) => {
-  const [objectUrl, setObjectUrl] = useState(image);
+  const [imagePreviewUrl, setImagePreviewUrl] = useState(image);
 
   useEffect(() => {
-    if (objectUrl) {
+    if (imagePreviewUrl) {
       return () => {
-        URL.revokeObjectURL(objectUrl);
+        URL.revokeObjectURL(imagePreviewUrl);
       };
     }
-  }, [objectUrl]);
+  }, [imagePreviewUrl]);
 
   useEffect(() => {
     if (typeof image !== "object") {
-      setObjectUrl(image)
+      setImagePreviewUrl(image)
     }
   }, [image])
 
@@ -30,13 +30,13 @@ const ImageUploader = ({ image, setImage }) => {
     if (file) {
       const newObjectUrl = URL.createObjectURL(file);
       setImage(file);
-      setObjectUrl(newObjectUrl);
+      setImagePreviewUrl(newObjectUrl);
     }
   };
 
   const handleImageRemove = () => {
     setImage(placeholderImageUrl);
-    setObjectUrl(placeholderImageUrl);
+    setImagePreviewUrl(placeholderImageUrl);
   };
 
   const isPlaceholder = image === placeholderImageUrl;
@@ -62,7 +62,7 @@ const ImageUploader = ({ image, setImage }) => {
       </div>
       <div className="relative">
         <img
-          src={objectUrl}
+          src={imagePreviewUrl}
           alt="Uploaded"
           className="w-[350px] h-[250px] bg-backgroundC object-cover border border-solid border-borderC shadow-inner rounded-sm"
         />

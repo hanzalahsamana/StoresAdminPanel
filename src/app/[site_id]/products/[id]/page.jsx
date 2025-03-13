@@ -29,7 +29,12 @@ const ProductDetail = ({ params }) => {
       {product ? (
         <>
           <ProductDetailCard product={product} />
-          <ProductsSection collection={product?.collectionName} name={'You may also like,'} maxLength={4} />
+          <ProductsSection content={{
+            title: "You may also like,",
+            maxLength: 4,
+            productType: "Selected Categories",
+            selectedCategories: [product?.collectionName]
+          }} />
         </>
       ) : <p className="w-full text-center py-[100px] text-[24px] text-[#3a3a3a] ">No product Found</p>}
     </>

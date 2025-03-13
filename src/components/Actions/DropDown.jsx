@@ -46,6 +46,7 @@ const DropDown = ({
                         }}
                         readOnly={true}
                         placeholder={placeholder}
+                        className={className}
 
                     />
                 </div>

@@ -28,7 +28,7 @@ const PromoWidget = ({ content}) => {
 
                 <img
                     className={styleType === "style1" ? "aspect-square object-cover" : "object-cover aspect-[2/3] max-h-[500px]"}
-                    src={image}
+                    src={typeof image === "object"? URL.createObjectURL(image): image}
                     alt={title}
                 />
             </div>

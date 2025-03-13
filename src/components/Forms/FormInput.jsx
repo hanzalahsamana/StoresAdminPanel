@@ -31,7 +31,7 @@ const FormInput = ({
           } rounded`}
       />
       <label
-        className={`pointer-events-none transition-all bg-backgroundC p-[4px]  absolute left-3 text-[#656565] ${value || value === 0
+        className={`pointer-events-none transition-all bg-backgroundC p-[4px]  absolute left-3 text-[#a5a2a2] ${value || value === 0
           ? "top-[-10px] text-[10px]"
           : "top-[12px]"
           }`}

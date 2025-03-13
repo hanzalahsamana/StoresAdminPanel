@@ -9,8 +9,12 @@ const MultiSelectDropdown = ({
     setSelectedOptions,
     wantsCustomOption,
     placeholder = "Select",
-    error = null
+    error = null,
+    className = '',
 }) => {
+
+    console.log(defaultOptions , selectedOptions  , "🍔🍔");
+    
     const [searchTerm, setSearchTerm] = useState("");
     const [isOpen, setIsOpen] = useState(false);
     const [filteredOptions, setFilteredOptions] = useState(defaultOptions);
@@ -38,7 +42,7 @@ const MultiSelectDropdown = ({
 
     useEffect(() => {
         setSelectedOptions(localSelectedOptions);
-    }, [localSelectedOptions, setSelectedOptions]);
+    }, [localSelectedOptions]);
 
     const handleSelect = (option) => {
         setLocalSelectedOptions((prev) => [...prev, option]);
@@ -68,7 +72,7 @@ const MultiSelectDropdown = ({
                             setIsOpen(true);
                         }}
                         placeholder={placeholder}
-
+                        className={className}
                     />
                 </div>
                 {isOpen && (

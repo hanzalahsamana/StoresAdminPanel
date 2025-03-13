@@ -3,7 +3,10 @@ import React from 'react'
 
 const AllCollections = () => {
     return (
-        <CollectionSection Categories={["all"]}  toShowLink={false} />
+        <CollectionSection content={{
+            selectedCategories: [],
+            title: "All Collections"
+        }} toShowLink={false} />
     )
 }
 

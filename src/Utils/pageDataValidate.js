@@ -20,7 +20,7 @@ const validationRules = {
 };
 
 export const validateForm = (componentMapping, formData) => {
-  const fields = componentMapping[formData?.type] || [];
+  const fields = componentMapping[formData?.type]?.fields || [];
   const errors = [];
 
   fields.forEach((field) => {

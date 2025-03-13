@@ -10,8 +10,12 @@ import { addCategory } from "@/APIs/Category/addCategory";
 import { editCategory } from "@/APIs/Category/editCategory";
 import ImageUploader from "../Uploaders/ImageUploader";
 import Loader from "../Loader/loader";
+import Button from "../Actions/Button";
+import Form from "../Forms/Form";
+import Modal from "../Modals/Modal";
 
 const CategoryAddModal = ({
+    isOpen,
     setIsOpen,
     categoryLoading,
     updatedData = null,
@@ -99,55 +103,29 @@ const CategoryAddModal = ({
     };
 
     return (
-        <div className="w-screen bg-[#000000b7] absolute top-0 left-0 h-screen flex justify-center items-center">
-            <div className="w-[40%] min-w-[300px] h-[95%] z-50 overflow-y-auto no-scrollbar rounded-lg">
-                <div className="w-[100%] min-h-[400px] bg-white shadow-lg p-6 relative rounded-lg">
-                    <button
-                        onClick={() => {
-                            setIsOpen(false), setUpdatedCategory(null);
-                        }}
-                        className="absolute top-[0px] right-2 text-gray-600 hover:text-gray-800 text-3xl"
-                    >
-                        &times;
-                    </button>
+        <Modal isOpen={isOpen} setIsOpen={setIsOpen} >
+            <Form
+                buttonLabel={!updatedData ? "Add Category" : "Update Category"}
+                handleSubmit={handleSubmit}
+                lable={"Add Category"}
+                encType="multipart/formdata"
+                loading={categoryLoading}
+            >
+                <FormInput
+                    placeholder="Name"
+                    handleChange={handleChange}
+                    name={"name"}
+                    value={formData?.name}
+                    error={errors?.name}
+                />
 
-                    <h3 className="text-[28px] font-semibold mb-5 text-center">
-                        Add Category
-                    </h3>
-
-                    {categoryLoading ? (
-                        <Loader />
-                    ) : (
-                        <form
-                            onSubmit={handleSubmit}
-                            className="flex flex-col gap-4"
-                            encType="multipart/formdata"
-                        >
-                            <div className="flex gap-4">
-                                <FormInput
-                                    type="text"
-                                    placeholder="Name"
-                                    handleChange={handleChange}
-                                    field={"name"}
-                                    errors={errors}
-                                    formData={formData}
-                                />
-                            </div>
-
-                            <ImageUploader
-                                key={"image"}
-                                image={formData["image"]}
-                                setImage={(image) => setFormData((prev) => ({ ...prev, image }))}
-                            />
-
-                            <button className="py-4 w-full mt-2 bg-[#407fc4] text-white text-lg font-semibold rounded-md hover:scale-105 transition duration-300">
-                                {!updatedData ? "Add Category" : "Update Category"}
-                            </button>
-                        </form>
-                    )}
-                </div>
-            </div>
-        </div>
+                <ImageUploader
+                    key={"image"}
+                    image={formData["image"]}
+                    setImage={(image) => setFormData((prev) => ({ ...prev, image }))}
+                />
+            </Form>
+        </Modal>
     );
 };
 

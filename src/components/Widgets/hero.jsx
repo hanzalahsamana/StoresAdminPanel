@@ -21,6 +21,8 @@ const Hero = ({content}) => {
     return () => window.removeEventListener("resize", updateVideoSrc);
   }, []);
 
+  console.log(content , "🚀");
+
   return (
     <div className="h-[100vh] max-h-[900px]">
       {/* <video className="w-full h-full bg-cover object-cover" playsInline autoPlay loop muted>
@@ -28,7 +30,7 @@ const Hero = ({content}) => {
         Your browser does not support the video tag.
       </video> */}
 
-      <img className="w-full h-full bg-cover object-cover" src={content?.image} alt={content?.title} />
+      <img className="w-full h-full bg-cover object-cover" src={typeof content?.image === "object"? URL.createObjectURL(content?.image): content?.image} alt={content?.title} />
     </div>
   );
 };

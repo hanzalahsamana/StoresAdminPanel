@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Base_Domain, HTTP } from "../../../config";
 
 export default function NotFoundPage() {
     return (
@@ -17,7 +18,7 @@ export default function NotFoundPage() {
                     />
                 </div>
 
-                <Link href={'https://hannanfabrics.com/authentication/register'} className="mt-6 bg-primaryC text-white px-5 py-3 rounded-sm font-medium hover:opacity-85 transition-all">
+                <Link href={`${HTTP}${Base_Domain}/authentication/register`} className="mt-6 bg-primaryC text-white px-5 py-3 rounded-sm font-medium hover:opacity-85 transition-all">
                     Create Your Store
                 </Link>
             </div>

@@ -1,21 +1,19 @@
 "use client";
 import axios from "axios";
 import BASE_URL from "../../../config";
-import { toast } from "react-toastify";
-import {
-  setPagesDataLoading,
-  updatePagesData,
-} from "@/Redux/PagesData/PagesDataSlice";
+import { setEditSectionLoading, updateSectionsData } from "@/Redux/SectionsData/SectionsDataSlice";
 
-export const editPagesData = async (data, type, pageId, dispatch) => {
+export const editSectionsData = async (data, type, sectionId, dispatch) => {
   try {
-    dispatch(setPagesDataLoading(true));
-    const response = await axios.patch( `${BASE_URL}/${type}/editPage?id=${pageId}` , data);
-    dispatch(updatePagesData(response.data));
-    dispatch(setPagesDataLoading(false));
+    dispatch(setEditSectionLoading(true));
+    console.log(data , "kiloj");
+    
+    const response = await axios.patch( `${BASE_URL}/${type}/editSection?id=${sectionId}` , data);
+    dispatch(updateSectionsData(response.data));
+    dispatch(setEditSectionLoading(false));
     return response.data;
   } catch (error) {
-    dispatch(setPagesDataLoading(false));
+    dispatch(setEditSectionLoading(false));
     throw new Error(error?.responce?.data?.message);
   }
 };
