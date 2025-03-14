@@ -30,7 +30,7 @@ const Hero = ({content}) => {
         Your browser does not support the video tag.
       </video> */}
 
-      <img className="w-full h-full bg-cover object-cover" src={typeof content?.image === "object"? URL.createObjectURL(content?.image): content?.image} alt={content?.title} />
+      <img className="w-full h-full bg-cover object-cover" src={content?.image && typeof content?.image === "object"? URL.createObjectURL(content?.image): content?.image} alt={content?.title} />
     </div>
   );
 };

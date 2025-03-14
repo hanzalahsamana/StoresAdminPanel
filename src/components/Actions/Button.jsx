@@ -10,6 +10,7 @@ const Button = ({
     loading = false,
     variant = "primary", // Added variant prop
     action = () => { },
+    active = true,
 }) => {
     // Define button styles based on variant
     const buttonStyles = {
@@ -23,10 +24,10 @@ const Button = ({
     return (
         <button
             onClick={action}
-            disabled={loading}
+            disabled={loading || !active}
             type={type}
             className={`w-full flex gap-2 justify-center text-[17px] py-[12px] px-[25px] rounded-sm min-w-[150px] hover:opacity-90 transition duration-300 
-                ${loading ? 'cursor-not-allowed bg-[#c5c5c589]' : buttonStyles[variant] || buttonStyles.primary} 
+                ${loading || !active ? 'cursor-not-allowed text-[#4f4c4c89] !bg-[#c5c5c589]' : buttonStyles[variant] || buttonStyles.primary} 
                 ${className}`}
         >
             {loading 

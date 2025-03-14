@@ -9,6 +9,8 @@ export const editSectionsData = async (data, type, sectionId, dispatch) => {
     console.log(data , "kiloj");
     
     const response = await axios.patch( `${BASE_URL}/${type}/editSection?id=${sectionId}` , data);
+    console.log(response.data);
+    
     dispatch(updateSectionsData(response.data));
     dispatch(setEditSectionLoading(false));
     return response.data;

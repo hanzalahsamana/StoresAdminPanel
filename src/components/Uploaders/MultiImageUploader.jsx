@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const MultiImageUploader = ({
     images,
@@ -17,13 +17,15 @@ const MultiImageUploader = ({
             validImages.push(file);
         });
 
-        setImages((prevImages) => [...prevImages, ...validImages]);
+        setImages([...(images || []), ...validImages]); // Directly updating images
     };
 
     const handleRemoveImage = (index) => {
         const updatedImages = images.filter((_, i) => i !== index);
         setImages(updatedImages);
     };
+
+    useEffect(() => console.log(images, "👍l"), [images])
 
     return (
         <div className="">
@@ -47,10 +49,12 @@ const MultiImageUploader = ({
 
 
                 <div className="flex gap-2 overflow-auto">
-                    {images.map((image, index) => (
+                    {images?.map((image, index) => (
                         <div key={index} className="relative w-24 h-24">
                             <img
-                                src={typeof image === "string" ? image : URL.createObjectURL(image)}
+                                src={image instanceof File || image instanceof Blob
+                                    ? URL.createObjectURL(image)
+                                    : image}
                                 alt={`Selected ${index}`}
                                 className="w-24 h-24 object-cover rounded-md"
                             />

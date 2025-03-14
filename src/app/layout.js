@@ -9,17 +9,8 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import NetworkStatus from "@/components/UI/NetworkError";
 import { Tooltip } from "react-tooltip";
+// import 'bootstrap/dist/css/bootstrap.min.css';
 
-// const geistSans = localFont({
-//   src: "../assets/fonts/GeistVF.woff",
-//   variable: "--font-geist-sans",x  
-//   weight: "100 900",
-// });
-// const geistMono = localFont({
-//   src: "../assets/fonts/GeistMonoVF.woff",
-//   variable: "--font-geist-mono",
-//   weight: "100 900",
-// });
 
 export default function RootLayout({ children }) {
 

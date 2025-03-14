@@ -197,6 +197,7 @@ const ContentEdit = () => {
 
       <ActionCard
         actions={<Button label="Save" className="w-max" action={handleSubmit} />}
+        actionPosition='top'
         lable={page.type}
         className={'!p-4'}
       >

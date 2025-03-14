@@ -75,7 +75,7 @@ function Sidebar({ isOpen, setIsOpen }) {
       subLinks: [
         { name: "Over View", path: "/design" },
         ...(Array.isArray(sectionsData) ? sectionsData.map(item => ({
-          name: item.content?.title || item?.type,
+          name:item?.sectionName,
           path: `/design/${item._id}`
         })) : [])
       ],

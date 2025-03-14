@@ -1,27 +1,24 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { CgMaximize, CgMinimize } from 'react-icons/cg';
 import { FiMaximize2, FiMinimize2 } from 'react-icons/fi';
-import { IoClose } from 'react-icons/io5';
 import { Tooltip } from 'react-tooltip';
-import ActionCard from '../Cards/ActionCard';
 
-const LivePreview = ({ children }) => {
+const LivePreview = ({ children, extraAction = null }) => {
     const [isHovered, setIsHovered] = useState(false);
     const [alwaysExtend, setAlwaysExtend] = useState(false);
     const [maximized, setMaximized] = useState(false);
 
     return maximized ? (
-        // <ActionCard lable={'Live Preview'}>
-            <LivePreviewContent
-                children={children}
-                isHovered={isHovered}
-                setIsHovered={setIsHovered}
-                alwaysExtend={alwaysExtend}
-                setAlwaysExtend={setAlwaysExtend}
-                maximized={maximized}
-                setMaximized={setMaximized}
-            />
-        // </ActionCard>
+        <LivePreviewContent
+            children={children}
+            isHovered={isHovered}
+            setIsHovered={setIsHovered}
+            alwaysExtend={alwaysExtend}
+            setAlwaysExtend={setAlwaysExtend}
+            maximized={maximized}
+            setMaximized={setMaximized}
+            extraAction={extraAction}
+        />
     ) : (
         <LivePreviewContent
             children={children}
@@ -31,6 +28,7 @@ const LivePreview = ({ children }) => {
             setAlwaysExtend={setAlwaysExtend}
             maximized={maximized}
             setMaximized={setMaximized}
+            extraAction={extraAction}
         />
     );
 };
@@ -44,7 +42,8 @@ const LivePreviewContent = ({
     alwaysExtend,
     setAlwaysExtend,
     maximized,
-    setMaximized
+    setMaximized,
+    extraAction = null,
 }) => {
     const containerRef = useRef(null);
     const [position, setPosition] = useState({ x: window.innerWidth - 488, y: window.innerHeight - 255 });
@@ -133,6 +132,9 @@ const LivePreviewContent = ({
                     <div className='text-[14px]  flex-1'>
                         Live preview
                     </div>
+                    {extraAction && (
+                        extraAction
+                    )}
                     {/* Maximize Button */}
                     {!maximized && (
                         <div
@@ -155,11 +157,11 @@ const LivePreviewContent = ({
 
                 <div
                     className={`${maximized
-                            ? 'scale-x-[0.38] scale-y-[0.38] w-[1280px] h-[calc(((100vh-62px)/38)*100)]'
-                            : isHovered || alwaysExtend
-                                ? 'scale-[0.38] top-[30px] w-[1280px] h-[600px] absolute'
-                                : 'scale-[0.2] top-0 w-[1280px] h-[600px] absolute'
-                        } left-0 transition-all overflow-y-auto origin-top-left no-scrollbar`}
+                        ? 'scale-x-[0.38] scale-y-[0.38] w-[1280px] h-[calc(((100vh-62px)/38)*100)]'
+                        : isHovered || alwaysExtend
+                            ? 'scale-[0.38] top-[30px] w-[1280px] h-[600px] absolute'
+                            : 'scale-[0.2] top-0 w-[1280px] h-[600px] absolute'
+                        } left-0 transition-all overflow-y-auto origin-top-left `}
                 >
                     {children}
                 </div>

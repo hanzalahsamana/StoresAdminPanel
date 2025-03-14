@@ -7,7 +7,7 @@ export const getBasePath = () => {
   ? host.split(".").length > 1 && !host.startsWith("localhost") 
   : host.split(".").length > 2;
 
-    console.log(host , isSubdomain , "{}{}{}{}{}{}{{{{{{{{");
+    // console.log(host , isSubdomain , "{}{}{}{}{}{}{{{{{{{{");
     
 
     if (isSubdomain) {

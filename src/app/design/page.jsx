@@ -6,7 +6,7 @@ import React, { useEffect, useState } from "react";
 import { LuPlus } from "react-icons/lu";
 import { RiDraggable } from "react-icons/ri";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import WidgetsModal from "@/components/Modals/WidgetsModal";
 import { RxExternalLink } from "react-icons/rx";
 import BackgroundFrame from "@/components/Layout/BackgroundFrame";
@@ -16,12 +16,16 @@ import LivePreview from "@/components/UI/LivePreview";
 import HomeLayout from "@/components/Layout/HomeLayout";
 import TemplateHeader from "@/components/Layout/TemplateHeader";
 import TemplateFooter from "@/components/Layout/TemplateFooter";
+import { deleteSectionsData } from "@/APIs/SectionsData/deleteSection";
 
 const Design = () => {
     const { sectionsData, sectionsDataLoading } = useSelector((state) => state.sectionsData);
     const [hoverIndex, setHoverIndex] = useState(null);
     const [items, setItems] = useState([]);
     const [isOpen, setIsOpen] = useState(false);
+    const [selectedOrder, setSelectedOrder] = useState(null);
+    const dispatch = useDispatch()
+    const { currUser } = useSelector((state) => state.currentUser);
 
     useEffect(() => {
         setItems(sectionsData || []);
@@ -76,6 +80,7 @@ const Design = () => {
                                                                 Edit <RxExternalLink size={12} />
                                                             </Link>
                                                             <h2
+                                                                onClick={() => deleteSectionsData(currUser?.brandName, item._id, dispatch)}
                                                                 className="text-sm cursor-pointer text-red-500 flex items-center gap-1"
                                                             >
                                                                 Delete <AiOutlineDelete scale={10} />
@@ -91,7 +96,7 @@ const Design = () => {
                                                         {hoverIndex === index && (
                                                             <div className="w-full flex flex-col items-center justify-center">
                                                                 <span className="absolute border-b-2 animate-expand border-primaryC"></span>
-                                                                <div onClick={() => setIsOpen(true)} className="relative w-[25px] h-[25px] cursor-pointer rounded-full bg-primaryC text-backgroundC flex justify-center items-center">
+                                                                <div onClick={() => { setSelectedOrder(index + 2); setIsOpen(true) }} className="relative w-[25px] h-[25px] cursor-pointer rounded-full bg-primaryC text-backgroundC flex justify-center items-center">
                                                                     <LuPlus />
                                                                 </div>
                                                             </div>
@@ -108,7 +113,7 @@ const Design = () => {
                     </DragDropContext>
                 </div>
 
-                <WidgetsModal isOpen={isOpen} setIsOpen={setIsOpen} />
+                <WidgetsModal isOpen={isOpen} setIsOpen={setIsOpen} selectedOrder={selectedOrder} setSelectedOrder={setSelectedOrder} />
             </BackgroundFrame>
             <LivePreview >
                 <TemplateHeader />

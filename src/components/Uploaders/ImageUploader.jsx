@@ -8,58 +8,76 @@ import { Tooltip } from "react-tooltip";
 const placeholderImageUrl =
   "https://res.cloudinary.com/duaxitxph/image/upload/v1736247980/cjzl4ivq2lduxqbtnfj1.webp";
 
+const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
+const ALLOWED_MIME_TYPES = ["image/jpeg", "image/png", "image/webp", "image/gif"];
+
 const ImageUploader = ({ image, setImage }) => {
   const [imagePreviewUrl, setImagePreviewUrl] = useState(image);
+  const [error, setError] = useState("");
 
   useEffect(() => {
     if (imagePreviewUrl) {
-      return () => {
-        URL.revokeObjectURL(imagePreviewUrl);
-      };
+      return () => URL.revokeObjectURL(imagePreviewUrl);
     }
   }, [imagePreviewUrl]);
 
   useEffect(() => {
     if (typeof image !== "object") {
-      setImagePreviewUrl(image)
+      setImagePreviewUrl(image);
     }
-  }, [image])
+  }, [image]);
 
   const handleImageUpload = (event) => {
     const file = event.target.files[0];
-    if (file) {
-      const newObjectUrl = URL.createObjectURL(file);
-      setImage(file);
-      setImagePreviewUrl(newObjectUrl);
+
+    if (!file) return;
+
+    // Validate File Type
+    if (!ALLOWED_MIME_TYPES.includes(file.type)) {
+      setError("Invalid file type. Allowed: JPEG, PNG, WEBP, GIF.");
+      return;
     }
+
+    // Validate File Size
+    if (file.size > MAX_FILE_SIZE) {
+      setError("File size exceeds 5MB limit.");
+      return;
+    }
+
+    setError(""); // Clear any previous error
+    const newObjectUrl = URL.createObjectURL(file);
+    setImage(file);
+    setImagePreviewUrl(newObjectUrl);
   };
 
   const handleImageRemove = () => {
     setImage(placeholderImageUrl);
     setImagePreviewUrl(placeholderImageUrl);
+    setError(""); // Reset error
   };
 
   const isPlaceholder = image === placeholderImageUrl;
 
   return (
-    <div
-      className="relative flex gap-3 justify-center border-[1.5px] border-primaryC items-center p-[20px]  h-full w-full rounded-sm overflow-hidden"
-    >
-      <div className="flex flex-1  items-center flex-col gap-4">
+    <div className="relative flex gap-3 justify-center border-[1.5px] border-primaryC items-center p-[20px] h-full w-full rounded-sm overflow-hidden">
+      <div className="flex flex-1 items-center flex-col gap-4">
         <BsFillCloudArrowUpFill className="text-primaryC text-[100px]" />
-
-        <p className="text-textTC  font-[inter] text-[16px]">
-          Upload your image here
-        </p>
-        <Button action={() => document.getElementById('fileInput').click()} label="Upload" className="w-max !text-[16px] min-w-[120px] shadow-lg" variant="" />
+        <p className="text-textTC font-[inter] text-[16px]">Upload your image here</p>
+        <Button
+          action={() => document.getElementById("fileInput").click()}
+          label="Upload"
+          className="w-max !text-[16px] min-w-[120px] shadow-lg"
+          variant=""
+        />
         <input
           id="fileInput"
           type="file"
-          accept="image/*"
+          accept={ALLOWED_MIME_TYPES.join(",")}
           onChange={handleImageUpload}
           className="hidden"
         />
       </div>
+
       <div className="relative">
         <img
           src={imagePreviewUrl}
@@ -79,6 +97,10 @@ const ImageUploader = ({ image, setImage }) => {
         )}
       </div>
 
+      {/* <p className="absolute bottom-[0px] text-red-500 text-[14px] font-medium">hello</p> */}
+      {error && (
+        <p className="absolute bottom-[0px] text-red-500 text-[14px] font-medium">{error}</p>
+      )}
     </div>
   );
 };

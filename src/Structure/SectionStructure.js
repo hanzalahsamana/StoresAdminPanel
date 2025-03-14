@@ -1,3 +1,5 @@
+import BannerSlider from "@/components/Widgets/BannerSlider";
+
 const {
   default: CollectionSection,
 } = require("@/components/Widgets/collectionSection");
@@ -9,6 +11,29 @@ const { default: PromoWidget } = require("@/components/Widgets/PromoWidget");
 const { default: RichText } = require("@/components/Widgets/RichText");
 
 export const SectionStructure = {
+  banner_slider: {
+    sectionName:'Banner Slider',
+    data: {
+      title: "Banner Slider",
+      imagesUrl:[
+        "https://res.cloudinary.com/duaxitxph/image/upload/v1736247980/cjzl4ivq2lduxqbtnfj1.webp",
+        "https://res.cloudinary.com/duaxitxph/image/upload/v1736247980/cjzl4ivq2lduxqbtnfj1.webp",
+      ]
+    },
+    fields: [
+      {
+        name: "title",
+        placeholder: "Title",
+        input: "text",
+      },
+      {
+        name: "imagesUrl",
+        placeholder: "ImagesUrls",
+        input: "multiImageUploader",
+      },
+    ],
+    component: BannerSlider,
+  },
   hero_banner: {
     data: {
       title: "Hero Banner",
@@ -29,7 +54,6 @@ export const SectionStructure = {
     ],
     component: Hero,
   },
-
 
   feature_collection: {
     data: {
