@@ -62,7 +62,6 @@ function Sidebar({ isOpen, setIsOpen }) {
     {
       name: "Contents", icon: <BiBookContent />, path: "/content",
       subLinks: [
-        { name: "Over View", path: "/content" },
         ...(Array.isArray(pagesData) ? pagesData.map(item => ({
           name: item.type,
           path: `/content/${item._id}`

@@ -11,13 +11,12 @@ import FaqUploader from '@/components/Uploaders/FaqUploader';
 import ImageUploader from '@/components/Uploaders/ImageUploader';
 import TextEditor from '@/components/Uploaders/TextEditor';
 import LivePreview from '@/components/UI/LivePreview';
-import RichText from '@/components/Widgets/RichText';
 import { selectPageByID } from '@/Redux/PagesData/PagesDataSlice';
 import { useParams } from 'next/navigation';
 import { useDispatch, useSelector } from 'react-redux';
 import FabricsAbout from '@/components/Widgets/fabricsAbout';
 import FAQs from '@/components/Widgets/Faqs';
-import { Base_Domain, HTTP } from '../../../../config';
+import _ from "lodash";
 import FabricsLiberary from '@/components/Widgets/fabricsLiberary';
 import CollectionAbout from '@/components/Widgets/collectionAbout';
 import ContentPage from '@/components/Sections/ContentPage';
@@ -87,6 +86,8 @@ const ContentEdit = () => {
 
   const page = useSelector((state) => selectPageByID(state, params?.pageid));
   const { currUser } = useSelector((state) => state.currentUser);
+  const [isModified, setIsModified] = useState(false);
+
   const [formData, setFormData] = useState({
     title: "",
     type: "",
@@ -102,9 +103,6 @@ const ContentEdit = () => {
     setFormData((prev) => ({ ...prev, [key]: value }));
   };
 
-  // const getPageLink = () => {
-  //   return `${HTTP}${currUser?.subDomain}.${Base_Domain}/pages/${}`
-  // }
 
   const renderComponents = () => {
     const fields = componentMapping[formData.type]?.fields || [];
@@ -183,6 +181,11 @@ const ContentEdit = () => {
     }
   }, [page]);
 
+  useEffect(() => {
+    const { _id, __v, updatedAt, ...rest } = page;
+    setIsModified(!_.isEqual(rest, formData));
+  }, [page, formData]);
+
   if (!page) {
     return (
       <div className='flex w-full justify-center py-[75px] text-center text-textTC text-[18px]'>
@@ -191,12 +194,11 @@ const ContentEdit = () => {
     )
   }
 
-
   return (
     <BackgroundFrame>
 
       <ActionCard
-        actions={<Button label="Save" className="w-max" action={handleSubmit} />}
+        actions={<Button label="Save" variant='black' className="w-max" action={handleSubmit} active={isModified} />}
         actionPosition='top'
         lable={page.type}
         className={'!p-4'}

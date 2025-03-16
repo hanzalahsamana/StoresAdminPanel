@@ -1,9 +1,8 @@
 import { addSection } from "@/APIs/SectionsData/addSection";
-import { setEditSectionLoading, setSectionsData } from "@/Redux/SectionsData/SectionsDataSlice";
+import { setSectionsData, setSectionsDataLoading } from "@/Redux/SectionsData/SectionsDataSlice";
 import { SectionStructure } from "@/Structure/SectionStructure";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { IoCloseOutline } from "react-icons/io5";
-import { LuPlus } from "react-icons/lu";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 
@@ -24,16 +23,14 @@ const WidgetsModal = ({ isOpen, setIsOpen, selectedOrder = 1, setSelectedOrder }
 
     const handleAddSection = async (section) => {
         try {
-            dispatch(setEditSectionLoading(true));
+            dispatch(setSectionsDataLoading(true));
             const responce = await addSection(currUser?.brandName, section, dispatch);
-            console.log(responce , "🙂‍↔️");
-            
+            console.log(responce, "🙂‍↔️");
+
             dispatch(setSectionsData(responce));
-            dispatch(setEditSectionLoading(false));
-            toast.success("Form submitted successfully!");
+            dispatch(setSectionsDataLoading(false));
         } catch (error) {
-            dispatch(setEditSectionLoading(false));
-            console.log(error);
+            dispatch(setSectionsDataLoading(false));
             toast.error(error?.response?.data?.message || "Something went wrong");
         }
 

@@ -17,9 +17,11 @@ import HomeLayout from "@/components/Layout/HomeLayout";
 import TemplateHeader from "@/components/Layout/TemplateHeader";
 import TemplateFooter from "@/components/Layout/TemplateFooter";
 import { deleteSectionsData } from "@/APIs/SectionsData/deleteSection";
+import TextLoader from "@/components/Loader/TextLoader";
+import Button from "@/components/Actions/Button";
 
 const Design = () => {
-    const { sectionsData, sectionsDataLoading } = useSelector((state) => state.sectionsData);
+    const { sectionsData, sectionsDataLoading, editSectionLoading } = useSelector((state) => state.sectionsData);
     const [hoverIndex, setHoverIndex] = useState(null);
     const [items, setItems] = useState([]);
     const [isOpen, setIsOpen] = useState(false);
@@ -57,55 +59,82 @@ const Design = () => {
                         <Droppable droppableId="pagesList">
                             {(provided) => (
                                 <div {...provided.droppableProps} ref={provided.innerRef} className="space-y-3">
-                                    {items.map((item, index) => (
-                                        <Draggable key={item._id} draggableId={item._id.toString()} index={index}>
-                                            {(provided, snapshot) => (
-                                                <div
-                                                    ref={provided.innerRef}
-                                                    {...provided.draggableProps}
-                                                    className={`relative flex items-start pt-2 pb-4 border-b border-gray-300 bg-backgroundC transition-all duration-300 ${snapshot.isDragging ? "shadow-lg bg-gray-100" : ""
-                                                        }`}
-                                                >
-                                                    <div {...provided.dragHandleProps} className="flex items-center text-[#787676] text-xl pl-[20px] cursor-grab active:cursor-grabbing">
-                                                        <span className="text-[13px]">{index}</span><RiDraggable />
-                                                    </div>
+                                    {items.length !== 0 ? items.map((item, index) => (
+                                        editSectionLoading ? (
+                                            <TextLoader />
+                                        ) : (
+                                            <Draggable key={item._id} draggableId={item._id.toString()} index={index}>
+                                                {(provided, snapshot) => (
+                                                    <div
+                                                        ref={provided.innerRef}
+                                                        {...provided.draggableProps}
+                                                        className={`relative flex items-start pt-2 pb-4 border-b border-gray-300 bg-backgroundC transition-all duration-300 ${snapshot.isDragging ? "shadow-lg bg-gray-100" : ""
+                                                            }`}
+                                                    >
+                                                        {/* Drag Handle */}
+                                                        <div
+                                                            {...provided.dragHandleProps}
+                                                            className="flex items-center text-[#787676] text-xl pl-[20px] cursor-grab active:cursor-grabbing"
+                                                        >
+                                                            <span className="text-[13px]">{index}</span><RiDraggable />
+                                                        </div>
 
-                                                    <div className="ml-3 flex flex-col gap-1">
-                                                        <h2 className="text-lg font-medium text-gray-900">{item?.sectionName}</h2>
-                                                        <div className="flex gap-3">
-                                                            <Link
-                                                                href={`/design/${item._id}`}
-                                                                className="text-sm cursor-pointer text-primaryC flex items-center gap-1"
-                                                            >
-                                                                Edit <RxExternalLink size={12} />
-                                                            </Link>
-                                                            <h2
-                                                                onClick={() => deleteSectionsData(currUser?.brandName, item._id, dispatch)}
-                                                                className="text-sm cursor-pointer text-red-500 flex items-center gap-1"
-                                                            >
-                                                                Delete <AiOutlineDelete scale={10} />
-                                                            </h2>
+                                                        {/* Section Details */}
+                                                        <div className="ml-3 flex flex-col gap-1">
+                                                            <h2 className="text-lg font-medium text-gray-900">{item?.sectionName}</h2>
+                                                            <div className="flex gap-3">
+                                                                <Link
+                                                                    href={`/design/${item._id}`}
+                                                                    className="text-sm cursor-pointer text-primaryC flex items-center gap-1"
+                                                                >
+                                                                    Edit <RxExternalLink size={12} />
+                                                                </Link>
+                                                                <h2
+                                                                    onClick={() => deleteSectionsData(currUser?.brandName, item._id, dispatch)}
+                                                                    className="text-sm cursor-pointer text-red-500 flex items-center gap-1"
+                                                                >
+                                                                    Delete <AiOutlineDelete scale={10} />
+                                                                </h2>
+                                                            </div>
+                                                        </div>
+
+                                                        {/* Hover Action */}
+                                                        <div
+                                                            className="absolute bottom-[-12px] w-full h-6 flex items-center"
+                                                            onMouseEnter={() => setHoverIndex(index)}
+                                                            onMouseLeave={() => setHoverIndex(null)}
+                                                        >
+                                                            {hoverIndex === index && (
+                                                                <div className="w-full flex flex-col items-center justify-center">
+                                                                    <span className="absolute border-b-2 animate-expand border-primaryC"></span>
+                                                                    <div
+                                                                        onClick={() => { setSelectedOrder(index + 2); setIsOpen(true); }}
+                                                                        className="relative w-[25px] h-[25px] cursor-pointer rounded-full bg-primaryC text-backgroundC flex justify-center items-center"
+                                                                    >
+                                                                        <LuPlus />
+                                                                    </div>
+                                                                </div>
+                                                            )}
                                                         </div>
                                                     </div>
+                                                )}
+                                            </Draggable>
+                                        )
+                                    )) : (
+                                        <div
+                                            className="flex justify-center items-center py-[20px]"
+                                        >
+                                            <Button
+                                                action={() => { setSelectedOrder(1); setIsOpen(true); }}
+                                                variant="outline"
+                                                label="Add Section"
+                                                className="w-max"
 
-                                                    <div
-                                                        className="absolute bottom-[-12px] w-full h-6 flex items-center"
-                                                        onMouseEnter={() => setHoverIndex(index)}
-                                                        onMouseLeave={() => setHoverIndex(null)}
-                                                    >
-                                                        {hoverIndex === index && (
-                                                            <div className="w-full flex flex-col items-center justify-center">
-                                                                <span className="absolute border-b-2 animate-expand border-primaryC"></span>
-                                                                <div onClick={() => { setSelectedOrder(index + 2); setIsOpen(true) }} className="relative w-[25px] h-[25px] cursor-pointer rounded-full bg-primaryC text-backgroundC flex justify-center items-center">
-                                                                    <LuPlus />
-                                                                </div>
-                                                            </div>
-                                                        )}
-                                                    </div>
-                                                </div>
-                                            )}
-                                        </Draggable>
-                                    ))}
+                                            />
+
+                                        </div>
+                                    )}
+
                                     {provided.placeholder}
                                 </div>
                             )}

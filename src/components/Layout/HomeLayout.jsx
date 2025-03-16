@@ -8,13 +8,13 @@ import ProductsSection from "../Widgets/productsSection";
 import RichText from "../Widgets/RichText";
 import BannerSlider from "../Widgets/BannerSlider";
 
-export default function HomeLayout({ overrideSectionType = null, formData = null }) {
+export default function HomeLayout({ overrideSectionId = null, formData = null }) {
   const { sectionsData } = useSelector((state) => state.sectionsData);
 
   const renderSection = (section) => {
     if (!section || !section.type) return null;
 
-    const shouldOverride = overrideSectionType && formData && section.type === overrideSectionType;
+    const shouldOverride = overrideSectionId && formData && section._id === overrideSectionId;
     const content = shouldOverride ? formData : section.content;
 
     switch (section.type) {
@@ -22,19 +22,14 @@ export default function HomeLayout({ overrideSectionType = null, formData = null
         return <BannerSlider key={section._id} content={content} />;
       case "hero_banner":
         return <Hero key={section._id} content={content} />;
-
       case "feature_collection":
         return <CollectionSection key={section._id} content={content} />;
-
       case "promo_section":
         return <PromoWidget key={section._id} content={content} />;
-
       case "feature_product":
         return <ProductsSection key={section._id} content={content} />;
-
       case "rich_text":
         return <RichText key={section._id} content={content} />;
-
       default:
         console.warn(`Unknown section type: ${section.type}`);
         return null;

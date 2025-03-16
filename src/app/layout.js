@@ -9,7 +9,6 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import NetworkStatus from "@/components/UI/NetworkError";
 import { Tooltip } from "react-tooltip";
-// import 'bootstrap/dist/css/bootstrap.min.css';
 
 
 export default function RootLayout({ children }) {

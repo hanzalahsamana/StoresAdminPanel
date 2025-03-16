@@ -201,6 +201,8 @@ const ContentEdit = () => {
   }, [section]);
 
   useEffect(() => {
+    console.log(section?.content , formData , "././././");
+    
     setIsModified(!_.isEqual(section?.content, formData));
   }, [formData, section]);
 
@@ -243,7 +245,7 @@ const ContentEdit = () => {
           SectionStructure[section?.type]?.component && formData &&
           React.createElement(SectionStructure[section?.type].component, { content: formData })
         ) : (
-          <HomeLayout overrideSectionType={section?.type} formData={formData} />
+          <HomeLayout overrideSectionId={section?._id} formData={formData} />
         )}
         <TemplateFooter />
       </LivePreview>

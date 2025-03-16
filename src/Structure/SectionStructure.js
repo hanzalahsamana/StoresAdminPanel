@@ -12,13 +12,13 @@ const { default: RichText } = require("@/components/Widgets/RichText");
 
 export const SectionStructure = {
   banner_slider: {
-    sectionName:'Banner Slider',
+    sectionName: "Banner Slider",
     data: {
       title: "Banner Slider",
-      imagesUrl:[
+      imagesUrl: [
         "https://res.cloudinary.com/duaxitxph/image/upload/v1736247980/cjzl4ivq2lduxqbtnfj1.webp",
         "https://res.cloudinary.com/duaxitxph/image/upload/v1736247980/cjzl4ivq2lduxqbtnfj1.webp",
-      ]
+      ],
     },
     fields: [
       {
@@ -34,7 +34,9 @@ export const SectionStructure = {
     ],
     component: BannerSlider,
   },
+  
   hero_banner: {
+    sectionName: "Hero Banner",
     data: {
       title: "Hero Banner",
       image:
@@ -56,8 +58,9 @@ export const SectionStructure = {
   },
 
   feature_collection: {
+    sectionName: "Featured Collection",
     data: {
-      title: "",
+      title: "Featured Collection",
       selectedCategories: [],
     },
     fields: [
@@ -75,13 +78,17 @@ export const SectionStructure = {
     ],
     component: CollectionSection,
   },
+
   promo_section: {
+    sectionName: "Promo Section",
+
     data: {
-      title: "",
-      image: "",
-      text: "",
-      buttonText: "",
-      styleType: "",
+      title: "Exclusive Offer!",
+      image:
+        "https://res.cloudinary.com/duaxitxph/image/upload/v1736859498/v6pws4qg9rfegcqx85en.jpg",
+      text: "Get the best deals on our latest products. Limited-time offer! Enjoy huge discounts, free shipping, and special perks when you shop today. Don't miss out on this opportunity to save big!",
+      buttonText: "Shop Now",
+      styleType: "style1",
     },
     fields: [
       {
@@ -108,11 +115,14 @@ export const SectionStructure = {
     ],
     component: PromoWidget,
   },
+
   rich_text: {
+    sectionName: "Rich Text",
+
     data: {
-      title: "",
-      text: "",
-      buttonText: "",
+      title: "Why Choose Us?",
+      text: "We provide high-quality products with fast delivery and excellent customer service.",
+      buttonText: "Shop Now",
     },
     fields: [
       {
@@ -133,12 +143,14 @@ export const SectionStructure = {
     ],
     component: RichText,
   },
+
   feature_product: {
+    sectionName: "Featured Product",
     data: {
-      title: "",
-      maxLength:4,
-      productType:"",
-      selectedCategories:[],
+      title: "Featured Product",
+      maxLength: 4,
+      productType: "All",
+      selectedCategories: [],
       selectedProducts: [],
     },
     fields: [
