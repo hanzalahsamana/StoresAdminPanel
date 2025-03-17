@@ -21,7 +21,7 @@ export default function SiteLayout({ params, children }) {
 
   useEffect(() => {
     if (siteName) {
-      document.title = siteName;
+      document.title = decodeURIComponent(siteName);
     }
     if (SiteLogo) {
       

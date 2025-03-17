@@ -12,9 +12,6 @@ const TemplateFooter = () => {
   const [isOpen, setIsOpen] = useState(false);
   const path = getBasePath();
 
-  console.log(path, "{}{}{}{}{}{}{}{}");
-
-
   const SiteLogo = useSelector((state) =>
     selectPageByType(state, "Site Logo")
   );

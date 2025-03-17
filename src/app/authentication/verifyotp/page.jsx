@@ -53,6 +53,9 @@ const OtpVerification = () => {
         if (value && index < otp.length - 1) {
             inputRefs.current[index + 1].focus();
         }
+        if (newOtp.every((digit) => digit !== "")) {
+            handleVerifyOtp(e);
+        }
     };
 
     const handleKeyDown = (e, index) => {

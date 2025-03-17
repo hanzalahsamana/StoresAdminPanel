@@ -8,7 +8,7 @@ export async function middleware(request) {
   const BaseDomain =
     process.env.NODE_ENV === "production" ? "hannanfabrics" : "localhost:3000";
 
-  // console.log("🔖🔖", url, "👍", host, "🥀", pathname, "😂", BaseDomain);
+  console.log("🔖🔖", url, "👍", host, "🥀", pathname, "😂", BaseDomain);
 
   if (host.includes(".vercel.app") || pathname.endsWith("/not-found")) {
     return NextResponse.next();
@@ -40,7 +40,7 @@ export async function middleware(request) {
       );
     }
   } catch (error) {
-    console.error("🚨 Site not found:", error.message);
+    console.error("🚨 Site not found:",host, error.message);
   }
 
   return NextResponse.rewrite(new URL("/not-found", request.url));

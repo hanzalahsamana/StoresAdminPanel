@@ -103,7 +103,7 @@ const DomainVerification = () => {
           handleChange={(e) => setDomain(e.target.value)}
         /> */}
 
-        <p className="text-[18px] text-textC">Your Site subdomain is <Link href={`https://${currUser?.brandName}.hannanfabrics.com`} target={'blank'} className="text-[#386ec5] hover:opacity-80">unique.hannanfabrics.com</Link></p>
+        <p className="text-[18px] text-textC">Your Site subdomain is <Link href={`https://${currUser?.subDomain}.hannanfabrics.com`} target={'blank'} className="text-[#386ec5] hover:opacity-80">{currUser?.subDomain}.hannanfabrics.com</Link></p>
         <div className="flex flex-col gap-6">
           <div className="flex text-[13px] gap-2">
             <IoBagCheck className="text-blue-500" />
@@ -131,18 +131,32 @@ const DomainVerification = () => {
       {step === 1 && (
 
 
-        <ActionCard lable={'Custom Domain'} error={error} actions={
-          <>
-            <Button loading={loading} label="Add Domain" action={() => handleAddDomainDns(domain)} className="w-max min-w-[150px]" />
-          </>
-        }>
-          <p className="text-textTC text-[16px] ">You have not any Custom Domain to your store.</p>
-          <FormInput
-            value={domain}
-            placeholder="example.com"
-            handleChange={(e) => setDomain(e.target.value)}
-          />
-        </ActionCard>
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            handleAddDomainDns(domain);
+          }}
+        >
+          <ActionCard label={'Custom Domain'} error={error} actions={
+            <>
+              <Button
+                loading={loading}
+                label="Add Domain"
+                action={() => handleAddDomainDns(domain)}
+                className="w-max min-w-[150px]"
+              />
+            </>
+          }>
+            <p className="text-textTC text-[16px]">You have not any Custom Domain to your store.</p>
+
+            <FormInput
+              value={domain}
+              placeholder="example.com"
+              handleChange={(e) => setDomain(e.target.value)}
+            />
+          </ActionCard>
+        </form>
+
       )}
       {currUser?.customDomain && step === 2 && (
 
