@@ -46,11 +46,6 @@ const TemplateHeader = () => {
     return () => window.removeEventListener('resize', checkHeaderWidth);
   }, []);
 
-  useEffect(() => {
-    console.log(pathname, Storepath, "oooooooooooooo");
-
-  }, [pathname])
-
   const toggleMenu = () => setIsOpen(!isOpen);
 
   const generateLink = (path, label, i) => (

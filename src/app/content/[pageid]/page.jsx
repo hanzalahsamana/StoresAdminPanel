@@ -204,7 +204,7 @@ const ContentEdit = () => {
         className={'!p-4'}
       >
         <div
-          className={` border-[#c9c9c98f]  p-[20px] max-h-[340px] overflow-y-auto customScroll flex flex-col`}
+          className={` border-[#c9c9c98f] shadow-[inset_0px_0px_12px_#dadada]   p-[20px] max-h-[340px] overflow-y-auto customScroll flex flex-col`}
         >
           <div className='flex flex-col gap-3'>
             {renderComponents()}

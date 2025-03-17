@@ -21,7 +21,7 @@ const ProviderWrap = ({ children }) => {
   useEffect(() => {
     const userData = localStorage.getItem("currentUser");
     const user = userData ? JSON.parse(userData) : null;
-    if (user) getUserFromToken(dispatch, user?.brandName);
+    getUserFromToken(dispatch, user?.brandName);
   }, [dispatch]);
 
   useEffect(() => {

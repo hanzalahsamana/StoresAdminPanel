@@ -23,7 +23,7 @@ export async function middleware(request) {
 
   try {
 
-    const ApiQuerry = host.includes(BaseDomain) ? `subDomain=${potentialSlug}` : `domain=${potentialSlug}`
+    const ApiQuerry = host.includes(BaseDomain) ? `subDomain=${potentialSlug}` : `domain=${host}`
     const response = await fetch(
       `${BASE_URL}/fetchSiteByDomain?${ApiQuerry}`
     );

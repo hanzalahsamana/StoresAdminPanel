@@ -6,6 +6,7 @@ import { verifyOtp } from "@/APIs/Auth/verifyOTP";
 import { toast } from "react-toastify";
 import { SendOTP } from "@/APIs/Auth/addUser";
 import Loader from "@/components/Loader/loader";
+import UnProtectedRoute from "@/AuthenticRouting/UnProtectedRoutes";
 
 const OtpVerification = () => {
     const [otp, setOtp] = useState(["", "", "", "", "", ""]);
@@ -24,6 +25,7 @@ const OtpVerification = () => {
             setEmail(savedEmail);
             if (!savedEmail) {
                 router.push("/authentication/register");
+                setLoading(false)
             } else {
                 setLoading(false)
             }
@@ -43,6 +45,12 @@ const OtpVerification = () => {
         }
     }, [cooldown]);
 
+    useEffect(() => {
+        if (otp.every((digit) => digit !== "")) {
+            handleVerifyOtp();
+        }
+    }, [otp]);
+
     const handleOtpChange = (e, index) => {
         const value = e.target.value;
         if (/[^0-9]/.test(value)) return;
@@ -52,9 +60,6 @@ const OtpVerification = () => {
 
         if (value && index < otp.length - 1) {
             inputRefs.current[index + 1].focus();
-        }
-        if (newOtp.every((digit) => digit !== "")) {
-            handleVerifyOtp(e);
         }
     };
 
@@ -70,8 +75,8 @@ const OtpVerification = () => {
         }
     };
 
-    const handleVerifyOtp = async (e) => {
-        e.preventDefault();
+    const handleVerifyOtp = async (e = null) => {
+        if (e) e.preventDefault();
         setLoading(true);
         const otpCode = otp.join("");
 
@@ -164,4 +169,4 @@ const OtpVerification = () => {
     );
 };
 
-export default OtpVerification;
+export default UnProtectedRoute(OtpVerification);
