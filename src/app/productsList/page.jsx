@@ -30,36 +30,47 @@ const ProductsList = () => {
   ];
 
   const actions = {
-    edit: (row) => { toggleModal(); setUpdatedProduct(row) },
+    edit: (row) => { setUpdatedProduct(row); toggleModal(); },
     delete: (row) => { deleteProduct(currUser.brandName, row?._id, dispatch) },
   };
 
   return (
     <div className="p-5">
       <div className="flex flex-col gap-3 justify-between w-full items-center bg-backgroundC p-4 rounded-md shadow-md">
-      <div className="flex justify-between w-full items-center">
-        <p className="text-center font-semibold text-textC text-[30px]">
-          Products
-        </p>
-        <Button
-          label="Add Product"
-          action={toggleModal}
-          className="w-max !py-2"
+        <div className="flex justify-between w-full items-center">
+          <p className="text-center font-semibold text-textC text-[30px]">
+            Products
+          </p>
+          <Button
+            label="Add Product"
+            action={() => { setUpdatedProduct(null); toggleModal(); }}
+            className="w-max !py-2"
+          />
+        </div>
+
+
+        <DynamicTable columns={columns} data={products} actions={actions} loading={productLoading} notFoundText="There are no products to show" />
+
+        <AddEditProductModal
+          isOpen={isOpen}
+          setIsOpen={setIsOpen}
+          productLoading={productLoading}
+          updatedData={updatedProduct}
+          setUpdatedProduct={setUpdatedProduct}
         />
+
+<div class="flex w-[350px] h-[100px] bg-blue-500 m-4">
+  <div class="flex gap-2 bg-red-500 overflow-x-auto flex-nowrap">
+    <div class="w-[100px] h-[70px] bg-green-500 flex-shrink-0"></div>
+    <div class="w-[100px] h-[70px] bg-green-500 flex-shrink-0"></div>
+    <div class="w-[100px] h-[70px] bg-green-500 flex-shrink-0"></div>
+    <div class="w-[100px] h-[70px] bg-green-500 flex-shrink-0"></div>
+    <div class="w-[100px] h-[70px] bg-green-500 flex-shrink-0"></div>
+  </div>
+</div>
+
+
       </div>
-
-
-      <DynamicTable columns={columns} data={products} actions={actions} loading={productLoading} notFoundText="There are no products to show" />
-
-      <AddEditProductModal
-        isOpen={isOpen}
-        setIsOpen={setIsOpen}
-        productLoading={productLoading}
-        updatedData={updatedProduct}
-        setUpdatedProduct={setUpdatedProduct}
-      />
-
-    </div>
     </div>
   );
 };

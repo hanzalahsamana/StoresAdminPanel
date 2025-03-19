@@ -1,33 +1,31 @@
+import { setAlwaysExtend, setMaximized } from '@/Redux/LivePreview/livePreviewSlice';
 import React, { useState, useRef, useEffect } from 'react';
 import { CgMaximize, CgMinimize } from 'react-icons/cg';
 import { FiMaximize2, FiMinimize2 } from 'react-icons/fi';
+import { useDispatch, useSelector } from 'react-redux';
 import { Tooltip } from 'react-tooltip';
+import { Assistant } from "next/font/google";
+
+
+const assistant = Assistant({
+    subsets: ["latin"],
+    weight: ["400", "700"], // Add the font weights you need
+  });
 
 const LivePreview = ({ children, extraAction = null }) => {
+    const dispatch = useDispatch();
+    const { maximized, alwaysExtend } = useSelector((state) => state.livePreview);
     const [isHovered, setIsHovered] = useState(false);
-    const [alwaysExtend, setAlwaysExtend] = useState(false);
-    const [maximized, setMaximized] = useState(false);
 
-    return maximized ? (
+    return (
         <LivePreviewContent
             children={children}
             isHovered={isHovered}
             setIsHovered={setIsHovered}
             alwaysExtend={alwaysExtend}
-            setAlwaysExtend={setAlwaysExtend}
+            setAlwaysExtend={(value) => dispatch(setAlwaysExtend(value))}
             maximized={maximized}
-            setMaximized={setMaximized}
-            extraAction={extraAction}
-        />
-    ) : (
-        <LivePreviewContent
-            children={children}
-            isHovered={isHovered}
-            setIsHovered={setIsHovered}
-            alwaysExtend={alwaysExtend}
-            setAlwaysExtend={setAlwaysExtend}
-            maximized={maximized}
-            setMaximized={setMaximized}
+            setMaximized={(value) => dispatch(setMaximized(value))}
             extraAction={extraAction}
         />
     );
@@ -156,7 +154,7 @@ const LivePreviewContent = ({
                 </div>
 
                 <div
-                    className={`${maximized
+                    className={`${assistant.className} ${maximized
                         ? 'scale-x-[0.38] scale-y-[0.38] w-[1280px] h-[calc(((100vh-62px)/38)*100)]'
                         : isHovered || alwaysExtend
                             ? 'scale-[0.38] top-[30px] w-[1280px] h-[600px] absolute'

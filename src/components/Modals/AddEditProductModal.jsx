@@ -12,7 +12,6 @@ import { addProducts } from "@/APIs/Product/addProductData";
 import { editProductData } from "@/APIs/Product/editProductData";
 import { setProductLoading } from "@/Redux/Product/ProductSlice";
 import { productUploadValidate } from "@/Utils/ProductUploadValidate";
-import { uploadImagesToCloudinary } from "@/Utils/uploadToCloudinary";
 import { useDispatch, useSelector } from "react-redux";
 import { calculateDiscountedPrice } from "@/Utils/CalculateDiscountedPrice";
 import { uploadImagesToS3 } from "@/APIs/uploadImageS3";
@@ -25,238 +24,111 @@ const AddEditProductModal = ({
   setUpdatedProduct,
 }) => {
   const dispatch = useDispatch();
-  const [selectedImages, setSelectedImages] = useState([]);
-  const [selectedSizes, setSelectedSizes] = useState([]);
-  const [selectedCategory, setSelectedCategory] = useState("");
   const { categories } = useSelector((state) => state.categories);
   const { currUser } = useSelector((state) => state.currentUser);
   const [errors, setErrors] = useState({});
-
-  const [formData, setFormData] = useState({
-    name: "",
-    brand: currUser?.brandName,
-    originalPrice: 100,
-    discount: 20,
-    discountedPrice: calculateDiscountedPrice(100, 20),
-    collectionName: "",
-    type: "t-shirt",
-    size: selectedSizes,
-    description: "",
-    stock: 10,
-    ...updatedData,
-  });
-
-  console.log(updatedData , "okay2");
-  
+  const [formData, setFormData] = useState({});
 
   useEffect(() => {
-    setFormData((prev) => ({
-      ...prev,
-      discountedPrice: calculateDiscountedPrice(prev.originalPrice, prev.discount),
-      collectionName: selectedCategory,
-      size: selectedSizes
-    }));
-  }, [formData.originalPrice, formData.discount , selectedCategory , selectedSizes]);
-
-
-  useEffect(() => {
-    setSelectedImages(updatedData ? updatedData?.images : []);
-    const test = !Array.isArray(updatedData?.size)
-      ? updatedData?.size
-        ? [updatedData.size]
-        : []
-      : updatedData.size;
-    setSelectedSizes(test);
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      ...updatedData,
-      size: test,
-    }));
+    if (updatedData) {
+      setFormData({
+        ...updatedData,
+        discountedPrice: calculateDiscountedPrice(updatedData.originalPrice, updatedData.discount),
+      });
+    } else {
+      setFormData({
+        name: "",
+        brand: currUser?.brandName || "",
+        originalPrice: 100,
+        discount: 20,
+        discountedPrice: calculateDiscountedPrice(100, 20),
+        collectionName: "",
+        type: "t-shirt",
+        size: [],
+        description: "",
+        stock: 10,
+        images: [],
+      });
+    }
   }, [updatedData]);
 
-
-  useEffect(()=>{
-    console.log(selectedImages , "🔗" );
-  },[selectedImages])
-
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prevData) => ({ ...prevData, [name]: value }));
-  };
-
   useEffect(() => {
-    if (isOpen === false) {
-      setUpdatedProduct(null)
+    if (!isOpen) {
+      setTimeout(() => {
+        setUpdatedProduct(null);
+        setFormData({});
+      }, 0);
     }
-  }, [isOpen])
+  }, [isOpen]);
 
+  const handleChange = (key, value) => {
+    setFormData((prev) => ({ ...prev, [key]: value }));
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!productUploadValidate(formData , setErrors , selectedImages)) {
-
-      return;
-    }
+    if (!productUploadValidate(formData, setErrors)) return;
 
     try {
       dispatch(setProductLoading(true));
-      // const imageUrls = await uploadImagesToCloudinary(selectedImages);
-      const imageUrls = await uploadImagesToS3(currUser.brandName, selectedImages);
-      // if (!updatedData) {
-      //   await addProducts(
-      //     {
-      //       ...formData,
-      //       alt: formData.name,
-      //       originalPrice: Number(formData.originalPrice),
-      //       discountedPrice: Number(formData.discountedPrice),
-      //       discount: Number(formData.discount),
-      //       images: imageUrls,
-      //       size: selectedSizes,
-      //     },
-      //     currUser?.brandName,
-      //     dispatch
-      //   );
-      // } else {
-      //   await editProductData(
-      //     {
-      //       ...formData,
-      //       alt: formData.name,
-      //       originalPrice: Number(formData.originalPrice),
-      //       discountedPrice: Number(formData.discountedPrice),
-      //       discount: Number(formData.discount),
-      //       images: imageUrls,
-      //       size: selectedSizes,
-      //     },
-      //     currUser?.brandName,
-      //     updatedData._id,
-      //     dispatch
-      //   );
-      // }
+
+      let imagesToUpload = formData.images.filter((img) => img instanceof File);
+      let existingImages = formData.images.filter((img) => typeof img === "string");
+
+      if (imagesToUpload.length > 0) {
+        const uploadedImagesUrls = await uploadImagesToS3(currUser?.brandName, imagesToUpload);
+        formData.images = [...existingImages, ...uploadedImagesUrls];
+      }
+
+      const productData = {
+        ...formData,
+        alt: formData.name,
+        originalPrice: Number(formData.originalPrice),
+        discountedPrice: Number(formData.discountedPrice),
+        discount: Number(formData.discount),
+      };
+
+      if (!updatedData) {
+        await addProducts(productData, currUser?.brandName, dispatch);
+      } else {
+        await editProductData(productData, currUser?.brandName, updatedData._id, dispatch);
+      }
+
       dispatch(setProductLoading(false));
-      console.log("ok");
-      
-      console.log("ok");
-      // setIsOpen(false);
+      setIsOpen(false);
     } catch (error) {
-      console.log("no");
       dispatch(setProductLoading(false));
-      toast.error(error);
+      toast.error(error.message || "Something went wrong");
     }
   };
 
   return (
     <Modal isOpen={isOpen} setIsOpen={setIsOpen}>
-      <Form
-        encType="multipart/formdata"
-        handleSubmit={handleSubmit}
-        buttonLabel={!updatedData ? "Add Product" : "Edit Product"}
-        loading={productLoading}
-        lable={!updatedData ? "Add Product" : "Edit Product"}
-        className="shadow-none"
-      >
-
+      <Form handleSubmit={handleSubmit} buttonLabel={updatedData ? "Edit Product" : "Add Product"} loading={productLoading}>
         <div className="flex gap-4">
-          <FormInput
-            placeholder="Name"
-            handleChange={handleChange}
-            name={"name"}
-            value={formData.name}
-            error={errors.name}
-          />
-
-          <FormInput
-            placeholder="Brand Name"
-            handleChange={handleChange}
-            name={"brand"}
-            value={formData.brand}
-            error={errors.brand}
-          />
+          <FormInput name="name" placeholder="Name" value={formData.name || ""} handleChange={(e) => handleChange(e.target.name, e.target.value)} error={errors.name} />
+          <FormInput name="brand" placeholder="Brand Name" value={formData.brand || ""} handleChange={(e) => handleChange(e.target.name, e.target.value)} error={errors.brand} />
         </div>
 
         <div className="flex gap-4">
-          <FormInput
-            type="number"
-            placeholder="Original Price"
-            handleChange={handleChange}
-            name={"originalPrice"}
-            value={formData.originalPrice}
-            error={errors.originalPrice}
-          />
-
-          <FormInput
-            type="number"
-            placeholder="Discount %"
-            handleChange={handleChange}
-            name={"discount"}
-            value={formData.discount}
-            error={errors.discount}
-            required={false}
-          />
-
-          <FormInput
-            type="number"
-            placeholder="Discounted Price"
-            name={"discountedPrice"}
-            value={formData.discountedPrice}
-            error={errors.discountedPrice}
-            readOnly={true}
-          />
+          <FormInput type="number" name="originalPrice" placeholder="Original Price" value={formData.originalPrice || 0} handleChange={(e) => handleChange(e.target.name, e.target.value)} error={errors.originalPrice} />
+          <FormInput type="number" name="discount" placeholder="Discount %" value={formData.discount || 0} handleChange={(e) => handleChange(e.target.name, e.target.value)} error={errors.discount} />
+          <FormInput type="number" name="discountedPrice" placeholder="Discounted Price" value={calculateDiscountedPrice(formData.originalPrice, formData.discount)} readOnly />
         </div>
 
         <div className="flex gap-4">
-          <FormInput
-            type="text"
-            placeholder="Type"
-            handleChange={handleChange}
-            name={"type"}
-            value={formData.type}
-            error={errors.type}
-          />
-
-          <FormInput
-            type="number"
-            placeholder="Stock"
-            handleChange={handleChange}
-            name={"stock"}
-            value={formData.stock}
-            error={errors.stock}
-          />
+          <FormInput name="type" placeholder="Type" value={formData.type || ""} handleChange={(e) => handleChange(e.target.name, e.target.value)} error={errors.type} />
+          <FormInput type="number" name="stock" placeholder="Stock" value={formData.stock || 0} handleChange={(e) => handleChange(e.target.name, e.target.value)} error={errors.stock} />
         </div>
+
+        <FormInput name="description" placeholder="Description" value={formData.description || ""} handleChange={(e) => handleChange(e.target.name, e.target.value)} error={errors.description} />
 
         <div className="flex gap-4">
-          <FormInput
-            placeholder="Discription"
-            handleChange={handleChange}
-            name={"discription"}
-            value={formData.discription}
-            error={errors.discription}
-            required={false}
-          />
+          <MultiSelectDropdown defaultOptions={["L", "S", "M", "XL"]} selectedOptions={formData.size || []} setSelectedOptions={(options) => handleChange("size", options)} placeholder="Select Sizes" error={errors.size} />
+          <DropDown defaultOptions={categories?.map((cat) => cat?.link)} selectedOption={formData.collectionName || ""} setSelectedOption={(option) => handleChange("collectionName", option)} placeholder="Select Category" error={errors.collectionName} />
         </div>
 
-        <div className="flex gap-4">
-          <MultiSelectDropdown
-            defaultOptions={["L", "S", "M", "XL"]}
-            selectedOptions={selectedSizes}
-            setSelectedOptions={setSelectedSizes}
-            wantsMultipleSelect={true}
-            wantsCustomOption={true}
-            placeholder="Select Sizes"
-            error={errors.size}
-          />
-
-          <DropDown
-            defaultOptions={categories?.map((cat) => cat?.link)}
-            selectedOption={selectedCategory}
-            setSelectedOption={setSelectedCategory}
-            placeholder="Select Category"
-            error={errors.collectionName}
-          />
-        </div>
-
-        <MultiImageUploader images={selectedImages} setImages={setSelectedImages} error={errors.image} />
-
+        <MultiImageUploader images={formData.images || []} setImages={(images) => handleChange("images", images)} error={errors.image} />
       </Form>
     </Modal>
   );

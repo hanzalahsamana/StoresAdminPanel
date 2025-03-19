@@ -4,10 +4,10 @@ const QuantityControl = ({ quantity, increaseQuantity, decreaseQuantity }) => {
   const { loading } = useSelector((state) => state?.cartData)
 
   return (
-    <div className="flex items-center justify-between rounded-sm w-32 bg-[#e3e3e3]">
+    <div className="flex items-center justify-between rounded-sm w-32 border-2 border-[var(--tmp-txt)] bg-[var(--tmp-pri)]">
       <button
         disabled={loading}
-        className={`w-1/4 text-black border-none rounded-sm ${loading ? 'cursor-not-allowed' : 'cursor-pointer'} transition duration-300 text-2xl hover:opacity-80`}
+        className={`w-1/4 text-[var(--tmp-txt)] border-none rounded-sm ${loading ? 'cursor-not-allowed' : 'cursor-pointer'} transition duration-300 text-2xl hover:opacity-80`}
         onClick={decreaseQuantity}
       >
         -

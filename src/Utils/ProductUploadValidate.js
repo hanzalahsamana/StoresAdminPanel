@@ -1,4 +1,4 @@
-export const productUploadValidate = (formData, setErrors, images) => {
+export const productUploadValidate = (formData, setErrors) => {
   const newErrors = {};
   const {
     name,
@@ -9,6 +9,7 @@ export const productUploadValidate = (formData, setErrors, images) => {
     type,
     size,
     stock,
+    images,
   } = formData;
 
   if (!name) newErrors.name = "name is required";

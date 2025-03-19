@@ -17,7 +17,6 @@ import { selectSectionByID, setEditSectionLoading } from '@/Redux/SectionsData/S
 import { SectionStructure } from '@/Structure/SectionStructure';
 import DropDown from '@/components/Actions/DropDown';
 import MultiSelectDropdown from '@/components/Actions/MultiSelectDropdown';
-import { uploadToCloudinary } from '@/Utils/uploadToCloudinary';
 import { editSectionsData } from '@/APIs/SectionsData/editSectionsData';
 import { toast } from 'react-toastify';
 import _ from "lodash";

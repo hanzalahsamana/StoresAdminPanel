@@ -9,16 +9,23 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import NetworkStatus from "@/components/UI/NetworkError";
 import { Tooltip } from "react-tooltip";
+import { applyTheme } from "@/Utils/ApplyTheme";
+import { useEffect } from "react";
+
 
 
 export default function RootLayout({ children }) {
+  // Run only once when the component mounts
 
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
         <title>Web Nest</title>
       </head>
-      <body className={` antialiased`} suppressHydrationWarning>
+      <body
+        className={` antialiased`}
+        suppressHydrationWarning
+      >
         <Provider store={store}>
           <ProviderWrap>{children}</ProviderWrap>
           <ToastContainer />

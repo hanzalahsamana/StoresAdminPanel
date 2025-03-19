@@ -9,6 +9,7 @@ import { setSiteName } from "@/Redux/SiteName/SiteNameSlice";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Loader from "../Loader/loader";
+import { applyTheme } from "@/Utils/ApplyTheme";
 
 const ProviderWrap = ({ children }) => {
   const dispatch = useDispatch();
@@ -22,6 +23,19 @@ const ProviderWrap = ({ children }) => {
     const userData = localStorage.getItem("currentUser");
     const user = userData ? JSON.parse(userData) : null;
     getUserFromToken(dispatch, user?.brandName);
+  }, [dispatch]);
+  const theme = {
+    primaryColor: "#06989a",
+    secondaryColor: "#06a4a720",
+    accentColor: "#ff5733",
+    backgroundColor: "#ffffff",
+    textColor: "#333939",
+    borderColor: "#dcdee1",
+    lightTextColor: "#5f6571",
+  };
+
+  useEffect(() => {
+    applyTheme(theme);
   }, [dispatch]);
 
   useEffect(() => {

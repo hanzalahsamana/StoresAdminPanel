@@ -4,21 +4,18 @@ import { CgInsertAfter } from "react-icons/cg";
 import FormInput from "../Forms/FormInput";
 
 const MultiSelectDropdown = ({
-    defaultOptions,
-    selectedOptions,
+    defaultOptions = [],
+    selectedOptions = [],
     setSelectedOptions,
-    wantsCustomOption,
+    wantsCustomOption = false,
     placeholder = "Select",
     error = null,
     className = '',
 }) => {
 
-    console.log(defaultOptions , selectedOptions  , "🍔🍔");
-    
     const [searchTerm, setSearchTerm] = useState("");
     const [isOpen, setIsOpen] = useState(false);
     const [filteredOptions, setFilteredOptions] = useState(defaultOptions);
-    const [localSelectedOptions, setLocalSelectedOptions] = useState(selectedOptions);
     const dropdownRef = useRef(null);
 
     useEffect(() => {
@@ -40,21 +37,17 @@ const MultiSelectDropdown = ({
 
     }, [searchTerm, defaultOptions]);
 
-    useEffect(() => {
-        setSelectedOptions(localSelectedOptions);
-    }, [localSelectedOptions]);
-
     const handleSelect = (option) => {
-        setLocalSelectedOptions((prev) => [...prev, option]);
+        setSelectedOptions([...selectedOptions, option]);
     };
 
     const handleRemove = (option) => {
-        setLocalSelectedOptions((prev) => prev.filter((item) => item !== option));
+        setSelectedOptions(selectedOptions.filter((item) => item !== option));
     };
 
     const handleCustomOptionSelect = () => {
         if (searchTerm.trim()) {
-            setLocalSelectedOptions((prev) => [...prev, searchTerm.trim()]);
+            setSelectedOptions([...selectedOptions, searchTerm.trim()]);
             setSearchTerm("");
         }
     };
@@ -90,7 +83,7 @@ const MultiSelectDropdown = ({
                             </div>
                         ) : (
                             filteredOptions.map((option, index) =>
-                                !localSelectedOptions.includes(option) && (
+                                !selectedOptions.includes(option) && (
                                     <div
                                         key={index}
                                         className="cursor-pointer py-[12px] border-b px-3 flex gap-2 items-center hover:bg-gray-200"
@@ -105,9 +98,9 @@ const MultiSelectDropdown = ({
                     </div>
                 )}
             </div>
-            {localSelectedOptions.length > 0 && (
+            {selectedOptions.length > 0 && (
                 <div className="flex flex-wrap gap-2 mt-3">
-                    {localSelectedOptions.map((option, index) => (
+                    {selectedOptions.map((option, index) => (
                         <div key={index} className="flex items-center px-2 bg-secondaryC text-textC rounded-sm">
                             <p className="max-w-[130px] text-nowrap overflow-hidden text-[10px] ">
                                 {option}

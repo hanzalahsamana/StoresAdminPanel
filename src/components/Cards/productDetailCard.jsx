@@ -49,28 +49,28 @@ const ProductDetailCard = ({ product }) => {
     <div className={styles.container}>
       <div className={`max-[900px]:flex-col ${styles.productSection}`}>
         <div className={styles.productImages}>
-          <img
-            src={product?.images[mainImage]}
-            alt="Fabric"
-            className={`max-[900px]:max-w-full max-w-[450px] ${styles.mainImage}`}
-          />
-          <div className={styles.thumbnailContainer}>
+          <div className={`customScroll ${styles.thumbnailContainer}`}>
             {product.images.map((image, index) => (
               <img
                 key={index}
                 src={image}
                 onClick={() => setmainImage(index)}
                 alt={`thumbnail ${index + 1}`}
-                className={styles.thumbnail}
+                className={`${mainImage === index && 'border-2 border-[var(--tmp-ltxt)]'} ${styles.thumbnail}`}
               />
             ))}
           </div>
+          <img
+            src={product?.images[mainImage]}
+            alt="Fabric"
+            className={`max-[900px]:max-w-full flex-1 max-w-[450px] object-contain ${styles.mainImage}`}
+          />
         </div>
 
         <div className={styles.productDetails}>
           <p className={styles.brandName}>{product.brand}</p>
           <h1>{product.name}</h1>
-          <div className={styles.reviews}>
+          {/* <div className={styles.reviews}>
             <p>
               <span>
                 <FaStar className="text-[orange]" />
@@ -81,7 +81,7 @@ const ProductDetailCard = ({ product }) => {
               </span>{" "}
               4 Review
             </p>
-          </div>
+          </div> */}
 
           <div className={styles.priceSection}>
             <span className={styles.strikeThrough}>

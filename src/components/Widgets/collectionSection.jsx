@@ -36,10 +36,10 @@ const CollectionSection = ({ content = {}, toShowLink = true }) => {
     <div className="m-6 flex flex-col gap-[25px]">
       {toShowLink && (
         <div className="flex justify-between items-center">
-          <h1 className="mt-2 text-[30px] font-semibold text-start">{title || 'Collections'}</h1>
+          <h1 className="mt-2 text-[30px] text-[var(--tmp-txt)] font-semibold text-start">{title || 'Collections'}</h1>
           <Link
             href={`${basePath}/collection`}
-            className="mt-2 text-[15px] w-[130px] cursor-pointer flex gap-[10px] hover:gap-[17px] transition-all items-center"
+            className="mt-2 text-[15px] text-[var(--tmp-ltxt)] w-[130px] cursor-pointer flex gap-[10px] hover:gap-[17px] transition-all items-center"
           >
             Browse All <FaArrowRightLong />
           </Link>

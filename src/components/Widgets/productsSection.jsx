@@ -44,8 +44,8 @@ const ProductsSection = ({ content = {} }) => {
     }
 
     return (
-        <div className='max-w-[1500px]'>
-            <h1 className='m-6 text-[30px] font-semibold text-center'>{title}</h1>
+        <div className='max-w-[1500px] bg-[var(--tmp-pri)]'>
+            <h1 className='m-6 text-[30px] text-[var(--tmp-txt)] font-semibold text-center'>{title}</h1>
             <div className="grid grid-cols-4 max-[1024px]:grid-cols-3 max-[750px]:grid-cols-2 max-[470px]:grid-cols-1 gap-2 m-6">
                 {filteredProducts.slice(0, maxLength||4).map((product) => (
                     <Link

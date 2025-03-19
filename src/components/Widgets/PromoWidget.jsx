@@ -12,14 +12,14 @@ const PromoWidget = ({ content}) => {
             <div className={styleType === "style1" ? "img-wrap" : "fabric-img"}>
                 {styleType === "style2" && (
                     <div className="fabric-text-wrap">
-                        <h2 className="text-xl font-bold">{title}</h2>
+                        <h2 className="text-xl text-[var(--tmp-txt)] font-bold">{title}</h2>
                         <div
-                            className="mt-4 max-h-[150px] customScroll overflow-auto leading-6 text-[#4a4a4a]"
+                            className="mt-4 max-h-[150px] customScroll overflow-auto leading-6 text-[var(--tmp-ltxt)]"
                             dangerouslySetInnerHTML={{ __html: text }}
                         />
                         <Link
                             href={`${getBasePath()}/products`}
-                            className="flex justify-center py-[15px] w-full mt-6 bg-black text-[#e6e6e6] text-[16px] transition-all duration-300 hover:scale-105"
+                            className="flex justify-center py-[15px] w-full mt-6 bg-[var(--tmp-sec)] text-[var(--tmp-wtxt)] text-[16px] transition-all duration-300 hover:scale-105"
                         >
                             {buttonText || "Shop Now"}
                         </Link>
@@ -35,14 +35,14 @@ const PromoWidget = ({ content}) => {
 
             {styleType === "style1" && (
                 <div className="text-wrap">
-                    <h1 className="text-[25px]">{title}</h1>
+                    <h1 className="text-[25px] text-[var(--tmp-txt)]">{title}</h1>
                     <div
-                        className="leading-6 max-h-[230px] pr-[15px] customScroll overflow-auto text-[#4a4a4a]"
+                        className="leading-6 max-h-[230px] pr-[15px] customScroll overflow-auto text-[var(--tmp-ltxt)]"
                         dangerouslySetInnerHTML={{ __html: text }}
                     />
                     <Link
                         href={`${getBasePath()}/products`}
-                        className="flex justify-center py-[15px] w-full mt-6 bg-black text-[#e6e6e6] text-[16px] transition-all duration-300 hover:scale-105"
+                        className="flex justify-center py-[15px] w-full mt-6 bg-[var(--tmp-sec)] text-[var(--tmp-wtxt)] text-[16px] transition-all duration-300 hover:scale-105"
                     >
                         {buttonText || "Shop Now"}
                     </Link>

@@ -1,6 +1,8 @@
 "use client";
 
 import React, { useEffect } from 'react'
+import { Assistant } from "next/font/google";
+
 import Loader from '@/components/Loader/loader';
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchPagesData } from '@/APIs/PagesData/getPagesData';
@@ -11,7 +13,10 @@ import { fetchOrderData } from '@/APIs/Order/getOrderData';
 import TemplateHeader from './TemplateHeader';
 import TemplateFooter from './TemplateFooter';
 import { fetchSectionsData } from '@/APIs/SectionsData/getSectonsData';
-
+const assistant = Assistant({
+  subsets: ["latin"],
+  weight: ["400","500", "700"], // Add the font weights you need
+});
 const LayoutWithReduxState = ({ children }) => {
 
   const dispatch = useDispatch();
@@ -49,7 +54,7 @@ const LayoutWithReduxState = ({ children }) => {
   }
 
   return (
-    <div className='flex flex-col items-center'>
+    <div className={`flex flex-col items-center ${assistant.className}`}>
       <TemplateHeader />
       {children}
       <TemplateFooter />

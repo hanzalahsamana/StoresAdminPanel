@@ -11,6 +11,7 @@ import { siteNameReducer } from "../SiteName/SiteNameSlice";
 import cartDataReducer from "../CartData/cartDataSlice";
 import { networkReducer } from "../Network/networkSlice";
 import { sectionsDataReducer } from "../SectionsData/SectionsDataSlice";
+import { livePreviewReducer } from "../LivePreview/livePreviewSlice";
 
 const rootReducer = combineReducers({
   orderData: orderDataReducer,
@@ -23,6 +24,7 @@ const rootReducer = combineReducers({
   productData: productDataReducer,
   cartData: cartDataReducer,
   categories: categoryReducer,
+  livePreview: livePreviewReducer,
 });
 
 export default rootReducer;

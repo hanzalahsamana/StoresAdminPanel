@@ -4,8 +4,8 @@ import { CgInsertAfter } from "react-icons/cg";
 import FormInput from "../Forms/FormInput";
 
 const DropDown = ({
-    defaultOptions,
-    selectedOption,
+    defaultOptions = [],
+    selectedOption = "",
     setSelectedOption,
     placeholder = "Select",
     required = true,
@@ -14,7 +14,6 @@ const DropDown = ({
 }) => {
     const [isOpen, setIsOpen] = useState(false);
     const dropdownRef = useRef(null);
-
 
     useEffect(() => {
         const handleClickOutside = (event) => {

@@ -2,52 +2,16 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState, useRef } from "react";
 import { GrDeliver } from "react-icons/gr";
-import { IoAnalyticsOutline, IoHomeOutline, IoShirtOutline, IoChevronForward } from "react-icons/io5";
+import { IoAnalyticsOutline, IoHomeOutline, IoShirtOutline, IoChevronForward, IoColorPaletteOutline } from "react-icons/io5";
 import { TfiWorld } from "react-icons/tfi";
 import { BiBookContent, BiCategoryAlt } from "react-icons/bi";
 import { PiTreeStructureLight } from "react-icons/pi";
 import { useSelector } from "react-redux";
 import Loader from "../Loader/loader";
 
-// const links = [
-//   { name: "Home", icon: <IoHomeOutline />, path: "/" },
-//   { name: "Analytics", icon: <IoAnalyticsOutline />, path: "/analytics" },
-//   { name: "Products", icon: <IoShirtOutline />, path: "/productsList" },
-//   { name: "Categories", icon: <BiCategoryAlt />, path: "/categories", },
-//   { name: "Orders", icon: <GrDeliver />, path: "/ordersList" },
-//   { name: "Domain", icon: <TfiWorld />, path: "/domain" },
-//   {
-//     name: "Contents", icon: <BiBookContent />, path: "/content",
-//     subLinks: [
-//       { name: "Over View", path: "/content" },
-//       { name: "Privacy Policy", path: "/content/blogs" },
-//       { name: "Shipping Policy", path: "/content/shipping-policy" },
-//       { name: "Return Policy", path: "/content/return-policy" },
-//       { name: "About Us", path: "/content/about-us" },
-//       { name: "FAQ", path: "/content/faq" },
-//       { name: "T&Cs", path: "/content/terms-and-conditions" }
-//     ],
-//   },
-//   {
-//     name: "Design / Layout", icon: <PiTreeStructureLight />, path: "/domain",
-//     subLinks: [
-//       { name: "Over View", path: "/domain" },
-//       { name: "Privacy Policy", path: "/content/blogs" },
-//       { name: "Shipping Policy", path: "/content/shipping-policy" },
-//       { name: "Return Policy", path: "/content/return-policy" },
-//       { name: "About Us", path: "/content/about-us" },
-//       { name: "FAQ", path: "/content/faq" },
-//       { name: "T&Cs", path: "/content/t-and-cs" }
-//     ],
-//   },
-// ];
-
 function Sidebar({ isOpen, setIsOpen }) {
   const { pagesData, pagesDataLoading } = useSelector((state) => state.pagesData);
   const { sectionsData , sectionsDataLoading } = useSelector((state) => state.sectionsData);
-
-
-
   const pathname = usePathname();
   const [openDropdown, setOpenDropdown] = useState(null);
   const subNavRefs = useRef({});
@@ -59,6 +23,7 @@ function Sidebar({ isOpen, setIsOpen }) {
     { name: "Categories", icon: <BiCategoryAlt />, path: "/categories", },
     { name: "Orders", icon: <GrDeliver />, path: "/ordersList" },
     { name: "Domain", icon: <TfiWorld />, path: "/domain" },
+    { name: "Color Theme", icon: <IoColorPaletteOutline/>      , path: "/theme" },
     {
       name: "Contents", icon: <BiBookContent />, path: "/content",
       subLinks: [
@@ -99,7 +64,6 @@ function Sidebar({ isOpen, setIsOpen }) {
   if (pagesDataLoading || sectionsDataLoading) {
     return <Loader />
   }
-
 
   const toggleDropdown = (index) => setOpenDropdown(openDropdown === index ? null : index);
 
