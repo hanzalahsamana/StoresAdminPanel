@@ -4,7 +4,7 @@ import React from 'react'
 
 const RichText = ({ content }) => {
     return (
-        <div className="flex justify-center items-center flex-col gap-[40px] py-[40px] px-[15px]">
+        <div className="flex bg-[var(--tmp-pri)] justify-center items-center flex-col gap-[40px] py-[40px] px-[15px]">
             <h1 className="text-[30px] text-[var(--tmp-txt)] font-extrabold text-center">{content?.title}</h1>
             <div className="text-lg text-center leading-relaxed text-[var(--tmp-ltxt)]" dangerouslySetInnerHTML={{ __html: content?.text }}>
             </div>

@@ -18,8 +18,8 @@ const CollectionCard = ({ collection }) => {
             alt={collection?.name} 
           />
         </div>
-        <div className='flex justify-center items-center gap-4 pt-2'>
-          <h1 className='text-[16px] text-center'>{collection?.name}</h1>
+        <div className='flex justify-center items-center gap-4 pt-2 text-[var(--tmp-txt)]'>
+          <h1 className='text-[16px] text-center '>{collection?.name}</h1>
           <FaArrowRightLong />
         </div>
       </div>

@@ -42,7 +42,7 @@ const OrderTrackModal = ({ isOpen, setIsOpen }) => {
     };
 
     return (
-        <Modal isOpen={isOpen} setIsOpen={setIsOpen} className={'!max-w-[400px] px-[20px] py-[40px] '}>
+        <Modal isOpen={isOpen} setIsOpen={setIsOpen} className={'!max-w-[400px] px-[20px] py-[40px] !bg-[var(--tmp-pri)] '}>
             <FormInput
                 name="orderId"
                 error={error}
@@ -52,7 +52,7 @@ const OrderTrackModal = ({ isOpen, setIsOpen }) => {
                 type="text"
             />
 
-            <Button action={handleSubmit} loading={loading} type="button" className="mt-[20px] !bg-black" label="Track Order"/>
+            <Button action={handleSubmit} loading={loading} type="button" className="mt-[20px] !bg-[var(--tmp-sec)] text-[var(--tmp-wtxt)]" label="Track Order"/>
         </Modal>
     );
 };

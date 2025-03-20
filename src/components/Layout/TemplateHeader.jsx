@@ -68,7 +68,7 @@ const TemplateHeader = () => {
               <Link
                 key={i}
                 href={`${Storepath}${path}`}
-                className={`text-[18px] text-[var(tmp-txt)] cursor-pointer hover:opacity-[0.6] ${pathname === `${Storepath}${path}` || (pathname === Storepath && path === '/') ? 'underline font-semibold' : ''}`}
+                className={`text-[18px] text-[var(--tmp-txt)] cursor-pointer hover:opacity-[0.6] ${pathname === `${Storepath}${path}` || (pathname === Storepath && path === '/') ? 'underline font-semibold' : ''}`}
                 prefetch={true}
               >
                 {label}

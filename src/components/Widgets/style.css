@@ -42,14 +42,14 @@
   justify-content: flex-end;
   width: 100%;
   padding: 100px 4rem;
-  background-color: #f7f7f7;
+  background-color: var(--tmp-acc);
 }
 
 .fabric-container .fabric-text-wrap {
   width: 35%;
   padding: 20px;
   min-height: 300px;
-  background-color: white;
+  background-color:  var(--tmp-pri);
   position: absolute;
   left: -25%;
   z-index: 2;
@@ -87,7 +87,7 @@
   width: 75%;
   padding: 30px;
   height: auto;
-  background-color: white;
+  background-color:  var(--tmp-pri);
   position: absolute;
   left: -60%;
   z-index: 2;

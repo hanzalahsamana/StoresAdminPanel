@@ -33,7 +33,7 @@ const CollectionSection = ({ content = {}, toShowLink = true }) => {
   }
 
   return (
-    <div className="m-6 flex flex-col gap-[25px]">
+    <div className="p-6 flex flex-col gap-[25px] bg-[var(--tmp-pri)]">
       {toShowLink && (
         <div className="flex justify-between items-center">
           <h1 className="mt-2 text-[30px] text-[var(--tmp-txt)] font-semibold text-start">{title || 'Collections'}</h1>

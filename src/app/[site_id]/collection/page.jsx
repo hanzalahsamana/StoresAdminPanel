@@ -3,10 +3,13 @@ import React from 'react'
 
 const AllCollections = () => {
     return (
-        <CollectionSection content={{
-            selectedCategories: [],
-            title: "All Collections"
-        }} toShowLink={false} />
+        <div className='w-full bg-[var(--tmp-pri)]'>
+
+            <CollectionSection content={{
+                selectedCategories: [],
+                title: "All Collections"
+            }} toShowLink={false} />
+        </div>
     )
 }
 

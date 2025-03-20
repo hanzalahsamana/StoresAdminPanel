@@ -31,14 +31,14 @@ const CartProductCard = ({ product }) => {
           className="w-30 h-32 object-cover "
         />
         <div className="ml-4 flex flex-col gap-[4px]">
-          <p className="text-[15px] mt-2 font-semibold text-gray-800">
+          <p className="text-[15px] mt-2 font-semibold text-[var(--tmp-txt)]">
             {product?.name}
           </p>
-          <p className="text-gray-500 text-sm">
+          <p className="text-[var(--tmp-ltxt)] text-sm">
             Rs. {product?.discountedPrice.toFixed(2)}
           </p>
-          <p className="text-gray-500 text-sm">type: {product?.type}</p>
-          <p className="text-gray-500 text-sm">size: {product?.selectedSize}</p>
+          <p className="text-[var(--tmp-ltxt)] text-sm">type: {product?.type}</p>
+          <p className="text-[var(--tmp-ltxt)] text-sm">size: {product?.selectedSize}</p>
         </div>
       </div>
 
@@ -51,7 +51,7 @@ const CartProductCard = ({ product }) => {
       </div>
 
       <div className="flex justify-end items-center w-1/4 max-[750px]:w-1/2 mt-[15px]">
-        <p className="ml-3 text-[12px]  text-gray-800">
+        <p className="ml-3 text-[12px]  text-[var(--tmp-txt)]">
           <span className="text-lg">
             Rs. {(product.discountedPrice * quantity).toFixed(2)}
 
@@ -60,7 +60,7 @@ const CartProductCard = ({ product }) => {
         </p>
 
         <button
-          className="ml-4 text-gray-600 hover:text-red-500"
+          className="ml-4 text-[var(--tmp-ltxt)] hover:text-red-500"
           onClick={() => dispatch(deleteCartData({productId:product?._id, siteName}))}
         >
           <svg

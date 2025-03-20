@@ -111,13 +111,13 @@ const PaymentForm = ({ shipping, total, tax, discount, cartItem }) => {
   }
 
   return (
-    <div className="w-full flex flex-col items-end max-[750px]:items-center py-[45px] px-[30px]">
+    <div className="w-full bg-[var(--tmp-pri)] flex flex-col items-end max-[750px]:items-center py-[45px] px-[30px]">
       <div className="max-w-[500px] w-full">
         <form onSubmit={handleSubmit} className="flex flex-wrap">
 
-          <div className="w-full">
-            <h2 className="text-[24px] font-medium mb-4">Payment</h2>
-            <p className="text-gray-500 mb-4">
+          <div className="w-full ">
+            <h2 className="text-[24px] font-medium mb-4 text-[var(--tmp-txt)]">Payment</h2>
+            <p className="text-[var(--tmp-ltxt)] mb-4">
               All transactions are secure and encrypted.
             </p>
             <div className="cursor-pointer h-[50px] pl-[20px] border-[1px] flex items-center rounded-md border-[blue] bg-[#e9f0fc] ">
@@ -125,7 +125,7 @@ const PaymentForm = ({ shipping, total, tax, discount, cartItem }) => {
             </div>
           </div>
           <div className="w-full">
-            <h2 className="text-[24px] font-medium my-4">Contact</h2>
+            <h2 className="text-[24px] font-medium my-4 text-[var(--tmp-txt)]">Contact</h2>
 
             <FormInput
               type="email"
@@ -137,7 +137,7 @@ const PaymentForm = ({ shipping, total, tax, discount, cartItem }) => {
             />
           </div>
           <div className="w-full flex flex-col space-y-[18px]">
-            <h3 className="text-[24px] font-medium mb-6 mt-3">Billing address</h3>
+            <h3 className="text-[24px] font-medium mb-6 mt-3 text-[var(--tmp-txt)]">Billing address</h3>
 
             <FormInput
               placeholder="Country"
@@ -205,7 +205,7 @@ const PaymentForm = ({ shipping, total, tax, discount, cartItem }) => {
               value={formData?.phone}
             />
           </div>
-          <button className="py-[20px] w-full mt-3 bg-[#407fc4] text-[#e6e6e6] text-[18px] font-semibold rounded-md transition-all duration-300 hover:scale-105">
+          <button className="py-[14px] w-full mt-3 bg-[#407fc4] text-[var(--tmp-wtxt)] text-[22px] font-semibold rounded-md transition-all duration-300 hover:scale-105">
             Place Order
           </button>
         </form>
