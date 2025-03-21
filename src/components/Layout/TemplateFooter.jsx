@@ -21,6 +21,8 @@ const TemplateFooter = () => {
   );
 
   const { categories } = useSelector((state) => state?.categories);
+  console.log(siteName , "wow");
+  
 
   return (
     <div className="bg-[var(--tmp-sec)] py-10 px-10 text-[var(--tmp-wtxt)] w-full max-w-[1500px]">
@@ -43,39 +45,38 @@ const TemplateFooter = () => {
         </div>
 
         <div className='uppercase'>
-          <h4 className="font-bold mb-4 text-[16px] text-[var(--tmp-pri)]">Customer Support</h4>
+          <h4 className="font-bold mb-4 text-[16px] text-[var(--tmp-wtxt)]">Customer Support</h4>
           <ul>
-            <li className="mb-2 hover:opacity-[0.7]"><a href={`${path}/pages/return-policy`}> RETURN POLICY</a></li>
-            <li className="mb-2 hover:opacity-[0.7]"><a href={`${path}/pages/privacy-policy`}> PRIVACY POLICY</a></li>
-            <li className="mb-2 hover:opacity-[0.7]"><a href={`${path}/pages/terms-of-service`}> TERMS OF SERVICE</a></li>
-            <li className="mb-2 hover:opacity-[0.7]"><a href={`${path}/pages/shipping-policy`}> SHIPPING POLICY</a></li>
-            <li className="mb-2 hover:opacity-[0.7]"><a href={`${path}/pages/about-us`}> ABOUT US</a></li>
-            <li className="mb-2 hover:opacity-[0.7]"><a href={`${path}/pages/faqs`}> FAQs</a></li>
-            <li className="mb-2 hover:opacity-[0.7]"><a href={`${path}/contact`}>CONTACT US</a></li>
+            <li className="mb-2 hover:opacity-[0.7] w-max"><a href={`${path}/pages/return-policy`}> RETURN POLICY</a></li>
+            <li className="mb-2 hover:opacity-[0.7] w-max"><a href={`${path}/pages/privacy-policy`}> PRIVACY POLICY</a></li>
+            <li className="mb-2 hover:opacity-[0.7] w-max"><a href={`${path}/pages/terms-of-service`}> TERMS OF SERVICE</a></li>
+            <li className="mb-2 hover:opacity-[0.7] w-max"><a href={`${path}/pages/shipping-policy`}> SHIPPING POLICY</a></li>
+            <li className="mb-2 hover:opacity-[0.7] w-max"><a href={`${path}/pages/about-us`}> ABOUT US</a></li>
+            <li className="mb-2 hover:opacity-[0.7] w-max"><a href={`${path}/pages/faqs`}> FAQs</a></li>
+            <li className="mb-2 hover:opacity-[0.7] w-max"><a href={`${path}/contact`}>CONTACT US</a></li>
           </ul>
         </div>
 
         <div className='uppercase'>
-          <h4 className="font-bold mb-4 text-[16px] text-[var(--tmp-pri)]">SHOP</h4>
+          <h4 className="font-bold mb-4 text-[16px] text-[var(--tmp-wtxt)]">SHOP</h4>
           <ul>
-            <li className="mb-2 hover:opacity-[0.7] cursor-pointer" onClick={() => setIsOpen(true)}>Track Your Order</li>
             {categories?.map((category, i) => (
-              <li key={i} className="mb-2 hover:opacity-[0.7]"><a href={`${path}/collection/${category?.link}`}>{category?.name}</a></li>
+              <li key={i} className="mb-2 hover:opacity-[0.7] w-max"><a href={`${path}/collection/${category?.link}`}>{category?.name}</a></li>
             ))}
-            <li className="mb-2 hover:opacity-[0.7]"><a href={`${path}/products`}>ALL PRODUCTS</a></li>
+            <li className="mb-2 hover:opacity-[0.7] w-max"><a href={`${path}/products`}>ALL PRODUCTS</a></li>
           </ul>
         </div>
 
         <div className='uppercase'>
-          <h4 className="font-bold mb-4 text-[16px] text-[var(--tmp-pri)]">FOllow Us</h4>
+          <h4 className="font-bold mb-4 text-[16px] text-[var(--tmp-wtxt)]">FOllow Us</h4>
           <ul className='flex gap-5 text-[20px]'>
-            <li className="mb-2 hover:opacity-[0.7]"><a href={`${path}/pages/return-policy`}><FaFacebookF />
+            <li className="mb-2 hover:opacity-[0.7] w-max"><a href={`${path}/pages/return-policy`}><FaFacebookF />
             </a></li>
-            <li className="mb-2 hover:opacity-[0.7]"><a href={`${path}/pages/privacy-policy`}><FaInstagram />
+            <li className="mb-2 hover:opacity-[0.7] w-max"><a href={`${path}/pages/privacy-policy`}><FaInstagram />
             </a></li>
-            <li className="mb-2 hover:opacity-[0.7]"><a href={`${path}/pages/terms-of-service`}> <FaPinterest />
+            <li className="mb-2 hover:opacity-[0.7] w-max"><a href={`${path}/pages/terms-of-service`}> <FaPinterest />
             </a></li>
-            <li className="mb-2 hover:opacity-[0.7]"><a href={`${path}/pages/shipping-policy`}> <FaTwitter />
+            <li className="mb-2 hover:opacity-[0.7] w-max"><a href={`${path}/pages/shipping-policy`}> <FaTwitter />
             </a></li>
           </ul>
           <ul className='mt-[20px]'>

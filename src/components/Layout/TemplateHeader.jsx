@@ -49,7 +49,7 @@ const TemplateHeader = () => {
   return (
     <header
       ref={headerRef}
-      className={`w-full transition-all sticky duration-300 ease-in-out top-0 z-10 bg-[var(--tmp-acc)] text-[var(tmp-txt)] border-b border-[#5f5b5b2f]`}>
+      className={`w-full transition-all sticky duration-300 ease-in-out top-0 z-10 bg-[var(--tmp-acc)] text-[var(tmp-txt)] border-b border-[#b3b3b36f]`}>
         
       <div className="mx-auto flex justify-between gap-10 items-center max-w-[1200px] min-h-[70px] py-4 px-[20px] md:px-[40px]">
 

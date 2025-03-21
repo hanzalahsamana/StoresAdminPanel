@@ -26,6 +26,9 @@ import TemplateFooter from '@/components/Layout/TemplateFooter';
 import Checkbox from '@/components/Actions/CheckBox';
 import { uploadImagesToS3, uploadSingleImageToS3 } from '@/APIs/uploadImageS3';
 import MultiImageUploader from '@/components/Uploaders/MultiImageUploader';
+import IconButton from '@/components/Actions/IconButton';
+import { FaUndo } from 'react-icons/fa';
+import { CiUndo } from 'react-icons/ci';
 
 
 
@@ -200,8 +203,8 @@ const ContentEdit = () => {
   }, [section]);
 
   useEffect(() => {
-    console.log(section?.content , formData , "././././");
-    
+    console.log(section?.content, formData, "././././");
+
     setIsModified(!_.isEqual(section?.content, formData));
   }, [formData, section]);
 
@@ -219,13 +222,19 @@ const ContentEdit = () => {
       <BackgroundFrame>
 
         <ActionCard
-          actions={<Button active={isModified} label="Save" loading={editSectionLoading} variant='black' className="w-max" action={handleSubmit} />}
+          actions={
+            <>
+
+              <Button active={isModified} label="Save" loading={editSectionLoading} variant='black' className="w-max" action={handleSubmit} />
+              <Button className={'text-[22px]'} label={<CiUndo />} variant='outline' action={()=>setFormData(section?.content)}/>
+              {/* <Button active={isModified} label="Discard" loading={editSectionLoading} variant='black' className="w-max" action={handleSubmit} /> */}
+            </>}
           actionPosition='top'
           lable={section.sectionName}
           className={'!px-5 !py-3'}
         >
           <div
-            className={` border-[#c9c9c98f] shadow-[inset_0px_0px_12px_#dadada] p-[20px] h-[340px] overflow-y-auto customScroll flex flex-col`}
+            className={` border-t py-[20px] border-[#c9c9c98f] h-[340px] overflow-y-auto customScroll flex flex-col`}
           >
             <div className='flex flex-col gap-3'>
               {renderComponents()}

@@ -103,27 +103,40 @@ body {
 
 .LaptopFrame {
 
-  width: 800px;
-  height: 400px;
-  padding: 14px 13px;
+  width: 1274px;
+  height: 700px;
+  padding: 14px 10px;
   overflow-x: hidden;
   overflow-y: auto;
-  transform: scale(0.8);
-  transform-origin: top left;
+  /* transform: scale(0.5);
+  transform-origin: top left; */
   border-radius: 7px 7px 0px 0px;
-  background-color: white;
+  /* background-color: white; */
   /* pointer-events: none; */
   cursor: not-allowed;
 }
+.LaptopFrame iframe{
+  transform-origin: top left;
+  transform: scale(0.50);
+  width: 100%;
+  height: 100%;
+  border: none; 
+}
 
 .MobileFrame {
-  width: 300px;
-  height: 440px;
+  width: 400px;
+  height: 640px;
   padding: 10px 12px;
   overflow-x: hidden;
   overflow-y: auto;
-  transform: scale(0.73);
+}
+
+.MobileFrame iframe {
   transform-origin: top left;
+  transform: scale(0.55);
+  width: 100%;
+  height: 100%;
+  border: none;
 }
 
 .LaptopFrameCover {
@@ -226,4 +239,9 @@ input:-webkit-autofill {
 .ql-toolbar .ql-picker-label {
   color: var(--primary-color) !important;
   /* Yellow fill for filled icons */
+}
+
+
+.customBoxShadow{
+  box-shadow: 0px 0px 10px 3px rgba(189, 189, 189, 0.089);
 }

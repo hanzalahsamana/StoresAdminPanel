@@ -1,100 +1,104 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Button from "../Actions/Button";
+import { applyTheme } from "@/Utils/ApplyTheme";
+import _ from "lodash";
 
-const colorPalettes = [
-    {
+
+
+const colorPalettes = {
+    Light: {
+        pri: "#FFFFFF",
+        sec: "#121212",
+        acc: "#F3F3F3",
+        txt: "#000000",
+        ltxt: "#4b4949",
+        wtxt: "#ffffff",
+    },
+    ModernDark: {
+        pri: "#121212",
+        sec: "#292929",
+        acc: "#3A3A3A",
+        txt: "#FFFFFF",
+        ltxt: "#A8A8A8",
+        wtxt: "#ffffff",
+    },
+    MiltBlue: {
+        pri: "#ffffff",
+        sec: "#03113a",
+        acc: "#f0fcff",
+        txt: "#040849",
+        ltxt: "#4b4949",
+        wtxt: "#ffffff",
+    },
+    SoftBreeze: {
+        pri: "#F8FAFC",
+        sec: "#002c47",
+        acc: "#A2D2FF",
+        txt: "#374151",
+        ltxt: "#64748B",
+        wtxt: "#FFFFFF",
+    }
+};
+
+
+
+
+const initialTheme = {
+    pri: "#FFFFFF",
+    sec: "#121212",
+    acc: "#F3F3F3",
+    txt: "#000000",
+    ltxt: "#121212BF",
+    wtxt: "#ffffff",
+}
+
+export default function ThemeSelector() {
+    const [isModified, setIsModified] = useState(false);
+
+    const [theme, setTheme] = useState({
         pri: "#FFFFFF",
         sec: "#121212",
         acc: "#F3F3F3",
         txt: "#000000",
         ltxt: "#121212BF",
-    },
-    {
-        name: "Light",
-        pri: "#FFFFFF",  // Primary (Background)
-        sec: "#F4F4F4",  // Secondary
-        acc: "#E0E0E0",  // Accent
-        txt: "#333333",  // Text
-        ltxt: "#666666", // Light Text
-    },
-    {
-        name: "Dark",
-        pri: "#121212",  // Primary (Background)
-        sec: "#1E1E1E",  // Secondary
-        acc: "#2D2D2D",  // Accent
-        txt: "#E0E0E0",  // Text
-        ltxt: "#A0A0A0", // Light Text
-    },
-    {
-        name: "Blue Theme",
-        pri: "#E3F2FD",  // Primary (Background)
-        sec: "#09143C",  // Secondary
-        acc: "#90CAF9",  // Accent
-        txt: "#0D47A1",  // Text
-        ltxt: "#1976D2", // Light Text
-    },
-    {
-        name: "Green Theme",
-        pri: "#E8F5E9",  // Primary (Background)
-        sec: "#C8E6C9",  // Secondary
-        acc: "#A5D6A7",  // Accent
-        txt: "#1B5E20",  // Text
-        ltxt: "#388E3C", // Light Text
-    },
-    {
-        name: "Warm Theme",
-        pri: "#FFF3E0",  // Primary (Background)
-        sec: "#FFE0B2",  // Secondary
-        acc: "#FFCC80",  // Accent
-        txt: "#E65100",  // Text
-        ltxt: "#F57C00", // Light Text
-    },
-    {
-        name: "Purple Theme",
-        pri: "#F3E5F5",  // Primary (Background)
-        sec: "#E1BEE7",  // Secondary
-        acc: "#CE93D8",  // Accent
-        txt: "#4A148C",  // Text
-        ltxt: "#6A1B9A", // Light Text
-    }
-];
-
-
-
-export default function ThemeSelector() {
-    const [theme, setTheme] = useState({
-        primaryColor: "#FFFFFF",
-        secondaryColor: "#121212",
-        accentColor: "#F3F3F3",
-        textColor: "#000000",
-        lightTextColor: "#121212BF",
+        wtxt: "#ffffff",
     });
 
     const handleChange = (e) => {
         setTheme({ ...theme, [e.target.name]: e.target.value });
-        document.documentElement.style.setProperty(`--${e.target.name}`, e.target.value);
+        document.documentElement.style.setProperty(`--tmp-${e.target.name}`, e.target.value);
     };
 
     const handleSave = () => {
         console.log("Saved Theme:", theme);
     };
 
+    useEffect(() => {
+        console.log(initialTheme, theme, "././././");
+
+        setIsModified(!_.isEqual(initialTheme, theme));
+    }, [theme, initialTheme]);
+
     return (
-        <div className="w-full bg-backgroundC p-4">
+        <div className="w-full bg-backgroundC p-4 rounded-md customBoxShadow">
 
             <div className="flex flex-col">
                 <h2 className="text-2xl font-semibold text-gray-800 mb-4 text-center">Color Plates</h2>
-                <div className="flex flex-wrap my-[20px] gap-4 ">
-                    {colorPalettes.map((colorPlate , i)=>(
-                        <div className="flex flex-col border border-textTC shadow-md w-[100px] h-[120px]">
-                            <div style={{backgroundColor:colorPlate?.pri}} className="w-full h-[40px]"></div>
-                            <div style={{backgroundColor:colorPlate?.acc}} className="w-full h-[20px]"></div>
-                            <div style={{backgroundColor:colorPlate?.ltxt}} className="w-full h-[20px]"></div>
-                            <div style={{backgroundColor:colorPlate?.txt}} className="w-full h-[20px]"></div>
-                            <div style={{backgroundColor:colorPlate?.sec}} className="w-full h-[20px]"></div>
-
+                <div className="flex justify-between flex-wrap my-[20px] gap-4 ">
+                    {Object.entries(colorPalettes).map(([name, palette]) => (
+                        <div key={name} className="bg-secondaryC p-3 flex flex-col items-center gap-4">
+                            <div
+                                onClick={() => { setTheme(palette); applyTheme(palette); }}
+                                className="flex flex-col border border-textTC shadow-md w-[100px] h-[120px] gap-[1px] bg-secondaryC cursor-pointer hover:scale-105 transition-all"
+                            >
+                                {["pri", "acc", "ltxt", "txt", "sec"].map((key) => (
+                                    <div key={key} style={{ backgroundColor: palette[key] }} className="w-full h-[20px] first:h-[40px]"></div>
+                                ))}
+                            </div>
+                            <p className="text-[12px] text-textTC">{name}</p>
                         </div>
                     ))}
+
                 </div>
 
             </div>
@@ -103,14 +107,16 @@ export default function ThemeSelector() {
                 <h2 className="text-2xl font-semibold text-gray-800 mb-4 text-center">🎨 Select Your Theme</h2>
 
                 <div className="flex justify-between my-[20px]">
-                    <ColorPicker label="Primary" name="primaryColor" value={theme.primaryColor} onChange={handleChange} />
-                    <ColorPicker label="Secondary" name="secondaryColor" value={theme.secondaryColor} onChange={handleChange} />
-                    <ColorPicker label="Accent" name="accentColor" value={theme.accentColor} onChange={handleChange} />
-                    <ColorPicker label="Text" name="textColor" value={theme.textColor} onChange={handleChange} />
-                    <ColorPicker label="Light Text" name="lightTextColor" value={theme.lightTextColor} onChange={handleChange} />
+                    <ColorPicker label="Primary" name="pri" value={theme.pri} onChange={handleChange} />
+                    <ColorPicker label="Secondary" name="sec" value={theme.sec} onChange={handleChange} />
+                    <ColorPicker label="Accent" name="acc" value={theme.acc} onChange={handleChange} />
+                    <ColorPicker label="Text" name="txt" value={theme.txt} onChange={handleChange} />
+                    <ColorPicker label="Light Text" name="ltxt" value={theme.ltxt} onChange={handleChange} />
+                    <ColorPicker label="White Text" name="wtxt" value={theme.wtxt} onChange={handleChange} />
                 </div>
 
                 <Button
+                    active={isModified}
                     action={handleSave}
                     label="Save Theme"
                 />

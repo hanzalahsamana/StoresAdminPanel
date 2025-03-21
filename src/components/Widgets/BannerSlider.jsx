@@ -8,7 +8,7 @@ function BannerSlider({
     content,
     duration = 400,   // Slide transition duration in ms
     autoRun = true,   // Auto-slide enable/disable
-    interval = 2500   // Auto-slide interval time in ms
+    interval = 3500   // Auto-slide interval time in ms
 }) {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [images, setImages] = useState([]);
@@ -62,7 +62,7 @@ function BannerSlider({
                             initial={{ x: direction * 100 + "%", opacity: 1 }}
                             animate={{ x: "0%", opacity: 1 }}
                             exit={{ x: -direction * 100 + "%", opacity: 1 }}
-                            transition={{ duration: duration / 1000, ease: "linear" }}
+                            transition={{ duration: duration / 1000, ease: "easeInOut" }}
                         />
                     )}
                 </AnimatePresence>

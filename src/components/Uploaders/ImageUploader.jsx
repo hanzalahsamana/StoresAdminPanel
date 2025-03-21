@@ -59,10 +59,10 @@ const ImageUploader = ({ image, setImage }) => {
   const isPlaceholder = image === placeholderImageUrl;
 
   return (
-    <div className="relative flex gap-3 justify-center border-[1.5px] border-primaryC items-center p-[20px] h-full w-full rounded-sm overflow-hidden">
+    <div className="relative flex flex-col gap-3 justify-center  items-center h-full w-full rounded-sm overflow-hidden">
       <div className="flex flex-1 items-center flex-col gap-4">
-        <BsFillCloudArrowUpFill className="text-primaryC text-[100px]" />
-        <p className="text-textTC font-[inter] text-[16px]">Upload your image here</p>
+        {/* <BsFillCloudArrowUpFill className="text-primaryC text-[100px]" /> */}
+        <p className="text-textTC font-[inter] text-center text-[14px] ">Upload your image here</p>
         <Button
           action={() => document.getElementById("fileInput").click()}
           label="Upload"
@@ -89,7 +89,7 @@ const ImageUploader = ({ image, setImage }) => {
             data-tooltip-id="my"
             data-tooltip-content="Remove Image"
             onClick={handleImageRemove}
-            className="absolute top-[-8px] right-[-8px] rounded-full text-white bg-red-500 text-[12px] p-1"
+            className="absolute z-20 top-[-8px] right-[-8px] rounded-full text-white bg-red-500 text-[12px] p-1"
           >
             <IoMdClose />
             <Tooltip className="!text-[10px]" id="my" />
