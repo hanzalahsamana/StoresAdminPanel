@@ -19,6 +19,8 @@ import TemplateFooter from "@/components/Layout/TemplateFooter";
 import { deleteSectionsData } from "@/APIs/SectionsData/deleteSection";
 import TextLoader from "@/components/Loader/TextLoader";
 import Button from "@/components/Actions/Button";
+import { toast } from "react-toastify";
+import { updateSectionOrder } from "@/APIs/SectionsData/updateSectionOrder";
 
 const Design = () => {
     const { sectionsData, sectionsDataLoading, editSectionLoading } = useSelector((state) => state.sectionsData);
@@ -34,7 +36,7 @@ const Design = () => {
     }, [sectionsData]);
 
     // Drag and drop logic
-    const handleDragEnd = (result) => {
+    const handleDragEnd = async(result) => {
         if (!result.destination) return;
 
         setItems((prevItems) => {
@@ -42,9 +44,18 @@ const Design = () => {
             const [movedItem] = reordered.splice(result.source.index, 1);
             reordered.splice(result.destination.index, 0, movedItem);
 
-            console.log("Updated Order:", reordered); // Debugging
             return reordered;
         });
+        
+        try {
+            
+            await updateSectionOrder(result.destination.index+1 , currUser?.brandName , result.draggableId , dispatch  )
+            
+        } catch (error) {
+            console.log("Updated Order: 🧲🧲", error); // Debugging
+            toast.error(error)
+            
+        }
     };
 
     if (sectionsDataLoading) return <Loader />;

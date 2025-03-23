@@ -13,6 +13,7 @@ import Loader from "../Loader/loader";
 import Button from "../Actions/Button";
 import Form from "../Forms/Form";
 import Modal from "../Modals/Modal";
+import { uploadSingleImageToS3 } from "@/APIs/uploadImageS3";
 
 const CategoryAddModal = ({
     isOpen,
@@ -70,12 +71,14 @@ const CategoryAddModal = ({
 
         try {
             dispatch(setCategoryLoading(true));
-            const imageUrl = await uploadToCloudinary(formData.image);
+              if (formData?.image && formData?.image instanceof File) {
+                    const uploadedImageUrl = await uploadSingleImageToS3(currUser?.brandName, formData.image);
+                    formData.image = uploadedImageUrl;
+                  }
             if (!updatedData) {
                 await addCategory(
                     {
                         ...formData,
-                        image: imageUrl,
                         link: convertToSlug(formData.name),
                     },
                     currUser?.brandName,
@@ -85,7 +88,6 @@ const CategoryAddModal = ({
                 await editCategory(
                     {
                         ...formData,
-                        image: imageUrl,
                         link: convertToSlug(formData.name),
                     },
                     currUser?.brandName,

@@ -22,14 +22,15 @@ const CollectionSection = ({ content = {}, toShowLink = true }) => {
 
   let categoriesToDisplay = [];
 
-  if (Array.isArray(selectedCategories)) {
-    if (selectedCategories?.length === 0) {
-      categoriesToDisplay = categories; // Show all categories
-    } else {
-      categoriesToDisplay = categories.filter(cat => selectedCategories.includes(cat.link));
-    }
+  if (Array.isArray(selectedCategories) && selectedCategories.length > 0) {
+    categoriesToDisplay = categories.filter(cat => selectedCategories.includes(cat.link));
   } else {
-    categoriesToDisplay = categories;
+    categoriesToDisplay = categories; // Show all categories if none are selected
+  
+    // Ensure at least 3 categories by duplicating
+    while (categoriesToDisplay.length < 3) {
+      categoriesToDisplay = [...categoriesToDisplay, ...categoriesToDisplay].slice(0, 3);
+    }
   }
 
   return (
