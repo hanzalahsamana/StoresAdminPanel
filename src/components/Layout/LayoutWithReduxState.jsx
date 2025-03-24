@@ -26,6 +26,7 @@ const LayoutWithReduxState = ({ children }) => {
   const { pagesDataLoading } = useSelector((state) => state.pagesData);
   const { sectionDataLoading } = useSelector((state) => state.categories);
   const { categoryLoading } = useSelector((state) => state.categories);
+  const { loading } = useSelector((state) => state.orderData);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -49,7 +50,7 @@ const LayoutWithReduxState = ({ children }) => {
 
 
 
-  if (productLoading || pagesDataLoading || categoryLoading || sectionDataLoading) {
+  if (productLoading || pagesDataLoading || categoryLoading || sectionDataLoading || loading) {
     return <Loader />
   }
 

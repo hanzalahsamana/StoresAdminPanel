@@ -1,13 +1,13 @@
 "use client";
 
 import React from 'react'
-import TemplateHeader from './TemplateHeader';
-import HomeLayout from './HomeLayout';
-import TemplateFooter from './TemplateFooter';
+import { Base_Domain, HTTP } from '../../../config';
+import { useSelector } from 'react-redux';
 
 
 
 const WebPrevFrame = () => {
+    const { currUser } = useSelector((state) => state.currentUser);
 
 
 
@@ -17,17 +17,14 @@ const WebPrevFrame = () => {
             <div className='flex w-full min-w-[950px] overflow-auto justify-center gap-[25px]'>
                 <div className="h-[320px] w-[650px] overflow-hidden relative">
                     <div className="LaptopFrame no-scrollbar">
-                        {/* <TemplateHeader />
-                        <HomeLayout />
-                        <TemplateFooter /> */}
-                        <iframe src="http://hello-world.localhost:3000/"></iframe>
+                        <iframe src={`${HTTP}${currUser?.subDomain || currUser?.brandName}.${Base_Domain}`}></iframe>
                     </div>
                     <div className="LaptopFrameCover no-scrollbar">
                     </div>
                 </div>
                 <div className="h-[320px] w-[220px] overflow-hidden relative rounded-[25px_25px_0px_0px]">
                     <div className="MobileFrame no-scrollbar">
-                        <iframe src="http://hello-world.localhost:3000/"></iframe>
+                        <iframe src={`${HTTP}${currUser?.subDomain || currUser?.brandName}.${Base_Domain}`}></iframe>
                     </div>
                     <div className="MobileFrameCover no-scrollbar">
                     </div>

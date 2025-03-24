@@ -1,4 +1,4 @@
-import { setLogout } from "@/Redux/Authentication/AuthSlice";
+import { setLoading, setLogout } from "@/Redux/Authentication/AuthSlice";
 import { useState, useRef, useEffect } from "react";
 import { CiLogout, CiSettings } from "react-icons/ci";
 import { FaRegUser } from "react-icons/fa";
@@ -12,7 +12,9 @@ const PopupMenu = () => {
   const { currUser, loading } = useSelector((state) => state.currentUser);
   const dispatch = useDispatch();
   const logout = () => {
+    dispatch(setLoading(true));
     dispatch(setLogout());
+    dispatch(setLoading(false));
   };
 
   // Close menu when clicking outside
@@ -44,7 +46,7 @@ const PopupMenu = () => {
 
       {isOpen && (
         <nav
-          className="w-max min-w-[120px] z-20 mt-[5px]  absolute p-2.5 bg-backgroundC text-gray-700 font-sans rounded-lg shadow-md border border-gray-300 transition-transform duration-300 transform scale-100 opacity-100"
+          className="w-max min-w-[120px] mt-[5px]  absolute p-2.5 bg-backgroundC text-gray-700 font-sans rounded-lg shadow-md border border-gray-300 transition-transform duration-300 transform scale-100 opacity-100"
         >
           <legend className="text-gray-500 text-[10px] font-semibold uppercase py-1">
             Quick Start

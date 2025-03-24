@@ -8,6 +8,7 @@ const Button = ({
     label = "Click",
     className = "",
     loading = false,
+    size = "large",
     variant = "primary", // Added variant prop
     action = () => { },
     active = true,
@@ -20,18 +21,23 @@ const Button = ({
         black: "bg-black text-white",
         warning: "bg-yellow-500 text-black",
     };
+    const buttonSizes = {
+        large: "text-[17px] py-[12px] px-[25px] min-w-[150px] ",
+        small: "text-[14px] py-[7px] px-[20px]"
+    };
 
     return (
         <button
             onClick={action}
             disabled={loading || !active}
             type={type}
-            className={`w-full flex gap-2 justify-center text-[17px] py-[12px] px-[25px] rounded-sm min-w-[150px] hover:opacity-90 transition duration-300 
+            className={`w-full flex gap-2 justify-center  rounded-sm hover:opacity-90 transition duration-300
+                ${buttonSizes[size]} 
                 ${loading || !active ? 'cursor-not-allowed text-[#4f4c4c89] !bg-[#c5c5c589]' : buttonStyles[variant] || buttonStyles.primary} 
                 ${className}`}
         >
-            {loading 
-                ? <ButtonLoader /> 
+            {loading
+                ? <ButtonLoader />
                 : label}
         </button>
     );

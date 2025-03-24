@@ -10,6 +10,8 @@ import BannerSlider from "../Widgets/BannerSlider";
 
 export default function HomeLayout({ overrideSectionId = null, formData = null }) {
   const { sectionsData } = useSelector((state) => state.sectionsData);
+  console.log("leave me !");
+  
 
   const renderSection = (section) => {
     if (!section || !section.type) return null;

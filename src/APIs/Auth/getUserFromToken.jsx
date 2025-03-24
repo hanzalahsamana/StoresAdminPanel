@@ -18,11 +18,11 @@ export const getUserFromToken = async (dispatch, type) => {
         console.log("2,,,");
         return response.data;
     } catch (error) {
-        if (!error.response) {
-            // Network error (server down, no internet, etc.)
-            console.log("3,,,");
-            window.history.replaceState(null, "", "/not-found"); // Rewrite URL without redirect
-        }
+        // if (!error.response) {
+        //     // Network error (server down, no internet, etc.)
+        //     console.log("3,,,");
+        //     window.history.replaceState(null, "", "/not-found"); // Rewrite URL without redirect
+        // }
         
         console.error(error, "hello world");
         dispatch(setLoading(false));

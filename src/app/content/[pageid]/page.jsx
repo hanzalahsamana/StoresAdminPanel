@@ -24,6 +24,9 @@ import { validateForm } from '@/Utils/pageDataValidate';
 import { uploadToCloudinary } from '@/Utils/uploadToCloudinary';
 import { editPagesData } from '@/APIs/PagesData/editPagesData';
 import { toast } from 'react-toastify';
+import { CiUndo } from 'react-icons/ci';
+import IconButton from '@/components/Actions/IconButton';
+import { uploadSingleImageToS3 } from '@/APIs/uploadImageS3';
 
 
 const componentMapping = {
@@ -87,6 +90,7 @@ const ContentEdit = () => {
   const page = useSelector((state) => selectPageByID(state, params?.pageid));
   const { currUser } = useSelector((state) => state.currentUser);
   const [isModified, setIsModified] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const [formData, setFormData] = useState({
     title: "",
@@ -157,16 +161,19 @@ const ContentEdit = () => {
         toast.error(validationErrors[0]);
         return;
       }
+      setLoading(true)
 
       let updatedData = { ...formData };
 
-      if (formData.image instanceof File) {
-        const uploadedImageUrl = await uploadToCloudinary(formData.image);
+      if (formData?.image && formData?.image instanceof File) {
+        const uploadedImageUrl = await uploadSingleImageToS3(currUser?.brandName, formData.image);
         updatedData.image = uploadedImageUrl;
       }
       await editPagesData(updatedData, currUser?.brandName, page?._id, dispatch);
+      setLoading(false)
       toast.success("Form submitted successfully!");
     } catch (error) {
+      setLoading(false)
       console.log(error);
 
       toast.error(error?.response?.data?.message || "Something went wrong");
@@ -186,6 +193,11 @@ const ContentEdit = () => {
     setIsModified(!_.isEqual(rest, formData));
   }, [page, formData]);
 
+  const discardData = () => {
+    const { _id, __v, updatedAt, ...rest } = page;
+    setFormData(rest);
+  }
+
   if (!page) {
     return (
       <div className='flex w-full justify-center py-[75px] text-center text-textTC text-[18px]'>
@@ -195,28 +207,41 @@ const ContentEdit = () => {
   }
 
   return (
-    <BackgroundFrame>
+    <div className="flex justify-center items-start flex-col md:flex-row">
 
-      <ActionCard
-        actions={<Button label="Save" variant='black' className="w-max" action={handleSubmit} active={isModified} />}
-        actionPosition='top'
-        lable={page.type}
-        className={'!p-4'}
-      >
-        <div
-          className={` border-[#c9c9c98f] shadow-[inset_0px_0px_12px_#dadada]   p-[20px] max-h-[340px] overflow-y-auto customScroll flex flex-col`}
+      <BackgroundFrame>
+
+        <ActionCard
+          actions={
+            <>
+              <Button size='small' active={isModified} label="Save" loading={loading} variant='black' className="w-max" action={handleSubmit} />
+              <IconButton
+                icon={<CiUndo />}
+                tooltipLabel={'discard'}
+                className={` !text-[22px] ${isModified ? 'text-black' : 'text-[#4f4c4c89] !cursor-not-allowed'}`}
+                action={discardData}
+              />
+            </>}
+          actionPosition='top'
+          lable={page.type}
+          className={'!p-4'}
         >
-          <div className='flex flex-col gap-3'>
-            {renderComponents()}
+          <div
+            className={` border-[#c9c9c98f] border-t py-[20px] h-[340px] overflow-y-auto customScroll flex flex-col`}
+          >
+            <div className='flex flex-col gap-3'>
+              {renderComponents()}
+            </div>
           </div>
-        </div>
-      </ActionCard>
+        </ActionCard>
+
+      </BackgroundFrame>
       <LivePreview>
         {componentMapping[formData.type]?.component &&
           React.createElement(componentMapping[formData.type].component, { content: formData })
         }
       </LivePreview>
-    </BackgroundFrame>
+    </div>
   )
 }
 

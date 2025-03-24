@@ -218,16 +218,19 @@ const ContentEdit = () => {
 
 
   return (
-    <div className="flex justify-center items-start">
+    <div className="flex justify-center items-start flex-col md:flex-row">
       <BackgroundFrame>
 
         <ActionCard
           actions={
             <>
-
-              <Button active={isModified} label="Save" loading={editSectionLoading} variant='black' className="w-max" action={handleSubmit} />
-              <Button className={'text-[22px]'} label={<CiUndo />} variant='outline' action={()=>setFormData(section?.content)}/>
-              {/* <Button active={isModified} label="Discard" loading={editSectionLoading} variant='black' className="w-max" action={handleSubmit} /> */}
+              <Button size='small' active={isModified} label="Save" loading={editSectionLoading} variant='black' className="w-max" action={handleSubmit} />
+              <IconButton
+                  icon={<CiUndo />}
+                  tooltipLabel={'discard'}
+                  className={` !text-[22px] ${isModified? 'text-black' : 'text-[#4f4c4c89] !cursor-not-allowed'}`}
+                  action={()=>setFormData(section?.content)}
+                />
             </>}
           actionPosition='top'
           lable={section.sectionName}

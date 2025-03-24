@@ -4,7 +4,7 @@ export const copyToClipboard = (text) => {
   navigator.clipboard
     .writeText(text)
     .then(() => {
-      toast.success("Id Copied");
+      toast.success("Copied");
     })
     .catch((err) => {
       console.error("Failed to copy: ", err);

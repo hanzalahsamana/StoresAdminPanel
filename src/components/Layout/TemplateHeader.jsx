@@ -51,7 +51,7 @@ const TemplateHeader = () => {
       ref={headerRef}
       className={`w-full transition-all sticky duration-300 ease-in-out top-0 z-10 bg-[var(--tmp-acc)] text-[var(tmp-txt)] border-b border-[#b3b3b36f]`}>
         
-      <div className="mx-auto flex justify-between gap-10 items-center max-w-[1200px] min-h-[70px] py-4 px-[20px] md:px-[40px]">
+      <div className="mx-auto flex justify-between gap-10 items-center max-w-[1200px] min-h-[70px] py-[12px] px-[20px] md:px-[40px]">
 
 
         {showMobileMenu && (
@@ -59,7 +59,7 @@ const TemplateHeader = () => {
         )}
 
         <Link href={`${Storepath}/`} className="flex items-center">
-          <img src={SiteLogo?.image} alt={siteName} className="w-20 max-h-16 object-contain" />
+          <img src={SiteLogo?.image} alt={siteName} className="w-20 max-h-12 object-contain" />
         </Link>
 
         {!showMobileMenu && (

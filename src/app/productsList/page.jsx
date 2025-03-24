@@ -59,17 +59,6 @@ const ProductsList = () => {
           setUpdatedProduct={setUpdatedProduct}
         />
 
-<div class="flex w-[350px] h-[100px] bg-blue-500 m-4">
-  <div class="flex gap-2 bg-red-500 overflow-x-auto flex-nowrap">
-    <div class="w-[100px] h-[70px] bg-green-500 flex-shrink-0"></div>
-    <div class="w-[100px] h-[70px] bg-green-500 flex-shrink-0"></div>
-    <div class="w-[100px] h-[70px] bg-green-500 flex-shrink-0"></div>
-    <div class="w-[100px] h-[70px] bg-green-500 flex-shrink-0"></div>
-    <div class="w-[100px] h-[70px] bg-green-500 flex-shrink-0"></div>
-  </div>
-</div>
-
-
       </div>
     </div>
   );

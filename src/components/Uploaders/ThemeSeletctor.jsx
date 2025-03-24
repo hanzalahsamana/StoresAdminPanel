@@ -83,7 +83,7 @@ export default function ThemeSelector() {
         <div className="w-full bg-backgroundC p-4 rounded-md customBoxShadow">
 
             <div className="flex flex-col">
-                <h2 className="text-2xl font-semibold text-gray-800 mb-4 text-center">Color Plates</h2>
+                <h2 className="text-2xl font-semibold text-gray-800 mb-4 text-center">Color Palettes</h2>
                 <div className="flex justify-between flex-wrap my-[20px] gap-4 ">
                     {Object.entries(colorPalettes).map(([name, palette]) => (
                         <div key={name} className="bg-secondaryC p-3 flex flex-col items-center gap-4">
@@ -104,7 +104,7 @@ export default function ThemeSelector() {
             </div>
             <div className="flex flex-col">
 
-                <h2 className="text-2xl font-semibold text-gray-800 mb-4 text-center">🎨 Select Your Theme</h2>
+                <h2 className="text-2xl font-semibold text-gray-800 mb-4 text-center">Select Your Theme</h2>
 
                 <div className="flex justify-between my-[20px]">
                     <ColorPicker label="Primary" name="pri" value={theme.pri} onChange={handleChange} />
