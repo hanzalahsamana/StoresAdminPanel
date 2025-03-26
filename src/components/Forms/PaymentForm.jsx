@@ -7,8 +7,8 @@ import { useDispatch, useSelector } from "react-redux";
 import Loader from "../Loader/TemplateLoader";
 import { selectPageByType } from "@/Redux/PagesData/PagesDataSlice";
 import { addOrderDataApi } from "@/APIs/Order/PlaceOrder";
-import { paymentFormValidate } from "@/Utils/PaymentFormValidate";
 import FormInput from "@/components/Forms/FormInput";
+import { paymentFormValidate } from "@/Utils/FormsValidator";
 
 
 const initialFormData = {

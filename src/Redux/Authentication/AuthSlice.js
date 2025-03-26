@@ -17,6 +17,7 @@ export const currentDataSlice = createSlice({
     setLogout: (state) => {
       state.currUser = null;
       localStorage.removeItem("currentUser");
+      state.loading = false;
       return state;
     },
     setLoading: (state, action) => {

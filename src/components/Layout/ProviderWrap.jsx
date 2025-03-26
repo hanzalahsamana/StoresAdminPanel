@@ -20,9 +20,10 @@ const ProviderWrap = ({ children }) => {
   const { categoryLoading } = useSelector((state) => state.categories);
 
   useEffect(() => {
-    const userData = localStorage.getItem("currentUser");
-    const user = userData ? JSON.parse(userData) : null;
-    getUserFromToken(dispatch, user?.brandName);
+    const userToken = localStorage.getItem("userToken");
+    console.log(userToken);
+    
+    getUserFromToken(dispatch, userToken);
   }, [dispatch]);
   const theme = {
     primaryColor: "#06989a",

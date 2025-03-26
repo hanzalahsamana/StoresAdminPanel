@@ -20,13 +20,13 @@ import _ from "lodash";
 import FabricsLiberary from '@/components/Widgets/fabricsLiberary';
 import CollectionAbout from '@/components/Widgets/collectionAbout';
 import ContentPage from '@/components/Sections/ContentPage';
-import { validateForm } from '@/Utils/pageDataValidate';
 import { uploadToCloudinary } from '@/Utils/uploadToCloudinary';
 import { editPagesData } from '@/APIs/PagesData/editPagesData';
 import { toast } from 'react-toastify';
 import { CiUndo } from 'react-icons/ci';
 import IconButton from '@/components/Actions/IconButton';
 import { uploadSingleImageToS3 } from '@/APIs/uploadImageS3';
+import { pageDataValidate } from '@/Utils/FormsValidator';
 
 
 const componentMapping = {
@@ -156,7 +156,7 @@ const ContentEdit = () => {
 
   const handleSubmit = async () => {
     try {
-      const validationErrors = validateForm(componentMapping, formData);
+      const validationErrors = pageDataValidate(componentMapping, formData);
       if (validationErrors.length > 0) {
         toast.error(validationErrors[0]);
         return;

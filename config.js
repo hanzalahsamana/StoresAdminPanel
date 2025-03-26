@@ -8,7 +8,6 @@ export const HTTP =
 const BASE_URL =
   process.env.NODE_ENV === "production"
     ? "https://api.hannanfabrics.com/api/v1"
-    : "http://localhost:8081/api/v1";
+    : "http://localhost:5000/api/v1";
 
-// const BASE_URL = "http://localhost:8081/api/v1";
 export default BASE_URL;

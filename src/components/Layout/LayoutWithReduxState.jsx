@@ -13,9 +13,11 @@ import { fetchOrderData } from '@/APIs/Order/getOrderData';
 import TemplateHeader from './TemplateHeader';
 import TemplateFooter from './TemplateFooter';
 import { fetchSectionsData } from '@/APIs/SectionsData/getSectonsData';
+import BASE_URL from '../../../config';
+import { useRouter } from 'next/navigation';
 const assistant = Assistant({
   subsets: ["latin"],
-  weight: ["400","500", "700"], // Add the font weights you need
+  weight: ["400", "500", "700"], // Add the font weights you need
 });
 const LayoutWithReduxState = ({ children }) => {
 
@@ -28,22 +30,38 @@ const LayoutWithReduxState = ({ children }) => {
   const { categoryLoading } = useSelector((state) => state.categories);
   const { loading } = useSelector((state) => state.orderData);
 
+  const router = useRouter()
   useEffect(() => {
-    const fetchData = async () => {
-      await fetchProducts(dispatch, siteName);
-      await fetchPagesData(dispatch, siteName);
-      await fetchCategory(dispatch, siteName);
-      await fetchOrderData(dispatch, siteName);
-      await fetchSectionsData(dispatch, siteName);
+    const fetchData = async (siteName) => {
+      // const response = await fetch(
+      //   `${BASE_URL}/fetchSiteByDomain?subDomain=${siteName}`
+      // );
+      // const data = await response.json();
 
-      if (typeof window !== "undefined" && siteName) {
-        const cartId = localStorage.getItem(`${siteName}_cartId`);
-        dispatch(setCartData({ cartId, siteName }));
+      if (true) {
+        console.log("🫀");
+        
+
+        await fetchProducts(dispatch, siteName);
+        await fetchPagesData(dispatch, siteName);
+        await fetchCategory(dispatch, siteName);
+        await fetchOrderData(dispatch, siteName);
+        await fetchSectionsData(dispatch, siteName);
+
+        if (typeof window !== "undefined" && siteName) {
+          const cartId = localStorage.getItem(`${siteName}_cartId`);
+          dispatch(setCartData({ cartId, siteName }));
+        }
+      }
+      else{
+        router.push('/not-found')
       }
     };
 
+
+
     if (siteName) {
-      fetchData();
+      fetchData(siteName);
     }
 
   }, [dispatch, siteName]);

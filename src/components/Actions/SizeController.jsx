@@ -6,7 +6,7 @@ const SizeController = ({ size, setSize, availableSizes }) => {
     <div className="size-controller">
       <div className="flex flex-col gap-[5px] text-[var(--tmp-txt)]">
         <p>Select Size: </p>
-        <div>
+        <div className="flex gap-1">
 
           {availableSizes.map((availableSize) => (
             <button

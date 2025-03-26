@@ -156,12 +156,6 @@ const ContentEdit = () => {
 
   const handleSubmit = async () => {
     try {
-      // const validationErrors = validateForm(componentMapping, formData);
-      // if (validationErrors.length > 0) {
-      //   toast.error(validationErrors[0]);
-      //   return;
-      // }
-
       let updatedData = { ...formData };
       console.log(updatedData, "junaid");
       dispatch(setEditSectionLoading(true));

@@ -11,10 +11,10 @@ import { toast } from "react-toastify";
 import { addProducts } from "@/APIs/Product/addProductData";
 import { editProductData } from "@/APIs/Product/editProductData";
 import { setProductLoading } from "@/Redux/Product/ProductSlice";
-import { productUploadValidate } from "@/Utils/ProductUploadValidate";
 import { useDispatch, useSelector } from "react-redux";
 import { calculateDiscountedPrice } from "@/Utils/CalculateDiscountedPrice";
 import { uploadImagesToS3 } from "@/APIs/uploadImageS3";
+import { productUploadValidate } from "@/Utils/FormsValidator";
 
 const AddEditProductModal = ({
   isOpen,

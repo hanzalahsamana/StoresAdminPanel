@@ -1,5 +1,5 @@
 "use client";
-import { SendOTP } from "@/APIs/Auth/addUser";
+import { RegisterUser } from "@/APIs/Auth/registerUser";
 import UnProtectedRoute from "@/AuthenticRouting/UnProtectedRoutes";
 import CustomLink from "@/components/Actions/CustomLink";
 import FormInput from "@/components/Forms/FormInput";
@@ -11,18 +11,9 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 import IconButton from "@/components/Actions/IconButton";
 import { generateSlug } from "@/Utils/GenerateSlug";
 import { Base_Domain } from "../../../../config";
+import { userResgisterValidate } from "@/Utils/FormsValidator";
 
-const validateForm = (formData, setErrors) => {
-  const newErrors = {};
-  const { brandName, email, password } = formData;
 
-  if (!email) newErrors.email = "Email is required";
-  if (!brandName) newErrors.brandName = "Brand Name is required";
-  if (!password) newErrors.password = "Password is required";
-
-  setErrors(newErrors);
-  return Object.keys(newErrors).length === 0;
-};
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -43,9 +34,9 @@ const Register = () => {
     e.preventDefault();
     setErrors({});
     try {
-      if (!validateForm(formData, setErrors)) return;
+      if (!userResgisterValidate(formData, setErrors)) return;
       setLoading(true);
-      const user = await SendOTP({ ...formData, subDomain: generateSlug(formData?.brandName), isResend: false, });
+      await RegisterUser({ ...formData, subDomain: generateSlug(formData?.brandName) });
       localStorage.setItem("emailForVerify", formData.email)
       return router.push("/authentication/verifyotp");
     } catch (error) {

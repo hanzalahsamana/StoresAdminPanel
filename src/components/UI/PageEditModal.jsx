@@ -6,13 +6,13 @@ import FaqUploader from "../Uploaders/FaqUploader";
 import "./style.css";
 import dynamic from "next/dynamic";
 import { toast } from "react-toastify";
-import { validateForm } from "@/Utils/pageDataValidate";
 import { uploadToCloudinary } from "@/Utils/uploadToCloudinary";
 import { editPagesData } from "@/APIs/PagesData/editPagesData";
 import { useDispatch, useSelector } from "react-redux";
 import FormInput from "../Forms/FormInput";
 import Modal from "../Modals/Modal";
 import Button from "../Actions/Button";
+import { pageDataValidate } from "@/Utils/FormsValidator";
 
 const TextEditor = dynamic(async () => import("../Uploaders/TextEditor"), { ssr: false });
 
@@ -55,7 +55,7 @@ const PageEditModal = ({ selectedPage, setSelectedPage }) => {
 
   const handleSubmit = async () => {
     try {
-      const validationErrors = validateForm(componentMapping, formData);
+      const validationErrors = pageDataValidate(componentMapping, formData);
       if (validationErrors.length > 0) {
         toast.error(validationErrors[0]);
         return;

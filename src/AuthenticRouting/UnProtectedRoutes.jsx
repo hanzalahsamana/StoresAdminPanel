@@ -4,11 +4,11 @@ import { useSelector } from "react-redux";
 
 const UnProtectedRoute = (WrappedComponent) => {
   return () => {
+    const router = useRouter();
     const { currUser, loading } = useSelector((state) => state.currentUser);
     if (loading) {
       return <Loader />;
     }
-    const router = useRouter();
     if (!currUser) {
       return <WrappedComponent />;
     }

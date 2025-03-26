@@ -5,25 +5,13 @@ import CustomLink from "@/components/Actions/CustomLink";
 import IconButton from "@/components/Actions/IconButton";
 import Form from "@/components/Forms/Form";
 import FormInput from "@/components/Forms/FormInput";
-import Loader from "@/components/Loader/loader";
 import { setCurrentUser } from "@/Redux/Authentication/AuthSlice";
-import Link from "next/link";
+import { userLoginValidate } from "@/Utils/FormsValidator";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
-
-const validateForm = (formData, setErrors) => {
-  const newErrors = {};
-  const { email, password } = formData;
-
-  if (!email) newErrors.email = "Email is required";
-  if (!password) newErrors.password = "Password is required";
-
-  setErrors(newErrors);
-  return Object.keys(newErrors).length === 0;
-};
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -44,15 +32,12 @@ const Login = () => {
     e.preventDefault();
     setErrors({});
     try {
-      if(!validateForm(formData , setErrors))return;
+      if (!userLoginValidate(formData, setErrors)) return;
       setLoading(true);
-      const user = await loginUser(formData);
-      localStorage.setItem(
-        "currentUser",
-        JSON.stringify({ jwtToken: user.jwtToken, ...user.userToken })
-      );
-      dispatch(setCurrentUser({ jwtToken: user.jwtToken, ...user.userToken }));
-      return router.push("/");
+      const {token , user} = await loginUser(formData);
+      localStorage.setItem("userToken", JSON.stringify(token));
+      dispatch(setCurrentUser({ token, ...user }));
+      // return router.push("/");
     } catch (error) {
       setLoading(false);
       toast.error(error.response ? error.response.data.message : error.message)
