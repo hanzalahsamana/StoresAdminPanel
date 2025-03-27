@@ -15,6 +15,7 @@ const FormInput = ({
   required = true,
   actionIcon = null,
   className = '',
+  onfocus = null,
 }) => {
 
 
@@ -22,6 +23,7 @@ const FormInput = ({
     <div className={`w-full relative`}>
       <input
         type={type}
+        onFocus={onfocus}
         name={name}
         onChange={handleChange}
         readOnly={readOnly}

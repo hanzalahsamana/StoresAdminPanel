@@ -19,12 +19,12 @@ const BarGraph = dynamic(() => import("../../components/Graphs/BarGraph"), { ssr
 const AreaGraph = dynamic(() => import("../../components/Graphs/AreaGraph"), { ssr: false });
 
 const options = [
-  'today',
-  'thisWeek',
-  'last7days',
-  'thisMonth',
-  'last30days',
-  'lastYear',
+  'Today',
+  'This Week',
+  'Last 7 Days',
+  'This Month',
+  'Last 30 Days',
+  'Last Year',
 ]
 
 const Analytics = () => {
@@ -32,7 +32,7 @@ const Analytics = () => {
   const products = useSelector((state) => state.productData.products);
   const { orders, loading } = useSelector((state) => state?.orderData);
   const { analytics, analyticloading } = useSelector((state) => state.analytics);
-  const [selectedValue, setSelectedValue] = useState('thisMonth');
+  const [selectedValue, setSelectedValue] = useState('lastYear');
 
   const dispatch = useDispatch();
 
@@ -46,6 +46,7 @@ const Analytics = () => {
         <h1 className="text-3xl font-bold text-gray-900">Overview</h1>
         <DropDown className='!max-w-[200px]' placeholder='Duration' selectedOption={selectedValue} setSelectedOption={setSelectedValue} defaultOptions={options} />
       </div>
+
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-5 w-full mb-5">
         <StatusCard title="Total Orders" data={orders} loading={loading} />
         <StatusCard title="Total Products" data={products} loading={loading} />

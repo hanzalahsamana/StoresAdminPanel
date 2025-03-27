@@ -19,8 +19,6 @@ export const getUserFromToken = async (dispatch, token) => {
                 "Content-Type": "application/json",
             },
         });
-        console.log(token , "s😂");
-
         dispatch(setCurrentUser({token , ...response?.data?.user}));
 
         return response.data;
