@@ -11,7 +11,7 @@ const StatusCard = ({ title, data, classes, loading }) => {
   return (
     <div className={`bg-white px-[15px] py-[10px] rounded-lg border border-borderC shadow-sm ${classes}`}>
       <p className='text-textC text-[16px] font-medium font-[inter] text-left'>{title}</p>
-      <p className="text-xl mt-[10px] font-bold text-primaryC">{data?.length}</p>
+      <p className="text-xl mt-[10px] font-bold text-primaryC">{data}</p>
     </div>
   )
 }

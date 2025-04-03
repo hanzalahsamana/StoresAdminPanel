@@ -4,9 +4,9 @@ import BASE_URL from "../../../config";
 import { toast } from "react-toastify";
 import { setanalyticData, setAnalyticLoading } from "@/Redux/Analytics/analytic.slice";
 
-export const FetchAnalytics = async (dispatch , dateFilter) => {
+export const FetchAnalytics = async (dispatch , dateFilter , siteName) => {
   try {
-    const response = await axios.get(`${BASE_URL}/HannanFabrics/getAnalytics?dateFilter=${dateFilter}`);
+    const response = await axios.get(`${BASE_URL}/HannanFabrics/getAnalytics?dateFilter=${dateFilter}&siteName=${siteName}`);
     dispatch(setanalyticData(response.data));
     dispatch(setAnalyticLoading(false));
     return response.data;

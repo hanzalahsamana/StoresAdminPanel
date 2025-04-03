@@ -5,6 +5,8 @@ import ReactApexChart from "react-apexcharts";
 import BarLoader from "../Loader/BarLoader";
 
 const TimeGraph = ({ analytics, analyticsLoading }) => {
+
+    
     const [chartOptions, setChartOptions] = useState({
         chart: {
             id: "line-bar",

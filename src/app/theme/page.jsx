@@ -10,7 +10,7 @@ import React from 'react'
 
 const Theme = () => {
   return (
-    <div className='flex justify-center items-start'>
+    <div className='flex justify-center items-start flex-col md:flex-row'>
       <BackgroundFrame>
         <ThemeSelector />
       </BackgroundFrame>

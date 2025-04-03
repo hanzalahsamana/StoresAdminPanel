@@ -106,7 +106,7 @@ export default function ThemeSelector() {
 
                 <h2 className="text-2xl font-semibold text-gray-800 mb-4 text-center">Select Your Theme</h2>
 
-                <div className="flex justify-between my-[20px]">
+                <div className="flex justify-between flex-wrap my-[20px]">
                     <ColorPicker label="Primary" name="pri" value={theme.pri} onChange={handleChange} />
                     <ColorPicker label="Secondary" name="sec" value={theme.sec} onChange={handleChange} />
                     <ColorPicker label="Accent" name="acc" value={theme.acc} onChange={handleChange} />

@@ -69,11 +69,11 @@ function Sidebar({ isOpen, setIsOpen }) {
 
   return (
     <aside
-      className={`bg-backgroundC w-[230px] py-5 border-r border-borderC text-white h-[calc(100vh-60px)] customScroll !overflow-y-scroll space-y-6 absolute top-[60px] left-0 transform transition duration-200 ease-in-out z-10
+      className={`bg-backgroundC w-[230px] py-5 border-r border-borderC text-white h-[calc(100vh-60px)] customScroll !overflow-y-scroll space-y-6 absolute top-[60px] left-0 transform transition duration-200 ease-in-out z-[100]
         ${isOpen ? "translate-x-0" : "-translate-x-full"}`}
     >
       <nav className="px-4 space-y-1">
-        {links.map(({ name, path, icon, subLinks }, index) => (
+        {links?.map(({ name, path, icon, subLinks }, index) => (
           <div key={path}>
             <Link
               href={subLinks ? "#" : path}
@@ -92,7 +92,7 @@ function Sidebar({ isOpen, setIsOpen }) {
                 className="bg-[#fbfbfb] overflow-hidden transition-all duration-300"
                 style={{ height: openDropdown === index ? `${subNavRefs.current[index]?.scrollHeight}px` : "0px" }}
               >
-                {subLinks.map(({ name, path }) => (
+                {subLinks?.map(({ name, path }) => (
                   <Link
                     key={path}
                     href={path}

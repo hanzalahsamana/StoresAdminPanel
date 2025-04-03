@@ -5,19 +5,25 @@ import ReactApexChart from "react-apexcharts";
 import BarLoader from "../Loader/BarLoader";
 
 const BarGraph = ({ analytics, analyticsLoading }) => {
+  if (analyticsLoading || typeof window === undefined) {
+    return (
+        <BarLoader />
+    )
+}
   const colors = ["#06989a"];
-
   const [chartOptions, setChartOptions] = useState({
     chart: {
       height: 350,
       type: "bar",
-      toolbar: { show: false }, // Disable zoom, pan, etc.
+      toolbar: { show: false },
     },
     colors: colors,
     plotOptions: {
       bar: {
-        columnWidth: "45%",
+        horizontal: true,
+        barHeight: "45%",
         distributed: true,
+        borderRadius: 0, // Removes the border radius
       },
     },
     dataLabels: {
@@ -30,35 +36,61 @@ const BarGraph = ({ analytics, analyticsLoading }) => {
       categories: [],
       labels: {
         style: {
-          colors: colors,
-          fontSize: "8px",
+          colors: "#99abb4",
+          fontSize: "10px",
+        },
+      },
+    },
+    yaxis: {
+      labels: {
+        style: {
+          colors: "#99abb4", // Change to any color you want
+          fontSize: "8px",  // Adjust font size
         },
       },
     },
     tooltip: {
       theme: "dark",
     },
+    grid: {
+      show: false, // Removes background grid lines
+    },
   });
+  
 
-  const [chartSeries, setChartSeries] = useState([{ name: "Country Views", data: [] }]);
+  const [chartSeries, setChartSeries] = useState([{ name: "Metrics", data: [] }]);
 
   useEffect(() => {
     if (!analytics) return;
 
-    const categories = analytics.countries.map((country) => country.country);
-    const data = analytics.countries.map((country) => parseInt(country.users, 10));
+    const categories = [
+      "New Users",
+      "Returning Users",
+      "New Views",
+      "Total Users",
+      "Active Users",
+      "Sessions",
+      "Bounce Rate",
+    ];
+
+    const data = [
+      parseInt(analytics.newUsers, 10),
+      parseInt(analytics.returningUsers, 10),
+      parseInt(analytics.newViews, 10),
+      parseInt(analytics.totalUsers, 10),
+      parseInt(analytics.activeUsers, 10),
+      parseInt(analytics.sessions, 10),
+      parseFloat(analytics.bounceRate), // Assuming bounce rate can be a decimal
+    ];
 
     setChartOptions((prev) => ({
       ...prev,
       xaxis: { ...prev.xaxis, categories },
     }));
 
-    setChartSeries([{ name: "Country Views", data }]);
+    setChartSeries([{ name: "Metrics", data }]);
   }, [analytics]);
 
-  if (analyticsLoading) {
-    return <BarLoader />;
-  }
 
   return (
     <div className="w-full h-full pb-[30px]">

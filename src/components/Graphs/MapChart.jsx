@@ -12,7 +12,7 @@ const colorScale = scaleLinear()
 const geoUrl =
     "https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world.geojson";
 
-const MapChart = ({ analytics, analyticsLoading }) => {
+const MapChart = ({ analytics, analyticsLoading }) => { // analytics = { Pakistan: 628 }
     if (analyticsLoading || typeof window === undefined) {
         return (
             <BarLoader />
@@ -20,7 +20,7 @@ const MapChart = ({ analytics, analyticsLoading }) => {
     }
 
     const [tooltipContent, setTooltipContent] = useState({});
-    const [tooltipPosition, setTooltipPosition] = useState({ top: 0, left: 0 });
+    const [tooltipPosition, setTooltipPosition, ACC] = useState({ top: 0, left: 0 });
     const [tooltipVisible, setTooltipVisible] = useState(false);
 
     const handleMouseMove = (event) => {
@@ -52,8 +52,6 @@ const MapChart = ({ analytics, analyticsLoading }) => {
         >
             <ComposableMap
                 projection="geoMercator"
-
-
                 projectionConfig={{
                     scale: 140,
                 }}

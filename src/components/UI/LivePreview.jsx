@@ -121,7 +121,7 @@ const LivePreviewContent = ({
                 onMouseEnter={() => setIsHovered(true)}
                 onMouseLeave={() => setIsHovered(false)}
                 onMouseDown={handleMouseDown}
-                className={`${maximized ? 'w-[488px] h-[calc(100vh-60px)]' : isHovered || alwaysExtend ? 'w-[488px] h-[255px] shadow-xl' : 'w-[258px] h-[120px] shadow-xl'} bg-backgroundC pointer-events-auto cursor-move transition-all border-[1.4px] border-primaryC  relative overflow-hidden`}
+                className={`${maximized ? 'w-[100vw] md:w-[488px] h-[calc(100vh-60px)]' : isHovered || alwaysExtend ? 'w-[488px] h-[255px] shadow-xl' : 'w-[258px] h-[120px] shadow-xl'} bg-backgroundC pointer-events-auto cursor-move transition-all border-[1.4px] border-primaryC  relative overflow-hidden`}
                 style={{ transformOrigin }}
             >
 
