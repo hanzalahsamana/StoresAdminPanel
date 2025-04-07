@@ -1,15 +1,11 @@
 "use client";
 import ProtectedRoute from "@/AuthenticRouting/ProtectedRoutes";
-import Loader from "@/components/Loader/loader";
 import React, { useState } from "react";
-import { FaPlus } from "react-icons/fa";
-import { BsFillTrash3Fill } from "react-icons/bs";
-import { CiEdit } from "react-icons/ci";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteCategory } from "@/APIs/Category/deleteCategory";
-import CategoryAddModal from "@/components/UI/CategoryAddModal";
 import Button from "@/components/Actions/Button";
 import DynamicTable from "@/components/Tables/Table";
+import CategoryAddModal from "@/components/Modals/CategoryAddModal";
 
 const CategoryList = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -56,9 +52,7 @@ const CategoryList = () => {
           <CategoryAddModal
             isOpen={isOpen}
             setIsOpen={setIsOpen}
-            categoryLoading={categoryLoading}
             updatedData={updatedCategory}
-            setUpdatedCategory={setUpdatedCategory}
           />
         )
         }

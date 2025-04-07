@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Button from "../Actions/Button";
 import { BsFillCloudArrowUpFill } from "react-icons/bs";
 import { IoMdClose } from "react-icons/io";
@@ -13,6 +13,7 @@ const MAX_FILE_SIZE = 4 * 1024 * 1024; // 4MB
 const ALLOWED_MIME_TYPES = ["image/jpeg", "image/png", "image/webp", "image/gif"];
 
 const ImageUploader = ({ image, setImage }) => {
+  const fileInputRef = useRef(null);
   const [imagePreviewUrl, setImagePreviewUrl] = useState(image);
   const [error, setError] = useState("");
 
@@ -49,12 +50,16 @@ const ImageUploader = ({ image, setImage }) => {
     const newObjectUrl = URL.createObjectURL(file);
     setImage(file);
     setImagePreviewUrl(newObjectUrl);
+    event.target.value = "";
   };
 
   const handleImageRemove = () => {
     setImage(placeholderImageUrl);
     setImagePreviewUrl(placeholderImageUrl);
     setError(""); // Reset error
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
   };
 
   const isPlaceholder = image === placeholderImageUrl;
@@ -68,7 +73,7 @@ const ImageUploader = ({ image, setImage }) => {
           onClick={() => document.getElementById("fileInput").click()}
           className="flex flex-col justify-center items-center border border-primaryC bg-secondaryC w-[120px] h-[120px] cursor-pointer">
 
-          <CiCamera className={'text-[50px] text-textTC'} />
+          <CiCamera className={'text-[50px] text-textTC opacity-80'} />
           <p className="text-textTC font-[inter] text-center text-[12px] ">Upload image</p>
 
         </div>
@@ -105,6 +110,7 @@ const ImageUploader = ({ image, setImage }) => {
       <input
         id="fileInput"
         type="file"
+        ref={fileInputRef}
         accept={ALLOWED_MIME_TYPES.join(",")}
         onChange={handleImageUpload}
         className="hidden"

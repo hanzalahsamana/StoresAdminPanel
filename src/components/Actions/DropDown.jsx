@@ -54,19 +54,17 @@ const DropDown = ({
 
 
                 {/* {isOpen && ( */}
-                    <div className={`absolute w-full bg-white text-textC top-[51px]  rounded-sm shadow-lg z-10 transition-all  ${isOpen ? 'h-[160px] border':'h-0'} customScroll overflow-y-auto`}>
-                        {defaultOptions.map((option, index) =>
-                            <div
-                                key={index}
-                                className={`cursor-pointer py-[8px] text-[12px] border-b px-3 flex gap-2 items-center ${selectedOption === option? 'bg-secondaryC':'hover:bg-gray-100'}`}
-                                onClick={() => {
-                                    handleSelect(option)
-                                }}
-                            >
-                                <span className="text-primaryC "><CgInsertAfter /></span> {option}
-                            </div>
-                        )}
-                    </div>
+                <div className={`absolute w-full bg-white text-textC top-[51px] rounded-sm shadow-lg z-10 transition-all ease-linear duration-200 overflow-hidden ${isOpen ? 'max-h-[160px] border' : 'max-h-0'}`}>
+    {defaultOptions.map((option, index) => (
+        <div
+            key={index}
+            className={`cursor-pointer py-[8px] text-[12px] border-b px-3 flex gap-2 items-center ${selectedOption === option ? 'bg-secondaryC' : 'hover:bg-gray-100'}`}
+            onClick={() => handleSelect(option)}
+        >
+            <span className="text-primaryC"><CgInsertAfter /></span> {option}
+        </div>
+    ))}
+</div>
                 {/* )} */}
             </div>
 

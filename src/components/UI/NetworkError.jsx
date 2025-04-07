@@ -38,7 +38,7 @@ const NetworkStatus = () => {
 
     if (!isOnline) {
         return (
-            <div className="fixed bottom-0 w-full flex gap-2 justify-center items-center bg-red-500 text-white text-center p-2 z-50">
+            <div className="fixed bottom-0 w-full flex gap-2 justify-center items-center bg-red-500 text-white text-center p-2 z-[200]">
                 No internet connection. Please check your network.<MdOutlineErrorOutline />
             </div>
         )

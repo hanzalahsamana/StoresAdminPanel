@@ -54,12 +54,13 @@ const MultiSelectDropdown = ({
 
     return (
         <div className="w-full flex flex-col ">
-           
+
             <div ref={dropdownRef} className="relative flex flex-col w-full gap-2">
-                <div onClick={() => setIsOpen(true)}>
+                <div>
 
                     <FormInput
                         value={searchTerm}
+                        onfocus={() => setIsOpen(true)}
                         handleChange={(e) => {
                             setSearchTerm(e.target.value);
                             setIsOpen(true);
@@ -68,35 +69,41 @@ const MultiSelectDropdown = ({
                         className={className}
                     />
                 </div>
-                {isOpen && (
-                    <div className="absolute w-full bg-white text-textC top-[51px] border rounded-sm shadow-lg z-10 transition-all max-h-[100px] customScroll overflow-y-auto">
-                        {searchTerm && !filteredOptions.length && wantsCustomOption ? (
-                            <div
-                                className="cursor-pointer py-[12px] px-3 flex gap-2 items-center hover:bg-gray-200"
-                                onClick={() => {
-                                    handleCustomOptionSelect()
-                                    setIsOpen(false)
+                <div className={`absolute w-full bg-white text-textC top-[51px] rounded-sm shadow-lg z-10 transition-all ease-linear duration-200 ${isOpen ? 'max-h-[160px] border' : 'max-h-0'} customScroll overflow-y-auto`}>
+                    {searchTerm && !filteredOptions.length && wantsCustomOption ? (
+                        <div
+                            className="cursor-pointer py-[12px] px-3 flex gap-2 items-center hover:bg-gray-100"
+                            onClick={() => {
+                                handleCustomOptionSelect();
+                                setIsOpen(false);
+                            }}
+                        >
+                            <span className="text-primaryC"><CgInsertAfter /></span> {searchTerm}
+                        </div>
+                    ) : filteredOptions.length > 0 ? (
+                        filteredOptions.map((option, index) =>
+                            !selectedOptions.includes(option) ? (
+                                <div
+                                    key={index}
+                                    className="cursor-pointer py-[8px] text-[12px] border-b px-3 flex gap-2 items-center hover:bg-gray-100"
+                                    onClick={() => {
+                                        handleSelect(option);
+                                        setIsOpen(false);
+                                    }}
+                                >
+                                    <span className="text-primaryC"><CgInsertAfter /></span> {option}
+                                </div>
+                            ) : (
+                                <div>{console.log(filteredOptions, "jjjj")}</div>
+                            )
+                        )
+                    ) : (
+                        <div className="py-[8px] text-[12px] text-center text-gray-500">
+                            No data found
+                        </div>
+                    )}
+                </div>
 
-                                }}
-                            >
-                                <span className="text-primaryC text-sm"><CgInsertAfter /></span> {searchTerm}
-                            </div>
-                        ) : (
-                            filteredOptions.map((option, index) =>
-                                !selectedOptions.includes(option) && (
-                                    <div
-                                        key={index}
-                                        className="cursor-pointer py-[12px] border-b px-3 flex gap-2 items-center hover:bg-gray-200"
-                                        onClick={() => {
-                                            handleSelect(option)
-                                            setIsOpen(false)
-                                        }}
-                                    >
-                                        <span className="text-primaryC text-sm"><CgInsertAfter /></span> {option}
-                                    </div>
-                                )))}
-                    </div>
-                )}
             </div>
             {selectedOptions.length > 0 && (
                 <div className="flex flex-wrap gap-2 mt-3">

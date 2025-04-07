@@ -74,7 +74,7 @@ const Analytics = () => {
         </CustomCard>
         <CustomCard title="Recent Orders" classes="!h-auto col-span-4">
           <OrderListTable limit={5} />
-          <Link href="/ordersList" className="flex gap-1 w-full justify-center items-center hover:gap-3 transition-all pt-5">
+          <Link href="/ordersList" className="flex gap-1 w-full text-textTC justify-center items-center hover:gap-3 transition-all pt-5">
             See all <MdArrowRightAlt />
           </Link>
         </CustomCard>

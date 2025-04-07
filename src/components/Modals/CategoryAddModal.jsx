@@ -1,29 +1,24 @@
 "use client";
 
 import React, { useState } from "react";
-import { uploadToCloudinary } from "@/Utils/uploadToCloudinary";
 import { useDispatch, useSelector } from "react-redux";
 import FormInput from "@/components/Forms/FormInput";
 import { toast } from "react-toastify";
-import { setCategoryLoading } from "@/Redux/Category/CategorySlice";
 import { addCategory } from "@/APIs/Category/addCategory";
 import { editCategory } from "@/APIs/Category/editCategory";
 import ImageUploader from "../Uploaders/ImageUploader";
-import Loader from "../Loader/loader";
-import Button from "../Actions/Button";
 import Form from "../Forms/Form";
-import Modal from "../Modals/Modal";
+import Modal from "./Modal";
 import { uploadSingleImageToS3 } from "@/APIs/uploadImageS3";
 
 const CategoryAddModal = ({
     isOpen,
     setIsOpen,
-    categoryLoading,
     updatedData = null,
-    setUpdatedCategory,
 }) => {
     const { currUser } = useSelector((state) => state.currentUser);
     const [errors, setErrors] = useState({});
+    const [loading, setloading] = useState(false);
     const initialFormData = {
         name: '',
         image: "https://res.cloudinary.com/duaxitxph/image/upload/v1736247980/cjzl4ivq2lduxqbtnfj1.webp",
@@ -70,7 +65,7 @@ const CategoryAddModal = ({
         }
 
         try {
-            dispatch(setCategoryLoading(true));
+            setloading(true);
               if (formData?.image && formData?.image instanceof File) {
                     const uploadedImageUrl = await uploadSingleImageToS3(currUser?.brandName, formData.image);
                     formData.image = uploadedImageUrl;
@@ -95,11 +90,11 @@ const CategoryAddModal = ({
                     dispatch
                 );
             }
-            dispatch(setCategoryLoading(false));
+            setloading(false)
             setFormData(initialFormData)
             setIsOpen(false);
         } catch (error) {
-            dispatch(setCategoryLoading(false));
+            setloading(false)
             toast.error(error);
         }
     };
@@ -111,7 +106,7 @@ const CategoryAddModal = ({
                 handleSubmit={handleSubmit}
                 lable={"Add Category"}
                 encType="multipart/formdata"
-                loading={categoryLoading}
+                loading={loading}
             >
                 <FormInput
                     placeholder="Name"

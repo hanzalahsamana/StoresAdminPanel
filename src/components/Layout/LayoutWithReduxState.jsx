@@ -26,21 +26,19 @@ const LayoutWithReduxState = ({ children }) => {
   const { siteName } = useSelector((state) => state.siteName);
   const { productLoading } = useSelector((state) => state.productData);
   const { pagesDataLoading } = useSelector((state) => state.pagesData);
-  const { sectionDataLoading } = useSelector((state) => state.categories);
+  const { sectionsDataLoading } = useSelector((state) => state.sectionsData);
   const { categoryLoading } = useSelector((state) => state.categories);
   const { loading } = useSelector((state) => state.orderData);
 
   const router = useRouter()
   useEffect(() => {
     const fetchData = async (siteName) => {
-      // const response = await fetch(
-      //   `${BASE_URL}/fetchSiteByDomain?subDomain=${siteName}`
-      // );
-      // const data = await response.json();
+      const response = await fetch(
+        `${BASE_URL}/fetchSiteByDomain?subDomain=${siteName}`
+      );
+      const data = await response.json();
 
-      if (true) {
-        console.log("🫀");
-        
+      if (data?.siteName) {
 
         await fetchProducts(dispatch, siteName);
         await fetchPagesData(dispatch, siteName);
@@ -53,7 +51,7 @@ const LayoutWithReduxState = ({ children }) => {
           dispatch(setCartData({ cartId, siteName }));
         }
       }
-      else{
+      else {
         router.push('/not-found')
       }
     };
@@ -66,9 +64,10 @@ const LayoutWithReduxState = ({ children }) => {
 
   }, [dispatch, siteName]);
 
+  console.log(sectionsDataLoading, "sectionDataLoading");
 
 
-  if (productLoading || pagesDataLoading || categoryLoading || sectionDataLoading || loading) {
+  if (productLoading || pagesDataLoading || categoryLoading || sectionsDataLoading || loading) {
     return <Loader />
   }
 
