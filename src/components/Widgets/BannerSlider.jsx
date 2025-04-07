@@ -10,11 +10,13 @@ function BannerSlider({
     autoRun = true,   // Auto-slide enable/disable
     interval = 3500   // Auto-slide interval time in ms
 }) {
+
+    
     const [currentIndex, setCurrentIndex] = useState(0);
     const [images, setImages] = useState([]);
     const [direction, setDirection] = useState(1);
     const isCooldown = useRef(false);
-
+    
     useEffect(() => {
         if (Array.isArray(content?.imagesUrl)) {
             setImages(content.imagesUrl.map((image) =>
@@ -24,7 +26,9 @@ function BannerSlider({
     }, [content]);
 
     useEffect(() => {
-        if (!autoRun || images.length <= 1) return;
+        if (!autoRun || images.length <= 1){
+            setCurrentIndex(0);
+            return};
 
         const slideInterval = setInterval(() => {
             if (!isCooldown.current) {
@@ -50,7 +54,7 @@ function BannerSlider({
     };
 
     return (
-        <div className="relative h-[calc(100vh_-_60px)] w-full overflow-hidden">
+        <div className="relative h-[calc(100vh_-_60px)] max-h-[1000px] w-full overflow-hidden">
             <div className="relative w-full h-full flex items-center justify-center">
                 <AnimatePresence mode="popLayout" custom={direction}>
                     {images.length > 0 && (

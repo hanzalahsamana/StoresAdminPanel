@@ -21,6 +21,7 @@ import TextLoader from "@/components/Loader/TextLoader";
 import Button from "@/components/Actions/Button";
 import { toast } from "react-toastify";
 import { updateSectionOrder } from "@/APIs/SectionsData/updateSectionOrder";
+import ActionCard from "@/components/Cards/ActionCard";
 
 const Design = () => {
     const { sectionsData, sectionsDataLoading, editSectionLoading } = useSelector((state) => state.sectionsData);
@@ -36,7 +37,7 @@ const Design = () => {
     }, [sectionsData]);
 
     // Drag and drop logic
-    const handleDragEnd = async(result) => {
+    const handleDragEnd = async (result) => {
         if (!result.destination) return;
 
         setItems((prevItems) => {
@@ -46,15 +47,15 @@ const Design = () => {
 
             return reordered;
         });
-        
+
         try {
-            
-            await updateSectionOrder(result.destination.index+1 , currUser?.brandName , result.draggableId , dispatch  )
-            
+
+            await updateSectionOrder(result.destination.index + 1, currUser?.brandName, result.draggableId, dispatch)
+
         } catch (error) {
             console.log("Updated Order: 🧲🧲", error); // Debugging
             toast.error(error)
-            
+
         }
     };
 
@@ -63,13 +64,16 @@ const Design = () => {
     return (
         <div className="flex justify-center items-start">
             <BackgroundFrame>
-                <div className="w-full px-5 bg-backgroundC py-5 rounded-md shadow-md">
-                    <h1 className="text-2xl font-semibold mb-4">Update Pages</h1>
+                <ActionCard
+                    lable={"Update Pages"}
+                    actionPosition="hidden"
+                    className={'!px-5 !py-3 !h-[calc(100vh-92px)]'}
+                >
 
                     <DragDropContext onDragEnd={handleDragEnd}>
                         <Droppable droppableId="pagesList">
                             {(provided) => (
-                                <div {...provided.droppableProps} ref={provided.innerRef} className="space-y-3">
+                                <div {...provided.droppableProps} ref={provided.innerRef} className="space-y-3 px-[8px] h-full overflow-y-auto customScroll">
                                     {items.length !== 0 ? items.map((item, index) => (
                                         editSectionLoading ? (
                                             <TextLoader />
@@ -151,7 +155,7 @@ const Design = () => {
                             )}
                         </Droppable>
                     </DragDropContext>
-                </div>
+                </ActionCard>
 
                 <WidgetsModal isOpen={isOpen} setIsOpen={setIsOpen} selectedOrder={selectedOrder} setSelectedOrder={setSelectedOrder} />
             </BackgroundFrame>

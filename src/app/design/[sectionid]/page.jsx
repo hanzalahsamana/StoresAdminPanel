@@ -27,8 +27,8 @@ import Checkbox from '@/components/Actions/CheckBox';
 import { uploadImagesToS3, uploadSingleImageToS3 } from '@/APIs/uploadImageS3';
 import MultiImageUploader from '@/components/Uploaders/MultiImageUploader';
 import IconButton from '@/components/Actions/IconButton';
-import { FaUndo } from 'react-icons/fa';
 import { CiUndo } from 'react-icons/ci';
+import BackButton from '@/components/Actions/BackButton';
 
 
 
@@ -43,8 +43,7 @@ const ContentEdit = () => {
   const { categories } = useSelector((state) => state.categories);
   const { editSectionLoading } = useSelector((state) => state.sectionsData);
   const [isModified, setIsModified] = useState(false);
-  const [checked, setChecked] = useState(false);
-
+  const [checked, setChecked] = useState(true);
 
   const [formData, setFormData] = useState(SectionStructure?.[section?.type]?.data);
 
@@ -225,13 +224,14 @@ const ContentEdit = () => {
                   className={` !text-[22px] ${isModified? 'text-black' : 'text-[#4f4c4c89] !cursor-not-allowed'}`}
                   action={()=>setFormData(section?.content)}
                 />
+                <BackButton link={"/design"}/>
             </>}
           actionPosition='top'
           lable={section.sectionName}
-          className={'!px-5 !py-3'}
+          className={'!px-5 !py-3 !h-[calc(100vh-92px)]'}
         >
           <div
-            className={` border-t py-[20px] border-[#c9c9c98f] h-[340px] overflow-y-auto customScroll flex flex-col`}
+            className={`border-t px-[8px] py-[20px] border-[#c9c9c98f] h-full overflow-y-auto customScroll flex flex-col`}
           >
             <div className='flex flex-col gap-3'>
               {renderComponents()}

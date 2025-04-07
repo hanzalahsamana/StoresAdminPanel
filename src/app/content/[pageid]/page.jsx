@@ -1,6 +1,6 @@
 "use client";
 
-import React, { Component, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import "../../../components/UI/style.css";
 import ProtectedRoute from '@/AuthenticRouting/ProtectedRoutes';
 import Button from '@/components/Actions/Button';
@@ -10,7 +10,6 @@ import BackgroundFrame from '@/components/Layout/BackgroundFrame';
 import FaqUploader from '@/components/Uploaders/FaqUploader';
 import ImageUploader from '@/components/Uploaders/ImageUploader';
 import TextEditor from '@/components/Uploaders/TextEditor';
-import LivePreview from '@/components/UI/LivePreview';
 import { selectPageByID } from '@/Redux/PagesData/PagesDataSlice';
 import { useParams } from 'next/navigation';
 import { useDispatch, useSelector } from 'react-redux';
@@ -20,13 +19,13 @@ import _ from "lodash";
 import FabricsLiberary from '@/components/Widgets/fabricsLiberary';
 import CollectionAbout from '@/components/Widgets/collectionAbout';
 import ContentPage from '@/components/Sections/ContentPage';
-import { uploadToCloudinary } from '@/Utils/uploadToCloudinary';
 import { editPagesData } from '@/APIs/PagesData/editPagesData';
 import { toast } from 'react-toastify';
 import { CiUndo } from 'react-icons/ci';
 import IconButton from '@/components/Actions/IconButton';
 import { uploadSingleImageToS3 } from '@/APIs/uploadImageS3';
 import { pageDataValidate } from '@/Utils/FormsValidator';
+import BackButton from '@/components/Actions/BackButton';
 
 
 const componentMapping = {
@@ -221,13 +220,15 @@ const ContentEdit = () => {
                 className={` !text-[22px] ${isModified ? 'text-black' : 'text-[#4f4c4c89] !cursor-not-allowed'}`}
                 action={discardData}
               />
+              <BackButton link={"/content"} />
+
             </>}
           actionPosition='top'
           lable={page.type}
-          className={'!p-4'}
+          className={'!px-5 !py-3 !h-[calc(100vh-92px)]'}
         >
           <div
-            className={` border-[#c9c9c98f] border-t py-[20px] h-[340px] overflow-y-auto customScroll flex flex-col`}
+            className={` border-[#c9c9c98f] border-t px-[8px] py-[20px] h-full overflow-y-auto customScroll flex flex-col`}
           >
             <div className='flex flex-col gap-3'>
               {renderComponents()}
@@ -236,11 +237,6 @@ const ContentEdit = () => {
         </ActionCard>
 
       </BackgroundFrame>
-      <LivePreview>
-        {componentMapping[formData.type]?.component &&
-          React.createElement(componentMapping[formData.type].component, { content: formData })
-        }
-      </LivePreview>
     </div>
   )
 }

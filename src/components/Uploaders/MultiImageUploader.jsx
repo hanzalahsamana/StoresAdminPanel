@@ -1,11 +1,14 @@
 import { useEffect, useState } from "react";
+import { CiCamera } from "react-icons/ci";
+import { IoMdClose } from "react-icons/io";
+import { Tooltip } from "react-tooltip";
 
 const MultiImageUploader = ({
     images,
     setImages,
     label = "Upload Images",
     error = "",
-    accept = ["image/*"],
+    accept = ["image/jpeg", "image/png", "image/webp", "image/gif"],
     validityText = "min 1",
 }) => {
 
@@ -17,7 +20,7 @@ const MultiImageUploader = ({
             validImages.push(file);
         });
 
-        setImages([...(images || []), ...validImages]); // Directly updating images
+        setImages([...(images || []), ...validImages]);
     };
 
     const handleRemoveImage = (index) => {
@@ -28,45 +31,56 @@ const MultiImageUploader = ({
     useEffect(() => console.log(images, "👍l"), [images])
 
     return (
-        <div className="">
-            <div className="flex h-24 items-center gap-2">
+        <div className="flex flex-col gap-6 justify-center items-start w-full">
+            <div className="flex  gap-3">
 
-                <label className="flex flex-col items-center justify-center w-24 h-24 border-2 border-dashed border-gray-300 rounded-lg p-3 cursor-pointer hover:bg-gray-100 transition duration-300">
+                <div
+                    onClick={() => document.getElementById("multiFileInput").click()}
+                    className="flex mt-[10px] flex-col justify-center items-center border border-primaryC bg-secondaryC w-[100px] h-[100px] cursor-pointer">
 
-                    <span className="text-gray-600 text-[10px] text-center ">
-                        {label} ({validityText})
-                    </span>
+                    <CiCamera className={'text-[50px] text-textTC opacity-40'} />
+                    <p className="text-textTC font-[inter] opacity-80 text-center text-[12px] ">Upload images</p>
 
-                    <input
-                        type="file"
-                        accept={accept.join(",")}
-                        multiple
-                        onChange={handleImageUpload}
-                        className="hidden"
-                    />
-                </label>
+                </div>
 
 
 
-                <div className="flex gap-2 overflow-auto">
-                    {images?.map((image, index) => (
-                        <div key={index} className="relative w-24 h-24">
-                            <img
-                                src={image instanceof File || image instanceof Blob
-                                    ? URL.createObjectURL(image)
-                                    : image}
-                                alt={`Selected ${index}`}
-                                className="w-24 h-24 object-cover rounded-md"
-                            />
-                            <button
-                                type="button"
-                                onClick={() => handleRemoveImage(index)}
-                                className="absolute top-0 right-0 bg-black w-5 h-5 text-white rounded-full"
-                            >
-                                &times;
-                            </button>
-                        </div>
-                    ))}
+                <input
+                    id="multiFileInput"
+                    type="file"
+                    accept={accept.join(",")}
+                    multiple
+                    onChange={handleImageUpload}
+                    className="hidden"
+                />
+
+
+
+                <div className="flex pt-[10px] overflow-x-auto w-[300px] customScroll">
+                    <div className="flex gap-2">
+
+                        {images?.map((image, index) => (
+                            <div key={index} className="relative w-[100px] h-[100px]">
+                                <img
+                                    src={image instanceof File || image instanceof Blob
+                                        ? URL.createObjectURL(image)
+                                        : image}
+                                    alt={`Selected ${index}`}
+                                    className="w-[100px] h-[100px] bg-transparent object-cover border border-solid border-borderC rounded-sm"
+                                />
+                                <button
+                                    data-tooltip-id="my"
+                                    data-tooltip-content="Remove Image"
+                                    onClick={() => handleRemoveImage(index)}
+                                    className="absolute z-20 top-[-8px] right-[-8px] rounded-full text-white bg-red-500 text-[12px] p-1"
+                                >
+                                    <IoMdClose />
+                                    <Tooltip className="!text-[8px]" id="my" />
+                                </button>
+                            </div>
+                        ))}
+                    </div>
+
                 </div>
             </div>
 

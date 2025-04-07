@@ -73,8 +73,8 @@ const ImageUploader = ({ image, setImage }) => {
           onClick={() => document.getElementById("fileInput").click()}
           className="flex flex-col justify-center items-center border border-primaryC bg-secondaryC w-[120px] h-[120px] cursor-pointer">
 
-          <CiCamera className={'text-[50px] text-textTC opacity-80'} />
-          <p className="text-textTC font-[inter] text-center text-[12px] ">Upload image</p>
+          <CiCamera className={'text-[50px] text-textTC opacity-60'} />
+          <p className="text-textTC font-[inter] opacity-80 text-center text-[12px] ">Upload image</p>
 
         </div>
 
@@ -102,7 +102,7 @@ const ImageUploader = ({ image, setImage }) => {
 
 
 
-      <ul className="text-textTC font-inter text-[12px] space-y-1 list-disc list-inside">
+      <ul className="font-inter text-[12px] text-red-500 space-y-1 list-disc list-inside">
         <li>Allowed formats: JPEG, PNG, WEBP, GIF</li>
         <li>Max file size: 5MB</li>
       </ul>

@@ -11,6 +11,11 @@ import NetworkStatus from "@/components/UI/NetworkError";
 import { Tooltip } from "react-tooltip";
 import { applyTheme } from "@/Utils/ApplyTheme";
 import { useEffect } from "react";
+import { Assistant } from "next/font/google";
+const assistant = Assistant({
+  subsets: ["latin"],
+  weight: ["400", "500", "700"], // Add the font weights you need
+});
 
 
 
@@ -23,7 +28,7 @@ export default function RootLayout({ children }) {
         <title>Web Nest</title>
       </head>
       <body
-        className={` antialiased`}
+        className={` antialiased ${assistant.className} `}
         suppressHydrationWarning
       >
         <Provider store={store}>

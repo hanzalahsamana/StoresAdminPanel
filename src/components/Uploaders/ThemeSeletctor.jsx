@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import Button from "../Actions/Button";
 import { applyTheme } from "@/Utils/ApplyTheme";
 import _ from "lodash";
+import { setTheme } from "@/APIs/Theme/setTheme";
+import { useDispatch, useSelector } from "react-redux";
 
 
 
@@ -54,8 +56,11 @@ const initialTheme = {
 
 export default function ThemeSelector() {
     const [isModified, setIsModified] = useState(false);
-
-    const [theme, setTheme] = useState({
+    const dispatch = useDispatch();
+    const { currUser } = useSelector((state) => state.currentUser);
+    const { theme , themeloading} = useSelector((state) => state.theme);
+                
+    const [tempTheme, setTempTheme] = useState({
         pri: "#FFFFFF",
         sec: "#121212",
         acc: "#F3F3F3",
@@ -65,12 +70,16 @@ export default function ThemeSelector() {
     });
 
     const handleChange = (e) => {
-        setTheme({ ...theme, [e.target.name]: e.target.value });
+        setTempTheme({ ...theme, [e.target.name]: e.target.value });
         document.documentElement.style.setProperty(`--tmp-${e.target.name}`, e.target.value);
     };
 
-    const handleSave = () => {
-        console.log("Saved Theme:", theme);
+    const handleSave = async () => {
+        try {
+            await setTheme(tempTheme, currUser?.token, dispatch);
+        } catch (err) {
+            console.error("Theme update failed:", err.message);
+        }
     };
 
     useEffect(() => {
@@ -88,7 +97,7 @@ export default function ThemeSelector() {
                     {Object.entries(colorPalettes).map(([name, palette]) => (
                         <div key={name} className="bg-secondaryC p-3 flex flex-col items-center gap-4">
                             <div
-                                onClick={() => { setTheme(palette); applyTheme(palette); }}
+                                onClick={() => { setTempTheme(palette); applyTheme(palette); }}
                                 className="flex flex-col border border-textTC shadow-md w-[100px] h-[120px] gap-[1px] bg-secondaryC cursor-pointer hover:scale-105 transition-all"
                             >
                                 {["pri", "acc", "ltxt", "txt", "sec"].map((key) => (
@@ -107,18 +116,19 @@ export default function ThemeSelector() {
                 <h2 className="text-2xl font-semibold text-gray-800 mb-4 text-center">Select Your Theme</h2>
 
                 <div className="flex justify-between flex-wrap my-[20px]">
-                    <ColorPicker label="Primary" name="pri" value={theme.pri} onChange={handleChange} />
-                    <ColorPicker label="Secondary" name="sec" value={theme.sec} onChange={handleChange} />
-                    <ColorPicker label="Accent" name="acc" value={theme.acc} onChange={handleChange} />
-                    <ColorPicker label="Text" name="txt" value={theme.txt} onChange={handleChange} />
-                    <ColorPicker label="Light Text" name="ltxt" value={theme.ltxt} onChange={handleChange} />
-                    <ColorPicker label="White Text" name="wtxt" value={theme.wtxt} onChange={handleChange} />
+                    <ColorPicker label="Primary" name="pri" value={tempTheme.pri} onChange={handleChange} />
+                    <ColorPicker label="Secondary" name="sec" value={tempTheme.sec} onChange={handleChange} />
+                    <ColorPicker label="Accent" name="acc" value={tempTheme.acc} onChange={handleChange} />
+                    <ColorPicker label="Text" name="txt" value={tempTheme.txt} onChange={handleChange} />
+                    <ColorPicker label="Light Text" name="ltxt" value={tempTheme.ltxt} onChange={handleChange} />
+                    <ColorPicker label="White Text" name="wtxt" value={tempTheme.wtxt} onChange={handleChange} />
                 </div>
 
                 <Button
                     active={isModified}
                     action={handleSave}
                     label="Save Theme"
+                    loading={themeloading}
                 />
             </div>
         </div>
