@@ -15,6 +15,10 @@ export const fetchProducts = async (dispatch, type) => {
   } catch (error) {
     console.log("b,,,");
     dispatch(setProductLoading(false));
-    toast.error(error.message);
+    toast.error(
+      error?.response?.data?.message ||
+      error?.message ||
+      "Something went wrong while updating theme."
+    );
   }
 };

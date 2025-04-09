@@ -13,12 +13,7 @@ import TextEditor from '@/components/Uploaders/TextEditor';
 import { selectPageByID } from '@/Redux/PagesData/PagesDataSlice';
 import { useParams } from 'next/navigation';
 import { useDispatch, useSelector } from 'react-redux';
-import FabricsAbout from '@/components/Widgets/fabricsAbout';
-import FAQs from '@/components/Widgets/Faqs';
 import _ from "lodash";
-import FabricsLiberary from '@/components/Widgets/fabricsLiberary';
-import CollectionAbout from '@/components/Widgets/collectionAbout';
-import ContentPage from '@/components/Sections/ContentPage';
 import { editPagesData } from '@/APIs/PagesData/editPagesData';
 import { toast } from 'react-toastify';
 import { CiUndo } from 'react-icons/ci';
@@ -30,52 +25,40 @@ import BackButton from '@/components/Actions/BackButton';
 
 const componentMapping = {
   "About Us": {
-    component: ContentPage,
     fields: ["title", "text"]
   },
   "Hero Banner": {
     fields: ["image"],
-    component: '',
   },
   "FAQ": {
     fields: ["title", "faqs"],
-    component: FAQs,
   },
   "Contact": {
     fields: ["title", "email", "phone", "address"],
-    component: '',
   },
   "Terms and Conditions": {
     fields: ["title", "text"],
-    component: ContentPage,
   },
   "Our Quality": {
     fields: ["title", "buttonText", "text", "image"],
-    component: CollectionAbout,
   },
   "Manufacture Process": {
     fields: ["title", "text", "image"],
-    component: FabricsLiberary,
   },
   "Privacy Policy": {
     fields: ["title", "text"],
-    component: ContentPage,
   },
   "Return Policy": {
     fields: ["title", "text"],
-    component: ContentPage,
   },
   "Shipping Policy": {
     fields: ["title", "text"],
-    component: ContentPage,
   },
   "Site Logo": {
     fields: ["image"],
-    component: '',
   },
   "Fabric Remants": {
     fields: ["title", "buttonText", "text", "image"],
-    component: FabricsAbout,
   },
 };
 

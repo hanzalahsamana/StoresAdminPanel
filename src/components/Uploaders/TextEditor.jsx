@@ -2,9 +2,8 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import dynamic from "next/dynamic";
-import "quill/dist/quill.snow.css";
 
-// Dynamic import to prevent SSR issues
+
 const Quill = dynamic(() => import("quill"), { ssr: false, loading: () => <p>Loading editor...</p> });
 
 const TextEditor = ({ editorContent, setEditorContent }) => {
@@ -24,16 +23,12 @@ const TextEditor = ({ editorContent, setEditorContent }) => {
                 theme: "snow",
                 modules: {
                     toolbar: [
-                        [{ font: [] }],
                         [{ size: ["small", false, "large", "huge"] }],
                         ["bold", "italic", "underline", "strike"],
                         [{ color: [] }, { background: [] }],
                         [{ script: "sub" }, { script: "super" }],
-                        [{ header: 1 }, { header: 2 }],
                         [{ align: [] }],
                         [{ list: "ordered" }, { list: "bullet" }],
-                        [{ indent: "-1" }, { indent: "+1" }],
-                        ["blockquote", "code-block"],
                         ["link", "image", "video"],
                         ["clean"],
                     ],

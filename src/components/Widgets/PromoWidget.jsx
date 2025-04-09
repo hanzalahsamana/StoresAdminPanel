@@ -14,7 +14,7 @@ const PromoWidget = ({ content}) => {
                     <div className="fabric-text-wrap">
                         <h2 className="text-xl text-[var(--tmp-txt)] font-bold">{title}</h2>
                         <div
-                            className="mt-4 max-h-[150px] customScroll overflow-auto leading-6 text-[var(--tmp-ltxt)]"
+                            className="ql-editor mt-4 max-h-[150px] customScroll overflow-auto leading-6 text-[var(--tmp-ltxt)]"
                             dangerouslySetInnerHTML={{ __html: text }}
                         />
                         <Link
@@ -37,7 +37,7 @@ const PromoWidget = ({ content}) => {
                 <div className="text-wrap">
                     <h1 className="text-[25px] text-[var(--tmp-txt)]">{title}</h1>
                     <div
-                        className="leading-6 max-h-[230px] pr-[15px] customScroll overflow-auto text-[var(--tmp-ltxt)]"
+                        className="ql-editor leading-6 max-h-[230px] pr-[15px] customScroll overflow-auto text-[var(--tmp-ltxt)]"
                         dangerouslySetInnerHTML={{ __html: text }}
                     />
                     <Link

@@ -102,7 +102,7 @@ const ImageUploader = ({ image, setImage }) => {
 
 
 
-      <ul className="font-inter text-[12px] text-red-500 space-y-1 list-disc list-inside">
+      <ul className="font-inter text-[12px] text-yellow-500 space-y-1 list-disc list-inside">
         <li>Allowed formats: JPEG, PNG, WEBP, GIF</li>
         <li>Max file size: 5MB</li>
       </ul>

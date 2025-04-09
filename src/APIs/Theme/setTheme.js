@@ -3,25 +3,26 @@ import axios from "axios";
 import BASE_URL from "../../../config";
 import { setThemeData, setThemeLoading } from "@/Redux/Theme/Theme.slice";
 
-export const setTheme = async (data, token, dispatch) => {
+export const setTheme = async (theme, token, dispatch) => {
   try {
-    dispatch(setThemeLoading(true));
-    console.log(data, "Sending to backend");
+    console.log(theme, "Sending to backend");
 
-    const response = await axios.post(`${BASE_URL}/setTheme`, {theme:data}, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
-    });
+    const { data } = await axios.post(
+      `${BASE_URL}/setTheme`,
+      { theme },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
 
-    console.log(response.data);
+    console.log(data?.data);
 
-    dispatch(setThemeData(response.data));
-    dispatch(setThemeLoading(false));
-    return response.data;
+    dispatch(setThemeData(data?.data));
+    return data?.data;
   } catch (error) {
-    dispatch(setThemeLoading(false));
     const message =
       error?.response?.data?.message ||
       "Something went wrong while updating theme.";

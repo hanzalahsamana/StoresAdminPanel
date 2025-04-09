@@ -15,6 +15,8 @@ import TemplateFooter from './TemplateFooter';
 import { fetchSectionsData } from '@/APIs/SectionsData/getSectonsData';
 import BASE_URL from '../../../config';
 import { useRouter } from 'next/navigation';
+import { fetchTheme } from '@/APIs/Theme/fetchTheme';
+import { applyTheme } from '@/Utils/ApplyTheme';
 const assistant = Assistant({
   subsets: ["latin"],
   weight: ["400", "500", "700"], // Add the font weights you need
@@ -28,9 +30,16 @@ const LayoutWithReduxState = ({ children }) => {
   const { pagesDataLoading } = useSelector((state) => state.pagesData);
   const { sectionsDataLoading } = useSelector((state) => state.sectionsData);
   const { categoryLoading } = useSelector((state) => state.categories);
+  const { theme, themeloading } = useSelector((state) => state.theme);
   const { loading } = useSelector((state) => state.orderData);
 
   const router = useRouter()
+
+
+  useEffect(() => {
+    if (!theme) return;
+    applyTheme(theme);
+  }, [dispatch, theme]);
   useEffect(() => {
     const fetchData = async (siteName) => {
       const response = await fetch(
@@ -40,11 +49,14 @@ const LayoutWithReduxState = ({ children }) => {
 
       if (data?.siteName) {
 
-        await fetchProducts(dispatch, siteName);
-        await fetchPagesData(dispatch, siteName);
-        await fetchCategory(dispatch, siteName);
-        await fetchOrderData(dispatch, siteName);
-        await fetchSectionsData(dispatch, siteName);
+        await Promise.all([
+          fetchProducts(dispatch, siteName),
+          fetchPagesData(dispatch, siteName),
+          fetchCategory(dispatch, siteName),
+          fetchOrderData(dispatch, siteName),
+          fetchSectionsData(dispatch, siteName),
+          fetchTheme(dispatch, siteName),
+        ]);
 
         if (typeof window !== "undefined" && siteName) {
           const cartId = localStorage.getItem(`${siteName}_cartId`);
@@ -67,7 +79,7 @@ const LayoutWithReduxState = ({ children }) => {
   console.log(sectionsDataLoading, "sectionDataLoading");
 
 
-  if (productLoading || pagesDataLoading || categoryLoading || sectionsDataLoading || loading) {
+  if (productLoading || pagesDataLoading || categoryLoading || sectionsDataLoading || themeloading || loading) {
     return <Loader />
   }
 

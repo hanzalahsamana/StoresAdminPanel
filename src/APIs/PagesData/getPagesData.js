@@ -15,6 +15,10 @@ export const fetchPagesData = async (dispatch, type) => {
     return response.data;
   } catch (error) {
     dispatch(setPagesDataLoading(false));
-    toast.error(error.message);
+    toast.error(
+      error?.response?.data?.message ||
+        error?.message ||
+        "Something went wrong while updating theme."
+    );
   }
 };

@@ -137,7 +137,7 @@ const DomainVerification = () => {
             handleAddDomainDns(domain);
           }}
         >
-          <ActionCard label={'Custom Domain'} error={error} actions={
+          <ActionCard lable={'Custom Domain'} error={error} actions={
             <>
               <Button
                 loading={loading}

@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { SlArrowLeft, SlArrowRight } from "react-icons/sl";
+import { useSwipeable } from "react-swipeable";
 
 function BannerSlider({
     content,
@@ -11,7 +12,6 @@ function BannerSlider({
     interval = 3500   // Auto-slide interval time in ms
 }) {
 
-    
     const [currentIndex, setCurrentIndex] = useState(0);
     const [images, setImages] = useState([]);
     const [direction, setDirection] = useState(1);
@@ -28,7 +28,8 @@ function BannerSlider({
     useEffect(() => {
         if (!autoRun || images.length <= 1){
             setCurrentIndex(0);
-            return};
+            return;
+        }
 
         const slideInterval = setInterval(() => {
             if (!isCooldown.current) {
@@ -53,11 +54,23 @@ function BannerSlider({
         setTimeout(() => (isCooldown.current = false), duration);
     };
 
+    // Swipeable hooks for left and right swipe
+    const handlers = useSwipeable({
+        onSwipedLeft: () => handleSlide("next"),
+        onSwipedRight: () => handleSlide("prev"),
+        trackMouse: true,  // Allows mouse dragging (for desktop as well)
+    });
+
     return (
         <div className="relative h-[calc(100vh_-_60px)] max-h-[1000px] w-full overflow-hidden">
-            <div className="relative w-full h-full flex items-center justify-center">
-                <AnimatePresence mode="popLayout" custom={direction}>
-                    {images.length > 0 && (
+            <div className="relative w-full h-full flex items-center justify-center" {...handlers}>
+                {/* If no images are found, show a message */}
+                {images.length === 0 ? (
+                    <div className="absolute w-full h-full flex items-center justify-center bg-gray-500 text-white">
+                        <p className="text-xl">No image selected</p>
+                    </div>
+                ) : (
+                    <AnimatePresence mode="popLayout" custom={direction}>
                         <motion.img
                             key={currentIndex}
                             src={images[currentIndex]}
@@ -68,8 +81,8 @@ function BannerSlider({
                             exit={{ x: -direction * 100 + "%", opacity: 1 }}
                             transition={{ duration: duration / 1000, ease: "easeInOut" }}
                         />
-                    )}
-                </AnimatePresence>
+                    </AnimatePresence>
+                )}
             </div>
 
             {images.length > 1 && (

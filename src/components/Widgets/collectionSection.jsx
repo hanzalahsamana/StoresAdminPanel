@@ -7,14 +7,14 @@ import CollectionCard from "../Cards/collectionCard";
 import { getBasePath } from "@/Utils/GetBasePath";
 
 const CollectionSection = ({ content = {}, toShowLink = true }) => {
-  const { title = "Featured Collections" , selectedCategories = []} = content
+  const { title = "Featured Collections", selectedCategories = [] } = content
 
   const { categories } = useSelector((state) => state.categories);
   const basePath = getBasePath();
 
   if (!categories || categories.length === 0) {
     return (
-      <div className="text-center m-6">
+      <div className="text-center p-6 bg-[var(--tmp-pri)] text-[--tmp-txt] ">
         <p className="text-[30px] font-normal text-center">No categories available...</p>
       </div>
     );
@@ -26,7 +26,7 @@ const CollectionSection = ({ content = {}, toShowLink = true }) => {
     categoriesToDisplay = categories.filter(cat => selectedCategories.includes(cat.link));
   } else {
     categoriesToDisplay = categories; // Show all categories if none are selected
-  
+
     // Ensure at least 3 categories by duplicating
     while (categoriesToDisplay.length < 3) {
       categoriesToDisplay = [...categoriesToDisplay, ...categoriesToDisplay].slice(0, 3);

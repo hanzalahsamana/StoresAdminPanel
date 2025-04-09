@@ -2,24 +2,22 @@
 import axios from "axios";
 import BASE_URL from "../../../config";
 import { setThemeData, setThemeLoading } from "@/Redux/Theme/Theme.slice";
+import { toast } from "react-toastify";
 
-export const FetchTheme = async (siteName, dispatch) => {
+export const fetchTheme = async (dispatch, siteName) => {
   try {
     dispatch(setThemeLoading(true));
-    console.log(data, "Sending to backend");
+    const { data } = await axios.get(`${BASE_URL}/${siteName}/getTheme`);
 
-    const response = await axios.get(`${BASE_URL}/${siteName}/getTheme`);
-
-    console.log(response.data);
-
-    dispatch(setThemeData(response.data));
+    dispatch(setThemeData(data?.data));
     dispatch(setThemeLoading(false));
-    return response.data;
+    return data.data;
   } catch (error) {
     dispatch(setThemeLoading(false));
-    const message =
+    toast.error(
       error?.response?.data?.message ||
-      "Something went wrong while updating theme.";
-    throw new Error(message);
+        error?.message ||
+        "Something went wrong while updating theme."
+    );
   }
 };

@@ -1,67 +1,78 @@
 "use client";
-import { getUserFromToken } from "@/APIs/Auth/getUserFromToken";
-import { fetchCategory } from "@/APIs/Category/getCategory";
-import { fetchOrderData } from "@/APIs/Order/getOrderData";
-import { fetchPagesData } from "@/APIs/PagesData/getPagesData";
-import { fetchProducts } from "@/APIs/Product/getProductData";
-import { fetchSectionsData } from "@/APIs/SectionsData/getSectonsData";
-import { setSiteName } from "@/Redux/SiteName/SiteNameSlice";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import Loader from "../Loader/loader";
+import { useRouter } from "next/navigation";
+
+import { getUserFromToken } from "@/APIs/Auth/getUserFromToken";
+import { fetchOrderData } from "@/APIs/Order/getOrderData";
+import { fetchProducts } from "@/APIs/Product/getProductData";
+import { fetchCategory } from "@/APIs/Category/getCategory";
+import { fetchPagesData } from "@/APIs/PagesData/getPagesData";
+import { fetchSectionsData } from "@/APIs/SectionsData/getSectonsData";
+import { fetchTheme } from "@/APIs/Theme/fetchTheme";
+
+import { setSiteName } from "@/Redux/SiteName/SiteNameSlice";
 import { applyTheme } from "@/Utils/ApplyTheme";
+import Loader from "../Loader/loader";
 
 const ProviderWrap = ({ children }) => {
   const dispatch = useDispatch();
+  const router = useRouter();
+
   const { currUser } = useSelector((state) => state.currentUser);
   const { productLoading } = useSelector((state) => state.productData);
   const { pagesDataLoading } = useSelector((state) => state.pagesData);
   const { sectionDataLoading } = useSelector((state) => state.sectionsData);
   const { categoryLoading } = useSelector((state) => state.categories);
+  const { theme, themeloading } = useSelector((state) => state.theme);
 
   useEffect(() => {
     const userToken = localStorage.getItem("userToken");
-    console.log(userToken);
-    
+    if (!userToken) return;
+
     getUserFromToken(dispatch, userToken);
   }, [dispatch]);
-  const theme = {
-    primaryColor: "#06989a",
-    secondaryColor: "#06a4a720",
-    accentColor: "#ff5733",
-    backgroundColor: "#ffffff",
-    textColor: "#333939",
-    borderColor: "#dcdee1",
-    lightTextColor: "#5f6571",
-  };
 
   useEffect(() => {
-    applyTheme(theme);
-  }, [dispatch]);
+    if (theme) applyTheme(theme);
+  }, [theme, router]);
+
 
   useEffect(() => {
-    if (!currUser) return;
-    
-    dispatch(setSiteName(currUser?.brandName));
+    if (!currUser?.brandName) return;
 
-    const fetchData = async () => {
-      await Promise.all([
-        fetchOrderData(dispatch, currUser?.brandName),
-        fetchProducts(dispatch, currUser?.brandName),
-        fetchCategory(dispatch, currUser?.brandName),
-        fetchPagesData(dispatch, currUser?.brandName),
-        fetchSectionsData(dispatch, currUser?.brandName)
-      ]);
+    dispatch(setSiteName(currUser.brandName));
+
+    const fetchAllData = async () => {
+      try {
+        await Promise.all([
+          fetchOrderData(dispatch, currUser.brandName),
+          fetchProducts(dispatch, currUser.brandName),
+          fetchCategory(dispatch, currUser.brandName),
+          fetchPagesData(dispatch, currUser.brandName),
+          fetchSectionsData(dispatch, currUser.brandName),
+          fetchTheme(dispatch, currUser.brandName),
+        ]);
+      } catch (error) {
+        console.error("Data fetching failed:", error);
+      }
     };
 
-    fetchData();
-  }, [currUser, dispatch]);
+    fetchAllData();
+  }, [currUser?.brandName, dispatch]);
 
-  if ((productLoading || pagesDataLoading || categoryLoading || sectionDataLoading) && currUser) {
-    return <Loader />;
-  }
+  const isLoading =
+    currUser &&
+    (productLoading ||
+      pagesDataLoading ||
+      categoryLoading ||
+      themeloading ||
+      sectionDataLoading);
+
+  if (isLoading) return <Loader />;
 
   return children;
 };
 
 export default ProviderWrap;
+

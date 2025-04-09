@@ -1,52 +1,20 @@
+"use client";
+
 import { setAlwaysExtend, setMaximized } from '@/Redux/LivePreview/livePreviewSlice';
 import React, { useState, useRef, useEffect } from 'react';
 import { CgMaximize, CgMinimize } from 'react-icons/cg';
 import { FiMaximize2, FiMinimize2 } from 'react-icons/fi';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Tooltip } from 'react-tooltip';
-import { Assistant } from "next/font/google";
 
-
-const assistant = Assistant({
-    subsets: ["latin"],
-    weight: ["400", "700"], // Add the font weights you need
-  });
 
 const LivePreview = ({ children, extraAction = null }) => {
-    const dispatch = useDispatch();
     const { maximized, alwaysExtend } = useSelector((state) => state.livePreview);
     const [isHovered, setIsHovered] = useState(false);
-
-    return (
-        <LivePreviewContent
-            children={children}
-            isHovered={isHovered}
-            setIsHovered={setIsHovered}
-            alwaysExtend={alwaysExtend}
-            setAlwaysExtend={(value) => dispatch(setAlwaysExtend(value))}
-            maximized={maximized}
-            setMaximized={(value) => dispatch(setMaximized(value))}
-            extraAction={extraAction}
-        />
-    );
-};
-
-export default LivePreview;
-
-const LivePreviewContent = ({
-    children,
-    isHovered,
-    setIsHovered,
-    alwaysExtend,
-    setAlwaysExtend,
-    maximized,
-    setMaximized,
-    extraAction = null,
-}) => {
-    const containerRef = useRef(null);
     const [position, setPosition] = useState({ x: window.innerWidth - 488, y: window.innerHeight - 255 });
     const [dragging, setDragging] = useState(false);
     const [offset, setOffset] = useState({ x: 0, y: 0 });
+    const containerRef = useRef(null);
 
     // Handle Mouse Down (Start Dragging)
     const handleMouseDown = (e) => {
@@ -81,7 +49,6 @@ const LivePreviewContent = ({
     // Handle Mouse Up (Stop Dragging)
     const handleMouseUp = () => setDragging(false);
 
-    // Determine transform origin based on position
     let transformOrigin = 'justify-start items-start'; // Default
     if (position.x > window.innerWidth / 2 && position.y < window.innerHeight / 2) {
         transformOrigin = 'justify-end items-start';
@@ -110,7 +77,7 @@ const LivePreviewContent = ({
                 top: maximized ? 0 : `${position.y}px`,
                 transition: dragging ? 'none' : 'transform 0.2s ease-out',
             }}
-            className={`  ${maximized ? 'sticky top-[60px]' : `fixed flex w-[488px] h-[255px] pointer-events-none  ${transformOrigin}`} z-50`}
+            className={`  ${maximized ? 'sticky top-[60px]' : `fixed flex w-[488px] h-[255px] pointer-events-none  ${transformOrigin}`} z-[100]`}
             onMouseMove={handleMouseMove}
             onMouseUp={handleMouseUp}
             onMouseLeave={handleMouseUp} // Stop dragging if mouse leaves window
@@ -154,7 +121,7 @@ const LivePreviewContent = ({
                 </div>
 
                 <div
-                    className={`${assistant.className} ${maximized
+                    className={`${maximized
                         ? 'scale-x-[0.38] scale-y-[0.38] w-[1280px] h-[calc(((100vh-62px)/38)*100)]'
                         : isHovered || alwaysExtend
                             ? 'scale-[0.38] top-[30px] w-[1280px] h-[600px] absolute'
@@ -168,3 +135,5 @@ const LivePreviewContent = ({
         </div>
     );
 };
+
+export default LivePreview;

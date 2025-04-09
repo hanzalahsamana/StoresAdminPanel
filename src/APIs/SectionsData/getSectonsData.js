@@ -17,6 +17,10 @@ export const fetchSectionsData = async (dispatch, type) => {
     return response.data;
   } catch (error) {
     dispatch(setSectionsDataLoading(false));
-    toast.error(error.message);
+    toast.error(
+      error?.response?.data?.message ||
+        error?.message ||
+        "Something went wrong while updating theme."
+    );
   }
 };
