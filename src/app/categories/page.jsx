@@ -23,7 +23,6 @@ const CategoryList = () => {
   const columns = [
     { key: "image", label: "Image", type: "image" },
     { key: "name", label: "Title" },
-    { key: "link", label: "Link" },
   ];
 
   const actions = {

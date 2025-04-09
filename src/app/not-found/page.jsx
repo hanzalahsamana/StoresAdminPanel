@@ -7,7 +7,7 @@ export default function NotFoundPage() {
             <div className="max-w-md bg-white rounded-2xl p-8">
                 <h1 className="text-3xl font-bold text-gray-900">Oops! Site Not Found</h1>
                 <p className="text-gray-600 mt-4">
-                    The website you're looking for doesn't exist. But you can create your own store in just a few clicks!
+                    That website you're looking for doesn't exist. But you can create your own store in just a few clicks!
                 </p>
 
                 <div className="mt-6">
