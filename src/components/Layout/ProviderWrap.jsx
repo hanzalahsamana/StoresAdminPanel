@@ -19,17 +19,17 @@ const ProviderWrap = ({ children }) => {
   const dispatch = useDispatch();
   const router = useRouter();
 
+  
+  
   const { currUser } = useSelector((state) => state.currentUser);
   const { productLoading } = useSelector((state) => state.productData);
   const { pagesDataLoading } = useSelector((state) => state.pagesData);
   const { sectionDataLoading } = useSelector((state) => state.sectionsData);
   const { categoryLoading } = useSelector((state) => state.categories);
   const { theme, themeloading } = useSelector((state) => state.theme);
-
+  
   useEffect(() => {
     const userToken = localStorage.getItem("userToken");
-    if (!userToken) return;
-
     getUserFromToken(dispatch, userToken);
   }, [dispatch]);
 
