@@ -90,8 +90,8 @@ const CategoryAddModal = ({
                     dispatch
                 );
             }
-            setloading(false)
             setFormData(initialFormData)
+            setloading(false)
             setIsOpen(false);
         } catch (error) {
             setloading(false)

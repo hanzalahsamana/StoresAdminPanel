@@ -17,7 +17,7 @@ export async function middleware(request) {
   const subdomain = host.split(".")[0];
   const potentialSlug = subdomain?.replace(`${BaseDomain}`, "");
 
-  if (!potentialSlug || potentialSlug === "www") {
+  if (!potentialSlug || potentialSlug === "www" || potentialSlug === "dev" ) {
     return NextResponse.next();
   }
 
