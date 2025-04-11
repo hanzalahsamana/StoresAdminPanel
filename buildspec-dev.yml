@@ -1,0 +1,25 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      nodejs: 18
+    commands:
+      - echo "Installing dev dependencies..."
+      - npm install
+  build:
+    commands:
+      - echo "Building dev app..."
+      - NODE_OPTIONS="--max-old-space-size=8192" npm run build
+      - echo "Preparing deployment package..."
+      - cp dev/appspec.yml .
+      - mkdir -p scripts
+      - cp dev/scripts/* scripts/
+artifacts:
+  files:
+    - appspec.yml
+    - scripts/**
+    - .next/**
+    - public/**
+    - node_modules/**
+    - package.json
