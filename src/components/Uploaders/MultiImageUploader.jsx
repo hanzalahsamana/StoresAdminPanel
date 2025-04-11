@@ -32,11 +32,10 @@ const MultiImageUploader = ({
 
     return (
         <div className="flex flex-col gap-6 justify-center items-start w-full">
-            <div className="flex  gap-3">
-
+            <div className="flex w-full gap-3">
                 <div
                     onClick={() => document.getElementById("multiFileInput").click()}
-                    className="flex mt-[10px] flex-col justify-center items-center border border-primaryC bg-secondaryC w-[100px] h-[100px] cursor-pointer">
+                    className="flex mt-[10px] flex-col justify-center items-center border border-primaryC bg-secondaryC min-w-[100px] min-h-[100px] cursor-pointer">
 
                     <CiCamera className={'text-[50px] text-textTC opacity-40'} />
                     <p className="text-textTC font-[inter] opacity-80 text-center text-[12px] ">Upload images</p>
@@ -56,7 +55,7 @@ const MultiImageUploader = ({
 
 
 
-                <div className="flex pt-[10px] overflow-x-auto w-[300px] customScroll">
+                <div className="flex flex-1 pt-[10px] overflow-x-auto w-[300px] customScroll">
                     <div className="flex gap-2">
 
                         {images?.map((image, index) => (

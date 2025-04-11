@@ -26,9 +26,6 @@ function TooltipComponent({ tooltipVisible, tooltipPosition, tooltipContent }) {
             left: `${tooltipPosition.left}px`,
           }}
         >
-          <div>
-            <p className='text-[10px] text-center'>7 day ago - Today</p>
-          </div>
           <div className='flex gap-[10px] items-center'>
             {countryFlag && <img
               src={countryFlag}

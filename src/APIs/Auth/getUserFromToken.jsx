@@ -25,7 +25,6 @@ export const getUserFromToken = async (dispatch, token) => {
     } catch (error) {
         if (!error.response) {
             console.error("Network error: Server down or no internet.");
-            window.history.replaceState(null, "", "/not-found");
         } else {
             console.error("Error fetching user:", error);
         }

@@ -35,8 +35,8 @@ import BackButton from '@/components/Actions/BackButton';
 
 const ContentEdit = () => {
 
-  const params = useParams()
   const dispatch = useDispatch()
+  const params = useParams()
   const { currUser } = useSelector((state) => state.currentUser);
   const section = useSelector((state) => selectSectionByID(state, params?.sectionid));
   const { products } = useSelector((state) => state.productData);
@@ -219,12 +219,12 @@ const ContentEdit = () => {
             <>
               <Button size='small' active={isModified} label="Save" loading={editSectionLoading} variant='black' className="w-max" action={handleSubmit} />
               <IconButton
-                  icon={<CiUndo />}
-                  tooltipLabel={'discard'}
-                  className={` !text-[22px] ${isModified? 'text-black' : 'text-[#4f4c4c89] !cursor-not-allowed'}`}
-                  action={()=>setFormData(section?.content)}
-                />
-                <BackButton link={"/design"}/>
+                icon={<CiUndo />}
+                tooltipLabel={'discard'}
+                className={` !text-[22px] ${isModified ? 'text-black' : 'text-[#4f4c4c89] !cursor-not-allowed'}`}
+                action={() => setFormData(section?.content)}
+              />
+              <BackButton link={"/design"} />
             </>}
           actionPosition='top'
           lable={section.sectionName}

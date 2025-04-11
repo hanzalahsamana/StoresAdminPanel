@@ -88,9 +88,6 @@ const DomainVerification = () => {
     }
   };
 
-  useEffect(() => {
-    document.title = "Domain";
-  }, []);
 
   return (
     <div className="flex flex-col gap-[20px] py-[20px] min-h-screen px-8">
