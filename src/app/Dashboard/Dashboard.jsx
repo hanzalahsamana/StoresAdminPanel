@@ -47,7 +47,7 @@ const Dashboard = () => {
           <div>
 
             <Button
-              label='Customization'
+              label='Editing'
               action={() => router.push('/design')}
               className='!w-[200px] !bg-black'
             />
