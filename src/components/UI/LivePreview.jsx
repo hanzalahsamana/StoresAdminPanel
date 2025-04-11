@@ -1,138 +1,54 @@
 "use client";
 
-import { setAlwaysExtend, setMaximized } from '@/Redux/LivePreview/livePreviewSlice';
-import React, { useState, useRef, useEffect } from 'react';
+import { setMaximized, } from '@/Redux/LivePreview/livePreviewSlice';
+import React from 'react';
 import { CgMaximize, CgMinimize } from 'react-icons/cg';
-import { FiMaximize2, FiMinimize2 } from 'react-icons/fi';
-import { useSelector } from 'react-redux';
+import { VscOpenPreview } from 'react-icons/vsc';
+import { useDispatch, useSelector } from 'react-redux';
 import { Tooltip } from 'react-tooltip';
 
-
 const LivePreview = ({ children, extraAction = null }) => {
-    const { maximized, alwaysExtend } = useSelector((state) => state.livePreview);
-    const [isHovered, setIsHovered] = useState(false);
-    const [position, setPosition] = useState({ x: window.innerWidth - 488, y: window.innerHeight - 255 });
-    const [dragging, setDragging] = useState(false);
-    const [offset, setOffset] = useState({ x: 0, y: 0 });
-    const containerRef = useRef(null);
-
-    // Handle Mouse Down (Start Dragging)
-    const handleMouseDown = (e) => {
-        if (maximized) return;
-        e.preventDefault(); // Prevents text selection on double-click
-        setDragging(true);
-        setOffset({
-            x: e.clientX - position.x,
-            y: e.clientY - position.y
-        });
-    };
-
-    // Handle Mouse Move (Dragging)
-    const handleMouseMove = (e) => {
-        if (!dragging) return;
-
-        const newX = e.clientX - offset.x;
-        const newY = e.clientY - offset.y;
-
-        // Prevent going out of screen
-        const screenWidth = window.innerWidth;
-        const screenHeight = window.innerHeight;
-        const containerWidth = containerRef.current?.offsetWidth || 488;
-        const containerHeight = containerRef.current?.offsetHeight || 255;
-
-        setPosition({
-            x: Math.max(0, Math.min(screenWidth - containerWidth, newX)),
-            y: Math.max(0, Math.min(screenHeight - containerHeight, newY))
-        });
-    };
-
-    // Handle Mouse Up (Stop Dragging)
-    const handleMouseUp = () => setDragging(false);
-
-    let transformOrigin = 'justify-start items-start'; // Default
-    if (position.x > window.innerWidth / 2 && position.y < window.innerHeight / 2) {
-        transformOrigin = 'justify-end items-start';
-    } else if (position.x > window.innerWidth / 2 && position.y > window.innerHeight / 2) {
-        transformOrigin = 'justify-end items-end';
-    } else if (position.x < window.innerWidth / 2 && position.y > window.innerHeight / 2) {
-        transformOrigin = 'justify-start items-end';
-    }
-
-
-    const scrollToBottom = () => {
-        if (document.body.current) {
-            document.body.current.scrollTop = document.body.current.scrollHeight;
-        }
-    };
-
-    useEffect(() => {
-        scrollToBottom(); // Scrolls to bottom on mount
-    }, [maximized]);
+    const { maximized } = useSelector((state) => state.livePreview);
+    const dispatch = useDispatch()
 
     return (
-        <div
-            ref={containerRef}
-            style={{
-                left: maximized ? 0 : `${position.x}px`,
-                top: maximized ? 0 : `${position.y}px`,
-                transition: dragging ? 'none' : 'transform 0.2s ease-out',
-            }}
-            className={`  ${maximized ? 'sticky top-[60px]' : `fixed flex w-[488px] h-[255px] pointer-events-none  ${transformOrigin}`} z-[100]`}
-            onMouseMove={handleMouseMove}
-            onMouseUp={handleMouseUp}
-            onMouseLeave={handleMouseUp} // Stop dragging if mouse leaves window
-        >
+        <>
+            {!maximized && (
+                <div
+                    data-tooltip-id="buttonTIp"
+                    data-tooltip-content='Live Preview'
+                    onClick={() => dispatch(setMaximized(!maximized))}
+                    className='w-[35px] h-[35px] rounded-full bg-primaryC absolute top-[68px] right-2 flex justify-center items-center text-backgroundC cursor-pointer hover:scale-110 transition-all z-[100] text-[17px] font-extrabold'>
+                    <VscOpenPreview />
+                </div>
+            )}
+            <Tooltip id='buttonTIp' className='!text-[10px]' />
 
-            <Tooltip id='preview' className='!text-[10px]' />
-            <div
-                onMouseEnter={() => setIsHovered(true)}
-                onMouseLeave={() => setIsHovered(false)}
-                onMouseDown={handleMouseDown}
-                className={`${maximized ? 'w-[100vw] md:w-[488px] h-[calc(100vh-60px)]' : isHovered || alwaysExtend ? 'w-[488px] h-[255px] shadow-xl' : 'w-[258px] h-[120px] shadow-xl'} bg-backgroundC pointer-events-auto cursor-move transition-all border-[1.4px] border-primaryC  relative overflow-hidden`}
-                style={{ transformOrigin }}
-            >
+            <div className={`${maximized ? 'w-[100%]  md:w-[400px] md:min-w-[400px] md:top-0 md:right-0 h-[calc(100vh-60px)] sticky' : 'min-w-[0px] w-[0px] h-[0px] sticky top-[20px] right-3 overflow-hidden'} origin-top-right  pointer-events-auto cursor-move duration-500 transition-all border-[1.4px] border-primaryC   overflow-hidden`}>
 
-                {/* Top Controls */}
-                <div className={`w-full ${isHovered || alwaysExtend || maximized ? 'h-[30px]' : 'h-0'} text-primaryC cursor-default overflow-hidden flex items-center px-[10px] gap-2 transition-all bg-secondaryC`}>
+                <div className={`w-full h-[30px] text-primaryC cursor-default overflow-hidden flex items-center px-[10px] gap-2 transition-all bg-secondaryC`}>
                     <div className='text-[14px]  flex-1'>
                         Live preview
                     </div>
                     {extraAction && (
                         extraAction
                     )}
-                    {/* Maximize Button */}
-                    {!maximized && (
-                        <div
-                            data-tooltip-id="preview"
-                            data-tooltip-content={alwaysExtend ? "Toggle Expand" : "Remain Expand"}
-                            onClick={() => setAlwaysExtend(!alwaysExtend)}
-                            className=' cursor-pointer flex items-center justify-center rounded-full w-[25px] h-[25px]  text-[14px] rotate-90'>
-                            {alwaysExtend ? <FiMinimize2 /> : <FiMaximize2 />}
-                        </div>
-                    )}
+
                     <div
-                        data-tooltip-id="preview"
-                        data-tooltip-content={maximized ? "Minimize" : "Maximize"}
-                        onClick={() => { setMaximized(!maximized); setIsHovered(false) }}
-                        className='cursor-pointer flex items-center justify-center rounded-full w-[25px] h-[25px] mr-[10px] text-[14px] rotate-90'>
+                        onClick={() => { dispatch(setMaximized(!maximized)) }}
+                        className=' cursor-pointer flex items-center justify-center rounded-full w-[25px] h-[25px] mr-[10px] text-[14px] rotate-90'>
                         {maximized ? <CgMinimize /> : <CgMaximize />}
                     </div>
 
                 </div>
 
-                <div
-                    className={`${maximized
-                        ? 'scale-x-[0.38] scale-y-[0.38] w-[1280px] h-[calc(((100vh-62px)/38)*100)]'
-                        : isHovered || alwaysExtend
-                            ? 'scale-[0.38] top-[30px] w-[1280px] h-[600px] absolute'
-                            : 'scale-[0.2] top-0 w-[1280px] h-[600px] absolute'
-                        } left-0 transition-all overflow-y-auto origin-top-left `}
-                >
+                <div className={` md:w-[1280px] md:scale-[0.32] ${maximized ? 'md:w-[1280px] md:scale-[0.32] left-0 top-[30px] w-full h-[calc(((100vh-90px)))] md:h-[calc(((100vh-62px)/34)*100)] absolute overflow-y-auto' : ''}  origin-top-left `}>
                     {children}
                 </div>
 
             </div>
-        </div>
+        </>
+
     );
 };
 

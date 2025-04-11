@@ -62,7 +62,7 @@ const Design = () => {
     if (sectionsDataLoading) return <Loader />;
 
     return (
-        <div className="flex justify-center items-start">
+        <div className="flex justify-center items-start flex-col md:flex-row">
             <BackgroundFrame>
                 <ActionCard
                     lable={"Update Pages"}

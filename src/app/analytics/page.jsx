@@ -57,19 +57,19 @@ const Analytics = () => {
         <StatusCard title="Total Products" data={products?.length} loading={loading} />
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 w-full mb-5">
-        <CustomCard title="Views Over Time" classes="sm:col-span-4">
+        <CustomCard title="Views Over Time" classes="col-span-4">
           <AreaGraph data={analytics?.timeViews} />
         </CustomCard>
-        <CustomCard title="Sessions by Devices" classes="col-span-2">
+        <CustomCard title="Sessions by Devices" classes="col-span-4 md:col-span-2">
           <DeviceTypeGraph views={analytics?.deviceViews} />
         </CustomCard>
-        <CustomCard title="Comparison Btw Orders and Carts " classes="sm:col-span-2">
+        <CustomCard title="Comparison Btw Orders and Carts " classes="col-span-4 md:col-span-2">
           <ComaprisnChart data={{ data1: 175, data2: 100 }} />
         </CustomCard>
-        <CustomCard title="Sessions by Locations" classes="col-span-2">
+        <CustomCard title="Sessions by Locations" classes="col-span-4 md:col-span-2">
           <MapChart analytics={analytics?.countryViews} analyticsLoading={analyticloading} />
         </CustomCard>
-        <CustomCard title="Views Info" classes="sm:col-span-2">
+        <CustomCard title="Views Info" classes="col-span-4 md:col-span-2">
           <BarGraph analytics={analytics} analyticsLoading={analyticloading} />
         </CustomCard>
         <CustomCard title="Recent Orders" classes="!h-auto col-span-4">

@@ -7,7 +7,7 @@ const ActionCard = ({ lable, actionPosition = 'bottom', className, children, act
         <div className={`relative p-8 w-full border  rounded-md flex flex-col gap-[20px] bg-white ${error ? 'border-[red]' : 'border-borderC'} ${className}`}>
             
             <div className='flex justify-between items-center mt-[15px]'>
-                <h1 className="text-textC font-semibold font-[inter] text-[16px] md:text-[26px]">{lable}</h1>
+                <h1 className="text-textC font-semibold font-[inter] text-[23px] md:text-[26px]">{lable}</h1>
                 {actionPosition === 'top' && (
                     <div className="flex justify-end items-center  gap-[20px]">
                         {actions}

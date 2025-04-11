@@ -9,7 +9,7 @@ export default function Header({ toggleSidebar }) {
   const { currUser } = useSelector((state) => state.currentUser);
 
   return (
-    <header className="bg-backgroundC border-b border-gray-300 px-3 md:px-10 text-textC flex justify-between items-center fixed w-full z-[60] top-0 left-0 h-[60px]">
+    <header className="bg-backgroundC border-b border-gray-300 px-3 md:px-10 text-textC flex justify-between items-center fixed w-full z-[110] top-0 left-0 h-[60px]">
       <button onClick={toggleSidebar} className="text-textC focus:outline-none text-2xl font-semibold ">
         Multi Nest
       </button>
