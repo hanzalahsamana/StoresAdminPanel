@@ -2,13 +2,13 @@ version: 0.0
 os: linux
 files:
   - source: /
-    destination: /home/ec2-user/StoresAdminPanel
+    destination: /home/ubuntu/StoresAdminPanel
 hooks:
   AfterInstall:
     - location: scripts/install_dependencies.sh
       timeout: 600
-      runas: ec2-user
+      runas: ubuntu
   ApplicationStart:
     - location: scripts/start_pm2.sh
       timeout: 600
-      runas: ec2-user
+      runas: ubuntu
