@@ -6,9 +6,9 @@ files:
 hooks:
   AfterInstall:
     - location: scripts/install_dependencies.sh
-      timeout: 300
+      timeout: 600
       runas: ec2-user
   ApplicationStart:
     - location: scripts/start_pm2.sh
-      timeout: 300
+      timeout: 600
       runas: ec2-user
