@@ -4,6 +4,10 @@ files:
   - source: /
     destination: /home/ec2-user/demo
 hooks:
+  BeforeInstall:
+    - location: scripts/clean.sh
+      timeout: 300
+      runas: ubuntu
   AfterInstall:
     - location: scripts/install_dependencies.sh
       timeout: 300
