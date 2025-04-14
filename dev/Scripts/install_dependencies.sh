@@ -1,3 +1,3 @@
 #!/bin/bash
-cd /home/ec2-user/demo
+cd /home/ubuntu/demo
 npm install

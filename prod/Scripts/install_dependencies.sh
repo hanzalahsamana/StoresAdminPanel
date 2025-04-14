@@ -1,3 +1,3 @@
 #!/bin/bash
-cd /home/ec2-user/StoresAdminPanel
+cd /home/ubuntu/StoresAdminPanel
 npm install
