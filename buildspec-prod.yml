@@ -13,8 +13,8 @@ phases:
       - NODE_OPTIONS="--max-old-space-size=8192" npm run build
       - echo "Preparing deployment package..."
       - cp prod/appspec.yml .
-      - mkdir -p scripts
-      - cp prod/Scripts/* scripts/
+      - mkdir -p Scripts
+      - cp prod/Scripts/* Scripts/
 artifacts:
   files:
     - appspec.yml
