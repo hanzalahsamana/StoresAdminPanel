@@ -5,14 +5,14 @@ files:
     destination: /home/ubuntu/StoresAdminPanel
 hooks:
   BeforeInstall:
-    - location: prod/scripts/clean.sh
+    - location: scripts/clean.sh
       timeout: 300
       runas: ubuntu
   AfterInstall:
-    - location: prod/scripts/install_dependencies.sh
+    - location: scripts/install_dependencies.sh
       timeout: 600
       runas: ubuntu
   ApplicationStart:
-    - location: prod/scripts/start_pm2.sh
+    - location: scripts/start_pm2.sh
       timeout: 600
       runas: ubuntu
