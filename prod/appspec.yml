@@ -5,10 +5,10 @@ files:
     destination: /home/ec2-user/StoresAdminPanel
 hooks:
   AfterInstall:
-    - location: Scripts/install_dependencies.sh
+    - location: scripts/install_dependencies.sh
       timeout: 600
       runas: ec2-user
   ApplicationStart:
-    - location: Scripts/start_pm2.sh
+    - location: scripts/start_pm2.sh
       timeout: 600
       runas: ec2-user
