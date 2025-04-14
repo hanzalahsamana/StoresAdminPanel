@@ -5,10 +5,10 @@ files:
     destination: /home/ec2-user/demo
 hooks:
   AfterInstall:
-    - location: scripts/install_dependencies.sh
+    - location: Scripts/install_dependencies.sh
       timeout: 300
       runas: ec2-user
   ApplicationStart:
-    - location: scripts/start_pm2.sh
+    - location: Scripts/start_pm2.sh
       timeout: 300
       runas: ec2-user
