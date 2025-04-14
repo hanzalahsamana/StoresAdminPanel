@@ -14,7 +14,7 @@ phases:
       - echo "Preparing deployment package..."
       - cp dev/appspec.yml .
       - mkdir -p scripts
-      - cp dev/scripts/* scripts/
+      - cp dev/Scripts/* scripts/
 artifacts:
   files:
     - appspec.yml
