@@ -35,12 +35,12 @@ const Analytics = () => {
   const { orders, loading } = useSelector((state) => state?.orderData);
   const { analytics, analyticloading } = useSelector((state) => state.analytics);
   const [selectedValue, setSelectedValue] = useState('Last Year');
-   const { siteName } = useSelector((state) => state.siteName);
+  const { siteName } = useSelector((state) => state.siteName);
 
   const dispatch = useDispatch();
 
   useEffect(() => {
-    FetchAnalytics(dispatch, selectedValue , siteName)
+    FetchAnalytics(dispatch, selectedValue, siteName)
   }, [selectedValue]);
 
   return (
@@ -56,22 +56,29 @@ const Analytics = () => {
         <StatusCard title="Total Orders" data={orders?.length} loading={loading} />
         <StatusCard title="Total Products" data={products?.length} loading={loading} />
       </div>
+
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 w-full mb-5">
+
         <CustomCard title="Views Over Time" classes="col-span-4">
           <AreaGraph data={analytics?.timeViews} />
         </CustomCard>
+
         <CustomCard title="Sessions by Devices" classes="col-span-4 md:col-span-2">
           <DeviceTypeGraph views={analytics?.deviceViews} />
         </CustomCard>
+
         <CustomCard title="Comparison Btw Orders and Carts " classes="col-span-4 md:col-span-2">
           <ComaprisnChart data={{ data1: 175, data2: 100 }} />
         </CustomCard>
+
         <CustomCard title="Sessions by Locations" classes="col-span-4 md:col-span-2">
           <MapChart analytics={analytics?.countryViews} analyticsLoading={analyticloading} />
         </CustomCard>
+
         <CustomCard title="Views Info" classes="col-span-4 md:col-span-2">
           <BarGraph analytics={analytics} analyticsLoading={analyticloading} />
         </CustomCard>
+
         <CustomCard title="Recent Orders" classes="!h-auto col-span-4">
           <OrderListTable limit={5} />
           <Link href="/ordersList" className="flex gap-1 w-full text-textTC justify-center items-center hover:gap-3 transition-all pt-5">
@@ -84,33 +91,4 @@ const Analytics = () => {
   )
 }
 
-export default ProtectedRoute(Analytics); {/* 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 w-full mb-5">
-        <CustomCard title="Sessions by location" classes="sm:col-span-3">
-          <AreaGraph />
-        </CustomCard>
-
-      </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 w-full mb-5">
-        <CustomCard title="Sessions by location" classes="sm:col-span-2">
-          <TimeGraph analytics={analytics} analyticsLoading={analyticloading} />
-        </CustomCard>
-
-        <CustomCard title="Map" classes="">
-          <MapChart analytics={analytics} analyticsLoading={analyticloading} />
-        </CustomCard>
-
-        <CustomCard title="Views by countries">
-          <Piechart analytics={analytics} analyticsLoading={analyticloading} />
-        </CustomCard>
-
-        <CustomCard title="Sessions by location" classes="sm:col-span-2">
-          <BarGraph analytics={analytics} analyticsLoading={analyticloading} />
-        </CustomCard>
-        <CustomCard title="Recent Orders" classes="!h-auto col-span-1 sm:col-span-2 lg:col-span-3">
-          <OrderListTable limit={5} />
-          <Link href="/ordersList" className="flex gap-1 w-full justify-center items-center hover:gap-3 transition-all pt-5">
-            See all <MdArrowRightAlt />
-          </Link>
-        </CustomCard>
-      </div> */}
+export default ProtectedRoute(Analytics);

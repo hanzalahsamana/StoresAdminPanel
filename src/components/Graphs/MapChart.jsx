@@ -1,13 +1,18 @@
 "use client";
+
 import React, { useEffect, useState } from "react";
-import { scaleLinear } from "d3-scale";
 import { ComposableMap, Geographies, Geography } from "react-simple-maps";
 import Tooltip from "../Actions/Tooltip"; // Replace with your actual path
 import BarLoader from "../Loader/BarLoader"; // Optional loader
 
-const colorScale = scaleLinear()
-  .domain([1, 8])
-  .range(["#06a4a740", "#06989a"]);
+// Manual color scale function (interpolation between two colors)
+function interpolateColor(min, max, value) {
+  const scale = (value - min) / (max - min);
+  const r = Math.round(6 * scale);
+  const g = Math.round(168 - 6 * scale);
+  const b = Math.round(154 - 8 * scale);
+  return `rgb(${r * 40}, ${g * 40}, ${b * 40})`;
+}
 
 const geoUrl =
   "https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world.geojson";
@@ -46,6 +51,11 @@ const MapChart = ({ analytics, analyticsLoading }) => {
     }
   }, []);
 
+  // Get the min and max values from the analytics data to pass to the color scale function
+  const analyticsValues = Object.values(analytics);
+  const minCount = Math.min(...analyticsValues);
+  const maxCount = Math.max(...analyticsValues);
+
   return (
     <div
       className="MapChartSvg flex justify-center h-[300px] flex-col items-center w-full relative"
@@ -67,11 +77,16 @@ const MapChart = ({ analytics, analyticsLoading }) => {
                 const countryName = geo.properties.name;
                 const userCount = analytics[countryName];
 
+                // Calculate the color based on user count
+                const countryColor = userCount
+                  ? interpolateColor(minCount, maxCount, userCount)
+                  : "#E0E0E0"; // Default color if no data
+
                 return (
                   <Geography
                     key={geo.rsmKey}
                     geography={geo}
-                    fill={userCount ? colorScale(userCount) : "#E0E0E0"}
+                    fill={countryColor}
                     onMouseEnter={() => {
                       setTooltipContent({
                         countryname: countryName,
@@ -93,10 +108,7 @@ const MapChart = ({ analytics, analyticsLoading }) => {
               })
           }
         </Geographies>
-        
       </ComposableMap>
-
-      
 
       <Tooltip
         tooltipPosition={tooltipPosition}

@@ -14,7 +14,7 @@ import React, { useEffect, useState } from 'react'
 import { CiUndo } from 'react-icons/ci';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
-import _ from "lodash";
+import { IsEqual } from '@/Utils/IsEqual';
 
 
 const Theme = () => {
@@ -46,7 +46,7 @@ const Theme = () => {
 
 
   useEffect(() => {
-    setIsModified(!_.isEqual(theme, formData));
+    setIsModified(!IsEqual(theme, formData));
   }, [theme, formData]);
 
   return (

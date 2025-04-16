@@ -19,7 +19,6 @@ import DropDown from '@/components/Actions/DropDown';
 import MultiSelectDropdown from '@/components/Actions/MultiSelectDropdown';
 import { editSectionsData } from '@/APIs/SectionsData/editSectionsData';
 import { toast } from 'react-toastify';
-import _ from "lodash";
 import HomeLayout from '@/components/Layout/HomeLayout';
 import TemplateHeader from '@/components/Layout/TemplateHeader';
 import TemplateFooter from '@/components/Layout/TemplateFooter';
@@ -29,6 +28,7 @@ import MultiImageUploader from '@/components/Uploaders/MultiImageUploader';
 import IconButton from '@/components/Actions/IconButton';
 import { CiUndo } from 'react-icons/ci';
 import BackButton from '@/components/Actions/BackButton';
+import { IsEqual } from '@/Utils/IsEqual';
 
 
 
@@ -198,7 +198,7 @@ const ContentEdit = () => {
   useEffect(() => {
     console.log(section?.content, formData, "././././");
 
-    setIsModified(!_.isEqual(section?.content, formData));
+    setIsModified(!IsEqual(section?.content, formData));
   }, [formData, section]);
 
   if (!section) {
