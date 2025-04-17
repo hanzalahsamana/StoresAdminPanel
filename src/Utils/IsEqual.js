@@ -18,7 +18,7 @@ export const IsEqual = (obj1, obj2) => {
 
   // Compare each key-value pair recursively
   for (let key of keys1) {
-    if (!keys2.includes(key) || !isEqual(obj1[key], obj2[key])) {
+    if (!keys2.includes(key) || !IsEqual(obj1[key], obj2[key])) {
       return false;
     }
   }

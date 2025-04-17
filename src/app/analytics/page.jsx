@@ -68,7 +68,7 @@ const Analytics = () => {
         </CustomCard>
 
         <CustomCard title="Comparison Btw Orders and Carts " classes="col-span-4 md:col-span-2">
-          <ComaprisnChart data={{ data1: 175, data2: 100 }} />
+          <ComaprisnChart data={{ "Abandoned Carts": 175, "Orders": 100 }} />
         </CustomCard>
 
         <CustomCard title="Sessions by Locations" classes="col-span-4 md:col-span-2">

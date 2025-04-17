@@ -6,7 +6,7 @@ export async function middleware(request) {
   const host = request.headers.get("host") || "";
   const pathname = url.pathname;
   const BaseDomain =
-    process.env.NODE_ENV === "production" ? "hannanfabrics" : "localhost:3000";
+    process.env.NODE_ENV === "production" ? "xperiode" : "localhost:3000";
 
   // console.log("👍", host, "🥀", pathname, "😂", BaseDomain);
 

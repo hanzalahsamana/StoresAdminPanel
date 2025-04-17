@@ -3,6 +3,7 @@
 import { setMaximized, } from '@/Redux/LivePreview/livePreviewSlice';
 import React from 'react';
 import { CgMaximize, CgMinimize } from 'react-icons/cg';
+import { IoCloseOutline } from 'react-icons/io5';
 import { VscOpenPreview } from 'react-icons/vsc';
 import { useDispatch, useSelector } from 'react-redux';
 import { Tooltip } from 'react-tooltip';
@@ -37,7 +38,7 @@ const LivePreview = ({ children, extraAction = null }) => {
                     <div
                         onClick={() => { dispatch(setMaximized(!maximized)) }}
                         className=' cursor-pointer flex items-center justify-center rounded-full w-[25px] h-[25px] mr-[10px] text-[14px] rotate-90'>
-                        {maximized ? <CgMinimize /> : <CgMaximize />}
+                        {maximized ? <IoCloseOutline /> : <CgMaximize />}
                     </div>
 
                 </div>

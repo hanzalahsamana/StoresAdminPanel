@@ -24,7 +24,7 @@ export default function RootLayout({ children }) {
         <title>Web Nest</title>
       </head>
       <body
-        className={` antialiased ${assistant.className} `}
+        className={`${assistant.className} antialiased`}
         suppressHydrationWarning
       >
         <Provider store={store}>

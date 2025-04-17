@@ -84,7 +84,7 @@ const LayoutWithReduxState = ({ children }) => {
   }
 
   return (
-    <div className={`flex flex-col items-center ${assistant.className}`}>
+    <div className={`flex flex-col items-center ${assistant.className} antialiased`}>
       <TemplateHeader />
       {children}
       <TemplateFooter />
