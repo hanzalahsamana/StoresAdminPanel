@@ -160,24 +160,21 @@ const ContentEdit = () => {
       dispatch(setEditSectionLoading(true));
 
       if (formData?.image && formData?.image instanceof File) {
-        console.log(formData, "junaid");
         const uploadedImageUrl = await uploadSingleImageToS3(currUser?.brandName, formData.image);
-        console.log(uploadedImageUrl, "junaid");
         updatedData.image = uploadedImageUrl;
       }
+
       if (formData?.imagesUrl && Array.isArray(formData.imagesUrl)) {
         const existingUrls = formData.imagesUrl.filter(image => typeof image === "string");
         const imagesToUpload = formData.imagesUrl.filter(image => image instanceof File);
 
         if (imagesToUpload.length > 0) {
           const uploadedImagesUrls = await uploadImagesToS3(currUser?.brandName, imagesToUpload);
-          console.log("Uploaded image URLs:", uploadedImagesUrls);
           updatedData.imagesUrl = [...existingUrls, ...uploadedImagesUrls];
         } else {
           updatedData.imagesUrl = existingUrls;
         }
       }
-
 
       await editSectionsData(updatedData, currUser?.brandName, section?._id, dispatch);
       dispatch(setEditSectionLoading(false));
@@ -228,7 +225,7 @@ const ContentEdit = () => {
             </>}
           actionPosition='top'
           lable={section.sectionName}
-          className={'!px-5 !py-3 !h-[calc(100vh-92px)]'}
+          className={'!h-[calc(100vh-92px)]'}
         >
           <div
             className={`border-t px-[8px] py-[20px] border-[#c9c9c98f] h-full overflow-y-auto customScroll flex flex-col`}

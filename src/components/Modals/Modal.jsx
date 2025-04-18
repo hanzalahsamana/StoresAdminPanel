@@ -29,7 +29,7 @@ const Modal = ({ isOpen, setIsOpen, children, className , extraFuntion=() => { }
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 z-[150]"  >
       <div
-        className={`relative bg-white rounded-lg shadow-lg max-w-[750px] max-h-[600px] w-full overflow-auto ${className}`}
+        className={`relative bg-white rounded-lg border-t border-[#c9c9c98f] shadow-lg max-w-[750px] max-h-[600px] w-full overflow-auto ${className}`}
         onClick={(e) => e.stopPropagation()}
       >
         <button

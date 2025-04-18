@@ -4,7 +4,7 @@ import { useEffect, useState, useRef } from "react";
 import { GrDeliver } from "react-icons/gr";
 import { IoAnalyticsOutline, IoHomeOutline, IoShirtOutline, IoChevronForward, IoColorPaletteOutline } from "react-icons/io5";
 import { TfiWorld } from "react-icons/tfi";
-import { BiBookContent, BiCategoryAlt } from "react-icons/bi";
+import { BiBookContent, BiCategoryAlt, BiTransferAlt } from "react-icons/bi";
 import { PiTreeStructureLight } from "react-icons/pi";
 import { useSelector } from "react-redux";
 import Loader from "../Loader/loader";
@@ -45,6 +45,8 @@ function Sidebar({ isOpen, setIsOpen }) {
         })) : [])
       ],
     },
+    { name: "Migration", icon: <BiTransferAlt />, path: "/migration" },
+
   ];
 
   useEffect(() => {

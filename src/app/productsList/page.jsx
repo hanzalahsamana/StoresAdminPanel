@@ -54,7 +54,6 @@ const ProductsList = () => {
         <AddEditProductModal
           isOpen={isOpen}
           setIsOpen={setIsOpen}
-          productLoading={productLoading}
           updatedData={updatedProduct}
           setUpdatedProduct={setUpdatedProduct}
         />

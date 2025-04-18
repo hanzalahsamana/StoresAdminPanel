@@ -31,7 +31,7 @@ const MultiImageUploader = ({
     useEffect(() => console.log(images, "👍l"), [images])
 
     return (
-        <div className="flex flex-col gap-6 justify-center items-start w-full">
+        <div className="flex flex-col justify-center items-start w-full">
             <div className="flex w-full gap-3">
                 <div
                     onClick={() => document.getElementById("multiFileInput").click()}
@@ -71,7 +71,7 @@ const MultiImageUploader = ({
                                     data-tooltip-id="my"
                                     data-tooltip-content="Remove Image"
                                     onClick={() => handleRemoveImage(index)}
-                                    className="absolute z-20 top-[-8px] right-[-8px] rounded-full text-white bg-red-500 text-[12px] p-1"
+                                    className="absolute  top-[-8px] right-[-8px] rounded-full text-white bg-red-500 text-[12px] p-1"
                                 >
                                     <IoMdClose />
                                     <Tooltip className="!text-[8px]" id="my" />

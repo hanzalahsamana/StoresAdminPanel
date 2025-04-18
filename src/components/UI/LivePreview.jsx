@@ -38,7 +38,7 @@ const LivePreview = ({ children, extraAction = null }) => {
                     <div
                         onClick={() => { dispatch(setMaximized(!maximized)) }}
                         className=' cursor-pointer flex items-center justify-center rounded-full w-[25px] h-[25px] mr-[10px] text-[14px] rotate-90'>
-                        {maximized ? <IoCloseOutline /> : <CgMaximize />}
+                        {maximized ? <IoCloseOutline /> : <IoCloseOutline />}
                     </div>
 
                 </div>

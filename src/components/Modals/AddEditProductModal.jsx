@@ -10,7 +10,6 @@ import DropDown from "../Actions/DropDown";
 import { toast } from "react-toastify";
 import { addProducts } from "@/APIs/Product/addProductData";
 import { editProductData } from "@/APIs/Product/editProductData";
-import { setProductLoading } from "@/Redux/Product/ProductSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { calculateDiscountedPrice } from "@/Utils/CalculateDiscountedPrice";
 import { uploadImagesToS3 } from "@/APIs/uploadImageS3";
@@ -19,7 +18,6 @@ import { productUploadValidate } from "@/Utils/FormsValidator";
 const AddEditProductModal = ({
   isOpen,
   setIsOpen,
-  productLoading,
   updatedData = null,
   setUpdatedProduct,
 }) => {
@@ -28,6 +26,7 @@ const AddEditProductModal = ({
   const { currUser } = useSelector((state) => state.currentUser);
   const [errors, setErrors] = useState({});
   const [formData, setFormData] = useState({});
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (updatedData) {
@@ -70,7 +69,7 @@ const AddEditProductModal = ({
     if (!productUploadValidate(formData, setErrors)) return;
 
     try {
-      dispatch(setProductLoading(true));
+      dispatch(setLoading(true));
 
       let imagesToUpload = formData.images.filter((img) => img instanceof File);
       let existingImages = formData.images.filter((img) => typeof img === "string");
@@ -94,17 +93,17 @@ const AddEditProductModal = ({
         await editProductData(productData, currUser?.brandName, updatedData._id, dispatch);
       }
 
-      dispatch(setProductLoading(false));
+      dispatch(setLoading(false));
       setIsOpen(false);
     } catch (error) {
-      dispatch(setProductLoading(false));
+      dispatch(setLoading(false));
       toast.error(error.message || "Something went wrong");
     }
   };
 
   return (
     <Modal isOpen={isOpen} setIsOpen={setIsOpen}>
-      <Form handleSubmit={handleSubmit} buttonLabel={updatedData ? "Edit Product" : "Add Product"} loading={productLoading}>
+      <Form  lable={updatedData ? "Edit Product" : "Add Product"} handleSubmit={handleSubmit} buttonLabel={updatedData ? "Edit Product" : "Add Product"} loading={loading}>
         <div className="flex gap-4">
           <FormInput name="name" placeholder="Name" value={formData.name || ""} handleChange={(e) => handleChange(e.target.name, e.target.value)} error={errors.name} />
           <FormInput name="brand" placeholder="Brand Name" value={formData.brand || ""} handleChange={(e) => handleChange(e.target.name, e.target.value)} error={errors.brand} />

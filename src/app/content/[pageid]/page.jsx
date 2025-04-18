@@ -208,7 +208,7 @@ const ContentEdit = () => {
             </>}
           actionPosition='top'
           lable={page.type}
-          className={'!px-5 !py-3 !h-[calc(100vh-92px)]'}
+          className={'h-[calc(100vh-92px)]'}
         >
           <div
             className={` border-[#c9c9c98f] border-t px-[8px] py-[20px] h-full overflow-y-auto customScroll flex flex-col`}
