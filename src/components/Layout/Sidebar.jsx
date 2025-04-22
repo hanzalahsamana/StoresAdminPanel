@@ -3,7 +3,7 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState, useRef } from "react";
 import { GrDeliver } from "react-icons/gr";
 import { IoAnalyticsOutline, IoHomeOutline, IoShirtOutline, IoChevronForward, IoColorPaletteOutline } from "react-icons/io5";
-import { TfiWorld } from "react-icons/tfi";
+import { TfiLayoutMediaCenterAlt, TfiWorld } from "react-icons/tfi";
 import { BiBookContent, BiCategoryAlt, BiTransferAlt } from "react-icons/bi";
 import { PiTreeStructureLight } from "react-icons/pi";
 import { useSelector } from "react-redux";
@@ -36,7 +36,7 @@ function Sidebar({ isOpen, setIsOpen }) {
     },
     
     {
-      name: "Design / Layout", icon: <PiTreeStructureLight />, path: "/design",
+      name: "Design / Layout", icon: <TfiLayoutMediaCenterAlt />, path: "/design",
       subLinks: [
         { name: "Over View", path: "/design" },
         ...(Array.isArray(sectionsData) ? sectionsData.map(item => ({

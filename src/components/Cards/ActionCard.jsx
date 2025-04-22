@@ -24,7 +24,7 @@ const ActionCard = ({ lable, actionPosition = 'bottom', className, children, act
                 children
             )}
             {actionPosition === 'bottom' && (
-                <div className="flex justify-end items-center mt-[15px] gap-[20px]">
+                <div className="flex justify-end items-end flex-1 mt-[15px] gap-[20px]">
                     {actions}
                 </div>
             )}
