@@ -31,7 +31,7 @@ const Button = ({
             onClick={action}
             disabled={loading || !active}
             type={type}
-            className={`w-full flex gap-2 justify-center  rounded-sm hover:opacity-90 transition duration-300
+            className={`w-full  flex gap-2 justify-center  rounded-sm hover:opacity-90 transition duration-300
                 ${buttonSizes[size]} 
                 ${loading || !active ? 'cursor-not-allowed text-[#4f4c4c89] !bg-[#c5c5c589]' : buttonStyles[variant] || buttonStyles.primary} 
                 ${className}`}

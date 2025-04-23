@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import ProtectedRoute from "@/AuthenticRouting/ProtectedRoutes";
 import Loader from "@/components/Loader/loader";
 import { useParams } from "next/navigation";

@@ -36,12 +36,12 @@ const FormInput = ({
         disabled={disabled}
         value={value}
         placeholder={layoutStyle === '2' ? placeholder : ''}
-        className={`Inputs pr-[40px] h-[50px] text-textTC bg-backgroundC pl-[20px] flex items-center rounded-md outline-[#3973B0] p-2 border w-full ${className} ${error ? "border-red-500" : "border-[#a6a6a668]"
+        className={`Inputs pr-[40px] h-[50px] text-textTC bg-backgroundC pl-[20px] flex items-center rounded-md outline-[#3973B0] p-2 border w-full ${className} ${error ? "border-red-500" : "border-[#a6a6a689]"
           } rounded`}
       />
       {layoutStyle === '1' && (
         <label
-          className={`pointer-events-none transition-all bg-backgroundC p-[4px]  absolute left-3 text-[#a5a2a2] ${value || value === 0
+          className={`pointer-events-none transition-all bg-backgroundC p-[4px]  absolute left-3  ${error ? 'text-red-500':'text-[#969393]'} ${value || value === 0
             ? "top-[-10px] text-[10px]"
             : "top-[12px]"
             }`}

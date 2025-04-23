@@ -56,11 +56,14 @@ const AddEditProductModal = ({
       setTimeout(() => {
         setUpdatedProduct(null);
         setFormData({});
+        setErrors({});
+        setLoading(false);
       }, 0);
     }
   }, [isOpen]);
 
   const handleChange = (key, value) => {
+    setErrors((prev) => ({ ...prev, [key]: "" }));
     setFormData((prev) => ({ ...prev, [key]: value }));
   };
 
@@ -69,7 +72,7 @@ const AddEditProductModal = ({
     if (!productUploadValidate(formData, setErrors)) return;
 
     try {
-      dispatch(setLoading(true));
+      setLoading(true);
 
       let imagesToUpload = formData.images.filter((img) => img instanceof File);
       let existingImages = formData.images.filter((img) => typeof img === "string");
@@ -93,10 +96,10 @@ const AddEditProductModal = ({
         await editProductData(productData, currUser?.brandName, updatedData._id, dispatch);
       }
 
-      dispatch(setLoading(false));
+      setLoading(false)
       setIsOpen(false);
     } catch (error) {
-      dispatch(setLoading(false));
+      setLoading(false)
       toast.error(error.message || "Something went wrong");
     }
   };

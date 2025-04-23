@@ -64,7 +64,7 @@ const LayoutWithReduxState = ({ children }) => {
         }
       }
       else {
-        router.push('/not-found')
+        router.push('/error/site-not-found')
       }
     };
 
