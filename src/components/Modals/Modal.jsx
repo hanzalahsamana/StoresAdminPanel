@@ -33,7 +33,7 @@ const Modal = ({ isOpen, setIsOpen, children, className , extraFuntion=() => { }
         onClick={(e) => e.stopPropagation()}
       >
         <button
-          className="absolute top-2 right-2 text-gray-600 hover:text-gray-900"
+          className="absolute top-2 right-2 text-gray-600 hover:text-gray-900 z-[1]"
           onClick={closeModal}
         >
           <IoMdClose size={24} />

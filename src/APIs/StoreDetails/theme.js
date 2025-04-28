@@ -1,7 +1,7 @@
 "use client";
 import axios from "axios";
 import BASE_URL from "../../../config";
-import { setThemeData, setThemeLoading } from "@/Redux/Theme/Theme.slice";
+import { setStoreDetail } from "@/Redux/StoreDetail/StoreDetail.slice";
 
 export const setTheme = async (theme, token, dispatch) => {
   try {
@@ -20,7 +20,7 @@ export const setTheme = async (theme, token, dispatch) => {
 
     console.log(data?.data);
 
-    dispatch(setThemeData(data?.data));
+    dispatch(setStoreDetail(data?.data));
     return data?.data;
   } catch (error) {
     const message =

@@ -13,7 +13,7 @@ body {
   --secondary-color: #06a4a720;
   --accent-color: #ff5733;
   --background-color: #ffffff;
-  --text-color: #333939;
+  --text-color: #333;
   --border-color: #dcdee1;
   --light-text-color: #5f6571;
 }
@@ -51,8 +51,8 @@ body {
 }
 
 .Inputs:focus~label {
-  font-size: 10px;
-  top: -10px;
+  font-size: 12px !important;
+  top: -10px !important;
 }
 
 .dropDown {

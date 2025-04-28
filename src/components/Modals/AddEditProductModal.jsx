@@ -15,18 +15,22 @@ import { useDispatch, useSelector } from "react-redux";
 import { calculateDiscountedPrice } from "@/Utils/CalculateDiscountedPrice";
 import { uploadImagesToS3 } from "@/APIs/uploadImageS3";
 import { productUploadValidate } from "@/Utils/FormsValidator";
+import ActionCard from "../Cards/ActionCard";
+import Button from "../Actions/Button";
+import CustomCard from "../Cards/CustomCard";
+import BackButton from "../Actions/BackButton"; 
 
 const AddEditProductModal = ({
   isOpen,
   setIsOpen,
   productLoading,
   updatedData = null,
-  setUpdatedProduct,
 }) => {
   const dispatch = useDispatch();
   const { categories } = useSelector((state) => state.categories);
   const { currUser } = useSelector((state) => state.currentUser);
   const [errors, setErrors] = useState({});
+  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({});
 
   useEffect(() => {
@@ -55,7 +59,6 @@ const AddEditProductModal = ({
   useEffect(() => {
     if (!isOpen) {
       setTimeout(() => {
-        setUpdatedProduct(null);
         setFormData({});
       }, 0);
     }
@@ -70,7 +73,7 @@ const AddEditProductModal = ({
     if (!productUploadValidate(formData, setErrors)) return;
 
     try {
-      dispatch(setProductLoading(true));
+      dispatch(setLoading(true));
 
       let imagesToUpload = formData.images.filter((img) => img instanceof File);
       let existingImages = formData.images.filter((img) => typeof img === "string");
@@ -94,43 +97,70 @@ const AddEditProductModal = ({
         await editProductData(productData, currUser?.brandName, updatedData._id, dispatch);
       }
 
-      dispatch(setProductLoading(false));
+      dispatch(setLoading(false));
       setIsOpen(false);
     } catch (error) {
-      dispatch(setProductLoading(false));
+      dispatch(setLoading(false));
       toast.error(error.message || "Something went wrong");
     }
   };
 
   return (
-    <Modal isOpen={isOpen} setIsOpen={setIsOpen}>
-      <Form handleSubmit={handleSubmit} buttonLabel={updatedData ? "Edit Product" : "Add Product"} loading={productLoading}>
-        <div className="flex gap-4">
-          <FormInput name="name" placeholder="Name" value={formData.name || ""} handleChange={(e) => handleChange(e.target.name, e.target.value)} error={errors.name} />
-          <FormInput name="brand" placeholder="Brand Name" value={formData.brand || ""} handleChange={(e) => handleChange(e.target.name, e.target.value)} error={errors.brand} />
+    <div className="relative w-full flex flex-col gap-[20px] ">
+      <ActionCard
+        lable={updatedData ? "Edit Product" : "Add Product"}
+        actions={<>
+          <Button
+            action={handleSubmit}
+            label={updatedData ? "Edit Product" : "Add Product"}
+            loading={loading}
+            size="small"
+          />
+          <BackButton link={"/products"} />
+        </>}
+        actionPosition="top"
+        className={'rounded-sm'} />
+
+      <div className="flex flex-wrap gap-5 md:gap-0">
+        <div className="w-full md:w-3/5 space-y-5 md:pr-[10px]">
+
+          <CustomCard title="Product Details" classes="break-inside-avoid flex-none !p-4 pt-3">
+            <FormInput name="name" placeholder="Name" value={formData.name || ""} handleChange={(e) => handleChange(e.target.name, e.target.value)} error={errors.name} />
+            <FormInput name="brand" placeholder="Brand Name" value={formData.brand || ""} handleChange={(e) => handleChange(e.target.name, e.target.value)} error={errors.brand} />
+            {/* <FormInput name="description" placeholder="Description" value={formData.description || ""} handleChange={(e) => handleChange(e.target.name, e.target.value)} error={errors.description} /> */}
+          </CustomCard>
+
+          <CustomCard title="Gallery" classes="break-inside-avoid flex-none !p-4 pt-3">
+            {/* <MultiSelectDropdown defaultOptions={["L", "S", "M", "XL"]} selectedOptions={formData.size || []} setSelectedOptions={(options) => handleChange("size", options)} placeholder="Select Sizes" error={errors.size} /> */}
+            {/* <DropDown defaultOptions={categories?.map((cat) => cat?.link)} selectedOption={formData.collectionName || ""} setSelectedOption={(option) => handleChange("collectionName", option)} placeholder="Select Category" error={errors.collectionName} /> */}
+            <MultiImageUploader images={formData.images || []} setImages={(images) => handleChange("images", images)} error={errors.image} />
+          </CustomCard>
+
+          <CustomCard title="Variation" classes="break-inside-avoid flex-none !p-4 pt-3">
+            <MultiSelectDropdown defaultOptions={["L", "S", "M", "XL"]} selectedOptions={formData.size || []} setSelectedOptions={(options) => handleChange("size", options)} placeholder="Select Sizes" error={errors.size} />
+            <FormInput name="type" placeholder="Type" value={formData.type || ""} handleChange={(e) => handleChange(e.target.name, e.target.value)} error={errors.type} />
+            <FormInput type="number" name="stock" placeholder="Stock" value={formData.stock || 0} handleChange={(e) => handleChange(e.target.name, e.target.value)} error={errors.stock} />
+          </CustomCard>
         </div>
 
-        <div className="flex gap-4">
-          <FormInput type="number" name="originalPrice" placeholder="Original Price" value={formData.originalPrice || 0} handleChange={(e) => handleChange(e.target.name, e.target.value)} error={errors.originalPrice} />
-          <FormInput type="number" name="discount" placeholder="Discount %" value={formData.discount || 0} handleChange={(e) => handleChange(e.target.name, e.target.value)} error={errors.discount} />
-          <FormInput type="number" name="discountedPrice" placeholder="Discounted Price" value={calculateDiscountedPrice(formData.originalPrice, formData.discount)} readOnly />
+        <div className="w-full md:w-2/5 space-y-5 md:pl-[10px]">
+
+          <CustomCard title="Pricing" classes="break-inside-avoid flex-none !p-4 pt-3">
+            <FormInput type="number" name="originalPrice" placeholder="Original Price" value={formData.originalPrice || 0} handleChange={(e) => handleChange(e.target.name, e.target.value)} error={errors.originalPrice} />
+            <FormInput type="number" name="discount" placeholder="Discount %" value={formData.discount || 0} handleChange={(e) => handleChange(e.target.name, e.target.value)} error={errors.discount} />
+            <FormInput type="number" name="discountedPrice" placeholder="Discounted Price" value={calculateDiscountedPrice(formData.originalPrice, formData.discount)} readOnly />
+          </CustomCard>
+
+          <CustomCard title="Stock" classes="break-inside-avoid flex-none !p-4 pt-3">
+            <FormInput name="type" placeholder="Type" value={formData.type || ""} handleChange={(e) => handleChange(e.target.name, e.target.value)} error={errors.type} />
+            <FormInput type="number" name="stock" placeholder="Stock" value={formData.stock || 0} handleChange={(e) => handleChange(e.target.name, e.target.value)} error={errors.stock} />
+          </CustomCard>
+
+
         </div>
+      </div>
 
-        <div className="flex gap-4">
-          <FormInput name="type" placeholder="Type" value={formData.type || ""} handleChange={(e) => handleChange(e.target.name, e.target.value)} error={errors.type} />
-          <FormInput type="number" name="stock" placeholder="Stock" value={formData.stock || 0} handleChange={(e) => handleChange(e.target.name, e.target.value)} error={errors.stock} />
-        </div>
-
-        <FormInput name="description" placeholder="Description" value={formData.description || ""} handleChange={(e) => handleChange(e.target.name, e.target.value)} error={errors.description} />
-
-        <div className="flex gap-4">
-          <MultiSelectDropdown defaultOptions={["L", "S", "M", "XL"]} selectedOptions={formData.size || []} setSelectedOptions={(options) => handleChange("size", options)} placeholder="Select Sizes" error={errors.size} />
-          <DropDown defaultOptions={categories?.map((cat) => cat?.link)} selectedOption={formData.collectionName || ""} setSelectedOption={(option) => handleChange("collectionName", option)} placeholder="Select Category" error={errors.collectionName} />
-        </div>
-
-        <MultiImageUploader images={formData.images || []} setImages={(images) => handleChange("images", images)} error={errors.image} />
-      </Form>
-    </Modal>
+    </div>
   );
 };
 

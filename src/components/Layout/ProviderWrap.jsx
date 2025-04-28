@@ -9,25 +9,26 @@ import { fetchProducts } from "@/APIs/Product/getProductData";
 import { fetchCategory } from "@/APIs/Category/getCategory";
 import { fetchPagesData } from "@/APIs/PagesData/getPagesData";
 import { fetchSectionsData } from "@/APIs/SectionsData/getSectonsData";
-import { fetchTheme } from "@/APIs/Theme/fetchTheme";
 
 import { setSiteName } from "@/Redux/SiteName/SiteNameSlice";
 import { applyTheme } from "@/Utils/ApplyTheme";
 import Loader from "../Loader/loader";
+import { fetchStoreDetails } from "@/APIs/StoreDetails/fetchStoreDetails";
 
 const ProviderWrap = ({ children }) => {
   const dispatch = useDispatch();
   const router = useRouter();
 
-  
-  
+
+
   const { currUser } = useSelector((state) => state.currentUser);
   const { productLoading } = useSelector((state) => state.productData);
   const { pagesDataLoading } = useSelector((state) => state.pagesData);
   const { sectionDataLoading } = useSelector((state) => state.sectionsData);
   const { categoryLoading } = useSelector((state) => state.categories);
-  const { theme, themeloading } = useSelector((state) => state.theme);
-  
+  const { storeDetail, storeDetailLoading } = useSelector((state) => state?.storeDetail);
+  const { theme } = storeDetail;
+
   useEffect(() => {
     const userToken = localStorage.getItem("userToken");
     getUserFromToken(dispatch, userToken);
@@ -51,7 +52,7 @@ const ProviderWrap = ({ children }) => {
           fetchCategory(dispatch, currUser.brandName),
           fetchPagesData(dispatch, currUser.brandName),
           fetchSectionsData(dispatch, currUser.brandName),
-          fetchTheme(dispatch, currUser.brandName),
+          fetchStoreDetails(dispatch, currUser.brandName),
         ]);
       } catch (error) {
         console.error("Data fetching failed:", error);
@@ -66,7 +67,7 @@ const ProviderWrap = ({ children }) => {
     (productLoading ||
       pagesDataLoading ||
       categoryLoading ||
-      themeloading ||
+      storeDetailLoading ||
       sectionDataLoading);
 
   if (isLoading) return <Loader />;
