@@ -3,10 +3,11 @@
 import React, { useEffect, useState } from "react";
 import FormInput from "../Forms/FormInput";
 import MultiImageUploader from "../Uploaders/MultiImageUploader";
-import Form from "../Forms/Form";
-import Modal from "./Modal";
+import ActionCard from "../Cards/ActionCard";
+import Button from "../Actions/Button";
+import CustomCard from "../Cards/CustomCard";
+import BackButton from "../Actions/BackButton";
 import MultiSelectDropdown from "../Actions/MultiSelectDropdown";
-import DropDown from "../Actions/DropDown";
 import { toast } from "react-toastify";
 import { addProducts } from "@/APIs/Product/addProductData";
 import { editProductData } from "@/APIs/Product/editProductData";
@@ -14,23 +15,20 @@ import { useDispatch, useSelector } from "react-redux";
 import { calculateDiscountedPrice } from "@/Utils/CalculateDiscountedPrice";
 import { uploadImagesToS3 } from "@/APIs/uploadImageS3";
 import { productUploadValidate } from "@/Utils/FormsValidator";
-import ActionCard from "../Cards/ActionCard";
-import Button from "../Actions/Button";
-import CustomCard from "../Cards/CustomCard";
-import BackButton from "../Actions/BackButton"; 
+import MultiSelectCheckbox from "../Actions/MultiSelectCheckbox";
+import VariantsSelector from "../Uploaders/VariantsSelector";
 
-const AddEditProductModal = ({
-  isOpen,
-  setIsOpen,
-  updatedData = null,
-}) => {
+const AddEditProductModal = ({ isOpen, setIsOpen, updatedData = null }) => {
   const dispatch = useDispatch();
   const { categories } = useSelector((state) => state.categories);
   const { currUser } = useSelector((state) => state.currentUser);
+  const { variations } = useSelector((state) => state?.storeDetail?.storeDetail);
+
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({});
-  const [loading, setLoading] = useState(false);
+  const [selectedVariationNames, setSelectedVariationNames] = useState([]);
+  const [selectedOptionsMap, setSelectedOptionsMap] = useState({});
 
   useEffect(() => {
     if (updatedData) {
@@ -51,7 +49,10 @@ const AddEditProductModal = ({
         description: "",
         stock: 10,
         images: [],
+        variationData: [],
       });
+      setSelectedOptionsMap({});
+      setSelectedVariationNames([]);
     }
   }, [updatedData]);
 
@@ -61,6 +62,8 @@ const AddEditProductModal = ({
         setFormData({});
         setErrors({});
         setLoading(false);
+        setSelectedOptionsMap({});
+        setSelectedVariationNames([]);
       }, 0);
     }
   }, [isOpen]);
@@ -72,25 +75,32 @@ const AddEditProductModal = ({
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!productUploadValidate(formData, setErrors)) return;
+    const finalVariationData = selectedVariationNames.map((varName) => ({
+      name: varName,
+      options: selectedOptionsMap[varName] || [],
+    }));
+
+    const finalData = { ...formData, variationData: finalVariationData };
+
+    if (!productUploadValidate(finalData, setErrors)) return;
 
     try {
-      dispatch(setLoading(true));
+      setLoading(true);
 
-      let imagesToUpload = formData.images.filter((img) => img instanceof File);
-      let existingImages = formData.images.filter((img) => typeof img === "string");
+      let imagesToUpload = finalData.images.filter((img) => img instanceof File);
+      let existingImages = finalData.images.filter((img) => typeof img === "string");
 
       if (imagesToUpload.length > 0) {
         const uploadedImagesUrls = await uploadImagesToS3(currUser?.brandName, imagesToUpload);
-        formData.images = [...existingImages, ...uploadedImagesUrls];
+        finalData.images = [...existingImages, ...uploadedImagesUrls];
       }
 
       const productData = {
-        ...formData,
-        alt: formData.name,
-        originalPrice: Number(formData.originalPrice),
-        discountedPrice: Number(formData.discountedPrice),
-        discount: Number(formData.discount),
+        ...finalData,
+        alt: finalData.name,
+        originalPrice: Number(finalData.originalPrice),
+        discountedPrice: Number(finalData.discountedPrice),
+        discount: Number(finalData.discount),
       };
 
       if (!updatedData) {
@@ -99,29 +109,32 @@ const AddEditProductModal = ({
         await editProductData(productData, currUser?.brandName, updatedData._id, dispatch);
       }
 
-      dispatch(setLoading(false));
+      setLoading(false);
       setIsOpen(false);
     } catch (error) {
-      dispatch(setLoading(false));
+      setLoading(false);
       toast.error(error.message || "Something went wrong");
     }
   };
 
   return (
-    <div className="relative w-full flex flex-col gap-[20px] ">
+    <div className="relative w-full flex flex-col gap-[20px]">
       <ActionCard
         lable={updatedData ? "Edit Product" : "Add Product"}
-        actions={<>
-          <Button
-            action={handleSubmit}
-            label={updatedData ? "Edit Product" : "Add Product"}
-            loading={loading}
-            size="small"
-          />
-          <BackButton link={"/products"} />
-        </>}
+        actions={
+          <>
+            <Button
+              action={handleSubmit}
+              label={updatedData ? "Edit Product" : "Add Product"}
+              loading={loading}
+              size="small"
+            />
+            <BackButton link={"/products"} />
+          </>
+        }
         actionPosition="top"
-        className={'rounded-sm'} />
+        className={"rounded-sm"}
+      />
 
       <div className="flex flex-wrap gap-5 md:gap-0">
         <div className="w-full md:w-3/5 space-y-5 md:pr-[10px]">
@@ -129,20 +142,44 @@ const AddEditProductModal = ({
           <CustomCard title="Product Details" classes="break-inside-avoid flex-none !p-4 pt-3">
             <FormInput name="name" placeholder="Name" value={formData.name || ""} handleChange={(e) => handleChange(e.target.name, e.target.value)} error={errors.name} />
             <FormInput name="brand" placeholder="Brand Name" value={formData.brand || ""} handleChange={(e) => handleChange(e.target.name, e.target.value)} error={errors.brand} />
-            {/* <FormInput name="description" placeholder="Description" value={formData.description || ""} handleChange={(e) => handleChange(e.target.name, e.target.value)} error={errors.description} /> */}
           </CustomCard>
 
           <CustomCard title="Gallery" classes="break-inside-avoid flex-none !p-4 pt-3">
-            {/* <MultiSelectDropdown defaultOptions={["L", "S", "M", "XL"]} selectedOptions={formData.size || []} setSelectedOptions={(options) => handleChange("size", options)} placeholder="Select Sizes" error={errors.size} /> */}
-            {/* <DropDown defaultOptions={categories?.map((cat) => cat?.link)} selectedOption={formData.collectionName || ""} setSelectedOption={(option) => handleChange("collectionName", option)} placeholder="Select Category" error={errors.collectionName} /> */}
             <MultiImageUploader images={formData.images || []} setImages={(images) => handleChange("images", images)} error={errors.image} />
           </CustomCard>
 
-          <CustomCard title="Variation" classes="break-inside-avoid flex-none !p-4 pt-3">
-            <MultiSelectDropdown defaultOptions={["L", "S", "M", "XL"]} selectedOptions={formData.size || []} setSelectedOptions={(options) => handleChange("size", options)} placeholder="Select Sizes" error={errors.size} />
-            <FormInput name="type" placeholder="Type" value={formData.type || ""} handleChange={(e) => handleChange(e.target.name, e.target.value)} error={errors.type} />
-            <FormInput type="number" name="stock" placeholder="Stock" value={formData.stock || 0} handleChange={(e) => handleChange(e.target.name, e.target.value)} error={errors.stock} />
+          <CustomCard title="Variation" classes="break-inside-avoid flex-none !p-4 pt-3 ">
+            {/* <MultiSelectDropdown
+              defaultOptions={variations.map((v) => v?.name) || []}
+              selectedOptions={selectedVariationNames}
+              setSelectedOptions={setSelectedVariationNames}
+              placeholder="Select global variations to use"
+            />
+            {selectedVariationNames.length > 0 && (
+              <p className="text-left w-full">Choose variation options to use in that product</p>
+            )}
+            <div className="grid grid-cols-3 flex-col items-start w-full gap-4">
+
+              {selectedVariationNames.map((varName, index) => {
+                const currentOptions = variations.find((v) => v.name === varName)?.options || [];
+                return (
+                  <MultiSelectCheckbox
+                    options={currentOptions}
+                    selectedOptions={selectedOptionsMap[varName] || []}
+                    setSelectedOptions={(option) =>
+                      setSelectedOptionsMap((prev) => ({ ...prev, [varName]: option }))
+                    }
+                    key={index}
+                    lable={`${varName}`}
+                  />
+
+
+                );
+              })}
+            </div> */}
+            <VariantsSelector/>
           </CustomCard>
+
         </div>
 
         <div className="w-full md:w-2/5 space-y-5 md:pl-[10px]">
@@ -158,10 +195,8 @@ const AddEditProductModal = ({
             <FormInput type="number" name="stock" placeholder="Stock" value={formData.stock || 0} handleChange={(e) => handleChange(e.target.name, e.target.value)} error={errors.stock} />
           </CustomCard>
 
-
         </div>
       </div>
-
     </div>
   );
 };

@@ -14,7 +14,7 @@ const DropDown = ({
     className = '',
     wantsCustomOption = false, // new prop to enable custom option
     label = "label",
-    layout = "label",
+    layout = null,
 }) => {
     const [isOpen, setIsOpen] = useState(false);
     const [searchTerm, setSearchTerm] = useState(selectedOption);
@@ -57,6 +57,7 @@ const DropDown = ({
                         onFocus={() => setIsOpen(true)}
                         error={error}
                         value={searchTerm}
+                        readOnly={!wantsCustomOption}
                         handleChange={(e) => {
                             setSearchTerm(e.target.value);
                             setIsOpen(true);

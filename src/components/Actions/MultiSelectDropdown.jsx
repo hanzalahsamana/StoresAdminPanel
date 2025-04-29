@@ -137,7 +137,7 @@ const MultiSelectDropdown = ({
 
                 {/* Dropdown options */}
                 <div
-                    className={`absolute w-full bg-white box-content border rounded-md shadow-md z-50 transition-all duration-150 ease-in-out overflow-y-auto customScroll ${isOpen ? "max-h-[150px] border" : "max-h-0 border-none"
+                    className={`absolute w-full select-none bg-white box-content border rounded-md shadow-md z-50 transition-all duration-150 ease-in-out overflow-y-auto customScroll ${isOpen ? "max-h-[150px] border" : "max-h-0 border-none"
                         }`}
                     style={{
                         top: openUpward ? "auto" : "100%",
