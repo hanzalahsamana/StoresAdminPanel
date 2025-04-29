@@ -31,7 +31,7 @@ const MultiImageUploader = ({
     useEffect(() => console.log(images, "👍l"), [images])
 
     return (
-        <div className="flex flex-col gap-6 justify-center items-start w-full">
+        <div className="flex flex-col justify-center items-start w-full">
             <div className="flex w-full gap-3">
                 <input
                     id="multiFileInput"
@@ -52,6 +52,29 @@ const MultiImageUploader = ({
                         <CiCamera className={'text-[50px] text-primaryC font-bold '} />
                         <p className="text-primaryC  text-center text-[12px] ">Upload images</p>
 
+<<<<<<< HEAD
+=======
+                        {images?.map((image, index) => (
+                            <div key={index} className="relative w-[100px] h-[100px]">
+                                <img
+                                    src={image instanceof File || image instanceof Blob
+                                        ? URL.createObjectURL(image)
+                                        : image}
+                                    alt={`Selected ${index}`}
+                                    className="w-[100px] h-[100px] bg-transparent object-cover border border-solid border-borderC rounded-sm"
+                                />
+                                <button
+                                    data-tooltip-id="my"
+                                    data-tooltip-content="Remove Image"
+                                    onClick={() => handleRemoveImage(index)}
+                                    className="absolute  top-[-8px] right-[-8px] rounded-full text-white bg-red-500 text-[12px] p-1"
+                                >
+                                    <IoMdClose />
+                                    <Tooltip className="!text-[8px]" id="my" />
+                                </button>
+                            </div>
+                        ))}
+>>>>>>> a8e931313f66425d67fa742a8ef53733213bb270
                     </div>
 
                     {images?.map((image, index) => (

@@ -65,7 +65,7 @@ const LayoutWithReduxState = ({ children }) => {
         }
       }
       else {
-        router.push('/not-found')
+        router.push('/error/site-not-found')
       }
     };
 
@@ -85,7 +85,7 @@ const LayoutWithReduxState = ({ children }) => {
   }
 
   return (
-    <div className={`flex flex-col items-center ${assistant.className}`}>
+    <div className={`flex flex-col items-center ${assistant.className} antialiased`}>
       <TemplateHeader />
       {children}
       <TemplateFooter />

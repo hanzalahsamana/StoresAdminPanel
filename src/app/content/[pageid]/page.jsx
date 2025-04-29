@@ -13,7 +13,6 @@ import TextEditor from '@/components/Uploaders/TextEditor';
 import { selectPageByID } from '@/Redux/PagesData/PagesDataSlice';
 import { useParams } from 'next/navigation';
 import { useDispatch, useSelector } from 'react-redux';
-import _ from "lodash";
 import { editPagesData } from '@/APIs/PagesData/editPagesData';
 import { toast } from 'react-toastify';
 import { CiUndo } from 'react-icons/ci';
@@ -21,6 +20,7 @@ import IconButton from '@/components/Actions/IconButton';
 import { uploadSingleImageToS3 } from '@/APIs/uploadImageS3';
 import { pageDataValidate } from '@/Utils/FormsValidator';
 import BackButton from '@/components/Actions/BackButton';
+import { IsEqual } from '@/Utils/IsEqual';
 
 
 const componentMapping = {
@@ -172,7 +172,7 @@ const ContentEdit = () => {
 
   useEffect(() => {
     const { _id, __v, updatedAt, ...rest } = page;
-    setIsModified(!_.isEqual(rest, formData));
+    setIsModified(!IsEqual(rest, formData));
   }, [page, formData]);
 
   const discardData = () => {
@@ -208,7 +208,7 @@ const ContentEdit = () => {
             </>}
           actionPosition='top'
           lable={page.type}
-          className={'!px-5 !py-3 !h-[calc(100vh-92px)]'}
+          className={'h-[calc(100vh-92px)]'}
         >
           <div
             className={` border-[#c9c9c98f] border-t px-[8px] py-[20px] h-full overflow-y-auto customScroll flex flex-col`}

@@ -1,5 +1,5 @@
 #!/bin/bash
-cd /home/ec2-user/demo
+cd /home/ubuntu/demo
 
 NODE_OPTIONS="--max-old-space-size=8192" npm run build
 

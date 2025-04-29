@@ -2,13 +2,17 @@ version: 0.0
 os: linux
 files:
   - source: /
-    destination: /home/ec2-user/StoresAdminPanel
+    destination: /home/ubuntu/StoresAdminPanel
 hooks:
+  BeforeInstall:
+    - location: scripts/clean.sh
+      timeout: 300
+      runas: ubuntu
   AfterInstall:
     - location: scripts/install_dependencies.sh
-      timeout: 300
-      runas: ec2-user
+      timeout: 600
+      runas: ubuntu
   ApplicationStart:
     - location: scripts/start_pm2.sh
-      timeout: 300
-      runas: ec2-user
+      timeout: 600
+      runas: ubuntu

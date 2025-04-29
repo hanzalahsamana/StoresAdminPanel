@@ -4,7 +4,7 @@ import BackButton from '../Actions/BackButton'
 
 const ActionCard = ({ lable, actionPosition = 'bottom', className, children, actions, error, loading = false, loader = <TextLoader /> }) => {
     return (
-        <div className={`relative p-8 w-full border  rounded-md flex flex-col gap-[20px] bg-white ${error ? 'border-[red]' : 'border-borderC'} ${className}`}>
+        <div className={`relative p-5 w-full border  rounded-md flex flex-col gap-[20px] bg-white ${error ? 'border-[red]' : 'border-borderC'} ${className}`}>
             
             <div className='flex justify-between items-center'>
                 <h1 className="text-textC font-semibold text-[23px] md:text-[30px] ">{lable}</h1>
@@ -24,7 +24,7 @@ const ActionCard = ({ lable, actionPosition = 'bottom', className, children, act
                 children
             )}
             {actionPosition === 'bottom' && (
-                <div className="flex justify-end items-center mt-[15px] gap-[20px]">
+                <div className="flex justify-end items-end flex-1 mt-[15px] gap-[20px]">
                     {actions}
                 </div>
             )}

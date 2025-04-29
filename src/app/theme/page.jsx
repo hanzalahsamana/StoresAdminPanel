@@ -44,7 +44,7 @@ const Theme = () => {
 
 
   useEffect(() => {
-    setIsModified(!_.isEqual(theme, formData));
+    setIsModified(!IsEqual(theme, formData));
   }, [theme, formData]);
 
   return (

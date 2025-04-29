@@ -6,7 +6,7 @@ import { setanalyticData, setAnalyticLoading } from "@/Redux/Analytics/analytic.
 
 export const FetchAnalytics = async (dispatch , dateFilter , siteName) => {
   try {
-    const response = await axios.get(`${BASE_URL}/HannanFabrics/getAnalytics?dateFilter=${dateFilter}&siteName=${siteName}`);
+    const response = await axios.get(`${BASE_URL}/abc/getAnalytics?dateFilter=${dateFilter}&siteName=${siteName}`);
     dispatch(setanalyticData(response.data));
     dispatch(setAnalyticLoading(false));
     return response.data;

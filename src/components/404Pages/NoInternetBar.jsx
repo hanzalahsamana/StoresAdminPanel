@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { MdOutlineErrorOutline } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 
-const NetworkStatus = () => {
+const NoInternetBar = () => {
     const dispatch = useDispatch();
     const isOnline = useSelector((state) => state.network.isOnline);
 
@@ -47,4 +47,4 @@ const NetworkStatus = () => {
     return null;
 };
 
-export default NetworkStatus;
+export default NoInternetBar;

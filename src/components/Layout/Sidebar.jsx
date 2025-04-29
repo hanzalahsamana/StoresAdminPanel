@@ -3,15 +3,15 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState, useRef } from "react";
 import { GrDeliver } from "react-icons/gr";
 import { IoAnalyticsOutline, IoHomeOutline, IoShirtOutline, IoChevronForward, IoColorPaletteOutline } from "react-icons/io5";
-import { TfiWorld } from "react-icons/tfi";
-import { BiBookContent, BiCategoryAlt } from "react-icons/bi";
+import { TfiLayoutMediaCenterAlt, TfiWorld } from "react-icons/tfi";
+import { BiBookContent, BiCategoryAlt, BiTransferAlt } from "react-icons/bi";
 import { PiTreeStructureLight } from "react-icons/pi";
 import { useSelector } from "react-redux";
 import Loader from "../Loader/loader";
 
 function Sidebar({ isOpen, setIsOpen }) {
   const { pagesData, pagesDataLoading } = useSelector((state) => state.pagesData);
-  const { sectionsData , sectionsDataLoading } = useSelector((state) => state.sectionsData);
+  const { sectionsData, sectionsDataLoading } = useSelector((state) => state.sectionsData);
   const pathname = usePathname();
   const [openDropdown, setOpenDropdown] = useState(null);
   const subNavRefs = useRef({});
@@ -19,11 +19,13 @@ function Sidebar({ isOpen, setIsOpen }) {
   const links = [
     { name: "Home", icon: <IoHomeOutline />, path: "/" },
     { name: "Analytics", icon: <IoAnalyticsOutline />, path: "/analytics" },
-    { name: "Products", icon: <IoShirtOutline />, path: "/productsList" },
+    {
+      name: "Products", icon: <IoShirtOutline />, path: "/products",
+    },
     { name: "Categories", icon: <BiCategoryAlt />, path: "/categories", },
     { name: "Orders", icon: <GrDeliver />, path: "/ordersList" },
     { name: "Domain", icon: <TfiWorld />, path: "/domain" },
-    { name: "Color Theme", icon: <IoColorPaletteOutline/>      , path: "/theme" },
+    { name: "Color Theme", icon: <IoColorPaletteOutline />, path: "/theme" },
     {
       name: "Contents", icon: <BiBookContent />, path: "/content",
       subLinks: [
@@ -34,17 +36,19 @@ function Sidebar({ isOpen, setIsOpen }) {
         })) : [])
       ],
     },
-    
+
     {
-      name: "Design / Layout", icon: <PiTreeStructureLight />, path: "/design",
+      name: "Design / Layout", icon: <TfiLayoutMediaCenterAlt />, path: "/design",
       subLinks: [
         { name: "Over View", path: "/design" },
         ...(Array.isArray(sectionsData) ? sectionsData.map(item => ({
-          name:item?.sectionName,
+          name: item?.sectionName,
           path: `/design/${item._id}`
         })) : [])
       ],
     },
+    { name: "Migration", icon: <BiTransferAlt />, path: "/migration" },
+
   ];
 
   useEffect(() => {

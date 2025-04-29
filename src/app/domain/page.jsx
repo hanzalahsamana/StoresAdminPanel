@@ -12,6 +12,7 @@ import DnsInstructions from "@/components/UI/DNSInstruction";
 import Link from "next/link";
 import { deleteDomain } from "@/APIs/Domain/deleteDomain";
 import { setCurrentUser } from "@/Redux/Authentication/AuthSlice";
+import { Base_Domain } from "../../../config";
 
 
 const DomainVerification = () => {
@@ -100,7 +101,7 @@ const DomainVerification = () => {
           handleChange={(e) => setDomain(e.target.value)}
         /> */}
 
-        <p className="text-[18px] text-textC">Your Site subdomain is <Link href={`https://${currUser?.subDomain}.hannanfabrics.com`} target={'blank'} className="text-[#386ec5] hover:opacity-80">{currUser?.subDomain}.hannanfabrics.com</Link></p>
+        <p className="text-[18px] text-textC">Your Site subdomain is <Link href={`https://${currUser?.subDomain}.${Base_Domain}`} target={'blank'} className="text-[#386ec5] hover:opacity-80">{currUser?.subDomain}.{Base_Domain}</Link></p>
         <div className="flex flex-col gap-6">
           <div className="flex text-[13px] gap-2">
             <IoBagCheck className="text-blue-500" />

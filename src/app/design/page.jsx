@@ -67,7 +67,7 @@ const Design = () => {
                 <ActionCard
                     lable={"Update Pages"}
                     actionPosition="hidden"
-                    className={'!px-5 !py-3 !h-[calc(100vh-92px)]'}
+                    className={'!h-[calc(100vh-92px)]'}
                 >
 
                     <DragDropContext onDragEnd={handleDragEnd}>

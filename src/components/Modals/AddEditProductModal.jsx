@@ -10,7 +10,6 @@ import DropDown from "../Actions/DropDown";
 import { toast } from "react-toastify";
 import { addProducts } from "@/APIs/Product/addProductData";
 import { editProductData } from "@/APIs/Product/editProductData";
-import { setProductLoading } from "@/Redux/Product/ProductSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { calculateDiscountedPrice } from "@/Utils/CalculateDiscountedPrice";
 import { uploadImagesToS3 } from "@/APIs/uploadImageS3";
@@ -23,7 +22,6 @@ import BackButton from "../Actions/BackButton";
 const AddEditProductModal = ({
   isOpen,
   setIsOpen,
-  productLoading,
   updatedData = null,
 }) => {
   const dispatch = useDispatch();
@@ -32,6 +30,7 @@ const AddEditProductModal = ({
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({});
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (updatedData) {
@@ -60,11 +59,14 @@ const AddEditProductModal = ({
     if (!isOpen) {
       setTimeout(() => {
         setFormData({});
+        setErrors({});
+        setLoading(false);
       }, 0);
     }
   }, [isOpen]);
 
   const handleChange = (key, value) => {
+    setErrors((prev) => ({ ...prev, [key]: "" }));
     setFormData((prev) => ({ ...prev, [key]: value }));
   };
 
