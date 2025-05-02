@@ -12,6 +12,7 @@ module.exports = {
         textC: "var(--text-color)",
         borderC: "var(--border-color)",
         textTC: "var(--light-text-color)",
+        lbgC: "var(--light-background-color)"
       },
       animation: {
         bounceSlow: "bounceSlow 0.3s forwards",

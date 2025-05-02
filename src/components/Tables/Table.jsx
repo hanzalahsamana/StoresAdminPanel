@@ -10,7 +10,7 @@ import { copyToClipboard } from "@/Utils/CopyText";
 
 const DynamicTable = ({ columns = [], data = [], actions = {}, loading = false, notFoundText = 'Not Found' }) => {
     return (
-        <div className="overflow-x-auto p-4 rounded-tl-lg rounded-tr-lg bg-white w-full border-primaryC">
+        <div className="overflow-x-auto p-4 rounded-tl-lg rounded-tr-lg bg-backgroundC w-full border-primaryC">
             <table className="w-full border-collapse rounded-tl-lg rounded-tr-lg  overflow-hidden text-nowrap">
                 <thead>
                     <tr className="bg-secondaryC border-secondaryC border-b-[2px] text-primaryC uppercase text-sm">
@@ -42,7 +42,7 @@ const DynamicTable = ({ columns = [], data = [], actions = {}, loading = false, 
                         data.map((row, rowIndex) => (
                             <tr
                                 key={rowIndex}
-                                className="border-b-[2px] min-h-[50px] border-secondaryC hover:bg-[#06a4a70b] transition duration-200"
+                                className="border-b-[2px] min-h-[50px] border-secondaryC hover:bg-lbgC transition duration-200"
                             >
                                 {columns.map((col) => {
                                     const value = row[col.key];

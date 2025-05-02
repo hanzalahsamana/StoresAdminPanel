@@ -2,12 +2,15 @@ import React from 'react'
 import TextLoader from '../Loader/TextLoader'
 import BackButton from '../Actions/BackButton'
 
-const ActionCard = ({ lable, actionPosition = 'bottom', className, children, actions, error, loading = false, loader = <TextLoader /> }) => {
+const ActionCard = ({ lable, actionPosition = 'bottom', className, children, actions, error, loading = false, loader = <TextLoader /> , icon }) => {
     return (
-        <div className={`relative p-5 w-full border  rounded-md flex flex-col gap-[20px] bg-white ${error ? 'border-[red]' : 'border-borderC'} ${className}`}>
+        <div className={`relative p-5 w-full border-[1.5px]  rounded-md flex flex-col gap-[20px] bg-backgroundC ${error ? 'border-[red]' : 'border-[#788a9a2c]'} ${className}`}>
             
             <div className='flex justify-between items-center'>
+                <div className='flex items-center gap-2'>
+                {icon && icon}
                 <h1 className="text-textC font-semibold text-[23px] md:text-[30px] ">{lable}</h1>
+                </div>
                 {actionPosition === 'top' && (
                     <div className="flex justify-end items-center  gap-[20px]">
                         {actions}

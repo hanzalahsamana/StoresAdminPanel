@@ -20,6 +20,7 @@ const DropDown = ({
     const [searchTerm, setSearchTerm] = useState(selectedOption);
     const [options, setOptions] = useState(defaultOptions);
     const dropdownRef = useRef(null);
+    const dropdownOptionsRef = useRef(null);
 
     useEffect(() => {
         const handleClickOutside = (event) => {
@@ -45,6 +46,14 @@ const DropDown = ({
             setSearchTerm(trimmed); // Update the input field
         }
     };
+    useEffect(() => {
+        if (dropdownOptionsRef.current) {
+            dropdownOptionsRef.current.scrollTop = 0;
+        }
+        if (searchTerm !== selectedOption) {
+          setSelectedOption('');
+        }
+      }, [searchTerm])
 
     const showCreateOption =
         wantsCustomOption && searchTerm.trim() && !options.includes(searchTerm.trim());
@@ -77,7 +86,8 @@ const DropDown = ({
 
                 {/* Dropdown options */}
                 <div
-                    className={`absolute top-[100%] mt-[4px] w-full bg-white box-content border rounded-md shadow-md z-50 transition-all duration-150 ease-in-out overflow-y-auto customScroll ${isOpen ? "max-h-[150px] border" : "max-h-0 border-none"}`}
+                    ref={dropdownOptionsRef}
+                    className={`absolute top-[100%] mt-[4px] w-full bg-backgroundC box-content border rounded-md shadow-md z-50 transition-all duration-150 ease-in-out overflow-y-auto customScroll ${isOpen ? "max-h-[150px] border" : "max-h-0 border-none"}`}
                 >
                     {showCreateOption && (
                         <div

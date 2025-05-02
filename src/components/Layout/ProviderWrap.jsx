@@ -19,8 +19,6 @@ const ProviderWrap = ({ children }) => {
   const dispatch = useDispatch();
   const router = useRouter();
 
-
-
   const { currUser } = useSelector((state) => state.currentUser);
   const { productLoading } = useSelector((state) => state.productData);
   const { pagesDataLoading } = useSelector((state) => state.pagesData);

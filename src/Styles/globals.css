@@ -9,13 +9,14 @@ body {
 }
 
 :root {
-  --primary-color: #0ba5a7;
-  --secondary-color: #06a4a720;
+  --primary-color: #0078D4;
+  --secondary-color:rgb(235, 245, 253) ;
   --accent-color: #ff5733;
   --background-color: #ffffff;
   --text-color: #333;
   --border-color: #dcdee1;
   --light-text-color: #5f6571;
+  --light-background-color: #ebf5fd5a;
 }
 
 :root {
@@ -82,17 +83,17 @@ body {
 }
 
 .customScroll::-webkit-scrollbar {
-  width: 5px;
-  height: 5px;
+  width: 2.5px;
+  height: 2.5px;
 }
 
 .customScroll::-webkit-scrollbar-track {
-  background-color: #e4e4e4;
+  background-color: transparent;
   border-radius: 0px;
 }
 
 .customScroll::-webkit-scrollbar-thumb {
-  background-color: #b7b7b7;
+  background-color: #7e7d7d;
   border-radius: 10px;
   border: 0px solid #f1f1f1;
 }

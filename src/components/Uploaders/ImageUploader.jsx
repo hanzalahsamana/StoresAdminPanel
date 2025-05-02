@@ -91,7 +91,7 @@ const ImageUploader = ({ image, setImage }) => {
               data-tooltip-id="my"
               data-tooltip-content="Remove Image"
               onClick={handleImageRemove}
-              className="absolute z-20 top-[-8px] right-[-8px] rounded-full text-white bg-red-500 text-[12px] p-1"
+              className="absolute z-20 top-[-8px] right-[-8px] rounded-full text-backgroundC bg-red-500 text-[12px] p-1"
             >
               <IoMdClose />
               <Tooltip className="!text-[10px]" id="my" />

@@ -189,7 +189,7 @@ const AddGlobalVariationModal = ({ isOpen, setIsOpen }) => {
               )}
             </div>
           ) : (
-            <div className="w-full rounded relative bg-white space-y-6">
+            <div className="w-full rounded relative bg-backgroundC space-y-6">
               <p className="text-yellow-500">You can add custom names by typing them.</p>
               <div className="flex flex-col gap-2">
                 <p>Variation Name:</p>

@@ -17,17 +17,17 @@ function Sidebar({ isOpen, setIsOpen }) {
   const subNavRefs = useRef({});
 
   const links = [
-    { name: "Home", icon: <IoHomeOutline />, path: "/" },
-    { name: "Analytics", icon: <IoAnalyticsOutline />, path: "/analytics" },
+    { name: "Home", icon: 'https://img.icons8.com/fluency/48/home.png', path: "/" },
+    { name: "Analytics", icon: 'https://img.icons8.com/fluency/48/combo-chart--v1.png', path: "/analytics" },
     {
-      name: "Products", icon: <IoShirtOutline />, path: "/products",
+      name: "Products", icon: 'https://img.icons8.com/doodle/48/t-shirt--v1.png', path: "/products",
     },
-    { name: "Categories", icon: <BiCategoryAlt />, path: "/categories", },
-    { name: "Orders", icon: <GrDeliver />, path: "/ordersList" },
-    { name: "Domain", icon: <TfiWorld />, path: "/domain" },
-    { name: "Color Theme", icon: <IoColorPaletteOutline />, path: "/theme" },
+    { name: "Categories", icon: 'https://img.icons8.com/external-flaticons-lineal-color-flat-icons/64/external-collections-modelling-agency-flaticons-lineal-color-flat-icons.png', path: "/categories", },
+    { name: "Orders", icon: 'https://img.icons8.com/color/48/cardboard-box.png', path: "/ordersList" },
+    { name: "Domain", icon: 'https://img.icons8.com/fluency/48/domain.png', path: "/domain" },
+    { name: "Color Theme", icon: 'https://img.icons8.com/emoji/48/artist-palette.png', path: "/theme" },
     {
-      name: "Contents", icon: <BiBookContent />, path: "/content",
+      name: "Contents", icon: 'https://img.icons8.com/color/48/design--v1.png', path: "/content",
       subLinks: [
         { name: "Over View", path: "/content" },
         ...(Array.isArray(pagesData) ? pagesData.map(item => ({
@@ -38,7 +38,7 @@ function Sidebar({ isOpen, setIsOpen }) {
     },
 
     {
-      name: "Design / Layout", icon: <TfiLayoutMediaCenterAlt />, path: "/design",
+      name: "Design / Layout", icon:'https://img.icons8.com/color/48/channel-mosaic.png', path: "/design",
       subLinks: [
         { name: "Over View", path: "/design" },
         ...(Array.isArray(sectionsData) ? sectionsData.map(item => ({
@@ -47,7 +47,7 @@ function Sidebar({ isOpen, setIsOpen }) {
         })) : [])
       ],
     },
-    { name: "Migration", icon: <BiTransferAlt />, path: "/migration" },
+    { name: "Migration", icon: 'https://img.icons8.com/fluency/48/back-sorting.png', path: "/migration" },
 
   ];
 
@@ -74,7 +74,7 @@ function Sidebar({ isOpen, setIsOpen }) {
 
   return (
     <aside
-      className={`bg-backgroundC w-[230px] py-5 border-r border-borderC text-white h-[calc(100vh-60px)] customScroll !overflow-y-scroll space-y-6 absolute top-[60px] left-0 transform transition duration-200 ease-in-out z-[100]
+      className={`bg-backgroundC w-[230px] py-5 border-r border-borderC text-backgroundC h-[calc(100vh-60px)] customScroll !overflow-y-scroll space-y-6 absolute top-[60px] left-0 transform transition duration-200 ease-in-out z-[100]
         ${isOpen ? "translate-x-0" : "-translate-x-full"}`}
     >
       <nav className="px-4 space-y-1">
@@ -83,10 +83,10 @@ function Sidebar({ isOpen, setIsOpen }) {
             <Link
               href={subLinks ? "#" : path}
               onClick={() => subLinks && toggleDropdown(index)}
-              className={`flex justify-between items-center gap-2 py-3 px-4 rounded transition duration-200 text-left
-                ${(pathname.startsWith(path) && path !== "/") || pathname === path ? "text-primaryC bg-secondaryC" : "text-textC hover:bg-[#eeeff1]"}`}
+              className={`flex justify-between items-center gap-2 py-[10px] px-4 rounded transition duration-200 text-left
+                ${(pathname.startsWith(path) && path !== "/") || pathname === path ? "text-textC border-l-4 border-primaryC bg-[#eeeff1f0]" : "text-textC hover:bg-[#eeeff1f0]"}`}
             >
-              <span className="flex gap-2 items-center w-full">{icon} {name}</span>
+              <span className="flex gap-2 items-center w-full"><img className="w-[22px] h-[22px]" src={icon} alt="home" /> {name}</span>
               {subLinks && (
                 <IoChevronForward className={`transition-transform ${openDropdown === index ? "rotate-90" : "rotate-0"}`} />
               )}

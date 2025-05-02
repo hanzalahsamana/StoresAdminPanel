@@ -22,7 +22,7 @@ const Checkbox = ({ label = "Checkbox", isChecked = false, setIsCheck }) => {
             >
                 {checked && (
                     <svg
-                        className="w-2 h-2 text-white"
+                        className="w-2 h-2 text-backgroundC"
                         fill="none"
                         stroke="currentColor"
                         strokeWidth="2"

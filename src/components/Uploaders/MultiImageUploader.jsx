@@ -67,7 +67,7 @@ const MultiImageUploader = ({
                                 data-tooltip-id="my"
                                 data-tooltip-content="Remove Image"
                                 onClick={() => handleRemoveImage(index)}
-                                className="absolute top-[-8px] right-[-8px] rounded-full text-white bg-red-500 text-[10px] p-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200"
+                                className="absolute top-[-8px] right-[-8px] rounded-full text-backgroundC bg-red-500 text-[10px] p-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200"
                             >
                                 <IoMdClose />
                                 <Tooltip className="!text-[8px]" id="my" />

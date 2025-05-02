@@ -15,11 +15,12 @@ const Button = ({
 }) => {
     // Define button styles based on variant
     const buttonStyles = {
-        primary: "bg-primaryC text-white",
+        primary: "bg-primaryC text-backgroundC",
         outline: "border-2 border-primaryC text-primaryC bg-transparent  leading-[calc(1em)]",
-        danger: "bg-red-600 text-white",
-        black: "bg-black text-white",
+        danger: "bg-red-600 text-backgroundC",
+        black: "bg-black text-backgroundC",
         warning: "bg-yellow-500 text-black",
+        text: "bg-transparent text-primaryC py-0 !px-[5px]",
     };
     const buttonSizes = {
         large: "text-[17px] py-[12px] px-[25px] min-w-[150px] ",

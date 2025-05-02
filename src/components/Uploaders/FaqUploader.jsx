@@ -102,7 +102,7 @@ const FaqUploader = ({ initialFaqs, setFaqs }) => {
       <div className="flex justify-end gap-2">
         <button
           onClick={addFaq}
-          className="bg-[#28a745] rounded-sm shadow-lg text-[14px] text-white p-2 hover:opacity-90 focus:outline-none"
+          className="bg-[#28a745] rounded-sm shadow-lg text-[14px] text-backgroundC p-2 hover:opacity-90 focus:outline-none"
         >
           Add More
         </button>

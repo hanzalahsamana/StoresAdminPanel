@@ -32,15 +32,15 @@ export default function ToggleSwitch({ label = "", defaultChecked = false, onCha
                 {/* Background */}
                 <div
                     className={`absolute top-0 left-0 w-full h-full rounded-full transition-colors duration-300 ${checked
-                        ? "bg-teal-500 shadow-inner shadow-teal-600"
+                        ? "bg-primaryC bg-opacity-95 shadow-inner shadow-primaryC"
                         : "bg-gray-300 shadow-inner"
                         }`}
                 ></div>
 
                 {/* Handle */}
                 <div
-                    className={`absolute top-[2px] w-4 h-4 rounded-full bg-white shadow-sm transition-transform duration-300 ${checked
-                        ? "translate-x-[22px] shadow-teal-400 ring-2 ring-teal-500"
+                    className={`absolute top-[2px] w-4 h-4 rounded-full bg-backgroundC shadow-sm transition-transform duration-300 ${checked
+                        ? "translate-x-[22px]  ring-2 ring-primaryC"
                         : "left-[2px]"
                         }`}
                     style={{ left: checked ? undefined : "2px" }}

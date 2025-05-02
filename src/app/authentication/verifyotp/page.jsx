@@ -139,19 +139,6 @@ const OtpVerification = () => {
                     ))}
                 </div>
             </Form>
-            {/* <div className="flex flex-col p-6 bg-white rounded-lg shadow-lg">
-                <h2 className="text-2xl font-semibold">OTP Verification</h2>
-                <form onSubmit={handleVerifyOtp} className="w-full mt-4 flex flex-col items-center">
-                    <div className="flex space-x-2">
-                        {otp.map((digit, index) => (
-                            <input key={index} type="text" maxLength="1" value={digit} onChange={(e) => handleOtpChange(e, index)} onKeyDown={(e) => handleKeyDown(e, index)} ref={(el) => (inputRefs.current[index] = el)} className="w-12 h-12 text-center text-lg font-semibold border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primaryC" />
-                        ))}
-                    </div>
-                    <button type="submit" disabled={loading || otp.includes("")} className={`mt-6 px-6 py-3 w-full rounded-md font-semibold ${loading || otp.includes("") ? "bg-gray-200 text-gray-400 cursor-not-allowed" : "bg-primaryC text-white hover:opacity-80"}`}>
-                        {loading ? "Verifying..." : "Verify OTP"}
-                    </button>
-                </form>
-            </div> */}
         </div>
     );
 };

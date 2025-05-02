@@ -1,11 +1,18 @@
 "use client";
 
-const CustomCard = ({ children, title, classes }) => {
+import InfoTooltip from "../Actions/InfoTooltip";
+
+const CustomCard = ({ children, title, classes, icon , info }) => {
 
   return (
-    <div className={`px-[15px] py-[10px] w-full  rounded-sm bg-[#ffffff] border border-borderC shadow-sm  flex flex-col items-center h-auto ${classes}`} >
+    <div className={`px-[15px] py-[10px] w-full  rounded-md bg-backgroundC border-[1.5px] border-[#788a9a2c] !shadow-none  flex flex-col items-center h-auto ${classes}`} >
       <div className='flex justify-between  items-center w-full  mb-3 '>
-        <p className='text-textC text-[18px] font-medium  text-left w-full pb-[10px] border-b'>{title}</p>
+        <div className="flex text-[18px] items-center gap-2 pb-[10px] border-b w-full">
+          {icon && icon}
+          <p className='text-textC font-medium '>{title}</p>
+          {info && <InfoTooltip id={title} content={info}/>}
+
+        </div>
       </div>
       <div className='flex-grow flex flex-col gap-4 w-full h-full justify-center items-center'>
         {children}
