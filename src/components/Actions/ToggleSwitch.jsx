@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { toast } from "react-toastify";
 
-export default function ToggleSwitch({ label = "", defaultChecked = false, onChange , isDisabled = false , message="" }) {
+export default function ToggleSwitch({ label = "", defaultChecked = false, onChange , isDisabled = false , message="" , className = "" }) {
     const [checked, setChecked] = useState(defaultChecked);
 
     const handleToggle = (e) => {
@@ -17,7 +17,7 @@ export default function ToggleSwitch({ label = "", defaultChecked = false, onCha
     };
 
     return (
-        <div className="flex items-center flex-row-reverse  gap-2">
+        <div className={`flex justify-between items-center flex-row  gap-2 ${className}`}>
             <p className="text-textTC text-[15px]">{label}</p>
             <label className="relative inline-block w-10 h-5 cursor-pointer">
 

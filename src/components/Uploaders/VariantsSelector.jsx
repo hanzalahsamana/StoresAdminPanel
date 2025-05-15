@@ -1,6 +1,6 @@
 import { FiChevronDown, FiChevronUp } from 'react-icons/fi';
 import { variationSuggestions } from '@/Structure/DefaultStructures';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { AiOutlineDelete } from 'react-icons/ai';
 import { useSelector } from 'react-redux';
 import ImageUploader from './ImageUploader';
@@ -16,6 +16,9 @@ import ToggleSwitch from '../Actions/ToggleSwitch';
 import VariantCombinationTable from '../Tables/VariantCombinationTable';
 import Checkbox from '../Actions/CheckBox';
 import RadioButton from '../Actions/RadioButton';
+import { FaChevronDown } from 'react-icons/fa';
+import { GoChevronDown } from 'react-icons/go';
+import MultiSelectDropdown from '../Actions/MultiSelectDropdown';
 
 const VariantsSelector = () => {
     const { variations } = useSelector((state) => state?.storeDetail?.storeDetail);
@@ -27,16 +30,15 @@ const VariantsSelector = () => {
     const [variantSelections, setVariantSelections] = useState({});
     const [openVariantIndex, setOpenVariantIndex] = useState(null);
     const [variantsLocked, setVariantsLocked] = useState(false);
-    const [customVariationName, setCustomVariationName] = useState('');
-    const [customOptionInputs, setCustomOptionInputs] = useState({});
     const [variationData, setVariationData] = useState(variations || []);
+    const variationRowRef = useRef({});
 
     // Add default suggestions on mount
     useEffect(() => {
         setVariationData(variations);
     }, [variations]);
 
-    const toggleVariant = (index) => {
+    const toggleDarwer = (index) => {
         setOpenVariantIndex((prev) => (prev === index ? null : index));
     };
 
@@ -73,7 +75,7 @@ const VariantsSelector = () => {
         setOpenVariantIndex(variants.length);
     };
 
-    const handleAddNewVariation = () => {
+    const handleAddNewVariation = (customVariationName) => {
         const trimmedName = customVariationName.trim();
         if (!trimmedName) return toast.error('Variation name is required');
 
@@ -81,11 +83,10 @@ const VariantsSelector = () => {
         if (exists) return toast.error('Variation already exists');
 
         setVariationData(prev => [...prev, { name: trimmedName, options: [] }]);
-        setCustomVariationName('');
     };
 
     const handleAddOptionToVariation = (variationName, newOption) => {
-        // const newOption = customOptionInputs[variationName]?.trim();
+        console.log(newOption, "customVariationName");
         if (!newOption) return;
 
         setVariationData((prevData) =>
@@ -100,123 +101,249 @@ const VariantsSelector = () => {
 
                 return {
                     ...variation,
-                    options: [...variation.options, newOption],
+                    options: newOption,
                 };
             })
         );
-
-        // setCustomOptionInputs((prev) => ({ ...prev, [variationName]: '' }));
+        toggleDarwer(variationName);
     };
-
-    const handleRemoveOption = (variationName, optionToRemove) => {
-        setVariationData((prev) =>
-            prev.map((v) =>
-                v.name === variationName
-                    ? { ...v, options: v.options.filter((opt) => opt !== optionToRemove) }
-                    : v
-            )
-        );
-    };
-
-
 
     return (
-        <div className="flex flex-col gap-4 w-full">
-            <div className={`flex flex-col gap-5 ${variantsLocked ? 'opacity-50 pointer-events-none' : ''}`}>
+        <div className="flex flex-col gap-4 w-full ">
+            <div className={`flex flex-col gap-5 ${variantsLocked ? 'opacity-100 pointer-events-none' : ''}`}>
                 <div className='flex justify-between items-end w-full'>
 
                     <p className=" text-textTC">Add variations to use in this product</p>
                     <div className="flex gap-2 items-end">
                         <DropDown
                             defaultOptions={Object.keys(variationSuggestions)}
-                            setSelectedOption={(opt) => setCustomVariationName(opt)}
-                            selectedOption={customVariationName}
+                            setSelectedOption={(opt) => handleAddNewVariation(opt)}
+                            selectedOption={''}
                             wantsCustomOption={true}
                             className='w-max h-[30px]'
                             placeholder='Add variation'
                         />
-                        <button
-                            onClick={handleAddNewVariation}
-                            disabled={!customVariationName}
-                            className={`flex items-center text-[13px] justify-center gap-1 outline-none border-none ${customVariationName ? 'text-primaryC cursor-pointer' : 'text-gray-400 cursor-not-allowed'}`}>
-                            <IoMdAdd />
-                            Add Variation
-                        </button>
                     </div>
                 </div>
 
                 {variationData.length > 0 ? (
                     <>
-                        <div>
-                            <div className='grid grid-cols-8 text-start gap-4 font-bold border-y py-[10px] text-textTC'>
-                                <p className="flex items-center gap-1">
-                                    Name
-                                    <InfoTooltip
-                                        id="variation-name-tooltip"
-                                        content="The label of the variation, like Size, Color, or Material."
-                                    />
-                                </p>
-                                <p className='col-span-4 flex items-center gap-1'>
-                                    Options
-                                    <InfoTooltip
-                                        id="variation-options-tooltip"
-                                        content="These are the specific values under this variation, like Small, Medium, Large for Size."
-                                    />
-                                </p>
-                                <p className='col-span-3'>Actions</p>
-                            </div>
-                            {variationData.map(({ name, options }) => {
-                                return (
-                                    <div key={name} className='grid grid-cols-8 gap-4 border-b py-[15px]'>
-                                        <p>{name}</p>
-
-                                        <div className='flex flex-wrap items-center gap-1 col-span-4'>
-                                            {options?.length === 0 ? (
-                                                <span className='text-sm px-2 text-textTC flex items-center gap-1'>
-                                                    No Option Found
-                                                </span>
-                                            ) : (options?.map((option) => (
-                                                <span key={option} className='text-sm bg-borderC px-2 rounded-md text-textTC flex items-center gap-1'>
-                                                    {option} <VscClose onClick={() => handleRemoveOption(name, option)} className='text-textTC cursor-pointer' />
-                                                </span>
-                                            ))
-                                            )}
-                                        </div>
-
-                                        <div className=' w-full flex  col-span-3 gap-2 items-start'>
-                                            <div className=' w-full flex gap-2 items-end'>
-
-                                                <DropDown
-                                                    key={variationData.find((v) => v.name === name)?.options.join(',') || ''}
-                                                    defaultOptions={
-                                                        (variationSuggestions?.[name] || []).filter(
-                                                            (opt) =>
-                                                                !variationData.find((v) => v.name === name)?.options.includes(opt)
-                                                        )
-                                                    }
-                                                    setSelectedOption={(opt) => {
-                                                        handleAddOptionToVariation(name, opt);
-                                                    }}
-                                                    selectedOption={''}
-                                                    wantsCustomOption={true}
-                                                    placeholder='Add option'
-                                                    className='w-max h-[30px]'
-                                                />
-
-                                                <IconButton
-                                                    action={() => {
-                                                        const updated = variationData.filter((v) => v.name !== name);
-                                                        setVariationData(updated);
-                                                    }}
-                                                    icon={<AiOutlineDelete />}
-                                                    tooltipLabel={'Delete'}
-                                                    className={'text-red-500 text-xl'}
+                        <div className=''>
+                            <div className="overflow-x-auto max-w-full rounded-md border  h-[max-content]">
+                                <div className="rounded-md min-w-full text-sm bg-lbgC">
+                                    {/* Header */}
+                                    <div className="flex bg-secondaryC text-primaryC font-normal">
+                                        <div className="w-[100px] px-4 py-2 whitespace-nowrap border-l">
+                                            <div className="flex gap-2 items-center">
+                                                Name
+                                                <InfoTooltip
+                                                    id="variation-name-tooltip"
+                                                    content="The label of the variation, like Size, Color, or Material."
                                                 />
                                             </div>
                                         </div>
+                                        <div className="flex-1 px-4 py-2 sticky  border-l">
+                                            <div className="flex gap-2 items-center">
+                                                Options
+                                                <InfoTooltip
+                                                    id="variation-options-tooltip"
+                                                    content="These are the specific values under this variation, like Small, Medium, Large for Size."
+                                                />
+                                            </div>
+                                        </div>
+                                        <div className="w-[350px] px-4 py-2 sticky right-0 border-l">Advance <span className='text-textTC text-[10px] '>(optional)</span></div>
                                     </div>
-                                );
-                            })}
+
+                                    {/* Body */}
+                                    {variationData.map(({ name, options }, i) => (
+                                        <div
+                                            key={name}
+                                            className={`flex flex-col ${i % 2 === 0 ? 'bg-[#F8FAFB]' : 'bg-backgroundC'} ${openVariantIndex === i ? ' shaow-[0_0_6px_rgb(0,0,0,0.15)_inset] py-[15px] gap-4' : ''} border-b transition-all duration-300`}
+                                        >
+                                            <div className='flex w-full'>
+                                                <div className="w-[100px] px-4 py-2 flex items-center whitespace-nowrap ">
+                                                    {name}
+                                                </div>
+                                                <div className="flex-1 px-4 py-2 scale-75 origin-left ">
+                                                    <MultiSelectDropdown
+                                                        key={name}
+                                                        defaultOptions={(variationSuggestions?.[name] || []).filter(
+                                                            (opt) =>
+                                                                !options.includes(opt)
+                                                        )}
+                                                        setSelectedOptions={(opt) => handleAddOptionToVariation(name, opt)}
+                                                        selectedOptions={options}
+                                                        wantsCustomOption={true}
+                                                        placeholder="Add option"
+                                                        className="!max-w-[350px] bg-transparent"
+                                                    />
+                                                </div>
+                                                <div className="px-4 py-2 w-[350px] flex gap-2 justify-between items-center">
+                                                    <div
+                                                        onClick={() => toggleDarwer(i)}
+                                                        className="flex gap-1 items-center text-textTC cursor-pointer hover:text-primaryC"
+                                                    >
+                                                        Set product configuration acc specific {name}
+                                                        <GoChevronDown className={`${openVariantIndex === i ? 'rotate-180' : 'rotate-0'} transition-all`} />
+                                                    </div>
+                                                    <IconButton
+                                                        action={() =>
+                                                            setVariationData(variationData.filter((v) => v.name !== name))
+                                                        }
+                                                        icon={<AiOutlineDelete />}
+                                                        tooltipLabel={'Delete Variation'}
+                                                        className={'text-red-500 text-xl'}
+                                                    />
+                                                </div>
+                                            </div>
+                                            {/* {openVariantIndex === i || true && ( */}
+                                            <div
+                                                ref={(el) => (variationRowRef.current[i] = el)}
+                                                style={{ height: openVariantIndex === i ? `${variationRowRef.current[i]?.scrollHeight + 10}px` : '0px' }}
+                                                className={`transition-all duration-300  px-4   ${openVariantIndex === i ? 'flex flex-col gap-4 ' : 'overflow-hidden'}`}
+                                            >
+                                                {/* <p className='text-base text-textC '>Set prices , images of that specific option <InfoTooltip content={''} id={name} /></p> */}
+
+                                                <div className='branch ml-[10px]'>
+                                                    <div className='flex pl-[70px] font-semibold'>
+                                                        <p className='px-4 py-2 w-[150px]'>{name+'s'}</p>
+                                                        <p className='px-4 py-2 w-[150px]'>Price</p>
+                                                        <p className='px-4 py-2 w-[150px]'>Image</p>
+                                                    </div>
+                                                    {options?.map((option, index) => {
+                                                        return (
+                                                            <div key={index} className=" child flex ">
+                                                                <div className=" px-4 py-2 w-[150px] whitespace-nowrap">
+                                                                    {option}
+                                                                </div>
+                                                                <div className="px-4 py-2 w-[150px] ">
+                                                                    <div className='flex gap-1'>
+                                                                        {/* <img className='w-[20px] h-[20px]' src="https://img.icons8.com/fluency/48/price-tag--v1.png" alt="price-tag--v2" /> */}
+                                                                        <input
+                                                                            type="number"
+                                                                            placeholder="Price"
+                                                                            // value={comboData[key]?.price || ''}
+                                                                            // onChange={(e) => handleChange(key, 'price', e.target.value)}
+                                                                            className="w-24 border-b outline-none text-textTC rounded-none bg-transparent  px-2 py-1"
+                                                                        />
+                                                                    </div>
+                                                                </div>
+                                                                <div className="px-4 py-2 w-[150px] ">
+                                                                    <div className=' w-[200px] h-[30px] overflow-hidden'>
+                                                                        <div className='origin-top-left scale-[0.3]'>
+                                                                            <ImageUploader />
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                {/* <div className="px-4 py-2 border even:bg-white  sticky right-0">
+                                                                    <div className='flex gap-1'>
+                                                                        <MultiSelectDropdown
+                                                                            defaultOptions={['Image', 'Price', 'Stock']}
+                                                                            setSelectedOptions={(opt) => handleAddOptionToVariation(name, opt)}
+                                                                            selectedOptions={[]}
+                                                                            wantsCustomOption={true}
+                                                                            placeholder="Add Field"
+                                                                            className="!max-w-[350px] bg-transparent"
+
+                                                                        />
+
+                                                                    </div>
+                                                                </div> */}
+                                                            </div>
+                                                        );
+                                                    })}
+                                                </div>
+
+
+                                                {/* <table className="min-w-full text-sm  border rounded-lg  box-content">
+                                                    <thead className="">
+                                                        <tr>
+                                                            <th className="min-w-[110px] px-4 font-medium py-2 text-left whitespace-nowrap border">Options</th>
+                                                            <th className="px-4 font-medium py-2 text-left sticky right-[140px] border">Price</th>
+                                                            <th className="px-4 font-medium py-2 text-left sticky right-0 border">Image URL</th>
+                                                            <th className="px-4 font-medium py-2 text-left sticky right-0 border">Actions</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody className='branch'>
+                                                        {options?.map((option, index) => {
+                                                            return (
+                                                                <tr key={index} className="even:bg-whte">
+                                                                    <td className="child px-4 py-2 border whitespace-nowrap">
+                                                                        {option}
+                                                                    </td>
+                                                                    <td className="px-4 py-2 border bg-white  sticky right-[140px]">
+                                                                        <div className='flex gap-1'>
+                                                                            <img className='w-[20px] h-[20px]' src="https://img.icons8.com/fluency/48/price-tag--v1.png" alt="price-tag--v2" />
+                                                                            <input
+                                                                                type="number"
+                                                                                placeholder="Price"
+                                                                                // value={comboData[key]?.price || ''}
+                                                                                // onChange={(e) => handleChange(key, 'price', e.target.value)}
+                                                                                className="w-24 border-b outline-none text-textTC rounded-none bg-transparent  px-2 py-1"
+                                                                            />
+                                                                        </div>
+                                                                    </td>
+                                                                    <td className="px-4 py-2 border even:bg-white  sticky right-0">
+                                                                        <div className=' w-[200px] h-[40px] overflow-hidden'>
+                                                                            <div className='origin-top-left scale-[0.4]'>
+                                                                                <ImageUploader />
+                                                                            </div>
+                                                                        </div>
+                                                                    </td>
+                                                                    <td className="px-4 py-2 border even:bg-white  sticky right-0">
+                                                                        <div className='flex gap-1'>
+                                                                            <MultiSelectDropdown
+                                                                                defaultOptions={['Image', 'Price', 'Stock']}
+                                                                                setSelectedOptions={(opt) => handleAddOptionToVariation(name, opt)}
+                                                                                selectedOptions={[]}
+                                                                                wantsCustomOption={true}
+                                                                                placeholder="Add Field"
+                                                                                className="!max-w-[350px] bg-transparent"
+
+                                                                            />
+
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                            );
+                                                        })}
+                                                    </tbody>
+                                                </table> */}
+                                                {options.length === 0 && (<p className='text-textTC text-center py-4'>No option found</p>)}
+                                            </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                            {/* )} */}
+                                        </div>
+                                    ))}
+                                </div>
+
+                            </div>
+
                         </div>
                     </>
                 ) : (
@@ -226,106 +353,7 @@ const VariantsSelector = () => {
                 )}
             </div>
 
-            <div onClick={() => setVariantsLocked(!variantsLocked)} className={`flex justify-end ${variationData.length === 0 && 'opacity-50'}`}>
-                {/* <ToggleSwitch
-                    defaultChecked={false}
-                    onChange={(val) => setVariantsLocked(val)}
-                    isDisabled={variationData.length === 0}
-                    message="Please add at least one variation and option"
-                    label=""
-                /> */}
-                {/* <RadioButton options={} label={`Set different prices for each combination of ${variationData.map(v => v.name).join(" and ")}`} isChecked={variantsLocked} setIsCheck={(val) => setVariantsLocked(val)} /> */}
-                <p className='text-primaryC cursor-pointer hover:opacity-85 flex items-center gap-1'>
-                    Did you want to set different prices for each combination of {variationData.map(v => v.name).join(" and ")}
-                    <InfoTooltip
-                        id="price-variant-tooltip"
-                        content="You can assign different prices and images for each product variation combination. For example, you can set different prices for each Size and Material pair."
-                    />
-                </p>
-
-            </div>
-
-            {/* Variant Combinations Section */}
-            {variantsLocked && (
-                // <div className="border-t pt-4">
-                //     <div className="flex gap-3 flex-wrap mb-4">
-                //         {selectedVariationNames.map((variationName) => (
-                //             <DropDown
-                //                 key={variationName}
-                //                 label={variationName}
-                //                 defaultOptions={[`Any ${variationName}`, ...(selectedOptionsMap[variationName] || [])]}
-                //                 selectedOption={variantSelections[variationName] || `Any ${variationName}`}
-                //                 setSelectedOption={(val) => {
-                //                     setVariantSelections((prev) => ({ ...prev, [variationName]: val }));
-                //                 }}
-                //             />
-                //         ))}
-                //         <Button label="Add Variant" action={handleAddVariant} size="small" />
-                //     </div>
-
-                //     {variants.length > 0 && (
-                //         <div className="space-y-4">
-                //             <p className="font-medium text-lg">Variants</p>
-                //             {variants.map((variant, i) => {
-                //                 const isOpen = openVariantIndex === i;
-                //                 return (
-                //                     <div key={i} className="border rounded">
-                //                         <div
-                //                             className="flex justify-between items-center p-3 cursor-pointer"
-                //                             onClick={() => toggleVariant(i)}
-                //                         >
-                //                             <div className="text-sm font-medium">
-                //                                 #{i + 1}{' '}
-                //                                 {Object.entries(variant.options).map(([k, v]) => (
-                //                                     <span key={k} className="mr-2">{`${k}: ${v}`}</span>
-                //                                 ))}
-                //                             </div>
-                //                             <div className="text-xl">{isOpen ? <FiChevronUp /> : <FiChevronDown />}</div>
-                //                         </div>
-
-                //                         {isOpen && (
-                //                             <div className="p-3 space-y-3">
-                //                                 <ImageUploader
-                //                                     setImage={(e) => {
-                //                                         const updated = [...variants];
-                //                                         updated[i].image = e.target.value;
-                //                                         setVariants(updated);
-                //                                     }}
-                //                                     image={variant.image}
-                //                                 />
-                //                                 <div className="flex gap-2">
-                //                                     <FormInput
-                //                                         type="number"
-                //                                         placeholder="Price"
-                //                                         value={variant.price}
-                //                                         handleChange={(e) => {
-                //                                             const updated = [...variants];
-                //                                             updated[i].price = e.target.value;
-                //                                             setVariants(updated);
-                //                                         }}
-                //                                     />
-                //                                     <FormInput
-                //                                         type="number"
-                //                                         placeholder="Stock"
-                //                                         value={variant.stock || ''}
-                //                                         handleChange={(e) => {
-                //                                             const updated = [...variants];
-                //                                             updated[i].stock = e.target.value;
-                //                                             setVariants(updated);
-                //                                         }}
-                //                                     />
-                //                                 </div>
-                //                             </div>
-                //                         )}
-                //                     </div>
-                //                 );
-                //             })}
-                //         </div>
-                //     )}
-                // </div>
-                <VariantCombinationTable variationData={variationData} />
-            )}
-        </div>
+        </div >
     );
 };
 

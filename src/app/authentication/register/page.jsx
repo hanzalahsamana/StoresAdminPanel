@@ -63,6 +63,7 @@ const Register = () => {
             name={"brandName"}
             handleChange={handleChange}
             placeholder="Brand Name"
+            size="large"
           />
           {formData?.brandName && (
             <p className="text-[10px] mt-[4px] text-textTC ">Your store subdomain will be <span className="text-primaryC">{generateSlug(formData.brandName)}.{Base_Domain}</span></p>
@@ -76,6 +77,7 @@ const Register = () => {
           error={errors.email}
           handleChange={handleChange}
           placeholder="Email"
+          size="large"
         />
 
         <FormInput
@@ -85,9 +87,10 @@ const Register = () => {
           value={formData.password}
           handleChange={handleChange}
           placeholder="Password"
+          size="large"
           actionIcon={
-            <div onClick={() => setTypePassword(!typePassword)} className="absolute right-[12px] text-[#7f7b7b] top-[14px]">
-              <IconButton icon={typePassword ? <FaEye /> : <FaEyeSlash />} />
+            <div onClick={() => setTypePassword(!typePassword)} className="absolute right-[12px] text-[#7f7b7b] top-[4px]">
+              <IconButton icon={!typePassword ? <FaEye /> : <FaEyeSlash />} />
             </div>}
         />
 

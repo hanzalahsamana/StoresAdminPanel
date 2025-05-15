@@ -123,7 +123,7 @@ const AddEditProductModal = ({ isOpen, setIsOpen, updatedData = null }) => {
   };
 
   return (
-    <div className="relative w-full flex flex-col gap-[20px]">
+    <div className="relative  flex flex-col gap-[20px]">
       <ActionCard
         lable={updatedData ? "Edit Product" : "Add Product"}
         icon={updatedData ? <div className="flex items-end">

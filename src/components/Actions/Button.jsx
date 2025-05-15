@@ -24,7 +24,7 @@ const Button = ({
     };
     const buttonSizes = {
         large: "text-[17px] py-[12px] px-[25px] min-w-[150px] ",
-        small: "text-[14px] py-[7px] px-[20px]"
+        small: "text-[14px] py-[7px] px-[20px] w-max"
     };
 
     return (

@@ -47,7 +47,7 @@ const MultiImageUploader = ({
                 <div className="flex flex-wrap gap-2 pt-[10px] w-full">
                     <div
                         onClick={() => document.getElementById("multiFileInput").click()}
-                        className="flex  flex-col justify-center items-center border-2 border-primaryC bg-secondaryC min-w-[100px] min-h-[100px] cursor-pointer">
+                        className="flex flex-col justify-center items-center border-2 border-primaryC bg-secondaryC min-w-[100px] min-h-[100px] cursor-pointer">
 
                         <CiCamera className={'text-[50px] text-primaryC font-bold '} />
                         <p className="text-primaryC  text-center text-[12px] ">Upload images</p>

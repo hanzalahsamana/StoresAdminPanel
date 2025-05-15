@@ -33,6 +33,7 @@ const DropDown = ({
     }, []);
 
     const handleSelect = (option) => {
+        console.log("🍔🍔🍔🍔");
         setIsOpen(false);
         setSelectedOption(option);
         setSearchTerm(option); // Set selected value in the input
@@ -46,14 +47,16 @@ const DropDown = ({
             setSearchTerm(trimmed); // Update the input field
         }
     };
+
     useEffect(() => {
         if (dropdownOptionsRef.current) {
             dropdownOptionsRef.current.scrollTop = 0;
         }
-        if (searchTerm !== selectedOption) {
-          setSelectedOption('');
-        }
-      }, [searchTerm])
+    }, [searchTerm])
+
+    useEffect(() => {
+        setSearchTerm(selectedOption || "");
+    }, [selectedOption]);
 
     const showCreateOption =
         wantsCustomOption && searchTerm.trim() && !options.includes(searchTerm.trim());
@@ -68,6 +71,7 @@ const DropDown = ({
                         value={searchTerm}
                         readOnly={!wantsCustomOption}
                         handleChange={(e) => {
+
                             setSearchTerm(e.target.value);
                             setIsOpen(true);
                         }}

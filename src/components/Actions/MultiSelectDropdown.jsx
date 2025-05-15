@@ -21,6 +21,7 @@ const MultiSelectDropdown = ({
     const [openUpward, setOpenUpward] = useState(false);
     const dropdownRef = useRef(null);
     const containerRef = useRef(null);
+    const inputRef = useRef(null);
 
     useEffect(() => {
         const handleClickOutside = (event) => {
@@ -32,7 +33,7 @@ const MultiSelectDropdown = ({
         return () => document.removeEventListener("mousedown", handleClickOutside);
     }, []);
 
-    useEffect(() => { console.log("👍",error, "👍") }, [error])
+    useEffect(() => { console.log("👍", error, "👍") }, [error])
 
     useEffect(() => {
         setFilteredOptions(
@@ -87,19 +88,20 @@ const MultiSelectDropdown = ({
 
     return (
         <div className="w-full flex flex-col gap-1" ref={containerRef}>
-            <div ref={dropdownRef} className="relative w-full">
+            <div ref={dropdownRef} className={`relative w-full ${className}`}>
                 <div
                     onClick={() => {
                         setIsOpen(true);
-                        document.getElementById("DropownInput")?.focus();
+                        inputRef.current?.focus();;
                     }}
-                    className={`min-h-[36px] w-full flex flex-wrap items-center gap-2 px-2 py-1 border rounded-[4px] shadow-[inset_0_0px_6px_0_rgb(0_0_0_/_0.02)] cursor-text ${className} ${error ? "border-red-500" : "border-gray-300"
+
+                    className={`min-h-[36px] w-full flex flex-wrap items-center gap-2 px-2 py-1 border rounded-[4px] shadow-[inset_0_0px_6px_0_rgb(0_0_0_/_0.02)] cursor-text ${error ? "border-red-500" : "border-gray-300"
                         }`}
                 >
                     {selectedOptions.map((option, index) => (
                         <span
                             key={index}
-                            className="bg-gray-200 text-[12px] flex items-center gap-1 px-2 py-1 rounded-full"
+                            className="bg-gray-200 text-[10px] flex items-center gap-1 px-[4px] py-[2px] rounded-md"
                         >
                             {option}
                             <button
@@ -113,10 +115,14 @@ const MultiSelectDropdown = ({
                             </button>
                         </span>
                     ))}
+                    {selectedOptions.length > 0 && (
+                        <p onClick={(e) => { e.stopPropagation(); setSelectedOptions([]) }} className="text-primaryC cursor-pointer text-[10px]">Clear All</p>
+                    )}
 
                     <input
                         type="text"
                         id="DropownInput"
+                        ref={inputRef}
                         value={searchTerm}
                         autoComplete="off"
                         onChange={(e) => {
@@ -124,7 +130,7 @@ const MultiSelectDropdown = ({
                             setIsOpen(true);
                         }}
                         placeholder={selectedOptions.length === 0 ? placeholder : ""}
-                        className=" placeholder:text-sm placeholder:font-[Inter]  placeholder:text-[#b9b9b9] flex-1 min-w-[120px] pl-[4px] border-none focus:outline-none text-sm"
+                        className=" placeholder:text-sm bg-transparent  placeholder:text-[#b9b9b9] flex-1 min-w-[60px] pl-[4px] border-none focus:outline-none text-sm"
                     />
 
                     <span

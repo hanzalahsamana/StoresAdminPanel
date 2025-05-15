@@ -18,16 +18,22 @@ function Sidebar({ isOpen, setIsOpen }) {
 
   const links = [
     { name: "Home", icon: 'https://img.icons8.com/fluency/48/home.png', path: "/" },
-    { name: "Analytics", icon: 'https://img.icons8.com/fluency/48/combo-chart--v1.png', path: "/analytics" },
+    { name: "Analytics", icon: 'https://img.icons8.com/doodle/48/analytics.png', path: "/analytics" },
     {
       name: "Products", icon: 'https://img.icons8.com/doodle/48/t-shirt--v1.png', path: "/products",
     },
     { name: "Categories", icon: 'https://img.icons8.com/external-flaticons-lineal-color-flat-icons/64/external-collections-modelling-agency-flaticons-lineal-color-flat-icons.png', path: "/categories", },
     { name: "Orders", icon: 'https://img.icons8.com/color/48/cardboard-box.png', path: "/ordersList" },
-    { name: "Domain", icon: 'https://img.icons8.com/fluency/48/domain.png', path: "/domain" },
+    { name: "Discounts", icon: 'https://img.icons8.com/external-gradient-design-circle/66/external-discounts-activities-gradient-design-circle.png', path: "/discounts" ,
+      subLinks:[
+        { name: "Over View", path: "/discounts" },
+        { name: "Offers Announcement", path: "/discounts/popups" },
+      ]
+    },
+    { name: "Domain", icon: 'https://img.icons8.com/color/48/internet--v1.png', path: "/domain" },
     { name: "Color Theme", icon: 'https://img.icons8.com/emoji/48/artist-palette.png', path: "/theme" },
     {
-      name: "Contents", icon: 'https://img.icons8.com/color/48/design--v1.png', path: "/content",
+      name: "Contents", icon: 'https://img.icons8.com/fluency/48/pricing-structure.png', path: "/content",
       subLinks: [
         { name: "Over View", path: "/content" },
         ...(Array.isArray(pagesData) ? pagesData.map(item => ({
@@ -38,7 +44,7 @@ function Sidebar({ isOpen, setIsOpen }) {
     },
 
     {
-      name: "Design / Layout", icon:'https://img.icons8.com/color/48/channel-mosaic.png', path: "/design",
+      name: "Design / Layout", icon: 'https://img.icons8.com/color/48/design--v1.png', path: "/design",
       subLinks: [
         { name: "Over View", path: "/design" },
         ...(Array.isArray(sectionsData) ? sectionsData.map(item => ({
@@ -47,7 +53,16 @@ function Sidebar({ isOpen, setIsOpen }) {
         })) : [])
       ],
     },
-    { name: "Migration", icon: 'https://img.icons8.com/fluency/48/back-sorting.png', path: "/migration" },
+    { name: "Migration", icon: 'https://img.icons8.com/dusk/64/back-sorting.png', path: "/migration" },
+    { name: "Configurations", icon: 'https://img.icons8.com/fluency/48/settings.png', path: "/Configuration" ,
+      subLinks:[
+        { name: "Over View", path: "/configurations" },
+        { name: "Shipping", path: "/configurations/shipping" },
+        { name: "Payment", path: "/configurations/payment" },
+        { name: "Tax", path: "/configurations/tax" },
+        { name: "Currency", path: "/configurations/currency" },
+      ]
+    },
 
   ];
 

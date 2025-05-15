@@ -20,8 +20,8 @@ const ProductDetailCard = ({ product }) => {
   const dispatch = useDispatch();
   const [quantity, setQuantity] = useState(1);
   const [mainImage, setmainImage] = useState(0);
-  const sizes = ConvertArray(product?.size)
-  const [selectedSize, setSelectedSize] = useState(sizes[0])
+  const sizes = ConvertArray(product?.size || [])
+  const [selectedSize, setSelectedSize] = useState(sizes?.[0] || '')
   const { loading } = useSelector((state) => state?.cartData || []);
   const { siteName } = useSelector((state) => state.siteName);
 
@@ -50,7 +50,7 @@ const ProductDetailCard = ({ product }) => {
       <div className={`max-[900px]:flex-col ${styles.productSection}`}>
         <div className={styles.productImages}>
           <div className={`customScroll ${styles.thumbnailContainer}`}>
-            {product.images.map((image, index) => (
+            {product?.images?.map((image, index) => (
               <img
                 key={index}
                 src={image}
@@ -61,7 +61,7 @@ const ProductDetailCard = ({ product }) => {
             ))}
           </div>
           <img
-            src={product?.images[mainImage]}
+            src={product?.images?.[mainImage]}
             alt="Fabric"
             className={`max-[900px]:max-w-full flex-1 max-w-[450px] object-contain ${styles.mainImage}`}
           />
@@ -85,10 +85,10 @@ const ProductDetailCard = ({ product }) => {
 
           <div className={styles.priceSection}>
             <span className={styles.strikeThrough}>
-              Rs {product?.originalPrice.toFixed(2)} PKR
+              Rs {product?.originalPrice?.toFixed(2)} PKR
             </span>
             <span className={styles.discountedPrice}>
-              Rs {product?.discountedPrice.toFixed(2)} PKR
+              Rs {product?.discountedPrice?.toFixed(2)} PKR
             </span>
             <span className={styles.discountTag}>{product?.discount}% OFF</span>
           </div>
@@ -109,7 +109,7 @@ const ProductDetailCard = ({ product }) => {
               increaseQuantity={increaseQuantity}
               decreaseQuantity={decreaseQuantity}
             />
-            <SizeController availableSizes={sizes} size={selectedSize} setSize={setSelectedSize} />
+            <SizeController availableSizes={sizes } size={selectedSize} setSize={setSelectedSize} />
           </div>
 
           <div className={styles.productDetail}>

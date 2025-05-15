@@ -12,7 +12,7 @@ const placeholderImageUrl =
 const MAX_FILE_SIZE = 4 * 1024 * 1024; // 4MB
 const ALLOWED_MIME_TYPES = ["image/jpeg", "image/png", "image/webp", "image/gif"];
 
-const ImageUploader = ({ image, setImage }) => {
+const ImageUploader = ({ image = placeholderImageUrl, setImage = ()=>{} }) => {
   const fileInputRef = useRef(null);
   const [imagePreviewUrl, setImagePreviewUrl] = useState(image);
   const [error, setError] = useState("");
@@ -71,19 +71,19 @@ const ImageUploader = ({ image, setImage }) => {
 
         <div
           onClick={() => document.getElementById("fileInput").click()}
-          className="flex flex-col justify-center items-center border border-primaryC bg-secondaryC w-[120px] h-[120px] cursor-pointer">
+          className="flex flex-col justify-center items-center border-2 border-primaryC bg-secondaryC w-[100px] h-[100px] cursor-pointer">
 
-          <CiCamera className={'text-[50px] text-textTC opacity-60'} />
-          <p className="text-textTC font-[inter] opacity-80 text-center text-[12px] ">Upload image</p>
+          <CiCamera className={'text-[50px] text-primaryC font-bold'} />
+          <p className="text-primaryC text-center text-[12px] ">Upload image</p>
 
         </div>
 
-        <div className="relative">
+        <div className="relative group">
 
           <img
             src={imagePreviewUrl}
             alt="Uploaded"
-            className="w-[120px] h-[120px] bg-transparent object-contain border border-solid border-borderC rounded-sm"
+            className="w-[100px] h-[100px] bg-transparent object-cover border border-solid border-borderC rounded-sm "
           />
 
           {!isPlaceholder && (
@@ -91,7 +91,7 @@ const ImageUploader = ({ image, setImage }) => {
               data-tooltip-id="my"
               data-tooltip-content="Remove Image"
               onClick={handleImageRemove}
-              className="absolute z-20 top-[-8px] right-[-8px] rounded-full text-backgroundC bg-red-500 text-[12px] p-1"
+              className="absolute z-20 top-[-8px] right-[-8px] rounded-full text-backgroundC bg-red-500 text-[10px] p-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200"
             >
               <IoMdClose />
               <Tooltip className="!text-[10px]" id="my" />
