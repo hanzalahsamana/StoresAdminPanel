@@ -12,7 +12,7 @@ import cartDataReducer from "./CartData/cartDataSlice";
 import { networkReducer } from "./Network/networkSlice";
 import { sectionsDataReducer } from "./SectionsData/SectionsDataSlice";
 import { livePreviewReducer } from "./LivePreview/livePreviewSlice";
-import themeDataReducer from "./Theme/Theme.slice";
+import storeDetailReducer from "./StoreDetail/StoreDetail.slice";
 
 const rootReducer = combineReducers({
   orderData: orderDataReducer,
@@ -26,7 +26,7 @@ const rootReducer = combineReducers({
   cartData: cartDataReducer,
   categories: categoryReducer,
   livePreview: livePreviewReducer,
-  theme: themeDataReducer,
+  storeDetail: storeDetailReducer,
 });
 
 export default rootReducer;

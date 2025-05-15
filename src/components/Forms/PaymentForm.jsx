@@ -128,6 +128,7 @@ const PaymentForm = ({ shipping, total, tax, discount, cartItem }) => {
             <h2 className="text-[24px] font-medium my-4 text-[var(--tmp-txt)]">Contact</h2>
 
             <FormInput
+            size="large"
               type="email"
               placeholder="Email"
               name={"email"}
@@ -140,6 +141,7 @@ const PaymentForm = ({ shipping, total, tax, discount, cartItem }) => {
             <h3 className="text-[24px] font-medium mb-6 mt-3 text-[var(--tmp-txt)]">Billing address</h3>
 
             <FormInput
+            size="large"
               placeholder="Country"
               handleChange={handleChange}
               name={"country"}
@@ -149,6 +151,7 @@ const PaymentForm = ({ shipping, total, tax, discount, cartItem }) => {
 
             <div className="flex gap-[10px] w-full">
               <FormInput
+              size="large"
                 placeholder="First Name"
                 handleChange={handleChange}
                 name={"firstName"}
@@ -156,6 +159,7 @@ const PaymentForm = ({ shipping, total, tax, discount, cartItem }) => {
                 value={formData?.firstName}
               />
               <FormInput
+              size="large"
                 placeholder="Last Name"
                 handleChange={handleChange}
                 name={"lastName"}
@@ -164,6 +168,7 @@ const PaymentForm = ({ shipping, total, tax, discount, cartItem }) => {
               />
             </div>
             <FormInput
+            size="large"
               placeholder="Address"
               handleChange={handleChange}
               name={"address"}
@@ -171,6 +176,7 @@ const PaymentForm = ({ shipping, total, tax, discount, cartItem }) => {
               value={formData?.address}
             />
             <FormInput
+            size="large"
               placeholder="Appartment"
               handleChange={handleChange}
               name={"appartment"}
@@ -180,6 +186,7 @@ const PaymentForm = ({ shipping, total, tax, discount, cartItem }) => {
             />
             <div className="flex gap-[10px] w-full">
               <FormInput
+              size="large"
                 placeholder="City"
                 handleChange={handleChange}
                 name={"city"}
@@ -187,6 +194,7 @@ const PaymentForm = ({ shipping, total, tax, discount, cartItem }) => {
                 value={formData?.city}
               />
               <FormInput
+              size="large"
                 type="number"
                 placeholder="Postal Code"
                 handleChange={handleChange}
@@ -197,6 +205,7 @@ const PaymentForm = ({ shipping, total, tax, discount, cartItem }) => {
               />
             </div>
             <FormInput
+            size="large"
               type="tel"
               placeholder="Phone"
               handleChange={handleChange}

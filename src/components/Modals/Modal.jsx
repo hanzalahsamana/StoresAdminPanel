@@ -27,13 +27,13 @@ const Modal = ({ isOpen, setIsOpen, children, className , extraFuntion=() => { }
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 z-[150]"  >
+    <div className="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 z-[150] "  >
       <div
-        className={`relative bg-white rounded-lg  shadow-lg max-w-[750px] max-h-[600px] w-full overflow-auto ${className}`}
+        className={`relative bg-backgroundC rounded-lg  shadow-lg max-w-[750px] max-h-[600px] w-full overflow-auto customScroll  ${className}`}
         onClick={(e) => e.stopPropagation()}
       >
         <button
-          className="absolute top-2 right-2 text-gray-600 hover:text-gray-900"
+          className="absolute top-2 right-2 text-gray-600 hover:text-gray-900 z-[1]"
           onClick={closeModal}
         >
           <IoMdClose size={24} />

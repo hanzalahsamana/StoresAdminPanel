@@ -1,5 +1,4 @@
 "use client";
-import { setTheme } from '@/APIs/Theme/setTheme';
 import ProtectedRoute from '@/AuthenticRouting/ProtectedRoutes'
 import Button from '@/components/Actions/Button';
 import IconButton from '@/components/Actions/IconButton';
@@ -15,18 +14,17 @@ import { CiUndo } from 'react-icons/ci';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import { IsEqual } from '@/Utils/IsEqual';
+import { setTheme } from '@/APIs/StoreDetails/theme';
 
 
 const Theme = () => {
   const { currUser } = useSelector((state) => state.currentUser);
-  const { theme } = useSelector((state) => state.theme);
-
+  const { theme } = useSelector((state) => state?.storeDetail?.storeDetail);
   const [formData, setFormData] = useState(theme || {});
   const [isModified, setIsModified] = useState(false);
   const [loading, setIsLoading] = useState(false);
 
   const dispatch = useDispatch();
-
 
   const handleSave = async () => {
     setIsLoading(true);

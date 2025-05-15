@@ -1,61 +1,68 @@
+
 "use client";
 
 import React from "react";
-import "../../Styles/globals.css"
+import "../../Styles/globals.css";
 
 const FormInput = ({
-  handleChange,
-  value,
   name,
-  error,
-  placeholder = "Enter Text",
+  value,
+  handleChange,
+  placeholder = "Enter text",
   type = "text",
   readOnly = false,
   disabled = false,
   required = true,
-  className = '',
-  onfocus = null,
+  error = "",
+  className = "",
+  onFocus = null,
+  onBlur = null,
   actionIcon = null,
-  layoutStyle = '1',
-  onblur = null,
+  size = "small", // "small" or "large"
+  layout = "floating", // "floating" or "label"
+  label = "Name"
 }) => {
-
+  const inputSizeClass = size === "small" ? "text-sm h-9" : "text-base h-11";
   return (
-    <div className={`w-full relative`}>
-      {layoutStyle === '2' && (
-        <label className="text-[20px] ">
-          {placeholder}
+    <div className="relative w-full mt-[5px]">
+      {layout === "label" && (
+        <label className="text-[14px] font-medium text-textC mb-1 block">
+          {label}
+          {required && <span className="text-red-500"> *</span>}
         </label>
       )}
+      <div className="relative w-full">
+
+
       <input
         type={type}
-        onFocus={onfocus}
         name={name}
+        value={value}
         onChange={handleChange}
+        onFocus={onFocus}
+        onBlur={onBlur}
         readOnly={readOnly}
         disabled={disabled}
-        value={value}
-        placeholder={layoutStyle === '2' ? placeholder : ''}
-        className={`Inputs pr-[40px] h-[50px] text-textTC bg-backgroundC pl-[20px] flex items-center rounded-md outline-[#3973B0] p-2 border w-full ${className} ${error ? "border-red-500" : "border-[#a6a6a689]"
-          } rounded`}
-      />
-      {layoutStyle === '1' && (
+        placeholder={layout !== "floating" ? placeholder : ''}
+        className={`Inputs  placeholder:text-sm   placeholder:text-[#b9b9b9] shadow-[inset_0_0px_6px_0_rgb(0_0_0_/_0.02)] px-3 text-textTC bg-backgroundC  flex items-center border-[1.3px] w-full rounded-[4px] ${inputSizeClass} ${error ? "border-red-500" : "border-gray-300"
+        } ${className} outline-[#297ed9]`}
+        />
+        {actionIcon && <div className={`absolute right-3 ${size === "large" ? 'bottom-[32px]' : 'bottom-[28px]'} transform -translate-y-1/2`}>{actionIcon}</div>}
+      {layout === "floating" && (
         <label
-          className={`pointer-events-none transition-all bg-backgroundC p-[4px]  absolute left-3  ${error ? 'text-red-500':'text-[#969393]'} ${value || value === 0
-            ? "top-[-10px] text-[10px]"
-            : "top-[12px]"
-            }`}
+          className={`absolute left-3 px-1 bg-backgroundC transition-all text-[#b9b9b9] ${value || value === 0 ? "top-[-10px] text-xs" : `${size === "large" ? "top-[12px] text-base" : "top-[8px] text-sm"}`} pointer-events-none`}
         >
-          {placeholder}{required && <span className="text-red-500"> *</span>}
+          {placeholder}
+          {required && <span className="text-red-500"> *</span>}
         </label>
       )}
-      {actionIcon && actionIcon}
-      {error && <p className="text-red-500 text-xs">{error}</p>}
+        </div>
+
+
+
+      {error && <p className="text-red-500 text-xs mt-1">{error}</p>}
     </div>
   );
 };
 
 export default FormInput;
-
-
-

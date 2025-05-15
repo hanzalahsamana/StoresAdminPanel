@@ -33,17 +33,6 @@ const MultiImageUploader = ({
     return (
         <div className="flex flex-col justify-center items-start w-full">
             <div className="flex w-full gap-3">
-                <div
-                    onClick={() => document.getElementById("multiFileInput").click()}
-                    className="flex mt-[10px] flex-col justify-center items-center border border-primaryC bg-secondaryC min-w-[100px] min-h-[100px] cursor-pointer">
-
-                    <CiCamera className={'text-[50px] text-textTC opacity-40'} />
-                    <p className="text-textTC font-[inter] opacity-80 text-center text-[12px] ">Upload images</p>
-
-                </div>
-
-
-
                 <input
                     id="multiFileInput"
                     type="file"
@@ -55,30 +44,37 @@ const MultiImageUploader = ({
 
 
 
-                <div className="flex flex-1 pt-[10px] overflow-x-auto w-[300px] customScroll">
-                    <div className="flex gap-2">
+                <div className="flex flex-wrap gap-2 pt-[10px] w-full">
+                    <div
+                        onClick={() => document.getElementById("multiFileInput").click()}
+                        className="flex flex-col justify-center items-center border-2 border-primaryC bg-secondaryC min-w-[100px] min-h-[100px] cursor-pointer">
 
-                        {images?.map((image, index) => (
-                            <div key={index} className="relative w-[100px] h-[100px]">
-                                <img
-                                    src={image instanceof File || image instanceof Blob
-                                        ? URL.createObjectURL(image)
-                                        : image}
-                                    alt={`Selected ${index}`}
-                                    className="w-[100px] h-[100px] bg-transparent object-cover border border-solid border-borderC rounded-sm"
-                                />
-                                <button
-                                    data-tooltip-id="my"
-                                    data-tooltip-content="Remove Image"
-                                    onClick={() => handleRemoveImage(index)}
-                                    className="absolute  top-[-8px] right-[-8px] rounded-full text-white bg-red-500 text-[12px] p-1"
-                                >
-                                    <IoMdClose />
-                                    <Tooltip className="!text-[8px]" id="my" />
-                                </button>
-                            </div>
-                        ))}
+                        <CiCamera className={'text-[50px] text-primaryC font-bold '} />
+                        <p className="text-primaryC  text-center text-[12px] ">Upload images</p>
+
                     </div>
+
+                    {images?.map((image, index) => (
+                        <div key={index} className="relative w-[100px] h-[100px] group">
+                            <img
+                                src={image instanceof File || image instanceof Blob
+                                    ? URL.createObjectURL(image)
+                                    : image}
+                                alt={`Selected ${index}`}
+                                className="w-[100px] h-[100px] bg-transparent object-cover border border-solid border-borderC rounded-sm"
+                            />
+                            <button
+                                data-tooltip-id="my"
+                                data-tooltip-content="Remove Image"
+                                onClick={() => handleRemoveImage(index)}
+                                className="absolute top-[-8px] right-[-8px] rounded-full text-backgroundC bg-red-500 text-[10px] p-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200"
+                            >
+                                <IoMdClose />
+                                <Tooltip className="!text-[8px]" id="my" />
+                            </button>
+                        </div>
+
+                    ))}
 
                 </div>
             </div>

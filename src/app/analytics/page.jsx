@@ -4,7 +4,6 @@ import ProtectedRoute from '@/AuthenticRouting/ProtectedRoutes'
 import DropDown from '@/components/Actions/DropDown';
 import CustomCard from '@/components/Cards/CustomCard';
 import MapChart from '@/components/Graphs/MapChart';
-import StatusCard from '@/components/Cards/StatusCard';
 import OrderListTable from '@/components/Tables/OrderListTable';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
@@ -50,11 +49,11 @@ const Analytics = () => {
         <DropDown className='!max-w-[150px]' placeholder='Duration' selectedOption={selectedValue} setSelectedOption={setSelectedValue} defaultOptions={options} />
       </div>
 
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-5 w-full mb-5">
-        <StatusCard title="Total Views" data={analytics?.views} loading={loading} />
-        <StatusCard title="Returning Users" data={analytics?.returningUsers} loading={loading} />
-        <StatusCard title="Total Orders" data={orders?.length} loading={loading} />
-        <StatusCard title="Total Products" data={products?.length} loading={loading} />
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-5 w-full mb-5 text-[25px] text-primaryC font-semibold">
+        <CustomCard title="Total Views">{analytics?.views}</CustomCard>
+        <CustomCard title="Returning Users">{analytics?.returningUsers}</CustomCard>
+        <CustomCard title="Total Orders">{orders?.length}</CustomCard>
+        <CustomCard title="Total Products">{products?.length}</CustomCard>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 w-full mb-5">

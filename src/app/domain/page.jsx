@@ -92,7 +92,7 @@ const DomainVerification = () => {
 
   return (
     <div className="flex flex-col gap-[20px] py-[20px] min-h-screen px-8">
-      <div className="p-8 w-full border border-borderC rounded-md flex flex-col gap-[20px] bg-white">
+      <div className="p-8 w-full border border-borderC rounded-md flex flex-col gap-[20px] bg-backgroundC">
         <h1 className="text-textC font-semibold text-[24px]">Your Sub-domain</h1>
 
         {/* <FormInput

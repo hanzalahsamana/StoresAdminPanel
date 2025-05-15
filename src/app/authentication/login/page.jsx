@@ -45,7 +45,7 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-secondaryC px-3">
+    <div className="min-h-screen flex items-center justify-center bg-lbgC px-3">
       <Form
         handleSubmit={handleSubmit}
         loading={loading}
@@ -61,6 +61,7 @@ const Login = () => {
           name={"email"}
           handleChange={handleChange}
           placeholder="Email"
+          size="large"
         />
 
         <FormInput
@@ -70,9 +71,10 @@ const Login = () => {
           value={formData.password}
           handleChange={handleChange}
           placeholder="Password"
+          size="large"
           actionIcon={
-            <div onClick={() => setTypePassword(!typePassword)} className="absolute right-[12px] text-[#7f7b7b]  top-[14px]">
-              <IconButton icon={typePassword ? <FaEye /> : <FaEyeSlash />} />
+            <div onClick={() => setTypePassword(!typePassword)} className="absolute right-[12px] text-[#7f7b7b]  top-[3px]">
+              <IconButton icon={!typePassword ? <FaEye /> : <FaEyeSlash />} />
             </div>}
         />
 

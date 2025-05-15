@@ -1,17 +1,13 @@
 "use client";
 import React from 'react'
-import BarLoader from '../Loader/BarLoader';
+import { GoDotFill } from 'react-icons/go';
 
-const StatusCard = ({ title, data, classes, loading }) => {
-  if (loading) {
-    return (
-      <BarLoader />
-    )
-  }
+const StatusCard = ({ label = "Active", status = true, className }) => {
+
   return (
-    <div className={`bg-white px-[15px] py-[10px] rounded-lg border border-borderC shadow-sm ${classes}`}>
-      <p className='text-textC text-[16px] font-medium font-[inter] text-left'>{title}</p>
-      <p className="text-xl mt-[10px] font-bold text-primaryC">{data}</p>
+    <div className={`flex gap-1 py-[2px] justify-start text-nowrap  items-center text-sm w-max px-[13px] rounded-2xl ${status ? 'bg-green-200 text-green-500' : 'bg-red-200 text-red-500'} ${className}`}>
+      <GoDotFill />
+      {label}
     </div>
   )
 }

@@ -12,13 +12,13 @@ const QuantityControl = ({ quantity, increaseQuantity, decreaseQuantity }) => {
       >
         -
       </button>
-      <span className="h-8 flex justify-center my-[6px] items-center text-xl w-1/2 border-l border-r border-gray-500">
+      <span className="h-8 text-[var(--tmp-txt)] flex justify-center my-[6px] items-center text-xl w-1/2 border-l border-r border-gray-500">
         { quantity}
 
       </span>
       <button
         disabled={loading}
-        className={`w-1/4 text-black border-none rounded-md ${loading ? 'cursor-not-allowed' : 'cursor-pointer'} transition duration-300 text-2xl hover:opacity-80`}
+        className={`w-1/4 text-[var(--tmp-txt)] border-none rounded-md ${loading ? 'cursor-not-allowed' : 'cursor-pointer'} transition duration-300 text-2xl hover:opacity-80`}
         onClick={increaseQuantity}
       >
         +

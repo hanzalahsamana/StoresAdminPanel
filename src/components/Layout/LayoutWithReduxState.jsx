@@ -15,8 +15,10 @@ import TemplateFooter from './TemplateFooter';
 import { fetchSectionsData } from '@/APIs/SectionsData/getSectonsData';
 import BASE_URL from '../../../config';
 import { useRouter } from 'next/navigation';
-import { fetchTheme } from '@/APIs/Theme/fetchTheme';
 import { applyTheme } from '@/Utils/ApplyTheme';
+import { fetchStoreDetails } from '@/APIs/StoreDetails/fetchStoreDetails';
+import DiscountCountdownBar from '../UI/DiscountCountdownBar';
+import DiscountPopup from '../UI/DiscountPopup';
 const assistant = Assistant({
   subsets: ["latin"],
   weight: ["400", "500", "700"], // Add the font weights you need
@@ -30,8 +32,9 @@ const LayoutWithReduxState = ({ children }) => {
   const { pagesDataLoading } = useSelector((state) => state.pagesData);
   const { sectionsDataLoading } = useSelector((state) => state.sectionsData);
   const { categoryLoading } = useSelector((state) => state.categories);
-  const { theme, themeloading } = useSelector((state) => state.theme);
   const { loading } = useSelector((state) => state.orderData);
+  const { storeDetail, storeDetailLoading } = useSelector((state) => state?.storeDetail);
+  const { theme } = storeDetail;
 
   const router = useRouter()
 
@@ -55,7 +58,7 @@ const LayoutWithReduxState = ({ children }) => {
           fetchCategory(dispatch, siteName),
           fetchOrderData(dispatch, siteName),
           fetchSectionsData(dispatch, siteName),
-          fetchTheme(dispatch, siteName),
+          fetchStoreDetails(dispatch, siteName),
         ]);
 
         if (typeof window !== "undefined" && siteName) {
@@ -79,13 +82,34 @@ const LayoutWithReduxState = ({ children }) => {
   console.log(sectionsDataLoading, "sectionDataLoading");
 
 
-  if (productLoading || pagesDataLoading || categoryLoading || sectionsDataLoading || themeloading || loading) {
+  if (productLoading || pagesDataLoading || categoryLoading || sectionsDataLoading || storeDetailLoading || loading) {
     return <Loader />
   }
 
   return (
     <div className={`flex flex-col items-center ${assistant.className} antialiased`}>
+      <DiscountCountdownBar discount={{
+        name: "NEWYEAR2025",
+        discountType: "global",
+        access: "all",
+        amountType: "percent",
+        amount: 25,
+        isActive: true,
+        expiryDate: '2027-10-09T09:49:00.000+00:00', // 3 hours from now
+      }} />
       <TemplateHeader />
+
+      <DiscountPopup
+      isOpen={true}
+      discount={{
+        name: "NEWYEAR2025",
+        discountType: "global",
+        access: "all",
+        amountType: "percent",
+        amount: 25,
+        isActive: true,
+        expiryDate: '2027-10-09T09:49:00.000+00:00', // 3 hours from now
+      }} />
       {children}
       <TemplateFooter />
     </div>

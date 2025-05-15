@@ -20,7 +20,7 @@ function TooltipComponent({ tooltipVisible, tooltipPosition, tooltipContent }) {
     <>
       {tooltipVisible && (
         <div
-          className="fixed flex flex-col gap-2  w-max bg-white border border-[#dadada] rounded-[5px] shadow-sm  text-black p-2  opacity-100 transition-opacity duration-300"
+          className="fixed flex flex-col gap-2  w-max bg-backgroundC border border-[#dadada] rounded-[5px] shadow-sm  text-black p-2  opacity-100 transition-opacity duration-300"
           style={{
             top: `${tooltipPosition.top}px`,
             left: `${tooltipPosition.left}px`,

@@ -5,15 +5,17 @@ import { useDispatch, useSelector } from "react-redux";
 import { deleteProduct } from "@/APIs/Product/deleteProductData";
 import Button from "@/components/Actions/Button";
 import DynamicTable from "@/components/Tables/Table";
-import AddEditProductModal from "@/components/Modals/AddEditProductModal";
 import BackgroundFrame from "@/components/Layout/BackgroundFrame";
 import ActionCard from "@/components/Cards/ActionCard";
+import AddGlobalVariationModal from "@/components/Modals/AddGlobalVariationModal";
+import { useRouter } from "next/navigation";
 
 
-const ProductsList = () => {
+const Products = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [updatedProduct, setUpdatedProduct] = useState(null);
   const { currUser } = useSelector((state) => state.currentUser);
+  const router = useRouter();
   const { products, productLoading } = useSelector(
     (state) => state.productData
   );
@@ -32,57 +34,40 @@ const ProductsList = () => {
   ];
 
   const actions = {
-    edit: (row) => { setUpdatedProduct(row); toggleModal(); },
+    edit: (row) => { router.push(`/products/edit/${row?._id}`); },
     delete: (row) => { deleteProduct(currUser.brandName, row?._id, dispatch) },
   };
 
   return (
     <BackgroundFrame>
-      <ActionCard 
-       lable={'Products'}
-       actionPosition="top"
-       actions={<>
-       <Button
+      <ActionCard
+        lable={'Products'}
+        actionPosition="top"
+        actions={<>
+          <Button
             label="Add Product"
             size="small"
-            action={() => { setUpdatedProduct(null); toggleModal(); }}
+            action={() => { router.push(`/products/add`); }}
             className="w-max !py-2"
           />
-       <Button
+          <Button
             label="Variations"
             variant="outline"
             size="small"
             action={() => { setUpdatedProduct(null); toggleModal(); }}
             className="w-max !py-2"
           />
-       </>}
-       >
+        </>}
+      >
 
 
-      <DynamicTable columns={columns} data={products} actions={actions} loading={productLoading} notFoundText="There are no products to show" />
+        <DynamicTable columns={columns} data={products} actions={actions} loading={productLoading} notFoundText="There are no products to show" />
+        <AddGlobalVariationModal setIsOpen={setIsOpen} isOpen={isOpen} />
 
-<AddEditProductModal
-  isOpen={isOpen}
-  setIsOpen={setIsOpen}
-  updatedData={updatedProduct}
-  setUpdatedProduct={setUpdatedProduct}
-/>
       </ActionCard>
-      {/* <div className="flex flex-col gap-3 justify-between w-full items-center bg-backgroundC p-4 rounded-md border border-borderC shadow-sm ">
-        <div className="flex justify-between w-full items-center">
-          <p className="text-center font-semibold text-textC text-[30px]">
-            Products
-          </p>
-          
-        </div>
-
-
-       
-
-      </div> */}
     </BackgroundFrame>
 
   );
 };
 
-export default ProtectedRoute(ProductsList);
+export default ProtectedRoute(Products);

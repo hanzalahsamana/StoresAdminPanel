@@ -24,12 +24,12 @@ const MultiSelectCheckbox = ({ lable = "", options, selectedOptions, setSelected
     const renderCheckbox = (label, isSelected, onChange) => (
         <label className="flex items-center space-x-3 w-max cursor-pointer">
             <div
-                className={`w-4 h-4 rounded-[2px] transition-all  flex items-center justify-center ${isSelected ? "bg-teal-500" : "bg-white border border-borderC"
+                className={`w-4 h-4 rounded-[2px] transition-all  flex items-center justify-center ${isSelected ? "bg-primaryC" : "bg-backgroundC border border-borderC"
                     }`}
             >
                 {isSelected && (
                     <svg
-                        className="w-[18px] h-[18px] text-white"
+                        className="w-[18px] h-[18px] text-backgroundC"
                         fill="none"
                         stroke="currentColor"
                         strokeWidth="3"

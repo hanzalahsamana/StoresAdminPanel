@@ -17,7 +17,7 @@ const FileUploader = ({ accept = ['.json'], file, setFile }) => {
         <div className="flex items-center w-full gap-3">
             <div
                 onClick={() => document.getElementById("FileInput").click()}
-                className="flex gap-2 px-[15px] py-[7px] transition-all  text-blue-500 hover:text-white justify-center rounded-sm items-center border border-blue-500 bg-backgroundC hover:bg-blue-500 cursor-pointer">
+                className="flex gap-2 px-[15px] py-[7px] transition-all  text-blue-500 hover:text-backgroundC justify-center rounded-sm items-center border border-blue-500 bg-backgroundC hover:bg-blue-500 cursor-pointer">
 
                 <FiUpload className={'text-[15px]'} />
                 <p className="text-[12px] ">Upload File</p>

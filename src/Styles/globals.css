@@ -9,30 +9,39 @@ body {
 }
 
 :root {
-  --primary-color: #0ba5a7;
-  --secondary-color: #06a4a720;
+  --primary-color: #0078D4;
+  --secondary-color: rgb(235, 245, 253);
   --accent-color: #ff5733;
   --background-color: #ffffff;
-  --text-color: #333939;
+  --text-color: #333333e8;
   --border-color: #dcdee1;
-  --light-text-color: #5f6571;
+  --light-text-color: #5f6571bc;
+  --light-background-color: #ebf5fd5a;
 }
 
 :root {
-  --tmp-pri: #FFFFFF;  /* Primary Color */
-  --tmp-sec: #121212;  /* Secondary Color */
-  --tmp-acc: #F3F3F3;  /* Accent Color */
-  --tmp-txt: #121212;  /* Text Color */
-  --tmp-ltxt: #515357; /* Light Text Color */
-  --tmp-wtxt: #e6e6e6; /* Light Text Color */
+  --tmp-pri: #FFFFFF;
+  /* Primary Color */
+  --tmp-sec: #121212;
+  /* Secondary Color */
+  --tmp-acc: #F3F3F3;
+  /* Accent Color */
+  --tmp-txt: #121212;
+  /* Text Color */
+  --tmp-ltxt: #515357;
+  /* Light Text Color */
+  --tmp-wtxt: #e6e6e6;
+  /* Light Text Color */
 }
 
-.cartButton:hover span{
+.cartButton:hover span {
   color: #eab308;
 }
-label{
-line-height: 18px !important;
+
+label {
+  line-height: 18px !important;
 }
+
 @layer utilities {
   .no-scrollbar::-webkit-scrollbar {
     display: none;
@@ -51,8 +60,8 @@ body {
 }
 
 .Inputs:focus~label {
-  font-size: 10px;
-  top: -10px;
+  font-size: 12px !important;
+  top: -10px !important;
 }
 
 .dropDown {
@@ -82,23 +91,23 @@ body {
 }
 
 .customScroll::-webkit-scrollbar {
-  width: 5px;
-  height: 5px;
+  width: 2.5px;
+  height: 2.5px;
 }
 
 .customScroll::-webkit-scrollbar-track {
-  background-color: #e4e4e4;
+  background-color: transparent;
   border-radius: 0px;
 }
 
 .customScroll::-webkit-scrollbar-thumb {
-  background-color: #b7b7b7;
+  background-color: #b9b9b9;
   border-radius: 10px;
   border: 0px solid #f1f1f1;
 }
 
 .customScroll::-webkit-scrollbar-thumb:hover {
-  background-color: #555;
+  background-color: #a5a4a4;
 }
 
 .LaptopFrame {
@@ -115,12 +124,13 @@ body {
   /* pointer-events: none; */
   cursor: not-allowed;
 }
-.LaptopFrame iframe{
+
+.LaptopFrame iframe {
   transform-origin: top left;
   transform: scale(0.50);
   width: 100%;
   height: 100%;
-  border: none; 
+  border: none;
 }
 
 .MobileFrame {
@@ -239,4 +249,48 @@ input:-webkit-autofill {
 .ql-toolbar .ql-picker-label {
   color: var(--primary-color) !important;
   /* Yellow fill for filled icons */
+}
+
+
+
+.branch {
+  position: relative;
+  /* margin-top: 10px; */
+}
+
+.branch::before {
+  content: '';
+  position: absolute;
+  top: -25px;
+  /* left: 50%; */
+  /* transform: translateX(-50%); */
+  width: 2px;
+  height: calc(100% - 23px);
+  background: var(--primary-color);
+}
+
+.child {
+  position: relative;
+  margin: 0px 0px;
+  padding-left: 70px;
+}
+
+.child::before {
+  content: '';
+  position: absolute;
+  top: -36%;
+  left: 0;
+  width: 22px;
+  height: 40px;
+  border-left: 2px solid var(--primary-color);
+  border-bottom: 2px solid var(--primary-color);
+  border-bottom-left-radius: 13px;
+}
+
+.customShadow {
+  box-shadow: 0 0px 10px rgb(0 0 0 / 0.07);
+}
+
+.countdown-box {
+  @apply text-textC rounded-md p-1.5 flex justify-center items-center text-[17px] font-semibold shadow-[inset_0_0px_4px_0_rgb(0_0_0_/_0.2)];
 }

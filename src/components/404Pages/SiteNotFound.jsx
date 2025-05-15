@@ -26,7 +26,7 @@ const SiteNotFound = () => {
                 <div className="mt-10">
                     <Link
                         href={`${HTTP}${Base_Domain}/authentication/register`}
-                        className="bg-black text-white px-5 py-2 rounded-lg font-medium hover:opacity-85 transition-all"
+                        className="bg-black text-backgroundC px-5 py-2 rounded-lg font-medium hover:opacity-85 transition-all"
                     >
                         Create Your Store
                     </Link>

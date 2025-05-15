@@ -24,7 +24,7 @@ const ServerCrash = () => {
         <div className="mt-10">
           <button
             onClick={() => location.reload()}
-            className="bg-black text-white px-5 py-2 rounded-lg font-medium hover:opacity-85 transition-all"
+            className="bg-black text-backgroundC px-5 py-2 rounded-lg font-medium hover:opacity-85 transition-all"
           >
             Try Again
           </button>

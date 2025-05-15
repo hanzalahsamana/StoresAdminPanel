@@ -19,7 +19,7 @@ export default function DnsInstructions({ instructions, currentIps = null }) {
                         </tr>
                     </thead>
                     <tbody>
-                        <tr className="bg-white text-center">
+                        <tr className="bg-backgroundC text-center">
                             <td className="py-2 px-4 text-textTC">{instructions.type}</td>
                             <td className="py-2 px-4 text-textTC">{instructions.name}</td>
                             <td className="py-2 px-4 text-textTC">{instructions.pointsTo}</td>

@@ -2,17 +2,29 @@ import { NextResponse } from "next/server";
 import BASE_URL from "../config";
 
 export async function middleware(request) {
-  try {
-    const testResponse = await fetch(`${BASE_URL}/ping`, { cache: "no-store" });
+  // try {
+  //   // if (!navigator.onLine) {
+  //   //   console.error("👍 Everything Okay - Offline");
+  //   //   return NextResponse.rewrite(new URL("/error/network-error", request.url));
+  //   // }
+  //   const externalCheck = await fetch("https://www.google.com/generate_204", { cache: "no-store" });
 
-    if (!testResponse.ok) {
-      console.error("🚨 Server error:", testResponse.status);
-      return NextResponse.rewrite(new URL("/error/server-crash", request.url));
-    }
-  } catch (err) {
-    console.error("🚨 Network error:", err.message);
-    return NextResponse.rewrite(new URL("/error/network-error", request.url));
-  }
+  //   if (!externalCheck.ok) {
+  //     console.error("🚨 Network error: No internet");
+  //     return NextResponse.rewrite(new URL("/error/network-error", request.url));
+  //   }
+
+  //   const testResponse = await fetch(`${BASE_URL}/ping`, { cache: "no-store" });
+
+  //   if (!testResponse.ok) {
+  //     console.error("🚨 Server error:", testResponse.status);
+  //     return NextResponse.rewrite(new URL("/error/server-crash", request.url));
+  //   }
+  // } catch (err) { 
+  //   console.error("🚨 Network error:", err.message);
+  //   return NextResponse.rewrite(new URL("/error/network-error", request.url));
+  // }
+
   const url = request.nextUrl.clone();
   const host = request.headers.get("host") || "";
   const pathname = url.pathname;
@@ -26,7 +38,13 @@ export async function middleware(request) {
   const subdomain = host.split(".")[0];
   const potentialSlug = subdomain?.replace(`${BaseDomain}`, "");
 
-  if (!potentialSlug || potentialSlug === "www" || potentialSlug === "localhost:3000" || potentialSlug === "xperiode" || potentialSlug === "dev") {
+  if (
+    !potentialSlug ||
+    potentialSlug === "www" ||
+    potentialSlug === "localhost:3000" ||
+    potentialSlug === "xperiode" ||
+    potentialSlug === "dev"
+  ) {
     return NextResponse.next();
   }
 

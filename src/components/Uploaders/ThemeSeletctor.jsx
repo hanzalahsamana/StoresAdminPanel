@@ -34,7 +34,7 @@ export default function ThemeSelector({ theme, setTheme }) {
                   className="relative flex flex-col border border-textTC w-[60px] h-[70px] cursor-pointer "
                 >
                   {isSelected && (
-                    <div className="absolute w-full h-full z-10 bg-[#00000058] text-white text-[20px] flex items-center justify-center">
+                    <div className="absolute w-full h-full z-10 bg-[#00000058] text-backgroundC text-[20px] flex items-center justify-center">
                       <IoCheckmarkOutline />
                     </div>
                   )}
@@ -61,7 +61,7 @@ export default function ThemeSelector({ theme, setTheme }) {
           <ColorPicker label="Accent" name="acc" value={theme?.acc} onChange={handleChange} />
           <ColorPicker label="Text" name="txt" value={theme?.txt} onChange={handleChange} />
           <ColorPicker label="Light Text" name="ltxt" value={theme?.ltxt} onChange={handleChange} />
-          <ColorPicker label="White Text" name="wtxt" value={theme?.wtxt} onChange={handleChange} />
+          <ColorPicker label="backgroundC Text" name="wtxt" value={theme?.wtxt} onChange={handleChange} />
         </div>
       </div>
     </div>
