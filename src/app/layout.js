@@ -3,6 +3,7 @@
 import "../Styles/globals.css";
 import "quill/dist/quill.snow.css";
 import "react-toastify/dist/ReactToastify.css";
+import "leaflet/dist/leaflet.css";
 import ProviderWrap from "@/components/Layout/ProviderWrap";
 import { store } from "@/Redux/Store";
 import { Provider } from "react-redux";

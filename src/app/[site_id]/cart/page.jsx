@@ -30,7 +30,7 @@ const Cart = () => {
         {cartData?.length > 0 ? (
           <div>
             <div className="flex w-full justify-between items-center mb-3 px-[10px] text-[var(--tmp-txt)]">
-              <h1 className="text-[30px]">Your Cart</h1>
+              <h1 className="text-[30px] font-semibold">Your Cart</h1>
               <Link className="text-[15px] underline" href={`${getBasePath()}/products`}>Continue Shopping</Link>
             </div>
             <div className='flex justify-between text-[var(--tmp-txt)]' >

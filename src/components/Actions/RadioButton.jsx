@@ -10,7 +10,7 @@ const RadioButton = ({ label = "", options, selectedOption, setSelectedOption })
                     <div className="w-2 h-2 rounded-full bg-backgroundC" />
                 )}
             </div>
-            <span className="text-gray-800 text-[14px]">{option}</span>
+            <span className="text-gray-800 font-medium text-[14px]">{option}</span>
             <input type="radio" checked={isSelected} onChange={onChange} className="hidden" />
         </label>
     );
@@ -18,7 +18,7 @@ const RadioButton = ({ label = "", options, selectedOption, setSelectedOption })
     return (
         <div>
             <p className="text-textC  font-medium  text-lg mb-3">{label}</p>
-            <div className="space-y-3 ml-[10px]">
+            <div className="space-y-2 ml-[10px]">
                 {options.map((option) => {
                     const isSelected = selectedOption === option;
                     return (

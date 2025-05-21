@@ -7,26 +7,29 @@ import { useSwipeable } from "react-swipeable";
 
 function BannerSlider({
     content,
-    duration = 400,   // Slide transition duration in ms
-    autoRun = true,   // Auto-slide enable/disable
-    interval = 3500   // Auto-slide interval time in ms
+    duration = 400,
+    autoRun = true,
+    interval = 3500
 }) {
-
     const [currentIndex, setCurrentIndex] = useState(0);
     const [images, setImages] = useState([]);
     const [direction, setDirection] = useState(1);
+    const [failedImages, setFailedImages] = useState(new Set());
     const isCooldown = useRef(false);
-    
+
     useEffect(() => {
         if (Array.isArray(content?.imagesUrl)) {
-            setImages(content.imagesUrl.map((image) =>
-                image instanceof File || image instanceof Blob ? URL.createObjectURL(image) : image
-            ));
+            const mappedImages = content.imagesUrl.map((image) =>
+                image instanceof File || image instanceof Blob
+                    ? URL.createObjectURL(image)
+                    : image
+            );
+            setImages(mappedImages);
         }
     }, [content]);
 
     useEffect(() => {
-        if (!autoRun || images.length <= 1){
+        if (!autoRun || images.length <= 1) {
             setCurrentIndex(0);
             return;
         }
@@ -54,32 +57,42 @@ function BannerSlider({
         setTimeout(() => (isCooldown.current = false), duration);
     };
 
-    // Swipeable hooks for left and right swipe
     const handlers = useSwipeable({
         onSwipedLeft: () => handleSlide("next"),
         onSwipedRight: () => handleSlide("prev"),
-        trackMouse: true,  // Allows mouse dragging (for desktop as well)
+        trackMouse: true,
     });
+
+    const handleImageError = (url) => {
+        setFailedImages(prev => new Set(prev).add(url));
+    };
+
+    const currentImage = images[currentIndex];
+    const isImageValid = currentImage && !failedImages.has(currentImage);
 
     return (
         <div className="relative h-[calc(100vh_-_60px)] max-h-[1000px] w-full overflow-hidden">
             <div className="relative w-full h-full flex items-center justify-center" {...handlers}>
-                {/* If no images are found, show a message */}
                 {images.length === 0 ? (
                     <div className="absolute w-full h-full flex items-center justify-center bg-gray-500 text-white">
                         <p className="text-xl">No image selected</p>
+                    </div>
+                ) : !isImageValid ? (
+                    <div className="absolute w-full h-full flex items-center justify-center bg-gray-300 text-gray-700">
+                        <p className="text-lg">Slide Image Not Available</p>
                     </div>
                 ) : (
                     <AnimatePresence mode="popLayout" custom={direction}>
                         <motion.img
                             key={currentIndex}
-                            src={images[currentIndex]}
+                            src={currentImage}
                             alt={`Slide ${currentIndex}`}
                             className="absolute w-full h-full object-cover"
                             initial={{ x: direction * 100 + "%", opacity: 1 }}
                             animate={{ x: "0%", opacity: 1 }}
                             exit={{ x: -direction * 100 + "%", opacity: 1 }}
                             transition={{ duration: duration / 1000, ease: "easeInOut" }}
+                            onError={() => handleImageError(currentImage)}
                         />
                     </AnimatePresence>
                 )}

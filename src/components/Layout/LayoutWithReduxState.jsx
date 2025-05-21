@@ -19,6 +19,7 @@ import { applyTheme } from '@/Utils/ApplyTheme';
 import { fetchStoreDetails } from '@/APIs/StoreDetails/fetchStoreDetails';
 import DiscountCountdownBar from '../UI/DiscountCountdownBar';
 import DiscountPopup from '../UI/DiscountPopup';
+import SubscribeForm from '../Forms/SubscribeForm';
 const assistant = Assistant({
   subsets: ["latin"],
   weight: ["400", "500", "700"], // Add the font weights you need
@@ -99,6 +100,7 @@ const LayoutWithReduxState = ({ children }) => {
       }} />
       <TemplateHeader />
 
+{/* 
       <DiscountPopup
       isOpen={true}
       discount={{
@@ -110,6 +112,8 @@ const LayoutWithReduxState = ({ children }) => {
         isActive: true,
         expiryDate: '2027-10-09T09:49:00.000+00:00', // 3 hours from now
       }} />
+
+      <SubscribeForm /> */}
       {children}
       <TemplateFooter />
     </div>

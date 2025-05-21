@@ -1,11 +1,12 @@
 import { useEffect, useCallback } from "react";
 import { IoMdClose } from "react-icons/io";
+import { VscClose } from "react-icons/vsc";
 
-const Modal = ({ isOpen, setIsOpen, children, className , extraFuntion=() => { } }) => {
+const Modal = ({ isOpen, setIsOpen, children, className, extraFuntion = () => { }, position = "fixed" }) => {
   const closeModal = useCallback(() => {
     extraFuntion()
     setIsOpen(false)
-  }, [extraFuntion ,setIsOpen]);
+  }, [extraFuntion, setIsOpen]);
 
   useEffect(() => {
     if (isOpen) {
@@ -27,7 +28,7 @@ const Modal = ({ isOpen, setIsOpen, children, className , extraFuntion=() => { }
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 z-[150] "  >
+    <div className={`inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 z-[150] p-6 ${position}`}  >
       <div
         className={`relative bg-backgroundC rounded-lg  shadow-lg max-w-[750px] max-h-[600px] w-full overflow-auto customScroll  ${className}`}
         onClick={(e) => e.stopPropagation()}
@@ -36,7 +37,7 @@ const Modal = ({ isOpen, setIsOpen, children, className , extraFuntion=() => { }
           className="absolute top-2 right-2 text-gray-600 hover:text-gray-900 z-[1]"
           onClick={closeModal}
         >
-          <IoMdClose size={24} />
+          <VscClose size={24} />
         </button>
         <div>{children}</div>
       </div>

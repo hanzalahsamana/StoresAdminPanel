@@ -64,6 +64,19 @@ export const deleteDiscount = async (discountId, token, dispatch) => {
     toast.success("Discount deleted successfully!");
     return response.data;
   } catch (error) {
-    toast.error(err?.response?.data?.error || "error deleting discount");
+    toast.error(error?.response?.data?.message || "error deleting discount");
+  }
+};
+
+export const applyCoupon = async (brandName, data) => {
+  try {
+    const response = await axios.post(
+      `${Base_URL}/${brandName}/applyCoupon`,
+      data
+    );
+    console.log("🏷️Coupon Applied", response);
+    return response.data;
+  } catch (error) {
+    throw error;
   }
 };

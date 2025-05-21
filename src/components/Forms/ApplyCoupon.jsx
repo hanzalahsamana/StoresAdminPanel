@@ -2,91 +2,65 @@
 
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
-import FormInput from './FormInput';
-import moment from 'moment';
+import TemplateFormInput from './TemplateFormInput';
+import { applyCoupon } from '@/APIs/StoreDetails/discount';
+import { CgSpinner } from 'react-icons/cg';
 
-const ApplyCoupon = ({ totalProductCost = 0, onDiscountApply }) => {
+const ApplyCoupon = ({ totalProductCost = 0, email, setCouponDiscount }) => {
     const [couponCode, setCouponCode] = useState('');
     const [message, setMessage] = useState('');
-    const [discountAmount, setDiscountAmount] = useState(0);
+    const [loading, setLoading] = useState(false);
+    const { siteName } = useSelector((state) => state.siteName);
 
-    const { discounts } = useSelector((state) => state?.storeDetail?.storeDetail || {});
-
-    const handleApply = () => {
+    const handleApply = async (e) => {
+        e.preventDefault();
         if (!couponCode) {
             setMessage('Please enter a coupon code.');
             return;
         }
-
-        const couponDiscount = discounts?.find(
-            d =>
-                d.discountType === 'coupon' &&
-                d.name?.toLowerCase() === couponCode.trim().toLowerCase()
-        );
-
-        if (!couponDiscount) {
-            setMessage('Invalid or inactive coupon code.');
-            return;
+        try {
+            setLoading(true)
+            const {discount} = await applyCoupon(siteName, { totalAmount: totalProductCost, email, couponCode })
+            setCouponDiscount(discount)
+            setMessage("Coupon applied successfully")
+        } catch (error) {
+            setMessage(error.response ? error.response.data.message : error.message)
+        } finally {
+            setLoading(false)
         }
 
-        // Check expiration and active status
-        const isExpired = couponDiscount?.expiryDate && moment(couponDiscount.expiryDate).isBefore(moment());
-        const isInactive = couponDiscount?.isActive === false;
-
-        if (isExpired || isInactive) {
-            setMessage('This coupon is either expired or inactive.');
-            return;
-        }
-
-        const amountType = couponDiscount.amountType; // 'percentage' or 'fixed'
-        const discountValue = couponDiscount.amount;
-        const discountType = amountType === 'percentage' ? 'percent' : 'fixed';
-
-        const calculatedDiscountAmount =
-            amountType === 'percentage'
-                ? (totalProductCost * discountValue) / 100
-                : discountValue;
-
-        // Pass to parent
-        onDiscountApply({
-            discountType,
-            amount: discountValue,
-            source: couponDiscount.name,
-        });
-
-        setDiscountAmount(calculatedDiscountAmount);
-        setMessage(`Coupon "${couponDiscount.name}" applied: ${amountType === 'percentage' ? discountValue + '%' : 'Rs ' + discountValue}`);
     };
 
     return (
-        <div className="flex flex-col gap-2">
+        <form onSubmit={handleApply} className="flex flex-col gap-2 mt-[20px]">
             <div className="flex items-end gap-3">
-                <FormInput
+                <TemplateFormInput
                     type="text"
                     placeholder="Coupon Code"
                     name="coupon"
                     size="large"
                     value={couponCode}
                     handleChange={(e) => setCouponCode(e.target.value)}
+                    className='!bg-[var(--tmp-pri)]'
+                    labelClassname='bg-[var(--tmp-pri)]'
+                    autocomplete='off'
                 />
                 <button
-                    className="!w-[190px] h-[43px] rounded-md px-[20px] bg-[var(--tmp-sec)] text-[var(--tmp-wtxt)] text-[16px] transition-all duration-300 hover:scale-105"
-                    onClick={handleApply}
+                    type="submit"
+                    disabled={loading}
+                    className={`!w-[190px] h-[43px] rounded-md px-[20px] bg-[var(--tmp-sec)] text-[var(--tmp-wtxt)] text-[16px] transition-all duration-300 hover:scale-105 flex items-center justify-center gap-2 disabled:cursor-not-allowed`}
                 >
-                    Apply Coupon
+                    {loading ? (
+                        <CgSpinner className="text-[22px] animate-spin" />
+                    ) : (
+                        "Apply Coupon"
+                    )}
                 </button>
             </div>
-
             {message && (
-                <p className="text-sm text-[var(--tmp-txt)]">{message}</p>
+                <p className="text-[12px] mt-[-5px] text-red-500">{message}</p>
             )}
-
-            {discountAmount > 0 && (
-                <p className="text-sm text-green-600">
-                    Discount: Rs {discountAmount.toFixed(2)}
-                </p>
-            )}
-        </div>
+        </form>
     );
 };
 

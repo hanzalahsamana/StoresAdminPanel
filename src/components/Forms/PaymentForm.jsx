@@ -9,6 +9,8 @@ import { selectPageByType } from "@/Redux/PagesData/PagesDataSlice";
 import { addOrderDataApi } from "@/APIs/Order/PlaceOrder";
 import FormInput from "@/components/Forms/FormInput";
 import { paymentFormValidate } from "@/Utils/FormsValidator";
+import { getBasePath } from "@/Utils/GetBasePath";
+import Link from "next/link";
 
 
 const initialFormData = {
@@ -25,6 +27,10 @@ const initialFormData = {
 
 
 const PaymentForm = ({ shipping, total, tax, discount, cartItem }) => {
+
+// todo send email in the coupon code
+
+
   const dispatch = useDispatch();
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false)
@@ -218,6 +224,11 @@ const PaymentForm = ({ shipping, total, tax, discount, cartItem }) => {
             Place Order
           </button>
         </form>
+        <div>
+            <p className='text-[var(--tmp-txt)] text-[14px] py-3'>
+              By placing this order, you agree to our <Link href={`${getBasePath()}/pages/terms-of-service`} className='text-[#299ae0] cursor-pointer'>Terms of Service</Link> and <Link href={`${getBasePath()}/pages/privacy-policy`} className='text-[#299ae0] cursor-pointer'>Privacy Policy</Link>
+            </p>
+          </div>
       </div>
     </div>
   );

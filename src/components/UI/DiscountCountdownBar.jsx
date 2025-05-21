@@ -4,11 +4,9 @@ const DiscountCountdownBar = ({ discount }) => {
     const [timeLeft, setTimeLeft] = useState(null);
 
     useEffect(() => {
-        if (!discount || !discount.isActive || discount.discountType !== "global") return;
-
         const updateTimer = () => {
             const now = Date.now();
-            const expiry = new Date(discount.expiryDate).getTime();
+            const expiry = new Date(discount?.expiryDate).getTime();
             const diff = expiry - now;
 
             if (diff <= 0) {
@@ -36,55 +34,46 @@ const DiscountCountdownBar = ({ discount }) => {
 
     if (
         !discount ||
-        Object.keys(discount).length === 0 ||
-        new Date(discount.expiryDate).getTime() < Date.now()
+        !discount.isActive ||
+        new Date(discount.expiryDate).getTime() < Date.now() ||
+        !timeLeft
     ) {
         return null;
     }
 
-    if (!discount.isActive || discount.discountType !== "global" || !timeLeft) return null;
-
-    const { name, amount, amountType } = discount;
-    const discountText = amountType === "percent" ? `${amount}% OFF` : `$${amount} OFF`;
+    const isPercent = discount.amountType === "percent";
+    const discountText = isPercent ? `${discount.amount}% OFF` : `Rs ${discount.amount} OFF`;
+    const isGlobal = discount.discountType === "global";
+    const isSubscription = discount.access === "subscription";
 
     return (
-        <div className="w-full p-2 bg-[var(--tmp-acc)] opacity-80 shadow-inner border-b-[1px] border-borderC text-text-textC text-sm flex items-center justify-center gap-8 px-4 z-50">
-            <div>
-                <span className="mr-2">NewYear Offer</span>
-                <span className="font-semibold mr-2">{discountText}</span>
-                <span className="mr-2">— Use code:</span>
-                <span className="text-red-600 py-0.5 rounded font-bold">{name}</span>
+        <div className="w-full p-2 bg-[var(--tmp-acc)] opacity-90 shadow-inner border-b-[1px] border-borderC text-text-textC text-sm flex items-center justify-between gap-6 px-4 z-50 flex-wrap">
+            <div className="flex items-center gap-2 flex-wrap">
+                {!isGlobal ? (
+                    <>
+                        <span className="font-semibold">{discountText}</span>
+                        <span>— Use code:</span>
+                        <span className="text-red-600 font-bold">{discount.name}</span>
+                        {isSubscription && (
+                            <span className="ml-2 italic text-sm">
+                                (Subscribe your email to get this discount)
+                            </span>
+                        )}
+                    </>
+                ) : (
+                    <>
+                        <span className="font-semibold">{discountText}</span>
+                        <span className="italic text-sm">(Limited Time Offer)</span>
+                    </>
+                )}
             </div>
-            <div className="flex gap-2 items-center">
-                <div className="flex items-center gap-2">
-                    <span className="countdown-box">{timeLeft.days}</span>
-                    <span>:</span>
-                </div>
-                <div className="flex items-center gap-2">
-                    <span className="countdown-box">{timeLeft.hours}</span>
-                    <span>:</span>
-                </div>
-                <div className="flex items-center gap-2">
-                    <span className="countdown-box">{timeLeft.minutes}</span>
-                    <span>:</span>
-                </div>
-                <div className="flex items-center gap-2">
-                    <span className="countdown-box">{timeLeft.seconds}</span>
-                    <span> </span>
-                </div>
-            </div>
-            {/* <div className="flex gap-2 items-center">
 
-                <strong>Hurry!</strong> Offer ends in:
-                <span className="countdown-box">{timeLeft.days}</span>
-                <span>d</span>
-                <span className="countdown-box">{timeLeft.hours}</span>
-                <span>h</span>
-                <span className="countdown-box">{timeLeft.minutes}</span>
-                <span>m</span>
+            <div className="flex gap-2 items-center">
+                <span className="countdown-box">{timeLeft.days}</span><span>:</span>
+                <span className="countdown-box">{timeLeft.hours}</span><span>:</span>
+                <span className="countdown-box">{timeLeft.minutes}</span><span>:</span>
                 <span className="countdown-box">{timeLeft.seconds}</span>
-                <span>s</span>
-            </div> */}
+            </div>
         </div>
     );
 };

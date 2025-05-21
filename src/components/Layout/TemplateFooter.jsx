@@ -6,6 +6,7 @@ import { useState } from 'react';
 import OrderTrackModal from '@/components/Modals/OrderTrackModal';
 import { getBasePath } from '@/Utils/GetBasePath';
 import { FaFacebookF, FaInstagram, FaPinterest, FaTwitter } from 'react-icons/fa';
+import SubscribeForm from '../Forms/SubscribeForm';
 
 const TemplateFooter = () => {
   const { siteName } = useSelector((state) => state.siteName);
@@ -68,8 +69,8 @@ const TemplateFooter = () => {
         </div>
 
         <div className='uppercase'>
-          <h4 className="font-bold mb-4 text-[16px] text-[var(--tmp-wtxt)]">FOllow Us</h4>
-          <ul className='flex gap-5 text-[20px]'>
+          <h4 className="font-bold mb-4 text-[16px] text-[var(--tmp-wtxt)]">Subscribe to our email</h4>
+          {/* <ul className='flex gap-5 text-[20px]'>
             <li className="mb-2 hover:opacity-[0.7] w-max"><a href={`${path}/pages/return-policy`}><FaFacebookF />
             </a></li>
             <li className="mb-2 hover:opacity-[0.7] w-max"><a href={`${path}/pages/privacy-policy`}><FaInstagram />
@@ -78,8 +79,12 @@ const TemplateFooter = () => {
             </a></li>
             <li className="mb-2 hover:opacity-[0.7] w-max"><a href={`${path}/pages/shipping-policy`}> <FaTwitter />
             </a></li>
+          </ul> */}
+          <ul>
+            <SubscribeForm/>
           </ul>
           <ul className='mt-[20px]'>
+
             <button
               onClick={() => setIsOpen(true)}
               className="flex justify-center px-[35px] py-[10px] w-max bg-[var(--tmp-pri)] text-[var(--tmp-txt)] text-[16px] transition-all duration-300 hover:scale-105"

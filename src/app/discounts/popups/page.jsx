@@ -1,119 +1,336 @@
 "use client";
 
-import React, { use, useEffect, useState } from 'react'
-import ProtectedRoute from '@/AuthenticRouting/ProtectedRoutes'
-import Button from '@/components/Actions/Button';
-import ImgToIcon from '@/components/Actions/ImgToIcon';
-import ActionCard from '@/components/Cards/ActionCard';
-import CustomCard from '@/components/Cards/CustomCard';
-import BackgroundFrame from '@/components/Layout/BackgroundFrame';
-import AddEditDiscountModal from '@/components/Modals/AddEditDiscountModal';
-import { useDispatch, useSelector } from 'react-redux';
-import IconButton from '@/components/Actions/IconButton';
-import { MdOutlineEdit } from 'react-icons/md';
-import { AiOutlineDelete } from 'react-icons/ai';
-import StatusCard from '@/components/Cards/StatusCard';
-import { deleteDiscount } from '@/APIs/StoreDetails/discount';
-import moment from 'moment';
-import DiscountCountdownBar from '@/components/UI/DiscountCountdownBar';
-import { FaPlus } from 'react-icons/fa';
-import { GoPlug, GoPlus } from 'react-icons/go';
-import DiscountPopup from '@/components/UI/DiscountPopup';
+import React, { useState } from "react";
+import { useSelector } from "react-redux";
+import ProtectedRoute from "@/AuthenticRouting/ProtectedRoutes";
+import BackgroundFrame from "@/components/Layout/BackgroundFrame";
+import CustomCard from "@/components/Cards/CustomCard";
+import ActionCard from "@/components/Cards/ActionCard";
+import ImgToIcon from "@/components/Actions/ImgToIcon";
+import { GoPlus } from "react-icons/go";
+import DiscountCountdownBar from "@/components/UI/DiscountCountdownBar";
+import DiscountPopup from "@/components/UI/DiscountPopup";
+import Modal from "@/components/Modals/Modal";
+import RadioButton from "@/components/Actions/RadioButton";
+import Button from "@/components/Actions/Button";
+import ToggleSwitch from "@/components/Actions/ToggleSwitch";
+
+const defaultDiscount = {
+    name: "NEWYEAR2025",
+    discountType: "global",
+    access: "all",
+    amountType: "percent",
+    amount: 25,
+    isActive: true,
+    expiryDate: '2027-10-09T09:49:00.000+00:00',
+};
 
 const Discount = () => {
-    const [isOpen, setIsOpen] = useState(false);
-    const [updatedDiscount, setUpdatedDiscount] = useState(false);
     const { discounts } = useSelector((state) => state?.storeDetail?.storeDetail);
-    const dispatch = useDispatch();
-    const { currUser } = useSelector((state) => state.currentUser);
+    const [modalOpen, setModalOpen] = useState(false);
+    const [target, setTarget] = useState(null);
+    const [selectedDiscount, setSelectedDiscount] = useState(null);
 
+    const [announcementState, setAnnouncementState] = useState({
+        bar: {
+            discount: null,
+            showForm: false,
+            isActive: true,
+            saved: false,
+        },
+        popup: {
+            discount: null,
+            showForm: false,
+            isActive: true,
+            showType: "reload",
+            saved: false,
+        },
+    });
 
+    const handleDone = () => {
+        if (selectedDiscount && target) {
+            setAnnouncementState((prev) => ({
+                ...prev,
+                [target]: {
+                    ...prev[target],
+                    discount: selectedDiscount,
+                    showForm: true,
+                    saved: false,
+                },
+            }));
+            setModalOpen(false);
+            setSelectedDiscount(null);
+        }
+    };
 
-    useEffect(() => {
-        console.log(discounts?.expiryDate, new Date())
-        console.log(new Date(discounts?.expiryDate) <= new Date())
-    })
+    const handleSave = (type) => {
+        const data = announcementState[type];
+        const payload = {
+            announcementType: type,
+            discountId: data.discount?.id,
+            isActive: data.isActive,
+            ...(type === "popup" && { showType: data.showType }),
+        };
+
+        console.log("Saved:", payload);
+
+        setAnnouncementState((prev) => ({
+            ...prev,
+            [type]: {
+                ...prev[type],
+                showForm: false,
+                saved: true,
+            },
+        }));
+    };
+
+    const handleEdit = (type) => {
+        setAnnouncementState((prev) => ({
+            ...prev,
+            [type]: {
+                ...prev[type],
+                showForm: true,
+            },
+        }));
+    };
+
+    const handleRemoveDiscount = (type) => {
+        setAnnouncementState((prev) => ({
+            ...prev,
+            [type]: {
+                discount: null,
+                showForm: false,
+                isActive: true,
+                showType: "reload",
+                saved: false,
+            },
+        }));
+    };
+
+    const renderSummary = (type) => {
+        const data = announcementState[type];
+        return (
+            <div className="mt-2 text-sm">
+                <p><strong>Active:</strong> {data.isActive ? "Yes" : "No"}</p>
+                {type === "popup" && (
+                    <p><strong>Show On:</strong> {data.showType}</p>
+                )}
+                <div className="mt-2">
+                    <Button
+                        label="Edit"
+                        action={() => handleEdit(type)}
+                        size="small"
+                    />
+                </div>
+            </div>
+        );
+    };
 
     return (
         <BackgroundFrame>
             <ActionCard
-                lable={"Announcement"}
-                icon={<ImgToIcon
-                    url={'https://img.icons8.com/external-stickers-smashing-stocks/70/external-Sale-Announcement-sale-and-cashback-refund-stickers-smashing-stocks.png'}
-                    className={'!w-[50px]'}
-                />}
+                lable="Announcement"
+                actionPosition="top"
+                icon={
+                    <ImgToIcon
+                        url="https://img.icons8.com/external-stickers-smashing-stocks/70/external-Sale-Announcement-sale-and-cashback-refund-stickers-smashing-stocks.png"
+                        className="!w-[50px]"
+                    />
+                }
                 className="w-full"
-                actionPosition='top'
-            >
-            </ActionCard>
-
-            <CustomCard
-                title={'Discount Bar'}
-                className="w-full"
-                actionPosition='top'
-                actions={<div className='flex gap-2 w-full'>
-                    <button className='flex items-center gap-1 w-full text-primaryC cursor-pointer whitespace-nowrap font-light'><GoPlus />Connect Discount</button>
-                </div>}
-            >
-
-                <div className='flex flex-col gap-2  w-full'>
-                    <p>Preview</p>
-                    <div className='flex justify-between w-full'>
-                        <DiscountCountdownBar discount={{
-                            name: "NEWYEAR2025",
-                            discountType: "global",
-                            access: "all",
-                            amountType: "percent",
-                            amount: 25,
-                            isActive: true,
-                            expiryDate: '2025-07-09T09:49:00.000+00:00', // 3 hours from now
-                        }} />
-                    </div>
-
-
-                </div>
-            </CustomCard>
-            <CustomCard
-                title={'Popup Modal'}
-                className="w-full"
-                actionPosition='top'
-                actions={<div className='flex gap-2 w-full'>
-                    <button className='flex items-center gap-1 w-full text-primaryC cursor-pointer whitespace-nowrap font-light'><GoPlus />Connect Discount</button>
-                </div>}
-            >
-
-                <div className='flex flex-col gap-2  w-full'>
-                    <p>Preview</p>
-                    <div className='flex justify-between w-full'>
-                        <DiscountPopup
-                            isOpen={true}
-                            discount={{
-                                name: "NEWYEAR2025",
-                                discountType: "global",
-                                access: "all",
-                                amountType: "percent",
-                                amount: 25,
-                                isActive: true,
-                                expiryDate: '2027-10-09T09:49:00.000+00:00', // 3 hours from now
-                            }} />
-                    </div>
-
-
-                </div>
-            </CustomCard>
-
-
-
-            <AddEditDiscountModal
-                isOpen={isOpen}
-                setIsOpen={setIsOpen}
-                updatedDiscount={updatedDiscount}
-                setUpdatedDiscount={setUpdatedDiscount}
             />
 
-            {/* <CustomCard ></CustomCard> */}
+            <CustomCard
+                title="Discount Bar"
+                className="w-full"
+                actions={
+                    announcementState.bar.discount ? (
+                        <button
+                            onClick={() => handleRemoveDiscount("bar")}
+                            className="flex items-center gap-1 whitespace-nowrap text-red-500"
+                        >
+                            Remove Discount
+                        </button>
+                    ) : (
+                        <button
+                            onClick={() => {
+                                setTarget("bar");
+                                setModalOpen(true);
+                            }}
+                            className="flex items-center gap-1 whitespace-nowrap text-primaryC"
+                        >
+                            <GoPlus /> Connect Discount
+                        </button>
+                    )
+                }
+            >
+                {(
+                    !announcementState.bar?.discount ||
+                    (
+                        announcementState.bar.discount.isActive &&
+                        new Date(announcementState.bar.discount.expiryDate) > new Date()
+                    )
+                ) ? (
+                    <>
+                        <div className="p-3 border rounded-md w-full">
+                            <p className="mb-3">Preview</p>
+                            <DiscountCountdownBar
+                                discount={announcementState.bar.discount || defaultDiscount}
+                            />
+                        </div>
+
+                        {announcementState.bar.showForm ? (
+                            <>
+                                <ToggleSwitch
+                                    label="Is Active"
+                                    checked={announcementState.bar.isActive}
+                                    setChecked={(val) =>
+                                        setAnnouncementState((prev) => ({
+                                            ...prev,
+                                            bar: { ...prev.bar, isActive: val },
+                                        }))
+                                    }
+                                />
+                                <div className="mt-2">
+                                    <Button
+                                        label="Save"
+                                        action={() => handleSave("bar")}
+                                        size="small"
+                                    />
+                                </div>
+                            </>
+                        ) : (
+                            announcementState.bar.saved && renderSummary("bar")
+                        )}
+                    </>
+                ) : (
+                    <p className="text-textTC italic text-center">
+                        Discount is InActive or Expired
+                    </p>
+                )}
+            </CustomCard>
+
+
+            <CustomCard
+                title="Popup Modal"
+                className="w-full"
+                actions={
+                    announcementState.popup.discount ? (
+                        <button
+                            onClick={() => handleRemoveDiscount("popup")}
+                            className="flex items-center gap-1 whitespace-nowrap text-red-500"
+                        >
+                            Remove Discount
+                        </button>
+                    ) : (
+                        <button
+                            onClick={() => {
+                                setTarget("popup");
+                                setModalOpen(true);
+                            }}
+                            className="flex items-center gap-1 whitespace-nowrap text-primaryC"
+                        >
+                            <GoPlus /> Connect Discount
+                        </button>
+                    )
+                }
+            >
+                {(
+                    !announcementState.popup?.discount ||
+                    (
+                        announcementState.popup.discount.isActive &&
+                        new Date(announcementState.popup.discount.expiryDate) > new Date()
+                    )
+                ) ? (
+                    <div className="flex flex-col items-start w-full">
+                        {announcementState.popup.showForm ? (
+                            <>
+                                <RadioButton
+                                    label="When to show this popup"
+                                    options={["reload", "firstVisit"]}
+                                    selectedOption={announcementState.popup.showType}
+                                    setSelectedOption={(val) =>
+                                        setAnnouncementState((prev) => ({
+                                            ...prev,
+                                            popup: { ...prev.popup, showType: val },
+                                        }))
+                                    }
+                                />
+                                <ToggleSwitch
+                                    label="Is Active"
+                                    checked={announcementState.popup.isActive}
+                                    setChecked={(val) =>
+                                        setAnnouncementState((prev) => ({
+                                            ...prev,
+                                            popup: { ...prev.popup, isActive: val },
+                                        }))
+                                    }
+                                />
+                                <div className="mt-2">
+                                    <Button
+                                        label="Save"
+                                        action={() => handleSave("popup")}
+                                        size="small"
+                                    />
+                                </div>
+                            </>
+                        ) : (   
+                            announcementState.popup.saved && renderSummary("popup")
+                        )}
+
+                        <div className="p-3 border rounded-md w-full ">
+                            <p className="mb-3">Preview</p>
+                            <DiscountPopup
+                                isOpen={true}
+                                discount={announcementState.popup.discount || defaultDiscount}
+                            />
+                        </div>
+                    </div>
+                ) : (
+                    <p className="text-textTC italic text-center">
+                        Discount is InActive or Expired
+                    </p>
+                )}
+            </CustomCard>
+
+
+            {/* Select Discount Modal */}
+            <Modal isOpen={modalOpen} className="!max-w-[500px]">
+                <ActionCard
+                    lable="Select Discount"
+                    subText="Select discount you want to associate"
+                    actions={
+                        <>
+                            <Button
+                                label="Cancel"
+                                action={() => {
+                                    setModalOpen(false);
+                                    setSelectedDiscount(null);
+                                }}
+                                variant="white"
+                                size="small"
+                            />
+                            <Button
+                                label="Done"
+                                action={handleDone}
+                                size="small"
+                                disabled={!selectedDiscount}
+                            />
+                        </>
+                    }
+                >
+                    <RadioButton
+                        options={discounts?.map((d) => d.name)}
+                        selectedOption={selectedDiscount?.name}
+                        setSelectedOption={(val) => {
+                            const found = discounts.find((d) => d.name === val);
+                            setSelectedDiscount(found);
+                        }}
+                    />
+                </ActionCard>
+            </Modal>
         </BackgroundFrame>
-    )
-}
+    );
+};
 
 export default ProtectedRoute(Discount);

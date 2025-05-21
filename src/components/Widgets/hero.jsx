@@ -1,11 +1,10 @@
 "use client";
-import { selectPageByType } from "@/Redux/PagesData/PagesDataSlice";
 import React, { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
 
-const Hero = ({content}) => {
-
+const Hero = ({ content }) => {
   const [videoSrc, setVideoSrc] = useState("/videos/WebsiteBannerVideo.mp4");
+  const [imgSrc, setImgSrc] = useState("");
+  const [isImageBroken, setIsImageBroken] = useState(false);
 
   useEffect(() => {
     const updateVideoSrc = () => {
@@ -21,16 +20,32 @@ const Hero = ({content}) => {
     return () => window.removeEventListener("resize", updateVideoSrc);
   }, []);
 
-  console.log(content , "🚀");
+  useEffect(() => {
+    if (content?.image && typeof content.image === "object") {
+      setImgSrc(URL.createObjectURL(content.image));
+    } else {
+      setImgSrc(content?.image);
+    }
+  }, [content]);
+
+  const handleImageError = () => {
+    setIsImageBroken(true);
+  };
 
   return (
     <div className="h-[100vh] max-h-[900px]">
-      {/* <video className="w-full h-full bg-cover object-cover" playsInline autoPlay loop muted>
-        <source src={videoSrc} type="video/mp4" />
-        Your browser does not support the video tag.
-      </video> */}
-
-      <img className="w-full h-full bg-cover object-cover" src={content?.image && typeof content?.image === "object"? URL.createObjectURL(content?.image): content?.image} alt={content?.title} />
+      {!isImageBroken && imgSrc ? (
+        <img
+          className="w-full h-full bg-cover object-cover"
+          src={imgSrc}
+          alt={content?.title || "Banner"}
+          onError={handleImageError}
+        />
+      ) : (
+        <div className="w-full h-full flex items-center justify-center bg-gray-300 text-gray-600 text-xl">
+          Banner Image Not Found
+        </div>
+      )}
     </div>
   );
 };

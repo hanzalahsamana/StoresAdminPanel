@@ -46,11 +46,6 @@ const Discount = () => {
                         size="small"
                         action={() => setIsOpen(true)}
                     />
-                    <Button
-                        label={"Discount Bar"}
-                        size="small"
-                        action={() => setIsOpen(true)}
-                    />
                 </>
                 }
             >
@@ -58,59 +53,94 @@ const Discount = () => {
 
             {discounts?.length > 0 ? (
                 <div className='grid grid-cols-1 md:grid-cols-2 gap-4  w-full'>
-
                     {discounts?.map((discount, index) => (
                         <CustomCard
-                            title={`#${index + 1} ${discount?.name}`}
+                            title={`${discount?.discountType === 'global'? 'Name': 'Code'}: ${discount?.name}`}
                             key={index}
                             className="w-full"
-                            actionPosition='top'
-                            actions={<div className='flex gap-2'>
-                                <IconButton
-                                    icon={<MdOutlineEdit />}
-                                    className="text-blue-500"
-                                    action={() => { setUpdatedDiscount(discount); setIsOpen(true) }}
-                                />
-                                <IconButton
-                                    icon={<AiOutlineDelete />}
-                                    className="text-red-500"
-                                    action={() => deleteDiscount(discount?._id, currUser?.token, dispatch)}
-                                />
-                            </div>}
+                            actionPosition="top"
+                            actions={
+                                <div className="flex gap-2">
+                                    <IconButton
+                                        icon={<MdOutlineEdit />}
+                                        className="text-blue-500"
+                                        action={() => {
+                                            setUpdatedDiscount(discount);
+                                            setIsOpen(true);
+                                        }}
+                                    />
+                                    <IconButton
+                                        icon={<AiOutlineDelete />}
+                                        className="text-red-500"
+                                        action={() =>
+                                            deleteDiscount(discount?._id, currUser?.token, dispatch)
+                                        }
+                                    />
+                                </div>
+                            }
                         >
-                            <div className='flex justify-between w-full'>
-                                <div className='flex flex-col gap-3 text-textC font-medium text-[15px]'>
-                                    <p>Code / Name:</p>
-                                    <p>Amount:</p>
+                            <div className="flex justify-between w-full">
+                                <div className="flex flex-col gap-3 text-textC font-medium text-[15px]">
+                                    {/* <p>Code / Name:</p> */}
                                     <p>Discount Type:</p>
-                                    <p>Access:</p>
+                                    <p>Access By:</p>
+                                    <p>Amount Type:</p>
+                                    <p>Amount:</p>
+                                    <p>Min Order Amount:</p>
+                                    <p>Usage Limit:</p>
+                                    <p>Usage Per User:</p>
+                                    <p>Description:</p>
                                     <p>Expiry Date:</p>
                                     <p>Status:</p>
                                 </div>
-                                <div className='flex items-end flex-col gap-3 text-textTC text-[15px]'>
-                                    <p>{discount?.name}</p>
-                                    <p>{discount?.amount} {discount?.amountType === 'percent' ? '%' : 'RS'}</p>
+                                <div className="flex items-end flex-col gap-3 text-textTC text-[15px]">
+                                    {/* <p>{discount?.name}</p> */}
                                     <p>{discount?.discountType}</p>
-                                    <p>{discount?.access}</p>
-                                    <p>{discount?.expiryDate ? moment(discount?.expiryDate).format("YYYY-MM-DD HH:mm") : 'No Date'}</p>
+                                    <p>
+                                        {discount?.discountType === 'global'
+                                            ? 'Not applicable in global'
+                                            : discount?.access}
+                                    </p>
 
-                                    <p className='flex items-center gap-2'>
+                                    <p>{discount?.amountType}</p>
+                                    <p>{discount?.amountType === "percent" ? `${discount?.amount}%` : `${discount?.amount}Rs`}</p>
+                                    <p>{discount?.minOrderAmount || 0}</p>
+                                    <p>
+                                        {discount?.discountType === 'global'
+                                            ? 'Not applicable in global'
+                                            : discount?.usageLimit ?? 'Unlimited'}
+                                    </p>
+                                    <p>
+                                        {discount?.discountType === 'global'
+                                            ? 'Not applicable in global'
+                                            : discount?.usagePerUser ?? 'Unlimited'}
+                                    </p>
+                                    <p>{discount?.description || 'N/A'}</p>
+                                    <p>
+                                        {discount?.expiryDate
+                                            ? moment(discount?.expiryDate).format("YYYY-MM-DD HH:mm")
+                                            : "No Date"}
+                                    </p>
+                                    <p className="flex items-center gap-2">
                                         <StatusCard
                                             label={
                                                 new Date(discount?.expiryDate) <= new Date()
-                                                    ? 'Expired'
-                                                    : discount?.isActive ? 'Active' : 'Inactive'
+                                                    ? "Expired"
+                                                    : discount?.isActive
+                                                        ? "Active"
+                                                        : "Inactive"
                                             }
                                             status={
-                                                new Date(discount?.expiryDate) >= new Date() && discount?.isActive
+                                                new Date(discount?.expiryDate) >= new Date() &&
+                                                discount?.isActive
                                             }
                                         />
                                     </p>
                                 </div>
                             </div>
                         </CustomCard>
-
                     ))}
+
                 </div>
 
             ) : (

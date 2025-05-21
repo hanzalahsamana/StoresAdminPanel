@@ -19,6 +19,7 @@ const Button = ({
         outline: "border-2 border-primaryC text-primaryC bg-transparent  leading-[calc(1em)]",
         danger: "bg-red-600 text-backgroundC",
         black: "bg-black text-backgroundC",
+        white: "bg-backgroundC border text-textC border-textTC",
         warning: "bg-yellow-500 text-black",
         text: "bg-transparent text-primaryC py-0 !px-[5px]",
     };

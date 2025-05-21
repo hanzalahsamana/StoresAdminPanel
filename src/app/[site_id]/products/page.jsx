@@ -1,16 +1,21 @@
 "use client";
 
+import LocationPicker from "@/components/Uploaders/LocationPicker";
 import ProductsSection from "@/components/Widgets/productsSection";
 
 const Products = () => {
   return (
-    <ProductsSection
-      content={{
-        title: "All Products",
-        maxLength: Infinity,
-        productType: "All",
-      }}
-    />
+    <>
+      <LocationPicker />
+      <ProductsSection
+        content={{
+          title: "All Products",
+          maxLength: Infinity,
+          productType: "All",
+        }}
+      />
+
+    </>
   );
 };
 
