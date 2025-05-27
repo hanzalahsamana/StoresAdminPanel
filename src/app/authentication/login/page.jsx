@@ -1,10 +1,13 @@
 "use client";
+import { signInWithGoogle } from "@/APIs/Auth/authWithGoogle";
 import { loginUser } from "@/APIs/Auth/loginUser";
 import UnProtectedRoute from "@/AuthenticRouting/UnProtectedRoutes";
 import CustomLink from "@/components/Actions/CustomLink";
 import IconButton from "@/components/Actions/IconButton";
 import Form from "@/components/Forms/Form";
 import FormInput from "@/components/Forms/FormInput";
+import GoogleSignInUp from "@/components/Forms/GoogleSignInUp";
+import LineDevider from "@/components/UI/LineDevider";
 import { setCurrentUser } from "@/Redux/Authentication/AuthSlice";
 import { userLoginValidate } from "@/Utils/FormsValidator";
 import { useRouter } from "next/navigation";
@@ -34,23 +37,39 @@ const Login = () => {
     try {
       if (!userLoginValidate(formData, setErrors)) return;
       setLoading(true);
-      const {token , user} = await loginUser(formData);
+      const { token, user } = await loginUser(formData);
       localStorage.setItem("userToken", JSON.stringify(token));
       dispatch(setCurrentUser({ token, ...user }));
-      // return router.push("/");
     } catch (error) {
       setLoading(false);
       toast.error(error.response ? error.response.data.message : error.message)
     }
   };
 
+  const handleGoogleSuccess = async (GoogleToken) => {
+    setLoading(true);
+    try {
+      const { user, token } = await signInWithGoogle({ googleToken: GoogleToken });
+      localStorage.setItem("userToken", JSON.stringify(token));
+      dispatch(setCurrentUser({ token, ...user }));
+    } catch (error) {
+      setLoading(false);
+      toast.error(error.response ? error.response.data.message : error.message);
+    }
+  }
   return (
     <div className="min-h-screen flex items-center justify-center bg-lbgC px-3">
       <Form
         handleSubmit={handleSubmit}
         loading={loading}
         lable={"Login"}
-        extra={<CustomLink text="Don't Have an Account" link="/authentication/register" linkText="Create here" />}
+        extra={
+          <>
+            <LineDevider label={"OR"} />
+            <GoogleSignInUp onGoogleSuccess={handleGoogleSuccess} label="Sign in with Google" />
+            <CustomLink text="Don't Have an Account" link="/authentication/register" linkText="Create here" />
+          </>
+        }
         className="max-w-md "
         buttonLabel={"Log In"}>
 

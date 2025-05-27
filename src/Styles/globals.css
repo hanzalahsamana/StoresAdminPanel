@@ -14,9 +14,9 @@ body {
   --accent-color: #ff5733;
   --background-color: #ffffff;
   --text-color: #333333e8;
-  --border-color: #dcdee1;
+  --border-color: #dadce0;
   --light-text-color: #5f6571bc;
-  --light-background-color: #ebf5fd5a;
+  --light-background-color: #4285f40a;
 }
 
 :root {

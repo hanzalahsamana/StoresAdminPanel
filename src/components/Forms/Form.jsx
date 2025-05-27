@@ -12,7 +12,7 @@ const Form = ({
     encType = 'application/x-www-form-urlencoded' }) => {
 
     return (
-        <div className={`bg-backgroundC px-6 py-8 rounded-lg border-[1.5px] border-[#788a9a2c] w-full ${className}`}>
+        <div className={`bg-backgroundC px-6 py-6 rounded-lg border-[1.5px] border-[#788a9a2c] w-full ${className}`}>
             <h2 className="text-3xl font-bold mb-4 text-textC text-center">{lable}</h2>
             <form onSubmit={handleSubmit} className="space-y-4" encType={encType}>
                 <div className='space-y-4 py-[8px] bg-backgroundC max-h-[340px] bordr-t border-[#c9c9c98f] overflow-auto customScroll'>

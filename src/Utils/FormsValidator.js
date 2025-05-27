@@ -84,11 +84,15 @@ export const pageDataValidate = (componentMapping, formData) => {
 
 export const userResgisterValidate = (formData, setErrors) => {
   const newErrors = {};
-  const { brandName, email, password } = formData;
+  const { email, password } = formData;
 
   if (!email) newErrors.email = "Email is required";
-  if (!brandName) newErrors.brandName = "Brand Name is required";
-  if (!password) newErrors.password = "Password is required";
+  if (!password) {
+    newErrors.password = "Password is required";
+  } else if (!/^[\w!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]{6,}$/.test(password)) {
+    newErrors.password =
+      "Password must be at least 6 characters and must not contain spaces.";
+  }
 
   setErrors(newErrors);
   return Object.keys(newErrors).length === 0;
