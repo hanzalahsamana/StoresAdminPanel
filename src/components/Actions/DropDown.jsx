@@ -42,7 +42,7 @@ const DropDown = ({
     const handleCustomOptionSelect = () => {
         const trimmed = searchTerm.trim();
         if (trimmed && !options.includes(trimmed)) {
-            setOptions([...options, trimmed]); // Add custom option to options list
+            setOptions([trimmed,...options]); // Add custom option to options list
             setSelectedOption(trimmed); // Set the custom option as selected
             setSearchTerm(trimmed); // Update the input field
         }
@@ -59,7 +59,7 @@ const DropDown = ({
     }, [selectedOption]);
 
     const showCreateOption =
-        wantsCustomOption && searchTerm.trim() && !options.includes(searchTerm.trim());
+        wantsCustomOption && searchTerm?.trim() && !options.includes(searchTerm.trim());
 
     return (
         <div className={`w-full flex flex-col ${className}`}>

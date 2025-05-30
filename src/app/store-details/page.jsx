@@ -1,19 +1,21 @@
 "use client";
 
-import ProtectedRoute from "@/AuthenticRouting/ProtectedRoutes";
 import { useState } from "react";
-import Button from "@/components/Actions/Button";
-import MultiSelectDropdown from "@/components/Actions/MultiSelectDropdown";
+import BackgroundFrame from "@/components/Layout/BackgroundFrame";
+import ActionCard from "@/components/Cards/ActionCard";
 import FormInput from "@/components/Forms/FormInput";
+import DropDown from "@/components/Actions/DropDown";
+import Button from "@/components/Actions/Button";
 import Modal from "@/components/Modals/Modal";
 import { toast } from "react-toastify";
-import MultiSelectCheckbox from "@/components/Actions/MultiSelectCheckbox";
 import RadioButton from "@/components/Actions/RadioButton";
+import { generateSlug } from "@/Utils/GenerateSlug";
+import { Base_Domain } from "config";
 
 const StoreDetails = ({ isOpen, onClose, onComplete }) => {
     const [formData, setFormData] = useState({
         brandName: "",
-        categories: [],
+        categories: "",
     });
 
     const [errors, setErrors] = useState({});
@@ -56,67 +58,78 @@ const StoreDetails = ({ isOpen, onClose, onComplete }) => {
     };
 
     return (
-        <Modal isOpen={true} onClose={onClose}>
-            <div className="space-y-6 p-4">
-                <h2 className="text-xl font-semibold text-center">Setup Your Store</h2>
+        <BackgroundFrame>
+            <Modal isOpen={true} onClose={onClose}>
+                <ActionCard
+                    lable="Generate Your Store"
+                    subText="Please provide your store details to proceed."
+                    actions={<>
+                        <Button
+                            label="Continue"
+                            onClick={handleSaveChanges}
+                            loading={loading}
+                            size="small"
+                        />
+                    </>}
+                    actionPosition="top"
+                >
 
-                <FormInput
-                    name="brandName"
-                    value={formData.brandName}
-                    handleChange={(e) => handleChange("brandName", e.target.value)}
-                    placeholder="Brand Name"
-                    error={errors.brandName}
-                    // size="small"
-                    // layout="label"
-                />
-                {/* 
-                <MultiSelectDropdown
-                    name="categories"
-                    placeholder="Select Categories"
-                   
-                    setSelectedOptions={(val) => handleChange("categories", val)}
-                    selectedOptions={formData.categories}
-                    defaultOptions={[
-                        "Business",
-                        "Apparel",
-                        "Perfume",
-                        "Electronics",
-                        "Health & Beauty",
-                        "Home Decor",
-                        "Food & Grocery",
-                    ]}
-                /> */}
+                    <FormInput
+                        name="brandName"
+                        value={formData.brandName}
+                        handleChange={(e) => handleChange("brandName", e.target.value)}
+                        label="Brand Name"
+                        error={errors.brandName}
+                        placeholder="Enter your brand name"
+                        layout="label"
+                    />
 
-                <RadioButton
-                    options={[
-                        { label: "Apparel", value: "apparel" },
-                        { label: "Perfume", value: "perfume" },
-                        { label: "Electronics", value: "electronics" },
-                        { label: "Health & Beauty", value: "health_beauty" },
-                        { label: "Home Decor", value: "home_decor" },
-                        { label: "Food & Grocery", value: "food_grocery" },
-                        { label: "Toys & Games", value: "toys_games" },
-                        { label: "Baby Products", value: "baby_products" },
-                        { label: "Furniture", value: "furniture" },
-                        { label: "Arts & Crafts", value: "arts_crafts" },
-                        { label: "Mobile Accessories", value: "mobile_accessories" },
-                        { label: "Watches & Accessories", value: "watches_accessories" }
-                    ]
-                    }
-                    selectedOption={formData.categories}
-                    setSelectedOption={(val) => handleChange("categories", val)}
-                    label="Select Your Store Type"
-                    className="grid grid-cols-2 !gap-4 space-y-0"
-                />
+                    {formData.brandName && (
+                        <p className="text-[10px] mt-1 text-textTC">
+                            Your store subdomain will be{" "}
+                            <span className="text-primaryC">
+                                {generateSlug(formData.brandName)}.{Base_Domain}
+                            </span>
+                        </p>
+                    )}
 
-                <Button
-                    label="Save Changes"
-                    onClick={handleSaveChanges}
-                    loading={loading}
-                />
-            </div>
-        </Modal>
+                    <DropDown
+                        defaultOptions={[
+                            "Apparel",
+                            "Perfume",
+                            "Electronics",
+                            "Health & Beauty",
+                            "Home Decor",
+                            "Food & Grocery",
+                            "Toys & Games",
+                            "Baby Products",
+                            "Furniture",
+                            "Arts & Crafts",
+                            "Mobile Accessories",
+                            "Watches & Accessories",
+                        ]
+                        }
+                        selectedOption={formData.categories}
+                        setSelectedOption={(val) => handleChange("categories", val)}
+                        label="Select Your Store Type"
+                        wantsCustomOption={true}
+                        layout={"label"}
+                        placeholder="eg: clothing store"
+                    />
+                    <RadioButton
+                        label="Where did you hear about us?"
+                        options={[
+                            { label: "Friends", value: "friends" },
+                            { label: "Advertisement", value: "ads" },
+                            { label: "From Influencer", value: "influencer" },
+                            { label: "Social Media (YouTube, Instagram, etc.)", value: "social_media" },
+                            { label: "Email Newsletter", value: "email_newsletter" },
+                        ]}
+                    />
+                </ActionCard>
+            </Modal>
+        </BackgroundFrame>
     );
 };
 
-export default ProtectedRoute(StoreDetails);
+export default StoreDetails;

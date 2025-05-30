@@ -83,6 +83,7 @@ export const pageDataValidate = (componentMapping, formData) => {
 };
 
 export const userResgisterValidate = (formData, setErrors) => {
+  setErrors({}); // Clear previous errors
   const newErrors = {};
   const { email, password } = formData;
 
@@ -99,6 +100,7 @@ export const userResgisterValidate = (formData, setErrors) => {
 };
 
 export const userLoginValidate = (formData, setErrors) => {
+  setErrors({}); // Clear previous errors
   const newErrors = {};
   const { email, password } = formData;
 

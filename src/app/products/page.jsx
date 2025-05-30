@@ -2,7 +2,7 @@
 import ProtectedRoute from "@/AuthenticRouting/ProtectedRoutes";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteProduct } from "@/APIs/Product/deleteProductData";
+import { deleteProduct } from "@/APIs/Product/deleteProductData.jsx";
 import Button from "@/components/Actions/Button";
 import DynamicTable from "@/components/Tables/Table";
 import BackgroundFrame from "@/components/Layout/BackgroundFrame";
