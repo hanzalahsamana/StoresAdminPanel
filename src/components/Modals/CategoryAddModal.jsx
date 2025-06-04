@@ -104,7 +104,7 @@ const CategoryAddModal = ({
             <Form
                 buttonLabel={!updatedData ? "Add Category" : "Update Category"}
                 handleSubmit={handleSubmit}
-                lable={"Add Category"}
+                label={"Add Category"}
                 encType="multipart/formdata"
                 loading={loading}
             >

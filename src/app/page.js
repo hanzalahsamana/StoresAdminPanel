@@ -1,10 +1,18 @@
 "use client";
-import ProtectedRoute from "@/AuthenticRouting/ProtectedRoutes";
-import Dashboard from "./Dashboard/Dashboard";
+
+import Link from "next/link";
 
 const Home = () => {
   return (
-      <Dashboard />
+    <>
+      <p className="text-[20px]">This will be our home page website</p>
+      <Link
+        className="text-blue-500 hover:underline text-[20px]"
+        href="/authentication/login"
+      >
+        Login
+      </Link>
+    </>
   );
 };
-export default ProtectedRoute(Home);
+export default Home;

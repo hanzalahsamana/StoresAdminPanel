@@ -5,21 +5,19 @@ import { Assistant } from "next/font/google";
 
 import Loader from '@/components/Loader/loader';
 import { useDispatch, useSelector } from 'react-redux'
-import { fetchPagesData } from '@/APIs/PagesData/getPagesData';
-import { fetchProducts } from '@/APIs/Product/getProductData';
-import { fetchCategory } from '@/APIs/Category/getCategory';
+import { fetchPagesData } from '@/APIs/PagesData/getContents';
+import { fetchProducts } from '@/APIs/Product/getProducts';
+import { fetchCategory } from '@/APIs/Category/getCollections';
 import { setCartData } from '@/Redux/CartData/cartDataSlice';
 import { fetchOrderData } from '@/APIs/Order/getOrderData';
 import TemplateHeader from './TemplateHeader';
 import TemplateFooter from './TemplateFooter';
-import { fetchSectionsData } from '@/APIs/SectionsData/getSectonsData';
+import { fetchSectionsData } from '@/APIs/SectionsData/getSections';
 import BASE_URL from '../../../config';
 import { useRouter } from 'next/navigation';
 import { applyTheme } from '@/Utils/ApplyTheme';
-import { fetchStoreDetails } from '@/APIs/StoreDetails/fetchStoreDetails';
+import { fetchStoreDetails } from '@/APIs/StoreDetails/getAllStores';
 import DiscountCountdownBar from '../UI/DiscountCountdownBar';
-import DiscountPopup from '../UI/DiscountPopup';
-import SubscribeForm from '../Forms/SubscribeForm';
 const assistant = Assistant({
   subsets: ["latin"],
   weight: ["400", "500", "700"], // Add the font weights you need
@@ -100,7 +98,7 @@ const LayoutWithReduxState = ({ children }) => {
       }} />
       <TemplateHeader />
 
-{/* 
+      {/* 
       <DiscountPopup
       isOpen={true}
       discount={{

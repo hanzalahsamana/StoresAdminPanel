@@ -6,13 +6,13 @@ import "react-toastify/dist/ReactToastify.css";
 import "leaflet/dist/leaflet.css";
 
 import { GoogleOAuthProvider } from "@react-oauth/google";
-import ProviderWrap from "@/components/Layout/ProviderWrap";
 import { store } from "@/Redux/Store";
 import { Provider } from "react-redux";
 import { ToastContainer } from "react-toastify";
 import { Tooltip } from "react-tooltip";
 import { Assistant } from "next/font/google";
 import NoInternetBar from "@/components/404Pages/NoInternetBar";
+import ReduxProviderWrap from "@/components/Layout/ProviderWrap";
 
 const assistant = Assistant({
   subsets: ["latin"],
@@ -25,10 +25,13 @@ export default function RootLayout({ children }) {
       <head>
         <title>Web Nest</title>
       </head>
-      <body className={`${assistant.className} antialiased`} suppressHydrationWarning>
-        <GoogleOAuthProvider  clientId="768678819185-u3r6o5avan9msgiesmbk9l9mcihr3vfv.apps.googleusercontent.com">
+      <body
+        className={`${assistant.className} antialiased`}
+        suppressHydrationWarning
+      >
+        <GoogleOAuthProvider clientId="768678819185-u3r6o5avan9msgiesmbk9l9mcihr3vfv.apps.googleusercontent.com">
           <Provider store={store}>
-            <ProviderWrap>{children}</ProviderWrap>
+            <ReduxProviderWrap>{children}</ReduxProviderWrap>
             <ToastContainer />
             <Tooltip className="!text-[12px]" id="my-tooltip" />
             <NoInternetBar />

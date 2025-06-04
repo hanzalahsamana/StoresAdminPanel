@@ -9,11 +9,11 @@ const UnProtectedRoute = (WrappedComponent) => {
     if (loading) {
       return <Loader />;
     }
-    if (!currUser) {
+    if (!currUser || currUser?.verified === false) {
       return <WrappedComponent />;
     }
 
-    return router.push("/");
+    return currUser?.lastOpenedStore ? router.push(`/admin/${currUser.lastOpenedStore}`) : router.push("/admin/stores");
   };
 };
 

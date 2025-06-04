@@ -1,7 +1,7 @@
 import React from "react";
 
 const MultiSelectCheckbox = ({
-  lable = "",
+  label = "",
   options,
   selectedOptions,
   setSelectedOptions,
@@ -65,7 +65,7 @@ const MultiSelectCheckbox = ({
 
   return (
     <div>
-      <p className="text-textC font-medium text-lg mb-3">{lable}</p>
+      <p className="text-textC font-medium text-lg mb-3">{label}</p>
       <div className={`space-y-3 ml-[10px] ${className}`}>
         {renderCheckbox("All", isAllSelected, handleToggleAll)}
         {options.map((option, index) => {

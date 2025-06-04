@@ -15,7 +15,7 @@ const CollectionSection = ({ content = {}, toShowLink = true }) => {
   if (!categories || categories.length === 0) {
     return (
       <div className="text-center p-6 bg-[var(--tmp-pri)] text-[--tmp-txt] ">
-        <p className="text-[30px] font-normal text-center">No categories available...</p>
+        <p className="text-[30px] font-normal text-center">No categories availabel...</p>
       </div>
     );
   }

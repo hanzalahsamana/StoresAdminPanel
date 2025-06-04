@@ -79,7 +79,7 @@ function BannerSlider({
                     </div>
                 ) : !isImageValid ? (
                     <div className="absolute w-full h-full flex items-center justify-center bg-gray-300 text-gray-700">
-                        <p className="text-lg">Slide Image Not Available</p>
+                        <p className="text-lg">Slide Image Not Availabel</p>
                     </div>
                 ) : (
                     <AnimatePresence mode="popLayout" custom={direction}>

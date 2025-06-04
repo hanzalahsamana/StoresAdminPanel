@@ -109,7 +109,7 @@ const ProductDetailCard = ({ product }) => {
               increaseQuantity={increaseQuantity}
               decreaseQuantity={decreaseQuantity}
             />
-            <SizeController availableSizes={sizes } size={selectedSize} setSize={setSelectedSize} />
+            <SizeController availabelSizes={sizes } size={selectedSize} setSize={setSelectedSize} />
           </div>
 
           <div className={styles.productDetail}>

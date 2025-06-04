@@ -47,7 +47,7 @@ function LocationPicker() {
           map.setView([latitude, longitude], 16);
         }
       },
-      () => alert("Location access denied or not available.")
+      () => alert("Location access denied or not availabel.")
     );
   };
 

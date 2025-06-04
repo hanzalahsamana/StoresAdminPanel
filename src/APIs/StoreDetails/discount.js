@@ -2,7 +2,7 @@
 
 import axios from "axios";
 import Base_URL from "../../../config";
-import { setStoreDetail } from "@/Redux/StoreDetail/StoreDetail.slice";
+import { setStoreDetail } from "@/Redux/AllStores/StoreDetail.slice";
 import { toast } from "react-toastify";
 
 // ADD DISCOUNT

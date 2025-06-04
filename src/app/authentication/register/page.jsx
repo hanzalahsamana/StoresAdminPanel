@@ -67,7 +67,7 @@ const Register = () => {
       <Form
         handleSubmit={ManualSignup}
         loading={loading}
-        lable={"Create Your Store"}
+        label={"Create Your Store"}
         buttonLabel={"Register"}
         extra={
           <>

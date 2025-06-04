@@ -164,7 +164,7 @@ const AddEditDiscountModal = ({ isOpen, setIsOpen, updatedDiscount = null, setUp
     return (
         <Modal isOpen={isOpen} setIsOpen={setIsOpen} extraFuntion={functionBeforeClose}>
             <ActionCard
-                lable={updatedDiscount ? "Edit Discount" : "Add Discount"}
+                label={updatedDiscount ? "Edit Discount" : "Add Discount"}
                 icon={<RiDiscountPercentLine size={24} />}
                 actionPosition="top"
                 actions={

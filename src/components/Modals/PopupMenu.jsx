@@ -1,4 +1,5 @@
 import { setLoading, setLogout } from "@/Redux/Authentication/AuthSlice";
+import Link from "next/link";
 import { useState, useRef, useEffect } from "react";
 import { CiLogout, CiSettings } from "react-icons/ci";
 import { FaRegUser } from "react-icons/fa";
@@ -7,6 +8,8 @@ import { LuUserCog } from "react-icons/lu";
 import { useDispatch, useSelector } from "react-redux";
 
 const PopupMenu = () => {
+  const { allStores } = useSelector((state) => state.allStores);
+
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef(null);
   const { currUser, loading } = useSelector((state) => state.currentUser);
@@ -35,9 +38,8 @@ const PopupMenu = () => {
     <div ref={menuRef} className="relative inline-block text-gray-700">
       <button
         onClick={() => setIsOpen((prev) => !prev)}
-        className={`flex gap-2 items-center text-primaryC bg-secondaryC px-[18px] rounded-md py-[7px] hover:opacity-80 cursor-pointer transition-all ease-in-out duration-300 ${
-          isOpen ? "scale-105 shadow-am" : "scale-100"
-        }`}
+        className={`flex gap-2 items-center text-primaryC bg-secondaryC px-[18px] rounded-md py-[7px] hover:opacity-80 cursor-pointer transition-all ease-in-out duration-300 ${isOpen ? "scale-105 shadow-am" : "scale-100"
+          }`}
       >
         <FaRegUser />
         {currUser?.brandName}
@@ -52,13 +54,24 @@ const PopupMenu = () => {
             Quick Start
           </legend>
           <ul className="list-none p-0 m-0">
+            {allStores?.map((store) => (
+              <li key={store._id}>
+                <Link
+                  href={`/admin/${store._id}`}
+                  className="flex items-center px-2 py-2 w-full text-[14px] rounded-md hover:bg-secondaryC hover:text-primaryC transition-all"
+                >
+                  <FaRegUser className="text-primaryC mr-2" />
+                  {store.storeName}
+                </Link>
+              </li>
+            ))}
             <li>
               <button onClick={() => logout()} className="flex items-center px-2 py-2 w-full text-[14px] rounded-md hover:bg-secondaryC hover:text-primaryC transition-all">
                 <CiLogout className="text-primaryC mr-2" />
                 Log out
               </button>
             </li>
-            <li>
+            {/* <li>
               <button className="flex items-center px-2 py-2 w-full text-[14px] rounded-md hover:bg-secondaryC hover:text-primaryC transition-all">
                 <CiSettings className="text-primaryC mr-2" />
                 Setting
@@ -69,7 +82,7 @@ const PopupMenu = () => {
                 <LuUserCog className="text-primaryC mr-2" />
                 Profile
               </button>
-            </li>
+            </li> */}
           </ul>
         </nav>
       )}

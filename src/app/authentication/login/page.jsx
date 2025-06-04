@@ -59,7 +59,7 @@ const Login = () => {
       <Form
         handleSubmit={handleSubmit}
         loading={loading}
-        lable={"Login"}
+        label={"Login"}
         buttonLabel={"Log In"}
         className="max-w-md "
         extra={

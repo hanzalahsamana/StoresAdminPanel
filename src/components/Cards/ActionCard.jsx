@@ -2,7 +2,7 @@ import React from 'react'
 import TextLoader from '../Loader/TextLoader'
 import BackButton from '../Actions/BackButton'
 
-const ActionCard = ({ lable, actionPosition = 'bottom', className, children, actions, error, loading = false, loader = <TextLoader />, icon, subText = null}) => {
+const ActionCard = ({ label, actionPosition = 'bottom', className, children, actions, error, loading = false, loader = <TextLoader />, icon, subText = null}) => {
     return (
         <div className={`relative p-5 w-full border-[1.5px]  rounded-md flex flex-col gap-[20px] bg-backgroundC ${error ? 'border-[red]' : 'border-[#788a9a2c]'} ${className}`}>
 
@@ -10,7 +10,7 @@ const ActionCard = ({ lable, actionPosition = 'bottom', className, children, act
                 <div className='flex items-center gap-4 text-textC'>
                     {icon && icon}
                     <div className='flex flex-col gap-1'>
-                        <h1 className=" font-semibold text-[23px] md:text-[30px] leading-[30px] ">{lable}</h1>
+                        <h1 className=" font-semibold text-[23px] md:text-[30px] leading-[30px] ">{label}</h1>
                         {subText && <p className='text-textTC text-[13px]'>{subText}</p>}
                     </div>
                 </div>

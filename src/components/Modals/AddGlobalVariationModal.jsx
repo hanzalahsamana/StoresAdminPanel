@@ -131,7 +131,7 @@ const AddGlobalVariationModal = ({ isOpen, setIsOpen }) => {
     //   }}
     // >
     //   <ActionCard
-    //     lable={!isVariationCreating ? 'Variations' : editingIndex !== null ? 'Edit Variation' : 'Add Variation'}
+    //     label={!isVariationCreating ? 'Variations' : editingIndex !== null ? 'Edit Variation' : 'Add Variation'}
     //     actionPosition="top"
     //     className="!pt-8"
     //     actions={!isVariationCreating ? (
@@ -168,7 +168,7 @@ const AddGlobalVariationModal = ({ isOpen, setIsOpen }) => {
     //                 <div className="flex flex-col">
     //                   <span className="font-medium text-gray-700">{variation.name || "Unnamed Variation"}</span>
     //                   <span className="text-sm text-gray-500 break-all">
-    //                     {variation.options.join(", ") || "No options available"}
+    //                     {variation.options.join(", ") || "No options availabel"}
     //                   </span>
     //                 </div>
     //                 <div className="flex items-center space-x-2 text-[18px]">

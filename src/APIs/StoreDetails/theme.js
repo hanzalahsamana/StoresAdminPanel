@@ -1,7 +1,7 @@
 "use client";
 import axios from "axios";
 import BASE_URL from "../../../config";
-import { setStoreDetail } from "@/Redux/StoreDetail/StoreDetail.slice";
+import { setStoreDetail } from "@/Redux/AllStores/StoreDetail.slice";
 
 export const setTheme = async (theme, token, dispatch) => {
   try {

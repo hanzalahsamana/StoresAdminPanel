@@ -1,6 +1,6 @@
 import React from "react";
 
-const SizeController = ({ size, setSize, availableSizes }) => {
+const SizeController = ({ size, setSize, availabelSizes }) => {
 
   return (
     <div className="size-controller">
@@ -8,13 +8,13 @@ const SizeController = ({ size, setSize, availableSizes }) => {
         <p>Select Size: </p>
         <div className="flex gap-1">
 
-          {availableSizes.map((availableSize) => (
+          {availabelSizes.map((availabelSize) => (
             <button
-              key={availableSize}
-              className={`w-[40px] h-[40px] flex justify-center items-center bg-[var(--tmp-pri)] rounded-sm text-[15px] ${size === availableSize ? "border-2 border-[var(--tmp-sec)] " : ""}`}
-              onClick={() => setSize(availableSize)}
+              key={availabelSize}
+              className={`w-[40px] h-[40px] flex justify-center items-center bg-[var(--tmp-pri)] rounded-sm text-[15px] ${size === availabelSize ? "border-2 border-[var(--tmp-sec)] " : ""}`}
+              onClick={() => setSize(availabelSize)}
             >
-              {availableSize}
+              {availabelSize}
             </button>
           ))}
         </div>

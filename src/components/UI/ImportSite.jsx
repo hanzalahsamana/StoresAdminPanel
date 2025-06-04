@@ -62,7 +62,7 @@ const ImportSite = () => {
 
     return (
         <ActionCard
-            lable={'Import Data'}
+            label={'Import Data'}
             className={'!px-5 !py-5'}
             actions={<Button loading={loading} label='Import' size='small' className='w-max' action={handleImport} active={!!file && selectedKeys.length >0 } />}
         >
@@ -84,7 +84,7 @@ const ImportSite = () => {
 
                         {importOptions === 'Choose manually what to import' && (
                             <MultiSelectCheckbox
-                                lable="Select Keys to Import"
+                                label="Select Keys to Import"
                                 options={topLevelKeys}
                                 selectedOptions={selectedKeys}
                                 setSelectedOptions={setSelectedKeys}

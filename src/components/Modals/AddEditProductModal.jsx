@@ -125,7 +125,7 @@ const AddEditProductModal = ({ isOpen, setIsOpen, updatedData = null }) => {
   return (
     <div className="relative  flex flex-col gap-[20px]">
       <ActionCard
-        lable={updatedData ? "Edit Product" : "Add Product"}
+        label={updatedData ? "Edit Product" : "Add Product"}
         icon={updatedData ? <div className="flex items-end">
           <ImgToIcon url={'https://img.icons8.com/color/96/product--v1.png'} />
           <ImgToIcon url={'https://img.icons8.com/plasticine/100/pencil.png'} className={'!w-[20px] -translate-x-4'} />

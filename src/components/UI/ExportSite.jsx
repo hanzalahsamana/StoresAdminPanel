@@ -28,10 +28,10 @@ const ExportSite = () => {
     };
     return (
         <ActionCard
-            lable={'Export / Backup Data'}
+            label={'Export / Backup Data'}
             className={'!px-5 !py-5'}
             actions={<Button loading={loading} size='small' label='Export' className='w-max' action={handleExport} active={selectedOptions.length > 0} />}>
-            <MultiSelectCheckbox lable='Select the data you want to Export:' options={MigrationDefaultKeys} selectedOptions={selectedOptions} setSelectedOptions={setSelectedOptions} />
+            <MultiSelectCheckbox label='Select the data you want to Export:' options={MigrationDefaultKeys} selectedOptions={selectedOptions} setSelectedOptions={setSelectedOptions} />
         </ActionCard>
     )
 }

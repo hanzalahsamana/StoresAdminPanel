@@ -120,7 +120,7 @@ const OtpVerification = () => {
             <Form
                 handleSubmit={handleVerifyOtp}
                 buttonLabel={'Verify OTP'}
-                lable={'OTP Verification'}
+                label={'OTP Verification'}
                 loading={loading || resendLoading}
                 className="w-max"
 
