@@ -82,4 +82,4 @@ const Theme = () => {
   )
 }
 
-export default ProtectedRoute(Theme)
+export default Theme

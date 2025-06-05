@@ -47,4 +47,4 @@ const OrderDetails = () => {
   );
 };
 
-export default ProtectedRoute(OrderDetails);
+export default OrderDetails;

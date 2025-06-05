@@ -70,4 +70,4 @@ const Products = () => {
   );
 };
 
-export default ProtectedRoute(Products);
+export default Products;

@@ -9,4 +9,4 @@ const EditProduct = () => {
     )
 }
 
-export default ProtectedRoute(EditProduct);
+export default EditProduct;

@@ -287,7 +287,7 @@ input:-webkit-autofill {
 }
 
 .customShadow {
-  box-shadow: 0 0 10px rgb(0 0 0 / 0.1);
+  box-shadow: 0 0 10px rgb(0 0 0 / 0.06);
 }
 
 .countdown-box {

@@ -46,43 +46,31 @@ const ProductDetailCard = ({ product }) => {
 
 
   return (
-    <div className={styles.container}>
-      <div className={`max-[900px]:flex-col ${styles.productSection}`}>
-        <div className={styles.productImages}>
-          <div className={`customScroll ${styles.thumbnailContainer}`}>
+    <div className={`flex justify-center p-10 px-5 bg-white`}>
+      <div className={`max-[900px]:flex-col flex justify-center gap-8 max-w-[1200px]`}>
+        <div className={`flex gap-2.5 h-[400px]`}>
+          <div className={`customScroll flex flex-col items-center gap-2.5 w-[105px] p-2.5 shadow-[inset_0px_0px_8px_#dadada]`}>
             {product?.images?.map((image, index) => (
               <img
                 key={index}
                 src={image}
                 onClick={() => setmainImage(index)}
                 alt={`thumbnail ${index + 1}`}
-                className={`${mainImage === index && 'border-2 border-[var(--tmp-ltxt)]'} ${styles.thumbnail}`}
+                className={`${mainImage === index && 'border-2 border-[var(--tmp-ltxt)]'} w-20 h-20 object-cover transition-all duration-200 ease-in-out cursor-pointer flex-shrink-0`}
               />
             ))}
           </div>
           <img
             src={product?.images?.[mainImage]}
             alt="Fabric"
-            className={`max-[900px]:max-w-full flex-1 max-w-[450px] object-contain ${styles.mainImage}`}
+            className={`max-[900px]:max-w-full flex-1 max-w-[450px] object-contain w-full h-auto`}
           />
         </div>
 
-        <div className={styles.productDetails}>
-          <p className={styles.brandName}>{product.brand}</p>
-          <h1>{product.name}</h1>
-          {/* <div className={styles.reviews}>
-            <p>
-              <span>
-                <FaStar className="text-[orange]" />
-                <FaStar className="text-[orange]" />
-                <FaStar className="text-[orange]" />
-                <FaStar className="text-[orange]" />
-                <FaStar />
-              </span>{" "}
-              4 Review
-            </p>
-          </div> */}
-
+        <div className={`flex-1`}>
+          <p className={`text-[14px] text-[var(--tmp-ltxt)]`}>{product.brand}</p>
+          <h1 className="text-[14px] my-[10px]">{product.name}</h1>
+          
           <div className={styles.priceSection}>
             <span className={styles.strikeThrough}>
               Rs {product?.originalPrice?.toFixed(2)} PKR

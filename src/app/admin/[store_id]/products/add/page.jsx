@@ -22,4 +22,4 @@ const AddProduct = () => {
   )
 }
 
-export default ProtectedRoute(AddProduct);
+export default AddProduct;

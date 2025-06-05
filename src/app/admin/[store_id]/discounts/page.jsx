@@ -165,4 +165,4 @@ const Discount = () => {
     )
 }
 
-export default ProtectedRoute(Discount);
+export default Discount;

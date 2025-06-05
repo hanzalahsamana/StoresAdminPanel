@@ -90,4 +90,4 @@ const Analytics = () => {
   )
 }
 
-export default ProtectedRoute(Analytics);
+export default Analytics;

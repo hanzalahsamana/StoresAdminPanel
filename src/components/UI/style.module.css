@@ -1,80 +1,3 @@
-.container {
-    display: flex;
-    justify-content: center;
-    padding:40px 20px;
-    background-color: white;
-}
-
-.productSection {
-    display: flex;
-    justify-content: center;
-    gap: 2rem;
-    max-width: 1200px;
-}
-.productImages{
-    display: flex;
-    gap: 10px;
-    height:  400px;
-
-}
-
-.mainImage {
-    width: 100%;
-    height: auto;
-}
-
-.thumbnailContainer {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-    width: 105px;
-    padding: 10px;
-    box-shadow: inset 0px 0px 8px #dadada;
-
-}
-
-.thumbnail {
-    width: 80px;
-    height: 80px;
-    object-fit: cover;
-    transition: 0.2s all ease-in-out;
-    cursor: pointer;
-    flex-shrink: 0;
-}
-
-@media (max-width:900px) {
-    .thumbnailContainer {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-    }
-
-    .thumbnail {
-        width: 100%;
-        height: auto;
-    }
-}
-
-/* .thumbnail:hover {
-    scale: 1.05;
-    cursor: pointer;
-    opacity: 0.9;
-} */
-
-.productDetails {
-    flex: 1;
-}
-
-.brandName {
-    font-size: 14px;
-    color: var(--tmp-ltxt);
-}
-
-.productDetails h1 {
-    font-size: 25px;
-    margin: 10px 0;
-}
-
 .reviews p {
     margin-bottom: 10px;
     font-size: 16px;
@@ -192,17 +115,61 @@
   }
   
   .starEmpty {
-    font-size: 20px;
-    color: #4d4d4d;
+    font-size: 30px;
+    color: #e5e7eb;
   }
   
   .starFilled {
-    font-size: 20px;
-    color: #f5a700 !important;
+    font-size: 30px;
+    color: #f5bc00 !important;
   }
   
   .starRatingContainer span:hover,
   .starRatingContainer span:hover ~ span {
-    color: #b3763aac;
+    color: #d8d8d8;
   }
+
+
+
+
+
+
+
+
+
+  .reviews p = mb-[10px] text-[16px] flex gap-[8px] cursor-pointer
+.reviews p:hover = hover:opacity-80
+.reviews span = flex gap-[3px] text-[rgb(167,167,167)] cursor-default
+
+.priceSection = flex items-baseline gap-[10px] my-[20px]
+
+.strikeThrough = line-through text-[grey] text-[14px]
+.discountedPrice = text-black font-bold
+.discountTag = bg-[#000000d0] text-white px-[6px] py-[4px] text-[13px] rounded-[10px] rounded-bl-none
+
+.InStock = text-green-600 my-[10px]
+.OutStock = text-red-600 my-[10px]
+
+.productDetail = text-[12px] flex flex-col gap-[5px] py-[15px]
+.productDetail strong = text-[15px]
+
+.buttons = flex gap-[10px] mt-[10px]
+
+.addToCart = px-[20px] py-[10px] border-none cursor-pointer font-bold bg-[#f8f9fa]
+.buyNow = px-[20px] py-[10px] border-none cursor-pointer font-bold bg-black text-white
+
+.note = text-[.85rem] text-gray-500 mt-[20px]
+
+.deliveryInfo = mt-[10px] bg-[#e0f7fa] p-[10px] text-[#00796b]
+
+.ProductCardContainer img = transition-[transform] duration-[400ms] ease-[cubic-bezier(0.25,0.46,0.45,0.94)]
+.ProductCardContainer:hover img = scale-[1.04]
+
+.starRatingContainer = flex cursor-pointer
+.starEmpty = text-[30px] text-[#e5e7eb]
+.starFilled = text-[30px] text-[#f5bc00]
+
+.starRatingContainer span:hover,
+.starRatingContainer span:hover ~ span = hover:text-[#d8d8d8]
+
   

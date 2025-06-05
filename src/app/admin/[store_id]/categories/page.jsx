@@ -62,4 +62,4 @@ const CategoryList = () => {
   );
 };
 
-export default ProtectedRoute(CategoryList);
+export default CategoryList;

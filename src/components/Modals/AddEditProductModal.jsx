@@ -188,3 +188,10 @@ const AddEditProductModal = ({ isOpen, setIsOpen, updatedData = null }) => {
 };
 
 export default AddEditProductModal;
+
+
+
+
+
+
+

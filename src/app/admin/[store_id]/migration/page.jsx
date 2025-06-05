@@ -15,4 +15,4 @@ const Migration = () => {
     )
 }
 
-export default ProtectedRoute(Migration)
+export default Migration

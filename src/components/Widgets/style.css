@@ -215,17 +215,3 @@
   }
 }
 
-.inputLine {
-  content: "";
-  position: absolute;
-  width: 0%;
-  bottom: 0;
-  border-bottom: 3px solid #f5a700;
-  transition: 0.2s ease-in all;
-}
-.reviewInput:hover ~ .inputLine {
-  width: 10%;
-}
-.reviewInput:focus ~ .inputLine {
-  width: 100%;
-}

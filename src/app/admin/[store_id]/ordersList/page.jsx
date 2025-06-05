@@ -24,4 +24,4 @@ const Order = () => {
   );
 };
 
-export default ProtectedRoute(Order);
+export default Order;

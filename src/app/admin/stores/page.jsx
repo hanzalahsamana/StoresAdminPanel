@@ -16,6 +16,8 @@ import Link from "next/link";
 import { HTTP } from "config";
 import { FiArrowUpRight } from "react-icons/fi";
 import { generateStore } from "@/APIs/StoreDetails/generateStore";
+import ProtectedRoute from "@/AuthenticRouting/ProtectedRoutes";
+import Loader from "@/components/Loader/loader";
 
 const StoreDetails = ({ onClose, onComplete }) => {
     const { allStores, allStoresLoading } = useSelector((state) => state.allStores);
@@ -43,8 +45,8 @@ const StoreDetails = ({ onClose, onComplete }) => {
 
     const validate = () => {
         const errs = {};
-        if (!formData.storeName.trim()) errs.brandName = "Brand name is required";
-        if (!formData.storeType || typeof formData.storeType !== "string") errs.categories = "Select a store type";
+        if (!formData.storeName.trim()) errs.storeName = "Brand name is required";
+        if (!formData.storeType || typeof formData.storeType !== "string") errs.storeType = "Select a store type";
         setErrors(errs);
         return Object.keys(errs).length === 0;
     };
@@ -100,7 +102,7 @@ const StoreDetails = ({ onClose, onComplete }) => {
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className="flex gap-1 items-center text-blue-400 text-sm hover:underline"
-                                    href={`${HTTP}${store?.subDomain || store?.brandName}.${Base_Domain}`}
+                                    href={`${HTTP}${store?.subDomain || store?.storeName}.${Base_Domain}`}
                                     onClick={(e) => e.stopPropagation()}
                                 >
                                     {store?.subDomain || store?.storeName}.{Base_Domain} <FiArrowUpRight />
@@ -136,11 +138,11 @@ const StoreDetails = ({ onClose, onComplete }) => {
                     actionPosition="top"
                 >
                     <FormInput
-                        name="brandName"
+                        name="storeName"
                         value={formData.storeName}
-                        handleChange={(e) => handleChange("brandName", e.target.value)}
+                        handleChange={(e) => handleChange("storeName", e.target.value)}
                         label="Brand Name"
-                        error={errors.brandName}
+                        error={errors.storeName}
                         placeholder="Enter your brand name"
                         layout="label"
                     />
@@ -170,7 +172,7 @@ const StoreDetails = ({ onClose, onComplete }) => {
                             "Watches & Accessories",
                         ]}
                         selectedOption={formData.storeType}
-                        setSelectedOption={(val) => handleChange("categories", val)}
+                        setSelectedOption={(val) => handleChange("storeType", val)}
                         label="Select Your Store Type"
                         wantsCustomOption={true}
                         layout="label"

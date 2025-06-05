@@ -4,24 +4,23 @@ import { CiStar } from "react-icons/ci";
 import { FaStar } from "react-icons/fa";
 
 
-const StarRating = ({ totalStars = 5 }) => {
-  const [rating, setRating] = useState(3);
+const StarRating = ({ totalStars = 5, disable = false, rating, setRating = ()=>{} , className }) => {
 
   const handleRating = (rate) => {
     setRating(rate);
   };
 
   return (
-    <div className={`${styles.starRatingContainer} flex flex-row-reverse`}>
+    <div className={`${styles.starRatingContainer} ${disable && 'pointer-events-none'} flex items-center gap-1 flex-row-reverse`}>
       {[...Array(totalStars)].map((_, index) => {
         const starValue = totalStars - index;
         return (
           <span
             key={index}
-            className={starValue <= rating ? styles.starFilled : styles.starEmpty}
+            className={`${starValue <= rating ? styles.starFilled : styles.starEmpty} ${className}`}
             onClick={() => handleRating(starValue)}
           >
-            {starValue <= rating? <FaStar/> :<CiStar/>}
+            {starValue <= rating ? <FaStar /> : <FaStar />}
           </span>
         );
       })}

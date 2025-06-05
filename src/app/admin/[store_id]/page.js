@@ -8,4 +8,4 @@ const Home = () => {
       <Dashboard />
   );
 };
-export default ProtectedRoute(Home);
+export default Home;

@@ -12,7 +12,7 @@ const PopupMenu = () => {
 
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef(null);
-  const { currUser, loading } = useSelector((state) => state.currentUser);
+  const currStore = useSelector((state) => state.store.store);
   const dispatch = useDispatch();
   const logout = () => {
     dispatch(setLoading(true));
@@ -42,7 +42,7 @@ const PopupMenu = () => {
           }`}
       >
         <FaRegUser />
-        {currUser?.brandName}
+        {currStore?.storeName}
         <IoIosArrowDown className={`text-[12px] transition-all ${isOpen ? 'rotate-180' : 'rotate-0'}`} />
       </button>
 
@@ -50,26 +50,35 @@ const PopupMenu = () => {
         <nav
           className="w-max min-w-[120px] mt-[5px]  absolute p-2.5 bg-backgroundC text-gray-700 font-sans rounded-lg shadow-md border border-gray-300 transition-transform duration-300 transform scale-100 opacity-100"
         >
-          <legend className="text-gray-500 text-[10px] font-semibold uppercase py-1">
-            Quick Start
+          <legend className="text-gray-500 text-[10px] font-semibold py-1">
+            Switch  Stores
           </legend>
           <ul className="list-none p-0 m-0">
-            {allStores?.map((store) => (
-              <li key={store._id}>
-                <Link
-                  href={`/admin/${store._id}`}
-                  className="flex items-center px-2 py-2 w-full text-[14px] rounded-md hover:bg-secondaryC hover:text-primaryC transition-all"
-                >
-                  <FaRegUser className="text-primaryC mr-2" />
-                  {store.storeName}
-                </Link>
-              </li>
-            ))}
+            {allStores?.map((store) => {
+              if (store._id === currStore._id) return null;
+              return (
+                <li key={store._id}>
+                  <Link
+                    href={`/admin/${store._id}`}
+                    className="flex items-center px-2 py-2 w-full text-[14px] rounded-md hover:bg-secondaryC hover:text-primaryC transition-all"
+                  >
+                    <FaRegUser className="text-primaryC mr-2" />
+                    {store.storeName}
+                  </Link>
+                </li>
+              );
+            })}
             <li>
-              <button onClick={() => logout()} className="flex items-center px-2 py-2 w-full text-[14px] rounded-md hover:bg-secondaryC hover:text-primaryC transition-all">
+              <Link href={'/admin/stores'} className="flex items-center px-2 py-2 w-full text-[14px] rounded-md hover:bg-secondaryC hover:text-primaryC transition-all">
                 <CiLogout className="text-primaryC mr-2" />
-                Log out
-              </button>
+                Create Store
+              </Link>
+            </li>
+            <li>
+              <Link href={'#'} onClick={() => logout()} className="flex items-center px-2 py-2 w-full text-[14px] rounded-md hover:bg-secondaryC hover:text-primaryC transition-all">
+                <CiLogout className="text-primaryC mr-2" />
+                Create Store
+              </Link>
             </li>
             {/* <li>
               <button className="flex items-center px-2 py-2 w-full text-[14px] rounded-md hover:bg-secondaryC hover:text-primaryC transition-all">

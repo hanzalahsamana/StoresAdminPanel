@@ -194,4 +194,4 @@ const DomainVerification = () => {
   );
 };
 
-export default ProtectedRoute(DomainVerification);
+export default DomainVerification;

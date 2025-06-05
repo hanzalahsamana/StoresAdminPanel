@@ -1,24 +1,18 @@
+// app/Admin/layout.js
 "use client";
 
 import { useEffect } from "react";
-
-import { useDispatch, useSelector } from "react-redux";
-import { getUserFromToken } from "@/APIs/Auth/getUserFromToken";
+import { useSelector } from "react-redux";
 import { getAllStores } from "@/APIs/StoreDetails/getAllStores";
+import ProtectedRoute from "@/AuthenticRouting/ProtectedRoutes";
 
-export default function adminLayout({ children }) {
-  const dispatch = useDispatch();
+export default function AdminLayout({ children }) {
   const { currUser } = useSelector((state) => state.currentUser);
-
-  useEffect(() => {
-    const userToken = localStorage.getItem("userToken");
-    getUserFromToken(dispatch, userToken);
-  }, [dispatch]);
 
   useEffect(() => {
     if (!currUser?.token) return;
     getAllStores(currUser?.token);
-  }, [currUser?.token, dispatch]);
+  }, [currUser?.token]);
 
-  return children;
+  return <ProtectedRoute>{children}</ProtectedRoute>;
 }

@@ -168,4 +168,4 @@ const Design = () => {
     );
 };
 
-export default ProtectedRoute(Design);
+export default Design;

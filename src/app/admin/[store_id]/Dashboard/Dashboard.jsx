@@ -15,7 +15,8 @@ import { copyToClipboard } from "@/Utils/CopyText";
 const Dashboard = () => {
 
   const router = useRouter()
-  const { currUser } = useSelector((state) => state.currentUser);
+  const { store } = useSelector((state) => state.store);
+
 
 
   return (
@@ -28,18 +29,18 @@ const Dashboard = () => {
           <div className='flex gap-4'>
             <div className='flex flex-col gap-3'>
               <div className='flex gap-2'>
-                <p className='text-textC capitalize text-[18px]'>{currUser?.brandName} </p>
+                <p className='text-textC text-[18px]'>{store?.storeName} </p>
                 <p className='bg-secondaryC flex gap-1 justify-center items-center text-primaryC text-center text-sm w-max px-[13px] rounded-2xl' >
                   <GoDotFill />
                   live
                 </p>
               </div>
               <div className='flex gap-2 items-center text-blue-400'>
-                <Link target='_blank' className=' flex gap-1 items-center ' href={`${HTTP}${currUser?.subDomain || currUser?.brandName}.${Base_Domain}`}>{currUser?.subDomain || currUser?.brandName}.{Base_Domain} <FiArrowUpRight /></Link>
+                <Link target='_blank' className=' flex gap-1 items-center ' href={`${HTTP}${store?.subDomain || store?.storeName}.${Base_Domain}`}>{store?.subDomain || store?.storeName}.{Base_Domain} <FiArrowUpRight /></Link>
                 <IconButton
                   icon={<IoCopyOutline />}
                   className="text-primaryC !text-blue-400 !text-[14px]"
-                  action={() => copyToClipboard(`${HTTP}${currUser?.subDomain || currUser?.brandName}.${Base_Domain}`)}
+                  action={() => copyToClipboard(`${HTTP}${store?.subDomain || store?.storeName}.${Base_Domain}`)}
                 />
               </div>
             </div>
@@ -47,13 +48,14 @@ const Dashboard = () => {
           <div>
 
             <Button
-              label='why'
+              label='Customize'
               action={() => router.push('/design')}
-              className='!w-[200px] !bg-black'
+              variant="black"
+              className="bg-black"
             />
           </div>
         </div>
-        
+
       </div>
     </div>
   );

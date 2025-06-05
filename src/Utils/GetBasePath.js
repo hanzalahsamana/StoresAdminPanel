@@ -14,9 +14,9 @@ export const getBasePath = () => {
     }
 
     const pathname = window.location.pathname.split("/").filter(Boolean);
-    const storeName = pathname.length > 0 ? pathname[0] : ""; 
+    const storeId = pathname.length > 1 ? pathname[1] : ""; 
 
-    return storeName && host.includes(Base_Domain) ? `/${storeName}` : ""; 
+    return storeId && host.includes(Base_Domain) ? `/store/${storeId}` : ""; 
   }
   return "";
 };

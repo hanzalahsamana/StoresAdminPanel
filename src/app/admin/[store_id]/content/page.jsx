@@ -83,4 +83,4 @@ const Content = () => {
     );
 };
 
-export default ProtectedRoute(Content);
+export default Content;

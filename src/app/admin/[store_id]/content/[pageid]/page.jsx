@@ -224,4 +224,4 @@ const ContentEdit = () => {
   )
 }
 
-export default ProtectedRoute(ContentEdit);
+export default ContentEdit;
