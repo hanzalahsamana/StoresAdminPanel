@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import styles from "../UI/style.module.css";
 import { FaStar } from "react-icons/fa";
 import { useState } from "react";
@@ -13,6 +13,12 @@ import SizeController from "../Actions/SizeController";
 import { ConvertArray } from "@/Utils/CovertArray";
 import { getBasePath } from "@/Utils/GetBasePath";
 import ButtonLoader from "../Loader/ButtonLoader";
+import productDummy from "../../Assets/Images/productDummy.png";
+import placeholderImage from "../../Assets/Images/placeholder-image.webp";
+import StarRating from "../UI/starRating";
+import { BiSolidCommentDetail } from "react-icons/bi";
+import { GoDotFill } from "react-icons/go";
+import StatusCard from "./StatusCard";
 
 const ProductDetailCard = ({ product }) => {
 
@@ -25,7 +31,8 @@ const ProductDetailCard = ({ product }) => {
   const { loading } = useSelector((state) => state?.cartData || []);
   const { siteName } = useSelector((state) => state.siteName);
 
-
+  const [selectedOptions, setSelectedOptions] = useState({});
+  const [displayImage, setDisplayImage] = useState(product?.displayImage);
 
   const increaseQuantity = () => {
     setQuantity((prevQuantity) => prevQuantity + 1);
@@ -41,103 +48,227 @@ const ProductDetailCard = ({ product }) => {
     setQuantity(1)
   };
 
+  const getMatchingVariant = () => {
+    return product.variants.find(variant => {
+      return Object.entries(variant.options).every(([key, value]) => {
+        return value === "any" || value === selectedOptions[key];
+      });
+    });
+  };
 
-  console.log(product, "okay");
+  useEffect(() => { setDisplayImage(product?.displayImage) }, [product])
 
+  useEffect(() => {
+    if (product?.variations?.length > 0) {
+      const defaultSelections = {};
+
+      product.variations.forEach(variation => {
+        if (variation.options.length > 0) {
+          defaultSelections[variation.name] = variation.options[0];
+        }
+      });
+
+      setSelectedOptions(defaultSelections);
+    }
+  }, [product]);
+
+  useEffect(() => {
+    console.log(selectedOptions, "🏷️🏷️🏷️");
+
+  }, [selectedOptions])
 
   return (
-    <div className={`flex justify-center p-10 px-5 bg-white`}>
-      <div className={`max-[900px]:flex-col flex justify-center gap-8 max-w-[1200px]`}>
-        <div className={`flex gap-2.5 h-[400px]`}>
-          <div className={`customScroll flex flex-col items-center gap-2.5 w-[105px] p-2.5 shadow-[inset_0px_0px_8px_#dadada]`}>
-            {product?.images?.map((image, index) => (
-              <img
+    <div className={`flex justify-center py-[25px] px-[30px] bg-white w-full`}>
+      <div className={`flex justify-center gap-6 w-full`}>
+        <div className={`flex flex-col gap-2.5  w-[344px]`}>
+          <div className="bg-[#f4f4f4] border border-[#dcdcdc] rounded-[4px] h-max">
+            <img src={displayImage} alt="" className="w-full brightness-[1.3]" />
+          </div>
+
+          <div className="grid grid-cols-4 gap-2">
+            {[...(product?.gallery || []), ...(product?.variants?.map(v => v.image) || [])].map((image, index) => (
+              <div
                 key={index}
-                src={image}
-                onClick={() => setmainImage(index)}
-                alt={`thumbnail ${index + 1}`}
-                className={`${mainImage === index && 'border-2 border-[var(--tmp-ltxt)]'} w-20 h-20 object-cover transition-all duration-200 ease-in-out cursor-pointer flex-shrink-0`}
-              />
+                // onClick={}
+                className={`bg-[#ffffff] w-[80px] rounded-[4px] h-[80px] flex justify-center p-1 items-center border ${index === 0 ? 'border-[1.5px] border-primaryC' : ''
+                  }`}
+              >
+                <img src={image} alt="" className="w-full object-cover h-full brightness-[1.3]" />
+              </div>
             ))}
           </div>
-          <img
-            src={product?.images?.[mainImage]}
-            alt="Fabric"
-            className={`max-[900px]:max-w-full flex-1 max-w-[450px] object-contain w-full h-auto`}
-          />
+
+
         </div>
 
-        <div className={`flex-1`}>
-          <p className={`text-[14px] text-[var(--tmp-ltxt)]`}>{product.brand}</p>
-          <h1 className="text-[14px] my-[10px]">{product.name}</h1>
-          
-          <div className={styles.priceSection}>
-            <span className={styles.strikeThrough}>
-              Rs {product?.originalPrice?.toFixed(2)} PKR
-            </span>
-            <span className={styles.discountedPrice}>
-              Rs {product?.discountedPrice?.toFixed(2)} PKR
-            </span>
-            <span className={styles.discountTag}>{product?.discount}% OFF</span>
+        <div className={`flex-1 flex flex-col items-start`}>
+          {/* <p className={`text-[14px] text-[var(--tmp-ltxt)]`}>{product.brand}</p> */}
+          <h1 className="text-[18px]/[24px] max-w-[450px] font-medium">{product?.name || 'No Name Found'}</h1>
+          {product?.wantsCustomerReview && (
+            <div className="flex items-center mt-[10px] gap-2 text-[15px]/[15px]  text-[#6c6c6c]">
+              <StarRating rating={product?.ratings?.average} disable={true} className={'!text-[15px]'} />
+              {product?.ratings?.average}
+              <GoDotFill className="text-[#e0e0e0]" />
+              <BiSolidCommentDetail className="text-[#9e9e9e]" size={18} />
+              {product?.ratings?.count} reviews
+            </div>
+          )}
+
+          <StatusCard status={true} label={product?.status === "active" ? "In Stock" : "Out Of Stock"} className={'mt-[15px]'} />
+          <div>
+            {product?.variations.map(({ name, options }, index) => (
+              <div key={index} className="pt-[20px]">
+                <p className="text-gray-400 text-[14px] mb-1">Select {name}</p>
+                <div className="flex gap-2">
+                  {options.map((option, idx) => {
+                    const isColor = name.toLowerCase() === "color";
+                    return (
+                      <div
+                        onClick={() =>
+                          setSelectedOptions((prev) => ({
+                            ...prev,
+                            [name]: option,
+                          }))
+                        }
+                        key={idx}
+                        className={`bg-[#f4f4f4] cursor-pointer border-[1.5px] ${selectedOptions?.[name] === option ? "border-primaryC text-black" : "border-[#dcdcdcad] hover:border-[#c9c9c9ad] text-gray-500"
+                          } font-medium px-2 py-2 text-[15px]/[15px] rounded-[5px] flex items-center gap-2`}
+                      >
+                        {isColor ? (
+                          <span
+                            className="w-[24px] h-[24px] rounded-full"
+                            style={{ backgroundColor: option }}
+                          ></span>
+                        ) : null}
+                        {!isColor && option}
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            ))}
           </div>
-          <p>
-            Type: <strong>{product?.type}</strong>
-          </p>
-          <p
-            className={
-              product?.stock || product?.status ? `${styles.InStock}` : `${styles.OutStock}`
-            }
+
+          {product?.note && (
+
+            <p className={'text-[.85rem] text-red-600 mt-[20px] bg-red-100 p-2 '}>
+              {product?.note}
+            </p>
+          )}
+        </div>
+
+        <div className="w-[280px] flex flex-col p-[20px] bg-white border-[1.3px] border-[#d2cece] rounded-[4px] customShadow h-[400px]">
+          <div className="flex items-end gap-3">
+            <p className="font-bold text-[28px]/[28px]">{product?.price} Rs</p>
+            <p className="font-medium text-[18px]/[18px] line-through text-[#a5a5a5]">{product?.comparedAtPrice} Rs</p>
+          </div>
+
+          <QuantityControl
+            quantity={quantity}
+            increaseQuantity={increaseQuantity}
+            decreaseQuantity={decreaseQuantity}
+            className={'mt-[30px]'}
+          />
+
+          <button
+            disabled={!product?.stock ? true : false}
+            onClick={handleAddToCart}
+            className={`py-[7px] w-full mt-8 bg-[#0D6FFD] border-none text-[#ffffff] text-[16px] font-bold rounded-md  transition-all duration-300 hover:scale-105 ${!product?.stock ? 'cursor-not-allowed' : ''}`}
           >
-            {product?.stock || product?.status ? "In Stock" : "Out Of Stock"}
-          </p>
-
-          <div className="flex flex-col gap-[20px]">
-            <QuantityControl
-              quantity={quantity}
-              increaseQuantity={increaseQuantity}
-              decreaseQuantity={decreaseQuantity}
-            />
-            <SizeController availabelSizes={sizes } size={selectedSize} setSize={setSelectedSize} />
-          </div>
-
-          <div className={styles.productDetail}>
-            {/* <p>
-              Size: <strong>{product?.size} meter</strong>
-            </p> */}
-          </div>
-
-          <div className={`flex-col sm:flex-row ${styles.buttons}`}>
-            <button
-              disabled={!product?.stock ? true : false}
-              onClick={handleAddToCart}
-              className={`py-[15px] w-full mt-3 bg-white border-black border-[2px] text-[#000000] text-[16px]  transition-all duration-300 hover:scale-105 ${!product?.stock ? 'cursor-not-allowed' : ''}`}
-            >
-              {loading ? <ButtonLoader /> : 'Add To Cart'}
-            </button>
-            <button disabled={!product?.stock ? true : false} onClick={() => {
+            {loading ? <ButtonLoader /> : 'Add To Cart'}
+          </button>
+          <button
+            disabled={!product?.stock ? true : false}
+            onClick={() => {
               handleAddToCart();
               router.push(`${getBasePath()}/checkout`);
-
             }}
-            className={`py-[15px] overflow-hidden w-full mt-3 bg-black text-[#e6e6e6] text-[16px]  transition-all duration-300 hover:scale-105 ${!product?.stock ? 'cursor-not-allowed' : ''}`}>
-            Buy It Now
+            className={`py-[7px] w-full mt-3 bg-[#d6e6ff8e] border-none text-[#0D6FFD] text-[16px] font-bold rounded-md  transition-all duration-300 hover:scale-105 ${!product?.stock ? 'cursor-not-allowed' : ''}`}
+          >
+            {loading ? <ButtonLoader /> : 'Buy It Now'}
           </button>
-        </div>
-        <p className={styles.note}>
-          *Please note that the actual color of the fabric may vary slightly
-          due to photography lighting and screen settings.
-        </p>
 
-        <div className={styles.deliveryInfo}>
-          <p className="flex gap-2 items-center">
-            <TbTruckDelivery className="text-xl" /> Delivery in 2-3 working
-            days
-          </p>
+          <ul className="w-full text-[15px] font-medium border-t text-[#9e9b9b] font-se my-[20px] py-[10px] ">
+            <li className="before:content-['•'] before:pr-1 mb-[2px]">Vendor: {product?.vendor}</li>
+            <li className="before:content-['•'] before:pr-1 mb-[2px]">Material: Leather</li>
+            <li className="before:content-['•'] before:pr-1 mb-[2px]">Color: Purple</li>
+            <li className="before:content-['•'] before:pr-1 mb-[2px]">Size: Large</li>
+          </ul>
+
         </div>
-      </div>
-    </div>
+      </div >
     </div >
   );
 };
 
 export default ProductDetailCard;
+
+
+
+
+// const variations = [
+//   {
+//     name: "Condition",
+//     options: ["Brand New", "Used", "Refurbished"],
+//   },
+//   {
+//     name: "Color",
+//     options: [
+//       "#FF6B6B",   // Coral Red
+//       "#FFD93D",   // Sunny Yellow
+//       "#6BCB77",   // Mint Green
+//       "#4D96FF",   // Sky Blue
+//       "#9D4EDD",   // Purple Haze
+//       "#F38BA0",   // Soft Pink
+//       "#FFA07A",   // Light Salmon
+//       "#00B8A9",   // Teal Green
+//     ],
+//   },
+// ];
+
+//  {
+//     name: "Classic Cotton T-Shirt",
+//     vendor: "UrbanWear",
+//     price: 25,
+//     comparedAtPrice: 35,
+//     displayImage: "/images/products/tshirt-main.jpg",
+//     gallery: ["/images/products/tshirt-1.jpg", "/images/products/tshirt-2.jpg"],
+//     collections: ["60f7f3a5b6a0e024b0d0abcd"],
+//     stock: 100,
+//     status: "active",
+//     description: "Soft and breathable cotton T-shirt, perfect for daily wear.",
+//     metaTitle: "Cotton T-Shirt",
+//     metaDescription: "Premium quality cotton t-shirt for everyday comfort.",
+//     note:"Wash dark colors separately to avoid color bleeding.",
+//     variations: [
+//       {
+//         name: "Color",
+//         options: ["Red", "Blue", "Black"],
+//       },
+//       {
+//         name: "Size",
+//         options: ["S", "M", "L", "XL"],
+//       },
+//     ],
+//     variants: [
+//       {
+//         sku: "TSHIRT-RED-M",
+//         options: {
+//           Color: "Red",
+//           Size: "M",
+//         },
+//         stock: 10,
+//         price: 25,
+//         image: "/images/products/tshirt-red-m.jpg",
+//       },
+//     ],
+//     storeRef: "60f7f3a5b6a0e024b0d0aaaa",
+//     wantsCustomerReview: true,
+//     ratings: {
+//         average: 4,
+//         count: 32,
+//     },
+//   },
+
+
+

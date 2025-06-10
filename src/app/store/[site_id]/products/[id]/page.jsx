@@ -9,6 +9,8 @@ import ProductsSection from "@/components/Widgets/productsSection";
 import AddReviews from "@/components/Widgets/addReviews";
 import { getReview } from "@/APIs/Customer/Review";
 import ReviewsList from "@/components/UI/ReviewList";
+import TabNavigation from "@/components/Widgets/TabNavigation";
+import ProductDescription from "@/components/Sections/ProductDescription";
 
 const ProductDetail = ({ params }) => {
   const { products, loading, error } = useSelector((state) => state.productData);
@@ -44,13 +46,14 @@ const ProductDetail = ({ params }) => {
       {product ? (
         <>
           <ProductDetailCard product={product} />
+          <ProductDescription/>
           <ProductsSection content={{
             title: "You may also like,",
             maxLength: 4,
             productType: "Selected Categories",
             selectedCategories: [product?.collectionName]
           }} />
-          <ReviewsList allReviews={allReviews}/>
+          <ReviewsList allReviews={allReviews} />
           <AddReviews storeId={store?._id} productId={params?.id} setReviewInState={setAllReviews} />
         </>
 

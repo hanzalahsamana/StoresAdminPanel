@@ -1,110 +1,7 @@
-.reviews p {
-    margin-bottom: 10px;
-    font-size: 16px;
-    display: flex;
-    gap: 8px;
-    cursor: pointer;
+.ProductCardContainer img {
+    transition: .4s cubic-bezier(.25, .46, .45, .94);
 }
 
-.reviews p:hover {
-    opacity: 0.8;
-}
-
-.reviews span {
-    display: flex;
-    gap: 3px;
-    color: rgb(167, 167, 167);
-    cursor: default;
-
-}
-
-.priceSection {
-    display: flex;
-    align-items: baseline;
-    gap: 10px;
-    margin: 20px 0;
-}
-
-.strikeThrough {
-    text-decoration: line-through;
-    color: grey;
-    font-size: 14px;
-}
-
-.discountedPrice {
-    color: black;
-    font-weight: bold;
-}
-
-.discountTag {
-    background-color: #000000d0;
-    color: white;
-    padding: 4px 6px;
-    font-size: 13px;
-    border-radius: 10px;
-    border-bottom-left-radius: 0px;
-}
-
-.InStock {
-    color: green;
-    margin: 10px 0;
-}
-
-.OutStock {
-    color: red;
-    margin: 10px 0;
-}
-
-.productDetail {
-    font-size: 12px;
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-    padding: 15px 0;
-}
-
-.productDetail strong {
-    font-size: 15px
-}
-
-.buttons {
-    display: flex;
-    gap: 10px;
-    margin-top: 10px;
-}
-
-.addToCart,
-.buyNow {
-    padding: 10px 20px;
-    border: none;
-    cursor: pointer;
-    font-weight: bold;
-}
-
-.addToCart {
-    background-color: #f8f9fa;
-}
-
-.buyNow {
-    background-color: #000;
-    color: white;
-}
-
-.note {
-    font-size: 0.85rem;
-    color: grey;
-    margin-top: 20px;
-}
-
-.deliveryInfo {
-    margin-top: 10px;
-    background-color: #e0f7fa;
-    padding: 10px;
-    color: #00796b;
-}
-.ProductCardContainer img{
-    transition: .4s cubic-bezier(.25,.46,.45,.94);
-}
 .ProductCardContainer:hover img {
     scale: 1.04;
 }
@@ -112,64 +9,19 @@
 .starRatingContainer {
     display: flex;
     cursor: pointer;
-  }
-  
-  .starEmpty {
+}
+
+.starEmpty {
     font-size: 30px;
     color: #e5e7eb;
-  }
-  
-  .starFilled {
+}
+
+.starFilled {
     font-size: 30px;
     color: #f5bc00 !important;
-  }
-  
-  .starRatingContainer span:hover,
-  .starRatingContainer span:hover ~ span {
-    color: #d8d8d8;
-  }
-
-
-
-
-
-
-
-
-
-  .reviews p = mb-[10px] text-[16px] flex gap-[8px] cursor-pointer
-.reviews p:hover = hover:opacity-80
-.reviews span = flex gap-[3px] text-[rgb(167,167,167)] cursor-default
-
-.priceSection = flex items-baseline gap-[10px] my-[20px]
-
-.strikeThrough = line-through text-[grey] text-[14px]
-.discountedPrice = text-black font-bold
-.discountTag = bg-[#000000d0] text-white px-[6px] py-[4px] text-[13px] rounded-[10px] rounded-bl-none
-
-.InStock = text-green-600 my-[10px]
-.OutStock = text-red-600 my-[10px]
-
-.productDetail = text-[12px] flex flex-col gap-[5px] py-[15px]
-.productDetail strong = text-[15px]
-
-.buttons = flex gap-[10px] mt-[10px]
-
-.addToCart = px-[20px] py-[10px] border-none cursor-pointer font-bold bg-[#f8f9fa]
-.buyNow = px-[20px] py-[10px] border-none cursor-pointer font-bold bg-black text-white
-
-.note = text-[.85rem] text-gray-500 mt-[20px]
-
-.deliveryInfo = mt-[10px] bg-[#e0f7fa] p-[10px] text-[#00796b]
-
-.ProductCardContainer img = transition-[transform] duration-[400ms] ease-[cubic-bezier(0.25,0.46,0.45,0.94)]
-.ProductCardContainer:hover img = scale-[1.04]
-
-.starRatingContainer = flex cursor-pointer
-.starEmpty = text-[30px] text-[#e5e7eb]
-.starFilled = text-[30px] text-[#f5bc00]
+}
 
 .starRatingContainer span:hover,
-.starRatingContainer span:hover ~ span = hover:text-[#d8d8d8]
-
-  
+.starRatingContainer span:hover~span {
+    color: #d8d8d8;
+}

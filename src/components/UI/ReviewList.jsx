@@ -30,7 +30,7 @@ const ReviewsList = ({ allReviews }) => {
                         className="mb-4  bg-[#ffffff] rounded-md border-[1px] break-inside-avoid border-[#dedede] customShadow p-[12px]"
                     >
                         <div className="flex w-full justify-between items-end mb-[15px]">
-                            <disv className="flex gap-1 items-center">
+                            <div className="flex gap-1 items-center">
                                 <div className="w-[35px] h-[35px] rounded-full overflow-hidden flex items-center justify-center">
                                     <span className="text-[28px]">
                                         {review.rating >= 5
@@ -48,12 +48,12 @@ const ReviewsList = ({ allReviews }) => {
                                     <h3 className="font-medium text-lg/[18px]">
                                         {review.reviewTitle || "No Title"}
                                     </h3>
-                                    <p className="flex gap-1 font-bold !text-[15px]/[15px] ">
+                                    <div className="flex gap-1 font-bold !text-[15px]/[15px] ">
                                         <StarRating className="!text-[15px]" rating={review?.rating} />
                                         {Number(review?.rating)?.toFixed(1)}
-                                    </p>
+                                    </div>
                                 </div>
-                            </disv>
+                            </div>
                             <div className="text-[14px]">
                                 {review?.createdAt && formatRelativeTime(review?.createdAt)}
                             </div>

@@ -1,27 +1,29 @@
+import { FaMinus, FaPlus } from "react-icons/fa6";
+import { FiMinus, FiPlus } from "react-icons/fi";
 import { useSelector } from "react-redux";
 
-const QuantityControl = ({ quantity, increaseQuantity, decreaseQuantity }) => {
+const QuantityControl = ({ quantity, increaseQuantity, decreaseQuantity , className }) => {
   const { loading } = useSelector((state) => state?.cartData)
 
   return (
-    <div className="flex items-center justify-between rounded-sm w-32 border-2 border-[var(--tmp-txt)] bg-[var(--tmp-pri)]">
+    <div className={`flex items-center justify-between px-[7px] gap-[5px] w-[120px] rounded-lg border border-[#ccc7c7b8] bg-[var(--tmp-pri)] ${className}`}>
       <button
         disabled={loading}
-        className={`w-1/4 text-[var(--tmp-txt)] border-none rounded-sm ${loading ? 'cursor-wait' : 'cursor-pointer'} transition duration-300 text-2xl hover:opacity-80`}
+        className={`h-[40px] text-[#b7b7b7] rounded-sm ${loading ? 'cursor-wait' : 'cursor-pointer'} transition duration-300 text-2xl hover:opacity-80`}
         onClick={decreaseQuantity}
       >
-        -
+        <FiMinus />
       </button>
-      <span className="h-8 text-[var(--tmp-txt)] flex justify-center my-[6px] items-center text-xl w-1/2 border-l border-r border-gray-500">
-        { quantity}
+      <span className=" text-[var(--tmp-txt)] font-medium flex justify-center  items-center text-xl border-gray-500">
+        {quantity}
 
       </span>
       <button
         disabled={loading}
-        className={`w-1/4 text-[var(--tmp-txt)] border-none rounded-md ${loading ? 'cursor-wait' : 'cursor-pointer'} transition duration-300 text-2xl hover:opacity-80`}
+        className={`h-[40px] text-[#b7b7b7] rounded-md ${loading ? 'cursor-wait' : 'cursor-pointer'} transition duration-300 text-2xl hover:opacity-80`}
         onClick={increaseQuantity}
       >
-        +
+        <FiPlus />
       </button>
     </div>
   );
