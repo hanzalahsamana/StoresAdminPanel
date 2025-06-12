@@ -15,19 +15,16 @@ import { useDispatch, useSelector } from "react-redux";
 import { calculateDiscountedPrice } from "@/Utils/CalculateDiscountedPrice";
 import { uploadImagesToS3 } from "@/APIs/uploadImageS3";
 import { productUploadValidate } from "@/Utils/FormsValidator";
-import MultiSelectCheckbox from "../Actions/MultiSelectCheckbox";
 import VariantsSelector from "../Uploaders/VariantsSelector";
-import { MdOutlineCategory, MdOutlineDriveFileRenameOutline, MdOutlineProductionQuantityLimits } from "react-icons/md";
-import { IoImageOutline, IoImagesOutline, IoPricetagsOutline } from "react-icons/io5";
+import { MdOutlineCategory, MdOutlineProductionQuantityLimits } from "react-icons/md";
+import { IoPricetagsOutline } from "react-icons/io5";
 import { CgDetailsMore } from "react-icons/cg";
 import { LuGalleryVerticalEnd } from "react-icons/lu";
 import ImgToIcon from "../Actions/ImgToIcon";
 
 const AddEditProductModal = ({ isOpen, setIsOpen, updatedData = null }) => {
   const dispatch = useDispatch();
-  const { categories } = useSelector((state) => state.categories);
   const { currUser } = useSelector((state) => state.currentUser);
-  const { variations } = useSelector((state) => state?.storeDetail?.storeDetail);
 
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
@@ -161,6 +158,10 @@ const AddEditProductModal = ({ isOpen, setIsOpen, updatedData = null }) => {
             <MultiImageUploader images={formData.images || []} setImages={(images) => handleChange("images", images)} error={errors.image} />
           </CustomCard>
 
+            <CustomCard icon={<MdOutlineCategory />} title="Variation" info={'Variation is Optional thing Which allow you to devide the product in differnt varieties like Size, Color, etc'} classes="break-inside-avoid flex-none !p-4 pt-3">
+        <VariantsSelector />
+      </CustomCard>
+
 
 
         </div>
@@ -180,9 +181,7 @@ const AddEditProductModal = ({ isOpen, setIsOpen, updatedData = null }) => {
 
         </div>
       </div>
-      <CustomCard icon={<MdOutlineCategory />} title="Variation" info={'Variation is Optional thing Which allow you to devide the product in differnt varieties like Size, Color, etc'} classes="break-inside-avoid flex-none !p-4 pt-3 ">
-        <VariantsSelector />
-      </CustomCard>
+    
     </div>
   );
 };

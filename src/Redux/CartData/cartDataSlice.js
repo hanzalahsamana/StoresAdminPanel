@@ -16,11 +16,10 @@ const initialState = {
 
 export const setCartData = createAsyncThunk(
   "cartData/setCartData",
-  async ({ cartId, siteName }, { rejectWithValue }) => {
-    
+  async ({ cartId, storeId }, { rejectWithValue }) => {
     if (cartId && cartId !== "undefined" && cartId !== "null") {
       try {
-        const response = await setCartDataApi(cartId, siteName);
+        const response = await setCartDataApi(cartId, storeId);
         return response.products;
       } catch (error) {
         return rejectWithValue(error.message);
@@ -32,10 +31,10 @@ export const setCartData = createAsyncThunk(
 
 export const addCartData = createAsyncThunk(
   "cartData/addCartData",
-  async ({ addedProduct, siteName }, { rejectWithValue }) => {
+  async ({ addedProduct, storeId }, { rejectWithValue }) => {
     try {
-      const cartID = localStorage.getItem(`${siteName}_cartId`);
-      const response = await addCartDataApi(addedProduct, cartID, siteName);
+      const cartId = localStorage.getItem(`${storeId}_cartId`);
+      const response = await addCartDataApi(storeId, cartId, addedProduct);
       return response.products;
     } catch (error) {
       return rejectWithValue(error.message);
@@ -44,10 +43,14 @@ export const addCartData = createAsyncThunk(
 );
 export const deleteCartData = createAsyncThunk(
   "cartData/deleteCartData",
-  async ({ productId, siteName }, { rejectWithValue }) => {
+  async ({ cartProductId, storeId }, { rejectWithValue }) => {
     try {
-      const cartID = localStorage.getItem(`${siteName}_cartId`);
-      const updatedState = await deleteCartDataApi(cartID, productId, siteName);
+      const cartID = localStorage.getItem(`${storeId}_cartId`);
+      const updatedState = await deleteCartDataApi(
+        cartID,
+        cartProductId,
+        storeId
+      );
       return updatedState?.products;
     } catch (error) {
       return rejectWithValue(error.message);

@@ -12,6 +12,7 @@ import Loader from "../Loader/loader";
 function Sidebar({ isOpen, setIsOpen }) {
   const { pagesData, pagesDataLoading } = useSelector((state) => state.pagesData);
   const { sectionsData, sectionsDataLoading } = useSelector((state) => state.sectionsData);
+  const { store } = useSelector((state) => state.store);
   const pathname = usePathname();
   const [openDropdown, setOpenDropdown] = useState(null);
   const subNavRefs = useRef({});
@@ -96,7 +97,7 @@ function Sidebar({ isOpen, setIsOpen }) {
         {links?.map(({ name, path, icon, subLinks }, index) => (
           <div key={path}>
             <Link
-              href={subLinks ? "#" : path}
+              href={subLinks ? "#" : `/admin/${store?._id}${path}`}
               onClick={() => subLinks && toggleDropdown(index)}
               className={`flex justify-between items-center gap-2 py-[10px] px-4 rounded transition duration-200 text-left
                 ${(pathname.startsWith(path) && path !== "/") || pathname === path ? "text-textC border-l-4 border-primaryC bg-[#eeeff1f0]" : "text-textC hover:bg-[#eeeff1f0]"}`}
@@ -115,7 +116,7 @@ function Sidebar({ isOpen, setIsOpen }) {
                 {subLinks?.map(({ name, path }) => (
                   <Link
                     key={path}
-                    href={path}
+                    href={`/admin/${store?._id}${path}`}
                     className={`block py-1.5 px-5 text-sm mt-1 rounded transition duration-200
                       ${pathname === path ? "text-textTC bg-gray-100" : "text-textTC hover:bg-gray-100"}`}
                   >

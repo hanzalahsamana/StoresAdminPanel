@@ -3,43 +3,44 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import BASE_URL from "../../../config";
 
-export const setCartDataApi = async (cartId, siteName) => {
+export const setCartDataApi = async (cartId, storeId) => {
   try {
-    const response = await axios.get(
-      `${BASE_URL}/${siteName}/getCartData?id=${cartId}`
+    const { data } = await axios.get(
+      `${BASE_URL}/${storeId}/getCartData?cartId=${cartId}`
     );
-    
-    return response.data[0];
+    return data;
   } catch (error) {
+    localStorage.removeItem(`${storeId}_cartId`);
     console.log(error);
   }
 };
 
-export const addCartDataApi = async (addedProduct, cartId, siteName) => {
+export const addCartDataApi = async (storeId, cartId, addedProduct) => {
   try {
-    let url = `${BASE_URL}/${siteName}/addCart`;
+    let url = `${BASE_URL}/${storeId}/addToCart`;
     if (cartId && cartId !== "undefined") {
-      url += `?id=${cartId}`;
+      url += `?cartId=${cartId}`;
     }
 
-    const response = await axios.post(url, addedProduct);
-    localStorage.setItem(`${siteName}_cartId`, response.data.cartId);
-    return response.data;
+    const { data } = await axios.post(url, addedProduct);
+    console.log(cartId, data, "🪙🪙");
+    localStorage.setItem(`${data.storeRef}_cartId`, data._id);
+    return data;
   } catch (error) {
-    console.error(error);
+    toast.error(error.response ? error.response.data.message : error.message);
   }
 };
 
-export const deleteCartDataApi = async (cartId, productId ,siteName) => {
+export const deleteCartDataApi = async (cartId, cartProductId, storeId) => {
   try {
-    let url = `${BASE_URL}/${siteName}/deleteCartProduct?id=${cartId}`;
+    let url = `${BASE_URL}/${storeId}/deleteCartData?cartId=${cartId}`;
 
-    if (productId) {
-      url += `&&productId=${productId}`;
+    if (cartProductId) {
+      url += `&&cartProductId=${cartProductId}`;
     }
-    const response = await axios.delete(url);
-    return response.data;
+    const { data } = await axios.delete(url);
+    return data;
   } catch (error) {
-    toast.error(error.message);
+    toast.error(error.response ? error.response.data.message : error.message);
   }
 };

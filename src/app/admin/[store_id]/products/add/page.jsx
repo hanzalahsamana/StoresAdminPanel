@@ -15,9 +15,9 @@ const AddProduct = () => {
       <BackgroundFrame>
         <AddEditProductModal isOpen={isOpen} setIsOpen={setIsOpen} />
       </BackgroundFrame>
-      <LivePreview>
+      {/* <LivePreview>
         <ProductDetailCard product={{}} />
-      </LivePreview>
+      </LivePreview> */}
     </div>
   )
 }

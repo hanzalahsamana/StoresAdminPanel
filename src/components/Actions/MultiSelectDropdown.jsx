@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useMemo } from "react";
 import { CgInsertAfter } from "react-icons/cg";
 import { IoMdArrowDropdown, IoMdArrowDropup } from "react-icons/io";
 import { IoCloseOutline } from "react-icons/io5";
@@ -7,7 +7,7 @@ import { IoCloseOutline } from "react-icons/io5";
 const MultiSelectDropdown = ({
     defaultOptions = [],
     selectedOptions = [],
-    setSelectedOptions,
+    setSelectedOptions = () => { },
     wantsCustomOption = false,
     placeholder = "Select options",
     error = null,
@@ -33,18 +33,22 @@ const MultiSelectDropdown = ({
         return () => document.removeEventListener("mousedown", handleClickOutside);
     }, []);
 
-    useEffect(() => { console.log("👍", error, "👍") }, [error])
+    const stableDefaultOptions = useMemo(() => [...defaultOptions], [JSON.stringify(defaultOptions)]);
+    const stableSelectedOptions = useMemo(() => [...selectedOptions], [JSON.stringify(selectedOptions)]);
+
+    const filteredData = useMemo(() => {
+        return stableDefaultOptions.filter(
+            (option) =>
+                option.toLowerCase().includes(searchTerm.toLowerCase()) &&
+                !stableSelectedOptions.includes(option)
+        );
+    }, [searchTerm, stableDefaultOptions, stableSelectedOptions]);
+
 
     useEffect(() => {
-        setFilteredOptions(
-            defaultOptions.filter(
-                (option) =>
-                    option.toLowerCase().includes(searchTerm.toLowerCase()) &&
-                    !selectedOptions.includes(option)
-            )
-        );
-    }, [searchTerm, defaultOptions, selectedOptions]);
 
+        setFilteredOptions(filteredData)
+    }, [filteredData])
     useEffect(() => {
         if (isOpen && containerRef.current) {
             const rect = containerRef.current.getBoundingClientRect();
@@ -95,7 +99,7 @@ const MultiSelectDropdown = ({
                         inputRef.current?.focus();;
                     }}
 
-                    className={`min-h-[36px] w-full flex flex-wrap items-center gap-2 px-2 py-1 border rounded-[4px] shadow-[inset_0_0px_6px_0_rgb(0_0_0_/_0.02)] cursor-text ${error ? "border-red-500" : "border-gray-300"
+                    className={`min-h-[36px] h-full w-full flex flex-wrap items-center gap-2 px-2 py-1 border rounded-[4px] shadow-[inset_0_0px_6px_0_rgb(0_0_0_/_0.02)] cursor-text ${error ? "border-red-500" : "border-gray-300"
                         }`}
                 >
                     {selectedOptions.map((option, index) => (
@@ -130,7 +134,7 @@ const MultiSelectDropdown = ({
                             setIsOpen(true);
                         }}
                         placeholder={selectedOptions.length === 0 ? placeholder : ""}
-                        className=" placeholder:text-sm bg-transparent  placeholder:text-[#b9b9b9] flex-1 min-w-[60px] pl-[4px] border-none focus:outline-none text-sm"
+                        className="h-full placeholder:text-sm bg-transparent  placeholder:text-[#b9b9b9] flex-1 min-w-[60px] pl-[4px] border-none focus:outline-none text-sm"
                     />
 
                     <span

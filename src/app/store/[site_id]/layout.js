@@ -67,10 +67,9 @@ export default function SiteLayout({ params, children }) {
           getContents(store._id),
         ]);
 
-        const siteName = store?.storeName;
-        if (typeof window !== "undefined" && siteName) {
-          const cartId = localStorage.getItem(`${siteName}_cartId`);
-          dispatch(setCartData({ cartId, siteName }));
+        if (typeof window !== "undefined") {
+          const cartId = localStorage.getItem(`${store._id}_cartId`);
+          dispatch(setCartData({ cartId, storeId: store._id }));
         }
       } catch (error) {
         console.error("Data fetching failed:", error);

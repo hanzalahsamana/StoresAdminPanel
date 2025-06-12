@@ -41,7 +41,6 @@ export const colorPalettes = {
   },
 };
 
-
 export const variationSuggestions = {
   Color: [
     "aliceblue",
@@ -304,4 +303,3 @@ export const variationSuggestions = {
     "Modern",
   ],
 };
-

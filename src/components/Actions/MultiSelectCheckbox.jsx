@@ -2,9 +2,9 @@ import React from "react";
 
 const MultiSelectCheckbox = ({
   label = "",
-  options,
-  selectedOptions,
-  setSelectedOptions,
+  options = [],
+  selectedOptions =[],
+  setSelectedOptions =()=>{},
   className = "",
 }) => {
   const isObjectOption = typeof options?.[0] === "object";

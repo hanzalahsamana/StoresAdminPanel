@@ -11,9 +11,11 @@ import { getBasePath } from "@/Utils/GetBasePath";
 const Cart = () => {
   const  { cartData, initialLoading }  = useSelector((state) => state?.cartData || []);
   const [loading , setLoading] = useState(true)
+  
   useEffect(()=>{
     setLoading(false)
   })
+
   if(initialLoading || loading){
     return(
       <Loader/>
@@ -21,7 +23,7 @@ const Cart = () => {
   }
 
   const totalPrice = cartData?.reduce((accumulator, cartItem) => {
-    return accumulator + (cartItem.discountedPrice * cartItem.quantity)
+    return accumulator + (cartItem.price * cartItem.quantity)
   }, 0);
   
   return (

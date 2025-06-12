@@ -14,14 +14,21 @@ import DropDown from '../Actions/DropDown';
 import Button from '../Actions/Button';
 import ToggleSwitch from '../Actions/ToggleSwitch';
 import VariantCombinationTable from '../Tables/VariantCombinationTable';
+import { motion, AnimatePresence } from 'framer-motion';
 import Checkbox from '../Actions/CheckBox';
 import RadioButton from '../Actions/RadioButton';
 import { FaChevronDown } from 'react-icons/fa';
 import { GoChevronDown } from 'react-icons/go';
 import MultiSelectDropdown from '../Actions/MultiSelectDropdown';
+import { LuCirclePlus } from 'react-icons/lu';
+import MultiSelectCheckbox from '../Actions/MultiSelectCheckbox';
+import { RxDragHandleDots2 } from 'react-icons/rx';
+import VariationAddManager from '../Forms/VariationAddManager';
 
 const VariantsSelector = () => {
-    const { variations } = useSelector((state) => state?.storeDetail?.storeDetail);
+    // const { variations } = useSelector((state) => state?.storeDetail?.storeDetail);
+
+    // const variations = []
 
     const [selectedVariationNames, setSelectedVariationNames] = useState([]);
     const [selectedOptionsMap, setSelectedOptionsMap] = useState({});
@@ -30,17 +37,21 @@ const VariantsSelector = () => {
     const [variantSelections, setVariantSelections] = useState({});
     const [openVariantIndex, setOpenVariantIndex] = useState(null);
     const [variantsLocked, setVariantsLocked] = useState(false);
-    const [variationData, setVariationData] = useState(variations || []);
+    const [variationData, setVariationData] = useState([]);
     const variationRowRef = useRef({});
 
     // Add default suggestions on mount
-    useEffect(() => {
-        setVariationData(variations);
-    }, [variations]);
+    // useEffect(() => {
+    //     setVariationData(variations);
+    // }, [variations]);
 
     const toggleDarwer = (index) => {
         setOpenVariantIndex((prev) => (prev === index ? null : index));
     };
+
+    useEffect(() => {
+        console.log(variationData, "🦽🦽🦽🦽");
+    }, [variationData])
 
     const removeInvalidVariants = (variationNames, optionsMap) => {
         const validCombinations = variants.filter((variant) =>
@@ -75,14 +86,22 @@ const VariantsSelector = () => {
         setOpenVariantIndex(variants.length);
     };
 
-    const handleAddNewVariation = (customVariationName) => {
-        const trimmedName = customVariationName.trim();
-        if (!trimmedName) return toast.error('Variation name is required');
+    const handleAddNewVariation = () => {
+        // const trimmedName = customVariationName.trim();
+        // if (!trimmedName) return toast.error('Variation name is required');
 
-        const exists = variationData.some(v => v.name === trimmedName);
-        if (exists) return toast.error('Variation already exists');
+        // const exists = variationData.some(v => v.name === trimmedName);
+        // if (exists) return toast.error('Variation already exists');
 
-        setVariationData(prev => [...prev, { name: trimmedName, options: [] }]);
+        // setVariationData(prev => [...prev, { name: trimmedName, options: [] }]);
+        setVariationData((prev) => [
+            ...prev,
+            {
+                name: '',
+                options: [],
+            },
+        ]);
+
     };
 
     const handleAddOptionToVariation = (variationName, newOption) => {
@@ -111,27 +130,14 @@ const VariantsSelector = () => {
     return (
         <div className="flex flex-col gap-4 w-full ">
             <div className={`flex flex-col gap-5 ${variantsLocked ? 'opacity-100 pointer-events-none' : ''}`}>
-                <div className='flex justify-between items-end w-full'>
 
-                    <p className=" text-textTC">Add variations to use in this product</p>
-                    <div className="flex gap-2 items-end">
-                        <DropDown
-                            defaultOptions={Object.keys(variationSuggestions)}
-                            setSelectedOption={(opt) => handleAddNewVariation(opt)}
-                            selectedOption={''}
-                            wantsCustomOption={true}
-                            className='w-max h-[30px]'
-                            placeholder='Add variation'
-                        />
-                    </div>
-                </div>
+                <VariationAddManager variationData={variationData} setVariationData={setVariationData} variationSuggestions={variationSuggestions} />
 
-                {variationData.length > 0 ? (
+                {!variationData.length > 1 ? (
                     <>
                         <div className=''>
                             <div className="overflow-x-auto max-w-full rounded-md border  h-[max-content]">
                                 <div className="rounded-md min-w-full text-sm bg-lbgC">
-                                    {/* Header */}
                                     <div className="flex bg-secondaryC text-primaryC font-normal">
                                         <div className="w-[100px] px-4 py-2 whitespace-nowrap border-l">
                                             <div className="flex gap-2 items-center">
@@ -154,7 +160,6 @@ const VariantsSelector = () => {
                                         <div className="w-[350px] px-4 py-2 sticky right-0 border-l">Advance <span className='text-textTC text-[10px] '>(optional)</span></div>
                                     </div>
 
-                                    {/* Body */}
                                     {variationData.map(({ name, options }, i) => (
                                         <div
                                             key={name}
@@ -196,17 +201,15 @@ const VariantsSelector = () => {
                                                     />
                                                 </div>
                                             </div>
-                                            {/* {openVariantIndex === i || true && ( */}
                                             <div
                                                 ref={(el) => (variationRowRef.current[i] = el)}
                                                 style={{ height: openVariantIndex === i ? `${variationRowRef.current[i]?.scrollHeight + 10}px` : '0px' }}
                                                 className={`transition-all duration-300  px-4   ${openVariantIndex === i ? 'flex flex-col gap-4 ' : 'overflow-hidden'}`}
                                             >
-                                                {/* <p className='text-base text-textC '>Set prices , images of that specific option <InfoTooltip content={''} id={name} /></p> */}
 
                                                 <div className='branch ml-[10px]'>
                                                     <div className='flex pl-[70px] font-semibold'>
-                                                        <p className='px-4 py-2 w-[150px]'>{name+'s'}</p>
+                                                        <p className='px-4 py-2 w-[150px]'>{name + 's'}</p>
                                                         <p className='px-4 py-2 w-[150px]'>Price</p>
                                                         <p className='px-4 py-2 w-[150px]'>Image</p>
                                                     </div>
@@ -347,9 +350,10 @@ const VariantsSelector = () => {
                         </div>
                     </>
                 ) : (
-                    <div className='flex justify-center py-[50px] items-center gap-2 text-textTC'>
-                        <p>No variations added yet</p>
-                    </div>
+                    <></>
+                    // <div className='flex justify-center py-[50px] items-center gap-2 text-textTC'>
+                    //     <p>No variations added yet</p>
+                    // </div>
                 )}
             </div>
 
