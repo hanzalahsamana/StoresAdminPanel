@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const Checkbox = ({ label = "Checkbox", isChecked = false, setIsCheck }) => {
+const Checkbox = ({ label = "Checkbox", isChecked = false, setIsCheck, className }) => {
     const [checked, setChecked] = useState(isChecked);
 
     const toggleCheck = () => {
@@ -9,7 +9,7 @@ const Checkbox = ({ label = "Checkbox", isChecked = false, setIsCheck }) => {
     };
 
     return (
-        <div className="relative flex items-center cursor-pointer group" onClick={toggleCheck}>
+        <div className={`relative flex items-center cursor-pointer group ${className}`} onClick={toggleCheck}>
             <input
                 type="checkbox"
                 checked={checked}
@@ -17,7 +17,7 @@ const Checkbox = ({ label = "Checkbox", isChecked = false, setIsCheck }) => {
                 className="absolute opacity-0 w-0 h-0"
             />
             <div
-                className={`w-[14px] h-[14px] border rounded-sm flex items-center justify-center transition-all duration-200 
+                className={`w-[16px] h-[16px] border rounded-sm flex items-center justify-center transition-all duration-200 
         ${checked ? "bg-primaryC border-pribg-primaryC" : "border-gray-400"}`}
             >
                 {checked && (
@@ -34,7 +34,7 @@ const Checkbox = ({ label = "Checkbox", isChecked = false, setIsCheck }) => {
                     </svg>
                 )}
             </div>
-            <span className="ml-1 text-[10px] text-gray-700 group-hover:opacity-80 text-primaryC transition-colors duration-200">
+            <span className="ml-1 text-[14px] text-gray-700 group-hover:opacity-80 text-primaryC transition-colors duration-200">
                 {label}
             </span>
         </div>

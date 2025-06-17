@@ -1,45 +1,92 @@
+// utils/validation.js
+
 export const productUploadValidate = (formData, setErrors) => {
   const newErrors = {};
   const {
     name,
-    brand,
-    originalPrice,
-    discount,
-    collectionName,
-    type,
-    size,
+    vendor,
+    price,
+    comparedAtPrice,
+    displayImage,
+    gallery,
+    collections,
     stock,
-    images,
+    status,
+    showStock,
+    pronouce,
+    wantsCustomerReview,
+    description,
+    metaTitle,
+    metaDescription,
+    note,
+    variations,
+    variantRules,
+    ratings,
   } = formData;
 
-  if (!name) newErrors.name = "name is required";
-  if (!brand) newErrors.brand = "brand Name is required";
-  if (!originalPrice || originalPrice == 0)
-    newErrors.originalPrice = "original Price is required";
-  if (discount > 90 || discount < 0) newErrors.discount = "max discount is 90%";
-  if (!collectionName) newErrors.collectionName = "collectionName is required";
-  if (!type) newErrors.type = "type is required";
-  if (!size?.length > 0) newErrors.size = "size is required";
-  if ((!stock && stock !== 0) || stock < 0)
-    newErrors.stock = "stock must be greater or equal then zero";
-  if (!images?.length > 0) newErrors.image = "Please select min 1 image.";
-  setErrors(newErrors);
+  // Required
+  if (!name?.trim()) newErrors.name = "Product name is required";
+  if (price === undefined || price === null || isNaN(price) || price <= 0)
+    newErrors.price = "Price must be a number greater than 0";
+  if (!displayImage) newErrors.displayImage = "Display image is required";
+  if (stock === undefined || stock === null || isNaN(stock) || stock < 0)
+    newErrors.stock = "Stock must be 0 or more";
 
+  // Optional validations
+  if (status && !["active", "inactive"].includes(status)) {
+    newErrors.status = "Status must be 'active' or 'inactive'";
+  }
+
+  if (variations && Array.isArray(variations)) {
+    for (let i = 0; i < variations.length; i++) {
+      const variation = variations[i];
+      if (!variation.name?.trim()) {
+        newErrors[`variations[${i}].name`] = "Variation name is required";
+      }
+      if (
+        !Array.isArray(variation.options) ||
+        variation.options.length === 0
+      ) {
+        newErrors[`variations[${i}].options`] =
+          "At least one option is required";
+      }
+    }
+
+    // Unique variation names
+    const names = variations.map((v) => v.name?.toLowerCase().trim());
+    const duplicates = names.filter(
+      (name, i) => name && names.indexOf(name) !== i
+    );
+    if (duplicates.length > 0) {
+      newErrors.variations = "Variation names must be unique";
+    }
+  }
+
+  if (ratings) {
+    if (
+      (ratings.average && isNaN(ratings.average)) ||
+      (ratings.count && isNaN(ratings.count))
+    ) {
+      newErrors.ratings = "Ratings must contain valid numbers";
+    }
+  }
+
+  setErrors(newErrors);
   return Object.keys(newErrors).length === 0;
 };
 
+
 export const paymentFormValidate = (formData, setErrors) => {
   const newErrors = {};
-  const { email, country, firstName, lastName, address, city, phone } =
-    formData;
+  const { email, country, firstName, lastName, address, city, phone } = formData;
 
-  if (!email) newErrors.email = "email is required";
+  if (!email?.trim()) newErrors.email = "Email is required";
   if (!country) newErrors.country = "Country is required";
-  if (!firstName) newErrors.firstName = "First name is required";
-  if (!lastName) newErrors.lastName = "Last name is required";
-  if (!address) newErrors.address = "Address is required";
-  if (!city) newErrors.city = "City is required";
-  if (!phone) newErrors.phone = "Phone number is required";
+  if (!firstName?.trim()) newErrors.firstName = "First name is required";
+  if (!lastName?.trim()) newErrors.lastName = "Last name is required";
+  if (!address?.trim()) newErrors.address = "Address is required";
+  if (!city?.trim()) newErrors.city = "City is required";
+  if (!phone?.trim()) newErrors.phone = "Phone number is required";
 
   setErrors(newErrors);
   return Object.keys(newErrors).length === 0;
@@ -47,52 +94,48 @@ export const paymentFormValidate = (formData, setErrors) => {
 
 export const pageDataValidate = (componentMapping, formData) => {
   const validationRules = {
-    title: (value) => value.trim() !== "" || "Title is required",
-    email: (value) => /\S+@\S+\.\S+/.test(value) || "Invalid email format",
-    phone: (value) => /^[\d\s\+\-()]+$/.test(value) || "Phone must be valid",
-    address: (value) => value.trim() !== "" || "Address is required",
-    text: (value) => value.trim() !== "" || "Text is required",
-    image: (value) => value !== "" || "Image is required",
-    faqs: (value) => {
-      if (!Array.isArray(value) || value.length === 0) {
-        return "FAQs must have at least one entry";
+    title: (val) => val?.trim() !== "" || "Title is required",
+    email: (val) => /\S+@\S+\.\S+/.test(val) || "Invalid email format",
+    phone: (val) => /^[\d\s\+\-()]+$/.test(val) || "Phone must be valid",
+    address: (val) => val?.trim() !== "" || "Address is required",
+    text: (val) => val?.trim() !== "" || "Text is required",
+    image: (val) => val !== "" || "Image is required",
+    faqs: (val) => {
+      if (!Array.isArray(val) || val.length === 0) {
+        return "At least one FAQ is required";
       }
-      for (let i = 0; i < value.length; i++) {
-        const faq = value[i];
-        if (!faq.Q || !faq.A) {
-          return `FAQ ${i + 1} must have both a question and an answer`;
+      for (let i = 0; i < val.length; i++) {
+        if (!val[i]?.Q || !val[i]?.A) {
+          return `FAQ ${i + 1} is incomplete`;
         }
       }
       return true;
     },
   };
+
   const fields = componentMapping[formData?.type]?.fields || [];
   const errors = [];
 
   fields.forEach((field) => {
     const validate = validationRules[field];
     if (validate) {
-      const error = validate(formData[field]);
-      if (error !== true) {
-        errors.push(error);
-      }
+      const result = validate(formData[field]);
+      if (result !== true) errors.push(result);
     }
   });
 
   return errors;
 };
 
-export const userResgisterValidate = (formData, setErrors) => {
-  setErrors({}); // Clear previous errors
+export const userRegisterValidate = (formData, setErrors) => {
   const newErrors = {};
   const { email, password } = formData;
 
-  if (!email) newErrors.email = "Email is required";
+  if (!email?.trim()) newErrors.email = "Email is required";
   if (!password) {
     newErrors.password = "Password is required";
-  } else if (!/^[\w!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]{6,}$/.test(password)) {
-    newErrors.password =
-      "Password must be at least 6 characters and must not contain spaces.";
+  } else if (password.length < 6 || /\s/.test(password)) {
+    newErrors.password = "Password must be at least 6 characters with no spaces";
   }
 
   setErrors(newErrors);
@@ -100,11 +143,10 @@ export const userResgisterValidate = (formData, setErrors) => {
 };
 
 export const userLoginValidate = (formData, setErrors) => {
-  setErrors({}); // Clear previous errors
   const newErrors = {};
   const { email, password } = formData;
 
-  if (!email) newErrors.email = "Email is required";
+  if (!email?.trim()) newErrors.email = "Email is required";
   if (!password) newErrors.password = "Password is required";
 
   setErrors(newErrors);

@@ -12,15 +12,29 @@ const DropDown = ({
     required = true,
     error = null,
     className = '',
-    wantsCustomOption = false, // new prop to enable custom option
+    wantsCustomOption = false,
     label = "label",
     layout = null,
 }) => {
     const [isOpen, setIsOpen] = useState(false);
-    const [searchTerm, setSearchTerm] = useState(selectedOption);
-    const [options, setOptions] = useState(defaultOptions);
+    const [searchTerm, setSearchTerm] = useState("");
+    const [options, setOptions] = useState([]);
     const dropdownRef = useRef(null);
     const dropdownOptionsRef = useRef(null);
+
+    // Normalize options: convert string array to object array
+    useEffect(() => {
+        const normalized = defaultOptions.map(opt =>
+            typeof opt === "string" ? { value: opt, label: opt } : opt
+        );
+        setOptions(normalized);
+    }, [defaultOptions]);
+
+    // Update searchTerm if selectedOption changes
+    useEffect(() => {
+        const selectedObj = options.find(opt => opt.value === selectedOption);
+        setSearchTerm(selectedObj?.label || "");
+    }, [selectedOption, options]);
 
     useEffect(() => {
         const handleClickOutside = (event) => {
@@ -32,34 +46,31 @@ const DropDown = ({
         return () => document.removeEventListener("mousedown", handleClickOutside);
     }, []);
 
-    const handleSelect = (option) => {
-        console.log("🍔🍔🍔🍔");
-        setIsOpen(false);
-        setSelectedOption(option);
-        setSearchTerm(option); // Set selected value in the input
-    };
-
-    const handleCustomOptionSelect = () => {
-        const trimmed = searchTerm.trim();
-        if (trimmed && !options.includes(trimmed)) {
-            setOptions([trimmed,...options]); // Add custom option to options list
-            setSelectedOption(trimmed); // Set the custom option as selected
-            setSearchTerm(trimmed); // Update the input field
-        }
-    };
-
+    // Reset scroll on search term change
     useEffect(() => {
         if (dropdownOptionsRef.current) {
             dropdownOptionsRef.current.scrollTop = 0;
         }
-    }, [searchTerm])
+    }, [searchTerm]);
 
-    useEffect(() => {
-        setSearchTerm(selectedOption || "");
-    }, [selectedOption]);
+    const handleSelect = (option) => {
+        setIsOpen(false);
+        setSelectedOption(option.value);
+        setSearchTerm(option.label);
+    };
+
+    const handleCustomOptionSelect = () => {
+        const trimmed = searchTerm.trim();
+        if (trimmed && !options.find(opt => opt.label === trimmed)) {
+            const newOption = { value: trimmed, label: trimmed };
+            setOptions([newOption, ...options]);
+            setSelectedOption(trimmed);
+            setSearchTerm(trimmed);
+        }
+    };
 
     const showCreateOption =
-        wantsCustomOption && searchTerm?.trim() && !options.includes(searchTerm.trim());
+        wantsCustomOption && searchTerm?.trim() && !options.find(opt => opt.label === searchTerm.trim());
 
     return (
         <div className={`w-full flex flex-col ${className}`}>
@@ -71,7 +82,6 @@ const DropDown = ({
                         value={searchTerm}
                         readOnly={!wantsCustomOption}
                         handleChange={(e) => {
-
                             setSearchTerm(e.target.value);
                             setIsOpen(true);
                         }}
@@ -79,12 +89,11 @@ const DropDown = ({
                         className={className}
                         label={label}
                         layout={layout}
-                        actionIcon={<span
-                            className={`ml-auto absolute right-0 text-textTC text-[20px] transition-all ${isOpen ? "rotate-0" : "rotate-180"
-                                }`}
-                        >
-                            <IoMdArrowDropup />
-                        </span>}
+                        actionIcon={
+                            <span className={`ml-auto absolute right-0 text-textTC text-[20px] transition-all ${isOpen ? "rotate-0" : "rotate-180"}`}>
+                                <IoMdArrowDropup />
+                            </span>
+                        }
                     />
                 </div>
 
@@ -99,17 +108,17 @@ const DropDown = ({
                             onClick={handleCustomOptionSelect}
                         >
                             <CgInsertAfter />
-                            Create "<span className="font-medium">{searchTerm}</span>"
+                            Add "<span className="font-medium">{searchTerm}</span>"
                         </div>
                     )}
 
                     {options.map((option, index) => (
                         <div
                             key={index}
-                            className={`px-3 py-2 text-sm cursor-pointer  ${selectedOption === option ? 'bg-[#e2e2e4] text-gray-700' : 'hover:bg-gray-100'}`}
+                            className={`px-3 py-2 text-sm cursor-pointer ${selectedOption === option.value ? 'bg-[#e2e2e4] text-gray-700' : 'hover:bg-gray-100'}`}
                             onClick={() => handleSelect(option)}
                         >
-                            {option}
+                            {option.label}
                         </div>
                     ))}
                 </div>

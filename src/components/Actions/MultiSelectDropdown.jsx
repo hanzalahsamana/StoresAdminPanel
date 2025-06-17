@@ -11,6 +11,7 @@ const MultiSelectDropdown = ({
     wantsCustomOption = false,
     placeholder = "Select options",
     error = null,
+    label = '',
     className = "",
 }) => {
 
@@ -92,6 +93,10 @@ const MultiSelectDropdown = ({
 
     return (
         <div className="w-full flex flex-col gap-1" ref={containerRef}>
+            {label && (
+                <label className="text-[14px] font-medium text-textC mb-1 block">
+                    {label}
+                </label>)}
             <div ref={dropdownRef} className={`relative w-full ${className}`}>
                 <div
                     onClick={() => {

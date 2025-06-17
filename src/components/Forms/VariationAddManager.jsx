@@ -126,24 +126,25 @@ const VariationAddManager = ({
                                 animate={{ opacity: 1, height: 'auto' }}
                                 exit={{ opacity: 0, height: 0 }}
                                 transition={{ duration: 0.3 }}
-                                className={`${i === variationData.length - 1 ? 'border-b border-[#d7d5d5]' : 'border-b-2 border-[#b5b3b3]'} p-4 bg-white overflow-hidden`}
+                                className={`${i === variationData.length - 1 ? 'border-b border-[#d7d5d5]' : 'border-b-2 border-[#b5b3b3]'} bg-white overflow-hidden`}
                             >
                                 {isDone ? (
-                                    <motion.div
+                                    <div
                                         onClick={() => toggleEdit(variation.id)}
-                                        className="cursor-pointer"
-                                        whileHover={{ scale: 1.02 }}
-                                        transition={{ duration: 0.2 }}
+                                        className="cursor-pointer  p-4 hover:bg-[#f5f5f5] transition-all"
+                                    // whileHover={{ backgroundColor: '#f5f5f5' }}
+                                    // transition={{ duration: 0.2 }}
+
                                     >
-                                        <p className="font-bold text-[15px] text-textC">{variation.name}</p>
+                                        <p className="font-bold text-[17px] text-textC">{variation.name}</p>
                                         <ul className="mt-1 flex gap-2 flex-wrap">
                                             {variation.options.map((opt, idx) => (
                                                 <li className='bg-[#e3e3e3] text-[14px] text-[#303030] font-medium px-2 py-1 rounded-sm' key={idx}>{opt}</li>
                                             ))}
                                         </ul>
-                                    </motion.div>
+                                    </div>
                                 ) : (
-                                    <div className="w-full">
+                                    <div className="w-full  p-4">
                                         <div>
                                             <label className="text-[14px] font-medium text-textC block">Option Name</label>
                                             <DropDown
@@ -153,6 +154,7 @@ const VariationAddManager = ({
                                                 wantsCustomOption={true}
                                                 placeholder="Add variation"
                                                 error={errors[variation.id]?.name}
+                                                className='!text-textC'
                                             />
                                         </div>
                                         <div className="mt-[20px]">
@@ -189,7 +191,7 @@ const VariationAddManager = ({
             </div>
 
             <Button
-                label="Add another option"
+                label={variationData?.length < 1 ? 'Add options like Size, Color' : "Add another option"}
                 action={handleAddNewVariation}
                 variant="text"
                 icon={<LuCirclePlus />}

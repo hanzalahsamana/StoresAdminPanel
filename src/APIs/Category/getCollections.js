@@ -8,6 +8,8 @@ import { dispatch } from "@/Redux/Store";
 export const getCollections = async (storeId) => {
   try {
     const {data} = await axios.get(`${BASE_URL}/${storeId}/getCollections`);
+    console.log(data , "''''");
+    
     dispatch(setcategory(data?.data));
     return data?.data;
   } catch (error) {

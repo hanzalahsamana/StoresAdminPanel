@@ -17,6 +17,7 @@ export default function adminLayout({ children, params }) {
   const dispatch = useDispatch();
   const { currUser } = useSelector((state) => state.currentUser);
   const { store, storeLoading } = useSelector((state) => state.store);
+  const { categoryLoading } = useSelector((state) => state.categories);
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
   useEffect(() => {
@@ -51,6 +52,10 @@ export default function adminLayout({ children, params }) {
 
   if (!store?._id || store?.userRef !== currUser?._id) {
     return <NotFound />;
+  }
+
+  if (categoryLoading) {
+    return <Loader />;
   }
 
   return (

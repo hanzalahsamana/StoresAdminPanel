@@ -25,7 +25,7 @@ const FormInput = ({
 }) => {
   const inputSizeClass = size === "small" ? "text-sm h-9" : "text-base h-11";
   return (
-    <div className="relative w-full mt-[5px]">
+    <div className="relative w-full ">
       {layout === "label" && (
         <label className="text-[14px] font-medium text-textC mb-1 block">
           {label}

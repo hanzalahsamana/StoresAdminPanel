@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { CiCamera } from "react-icons/ci";
 import { IoMdClose } from "react-icons/io";
 import { Tooltip } from "react-tooltip";
@@ -44,7 +44,7 @@ const MultiImageUploader = ({
 
 
 
-                <div className="flex flex-wrap gap-2 pt-[10px] w-full">
+                <div className="flex flex-wrap gap-2 w-full">
                     <div
                         onClick={() => document.getElementById("multiFileInput").click()}
                         className="flex flex-col justify-center items-center border-2 border-primaryC bg-secondaryC min-w-[100px] min-h-[100px] cursor-pointer">
