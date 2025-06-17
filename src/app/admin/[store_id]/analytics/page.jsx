@@ -13,11 +13,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import DeviceTypeGraph from '@/components/Graphs/DeviceTypeGraph';
 
 
-const TimeGraph = dynamic(() => import("../../../components/Graphs/TimeGraph"), { ssr: false });
-const Piechart = dynamic(() => import("../../../components/Graphs/Piechart"), { ssr: false });
-const BarGraph = dynamic(() => import("../../../components/Graphs/BarGraph"), { ssr: false });
-const AreaGraph = dynamic(() => import("../../../components/Graphs/AreaGraph"), { ssr: false });
-const ComaprisnChart = dynamic(() => import("../../../components/Graphs/ComaprisnChart"), { ssr: false });
+const TimeGraph = dynamic(() => import("../../../../components/Graphs/TimeGraph"), { ssr: false });
+const Piechart = dynamic(() => import("../../../../components/Graphs/Piechart"), { ssr: false });
+const BarGraph = dynamic(() => import("../../../../components/Graphs/BarGraph"), { ssr: false });
+const AreaGraph = dynamic(() => import("../../../../components/Graphs/AreaGraph"), { ssr: false });
+const ComaprisnChart = dynamic(() => import("../../../../components/Graphs/ComaprisnChart"), { ssr: false });
 
 const options = [
   'Yesterday',

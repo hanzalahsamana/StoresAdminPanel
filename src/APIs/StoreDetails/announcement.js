@@ -2,7 +2,7 @@
 
 import axios from "axios";
 import Base_URL from "../../../config";
-import { setStoreDetail } from "@/Redux/AllStores/StoreDetail.slice";
+// import { setStore } from "@/Redux/AllStores/StoreDetail.slice";
 
 // ADD ANNOUNCEMENT
 export const addAnnouncement = async (announcement, token, dispatch) => {
@@ -18,7 +18,7 @@ export const addAnnouncement = async (announcement, token, dispatch) => {
     );
     console.log("addAnnouncement", response.data);
 
-    dispatch(setStoreDetail({ announcements: response.data?.data }));
+    // dispatch(setStore({ announcements: response.data?.data }));
     return response.data;
   } catch (error) {
     throw error;
@@ -38,7 +38,7 @@ export const deleteAnnouncement = async (announcementId, token, dispatch) => {
     );
     console.log("deleteAnnouncement", response.data);
 
-    dispatch(setStoreDetail({ announcements: response.data?.data }));
+    // dispatch(setStore({ announcements: response.data?.data }));
     return response.data;
   } catch (error) {
     throw error;

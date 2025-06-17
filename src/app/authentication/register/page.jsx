@@ -11,7 +11,7 @@ import FormInput from "@/components/Forms/FormInput";
 import GoogleSignInUp from "@/components/Forms/GoogleSignInUp";
 import Form from "@/components/Forms/Form";
 import LineDevider from "@/components/UI/LineDevider";
-import { userResgisterValidate } from "@/Utils/FormsValidator";
+import { userRegisterValidate } from "@/Utils/FormsValidator";
 import { setCurrentUser } from "@/Redux/Authentication/AuthSlice";
 import { useDispatch } from "react-redux";
 import { authWithGoogle } from "@/APIs/Auth/authWithGoogle";
@@ -35,7 +35,7 @@ const Register = () => {
   const ManualSignup = async (e) => {
     e.preventDefault();
     try {
-      const isValid = userResgisterValidate(formData, setErrors);
+      const isValid = userRegisterValidate(formData, setErrors);
       if (!isValid) return;
 
       setLoading(true);

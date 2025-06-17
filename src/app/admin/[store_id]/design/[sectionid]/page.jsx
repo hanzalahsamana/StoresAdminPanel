@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from 'react'
-import "../../../components/UI/style.css";
+import "../../../../../components/UI/style.css";
 import ProtectedRoute from '@/AuthenticRouting/ProtectedRoutes';
 import Button from '@/components/Actions/Button';
 import ActionCard from '@/components/Cards/ActionCard';

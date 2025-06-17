@@ -2,7 +2,7 @@
 
 import axios from "axios";
 import Base_URL from "../../../config";
-import { setStoreDetail } from "@/Redux/AllStores/StoreDetail.slice";
+// import { setStore } from "@/Redux/AllStores/StoreDetail.slice";
 import { toast } from "react-toastify";
 
 // ADD DISCOUNT
@@ -18,7 +18,7 @@ export const addDiscount = async (discount, token, dispatch) => {
       }
     );
     console.log("addDiscount", response.data);
-    dispatch(setStoreDetail(response.data?.data));
+    // dispatch(setStore(response.data?.data));
     return response.data;
   } catch (error) {
     throw error;
@@ -42,7 +42,7 @@ export const editDiscount = async (
         },
       }
     );
-    dispatch(setStoreDetail(response.data?.data));
+    // dispatch(setStore(response.data?.data));
     return response.data;
   } catch (error) {
     throw error;
@@ -60,7 +60,7 @@ export const deleteDiscount = async (discountId, token, dispatch) => {
         },
       }
     );
-    dispatch(setStoreDetail(response.data?.data));
+    // dispatch(setStore(response.data?.data));
     toast.success("Discount deleted successfully!");
     return response.data;
   } catch (error) {

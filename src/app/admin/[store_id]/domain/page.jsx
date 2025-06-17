@@ -12,7 +12,7 @@ import DnsInstructions from "@/components/UI/DNSInstruction";
 import Link from "next/link";
 import { deleteDomain } from "@/APIs/Domain/deleteDomain";
 import { setCurrentUser } from "@/Redux/Authentication/AuthSlice";
-import { Base_Domain } from "../../../config";
+import { Base_Domain } from "../../../../../config";
 
 
 const DomainVerification = () => {

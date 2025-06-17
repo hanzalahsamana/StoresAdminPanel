@@ -2,7 +2,7 @@
 
 import axios from "axios";
 import Base_URL from "../../../config";
-import { setStoreDetail } from "@/Redux/AllStores/StoreDetail.slice";
+// import { setStore } from "@/Redux/AllStores/StoreDetail.slice";
 
 // ADD VARIATION
 export const addVariation = async (variation, token, dispatch) => {
@@ -18,7 +18,7 @@ export const addVariation = async (variation, token, dispatch) => {
     );
     console.log("addVariation", response.data);
 
-    dispatch(setStoreDetail(response.data?.data));
+    // dispatch(setStore(response.data?.data));
     return response.data;
   } catch (error) {
     throw error;
@@ -43,7 +43,7 @@ export const editVariation = async (
         },
       }
     );
-    dispatch(setStoreDetail(response.data?.data));
+    // dispatch(setStore(response.data?.data));
     return response.data;
   } catch (error) {
     throw error;
@@ -61,7 +61,7 @@ export const deleteVariation = async (variationId, token, dispatch) => {
         },
       }
     );
-    dispatch(setStoreDetail(response.data?.data));
+    // dispatch(setStore(response.data?.data));
     return response.data;
   } catch (error) {
     throw error;
