@@ -3,7 +3,7 @@
 import "../Styles/globals.css";
 import "quill/dist/quill.snow.css";
 import "react-toastify/dist/ReactToastify.css";
-// import "leaflet/dist/leaflet.css";
+import "leaflet/dist/leaflet.css";
 
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { store } from "@/Redux/Store";
