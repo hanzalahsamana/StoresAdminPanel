@@ -105,111 +105,111 @@ import React, { useState } from 'react';
 import CryptoJS from 'crypto-js';
 
 const JazzCashForm = () => {
-    const [formData, setFormData] = useState({
-        pp_Version: '1.1',
-        pp_TxnType: '',
-        pp_MerchantID: 'MC150798',
-        pp_Language: 'EN',
-        pp_SubMerchantID: '',
-        pp_Password: '3gx5x3y35v',
-        pp_TxnRefNo: 'T20250618130414',
-        pp_Amount: '10000',
-        pp_DiscountedAmount: '',
-        pp_DiscountBank: '',
-        pp_TxnCurrency: 'PKR',
-        pp_TxnDateTime: '20250618130444',
-        pp_TxnExpiryDateTime: '20250619130444',
-        pp_BillReference: 'billRef',
-        pp_Description: 'Description of transaction',
-        pp_ReturnURL: 'https://dev.xperiode.com/',
-        pp_SecureHash: '',
-        ppmpf_1: '03123456789',
-        ppmpf_2: '2',
-        ppmpf_3: '3',
-        ppmpf_4: '4',
-        ppmpf_5: '5'
+  const [formData, setFormData] = useState({
+    pp_Version: '1.1',
+    pp_TxnType: '',
+    pp_MerchantID: 'MC150798',
+    pp_Language: 'EN',
+    pp_SubMerchantID: '',
+    pp_Password: '3gx5x3y35v',
+    pp_TxnRefNo: 'T20250618130413',
+    pp_Amount: '10000',
+    pp_DiscountedAmount: '',
+    pp_DiscountBank: '',
+    pp_TxnCurrency: 'PKR',
+    pp_TxnDateTime: '20250618130444',
+    pp_TxnExpiryDateTime: '20250619130444',
+    pp_BillReference: 'billRef',
+    pp_Description: 'Description of transaction',
+    pp_ReturnURL: 'https://dev.xperiode.com/store/683e8be81cd7939b6e016b92/payment/responce',
+    pp_SecureHash: '',
+    ppmpf_1: '03123456789',
+    ppmpf_2: '2',
+    ppmpf_3: '3',
+    ppmpf_4: '4',
+    ppmpf_5: '5'
+  });
+
+  const [salt] = useState('xvb2v39vzz');
+  const [hashString, setHashString] = useState('');
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+  };
+
+  const buildHashString = () => {
+    let hs = salt + '&';
+
+    const fields = [
+      'pp_Amount', 'pp_BillReference', 'pp_Description', 'pp_Language', 'pp_MerchantID',
+      'pp_Password', 'pp_ReturnURL', 'pp_SubMerchantID', 'pp_TxnCurrency',
+      'pp_TxnDateTime', 'pp_TxnExpiryDateTime', 'pp_TxnRefNo', 'pp_TxnType',
+      'pp_Version', 'ppmpf_1', 'ppmpf_2', 'ppmpf_3', 'ppmpf_4', 'ppmpf_5'
+    ];
+
+    fields.forEach(field => {
+      if (formData[field]) hs += `${formData[field]}&`;
     });
 
-    const [salt] = useState('xvb2v39vzz');
-    const [hashString, setHashString] = useState('');
+    hs = hs.slice(0, -1); // Remove trailing &
+    setHashString(hs);
+    return hs;
+  };
 
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData(prev => ({ ...prev, [name]: value }));
-    };
+  const handleSubmit = () => {
+    const hashString = buildHashString();
+    const hash = CryptoJS.HmacSHA256(hashString, salt);
+    const hashHex = hash.toString(CryptoJS.enc.Hex);
 
-    const buildHashString = () => {
-        let hs = salt + '&';
+    setFormData(prev => ({ ...prev, pp_SecureHash: hashHex }));
 
-        const fields = [
-            'pp_Amount', 'pp_BillReference', 'pp_Description', 'pp_Language', 'pp_MerchantID',
-            'pp_Password', 'pp_ReturnURL', 'pp_SubMerchantID', 'pp_TxnCurrency',
-            'pp_TxnDateTime', 'pp_TxnExpiryDateTime', 'pp_TxnRefNo', 'pp_TxnType',
-            'pp_Version', 'ppmpf_1', 'ppmpf_2', 'ppmpf_3', 'ppmpf_4', 'ppmpf_5'
-        ];
+    // Create & submit form
+    const form = document.createElement('form');
+    form.method = 'POST';
+    form.action = 'https://sandbox.jazzcash.com.pk/CustomerPortal/transactionmanagement/merchantform/';
 
-        fields.forEach(field => {
-            if (formData[field]) hs += `${formData[field]}&`;
-        });
+    Object.entries(formData).forEach(([key, value]) => {
+      const input = document.createElement('input');
+      input.type = 'hidden';
+      input.name = key;
+      input.value = value;
+      form.appendChild(input);
+    });
 
-        hs = hs.slice(0, -1); // Remove trailing &
-        setHashString(hs);
-        return hs;
-    };
+    document.body.appendChild(form);
+    form.submit();
+  };
 
-    const handleSubmit = () => {
-        const hashString = buildHashString();
-        const hash = CryptoJS.HmacSHA256(hashString, salt);
-        const hashHex = hash.toString(CryptoJS.enc.Hex);
-
-        setFormData(prev => ({ ...prev, pp_SecureHash: hashHex }));
-
-        // Create & submit form
-        const form = document.createElement('form');
-        form.method = 'POST';
-        form.action = 'https://sandbox.jazzcash.com.pk/CustomerPortal/transactionmanagement/merchantform/';
-
-        Object.entries(formData).forEach(([key, value]) => {
-            const input = document.createElement('input');
-            input.type = 'hidden';
-            input.name = key;
-            input.value = value;
-            form.appendChild(input);
-        });
-
-        document.body.appendChild(form);
-        form.submit();
-    };
-
-    return (
-        <div>
-            <h3>JazzCash HTTP POST (React)</h3>
-            {Object.entries(formData).map(([key, value]) => (
-                <div key={key} className="formFielWrapper">
-                    <label>{key}:</label>
-                    <input
-                        type="text"
-                        name={key}
-                        value={value}
-                        onChange={handleChange}
-                        readOnly={['pp_Version', 'pp_MerchantID', 'pp_Language', 'pp_Password'].includes(key)}
-                    />
-                </div>
-            ))}
-
-            <div className="formFielWrapper">
-                <label>Salt:</label>
-                <input type="text" value={salt} readOnly />
-            </div>
-
-            <div className="formFielWrapper">
-                <label>Hash String:</label>
-                <input type="text" value={hashString} readOnly />
-            </div>
-
-            <button type="button" onClick={handleSubmit}>Submit</button>
+  return (
+    <div>
+      <h3>JazzCash HTTP POST (React)</h3>
+      {Object.entries(formData).map(([key, value]) => (
+        <div key={key} className="formFielWrapper">
+          <label>{key}:</label>
+          <input
+            type="text"
+            name={key}
+            value={value}
+            onChange={handleChange}
+            readOnly={['pp_Version', 'pp_MerchantID', 'pp_Language', 'pp_Password'].includes(key)}
+          />
         </div>
-    );
+      ))}
+
+      <div className="formFielWrapper">
+        <label>Salt:</label>
+        <input type="text" value={salt} readOnly />
+      </div>
+
+      <div className="formFielWrapper">
+        <label>Hash String:</label>
+        <input type="text" value={hashString} readOnly />
+      </div>
+
+      <button type="button" onClick={handleSubmit}>Submit</button>
+    </div>
+  );
 };
 
 export default JazzCashForm;
