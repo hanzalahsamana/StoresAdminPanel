@@ -9,23 +9,18 @@ export default function PaymentResponse() {
     const router = useRouter();
 
     useEffect(() => {
-        // if (!router.isReady) return;
+        const searchParams = new URLSearchParams(window.location.search);
+        const query = Object.fromEntries(searchParams.entries());
 
-        const query = router.query;
+        console.log("JazzCash response query:", query);
+
+        if (!query) return;
 
         const processPayment = async () => {
-            console.log("abcdefghijklmnopqrst");
-
-            console.log(query);
-
-            if (!query) return
-
             const { pp_ResponseCode, pp_TxnRefNo } = query;
 
-            console.log(pp_ResponseCode, pp_TxnRefNo);
-
-
-            // ✅ Call your backend API to update order/payment status
+            // ✅ Update order/payment on backend
+            console.log(pp_ResponseCode, pp_TxnRefNo)
             await axios.post('/api/payment/verify', query);
 
             // if (pp_ResponseCode === '000') {
@@ -38,5 +33,5 @@ export default function PaymentResponse() {
         processPayment();
     }, [router]);
 
-    return <Loader content={'Processing Payment ...'} />;
+    return <Loader content="Processing Payment ..." />;
 }
