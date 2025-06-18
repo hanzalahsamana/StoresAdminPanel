@@ -6,7 +6,7 @@ export const HTTP =
 const BASE_URL =
   process.env.NODE_ENV === "production"
     ? // ? "https://api.hannanfabrics.com/api/v1"
-      "stores-backend-git-junaid-dev-hanzalah-samana.vercel.app"
+      "https://stores-backend-git-junaid-dev-hanzalah-samana.vercel.app/"
     : "http://localhost:1234/api/v1";
 
 export default BASE_URL;
