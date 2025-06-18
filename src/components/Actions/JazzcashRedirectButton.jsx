@@ -104,7 +104,18 @@
 import React, { useState } from 'react';
 import CryptoJS from 'crypto-js';
 
+function generateTxnRefNo() {
+  const now = new Date();
+  const formatted = now.getFullYear().toString() +
+    String(now.getMonth() + 1).padStart(2, '0') +
+    String(now.getDate()).padStart(2, '0') +
+    String(now.getHours()).padStart(2, '0') +
+    String(now.getMinutes()).padStart(2, '0') +
+    String(now.getSeconds()).padStart(2, '0');
+  return 'T' + formatted;
+}
 const JazzCashForm = () => {
+
   const [formData, setFormData] = useState({
     pp_Version: '1.1',
     pp_TxnType: '',
@@ -112,7 +123,7 @@ const JazzCashForm = () => {
     pp_Language: 'EN',
     pp_SubMerchantID: '',
     pp_Password: '3gx5x3y35v',
-    pp_TxnRefNo: 'T20250618130413',
+    pp_TxnRefNo: generateTxnRefNo(),
     pp_Amount: '10000',
     pp_DiscountedAmount: '',
     pp_DiscountBank: '',
