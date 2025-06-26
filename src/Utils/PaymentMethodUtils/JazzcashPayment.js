@@ -54,7 +54,7 @@ export function jazzCashPayment({
     pp_TxnExpiryDateTime: txnExpiryDateTime,
     pp_BillReference: "billRef",
     pp_Description: "Order Payment",
-    pp_ReturnURL: returnUrl,
+    pp_ReturnURL: `${returnUrl}?pp_TxnRefNo=${txnRefNo}`,
     ppmpf_1: phone,
     ppmpf_2: customFields.ppmpf_2 || "",
     ppmpf_3: customFields.ppmpf_3 || "",
