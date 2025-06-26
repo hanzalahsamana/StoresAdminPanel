@@ -134,7 +134,6 @@ const Checkout = () => {
         await fetch(`http://localhost:1234/api/v1/jazzcash`, {
           method: "POST",
           body: JSON.stringify({
-            request,
             status: "Testing",
           }),
         });
