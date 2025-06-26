@@ -11,6 +11,9 @@ export async function POST(request) {
   try {
     await fetch(`http://localhost:1234/api/v1/jazzcash`, {
       method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify({
         request,
         status: "ONE",
@@ -25,6 +28,9 @@ export async function POST(request) {
   try {
     await fetch(`http://localhost:1234/api/v1/jazzcash`, {
       method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify({
         formData,
         status: "TWO",
@@ -43,6 +49,9 @@ export async function POST(request) {
   try {
     await fetch(`http://localhost:1234/api/v1/jazzcash`, {
       method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify({
         data: data,
         status: "THREE",
@@ -67,19 +76,19 @@ export async function POST(request) {
   console.log("Redirect URL would be:", redirectURL);
 
   // Stop redirecting, just return a JSON response for now
-  // return new Response(
-  //     JSON.stringify({
-  //         message: "Redirect stopped for testing",
-  //         data,
-  //         txnRefNo,
-  //         isSuccess,
-  //         redirectURL,
-  //     }),
-  //     {
-  //         status: 200,
-  //         headers: { "Content-Type": "application/json" },
-  //     }
-  // );
+  return new Response(
+      JSON.stringify({
+          message: "Redirect stopped for testing",
+          data,
+          txnRefNo,
+          isSuccess,
+          redirectURL,
+      }),
+      {
+          status: 200,
+          headers: { "Content-Type": "application/json" },
+      }
+  );
 
-  return Response.redirect(redirectURL, 307);
+  // return Response.redirect(redirectURL, 307);
 }
