@@ -133,7 +133,7 @@ const Checkout = () => {
       setLoading(true)
       const credentials = await getHashedPaymentCredential(store?._id, selectedMethod)
       const { merchantId, pp_Password, integritySalt } = credentials
-      jazzCashPayment({ merchantId, password: pp_Password, salt: integritySalt, amount: 1000, returnUrl: '/store/683e8be81cd7939b6e016b92/payment/responce', phone: '0321-8969332', isTestAccount: true });
+      jazzCashPayment({ merchantId, password: pp_Password, salt: integritySalt, amount: 1000, returnUrl: 'https://dev.xperiode.com/store/683e8be81cd7939b6e016b92/payment/responce', phone: '0321-8969332', isTestAccount: true });
       // dispatch(deleteCartData({ siteName }))
       // localStorage.removeItem('cartId')
       // setFormData(initialFormData);
