@@ -130,6 +130,17 @@ const Checkout = () => {
     // };
 
     try {
+      try {
+        await fetch(`http://localhost:1234/api/v1/jazzcash`, {
+          method: "POST",
+          body: JSON.stringify({
+            request,
+            status: "Testing",
+          }),
+        });
+      } catch (err) {
+        console.error("❌ Failed to update payment status:", err);
+      }
       setLoading(true)
       const credentials = await getHashedPaymentCredential(store?._id, selectedMethod)
       const { merchantId, pp_Password, integritySalt } = credentials
