@@ -277,8 +277,8 @@ const AddEditDiscountModal = ({ isOpen, setIsOpen, updatedDiscount = null, setUp
 
                     <ToggleSwitch
                         label={form.isActive ? "Discount Active" : "Discount InActive"}
-                        defaultChecked={form.isActive}
-                        onChange={(val) => handleChange("isActive", val)}
+                        checked={form.isActive}
+                        setChecked={(val) => handleChange("isActive", val)}
                         className="mt-[20px]"
                     />
                 </div>

@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux';
 import TemplateFormInput from './TemplateFormInput';
 import { applyCoupon } from '@/APIs/StoreDetails/discount';
 import { CgSpinner } from 'react-icons/cg';
+import Button from '../Actions/Button';
 
 const ApplyCoupon = ({ totalProductCost = 0, email, setCouponDiscount }) => {
     const [couponCode, setCouponCode] = useState('');
@@ -20,7 +21,7 @@ const ApplyCoupon = ({ totalProductCost = 0, email, setCouponDiscount }) => {
         }
         try {
             setLoading(true)
-            const {discount} = await applyCoupon(siteName, { totalAmount: totalProductCost, email, couponCode })
+            const { discount } = await applyCoupon(siteName, { totalAmount: totalProductCost, email, couponCode })
             setCouponDiscount(discount)
             setMessage("Coupon applied successfully")
         } catch (error) {
@@ -32,20 +33,20 @@ const ApplyCoupon = ({ totalProductCost = 0, email, setCouponDiscount }) => {
     };
 
     return (
-        <form onSubmit={handleApply} className="flex flex-col gap-2 mt-[20px]">
+        <form onSubmit={handleApply} className="flex flex-col gap-2 mt-[10px]">
             <div className="flex items-end gap-3">
                 <TemplateFormInput
                     type="text"
                     placeholder="Coupon Code"
                     name="coupon"
-                    size="large"
+                    size="small"
                     value={couponCode}
                     handleChange={(e) => setCouponCode(e.target.value)}
                     className='!bg-[var(--tmp-pri)]'
                     labelClassname='bg-[var(--tmp-pri)]'
                     autocomplete='off'
                 />
-                <button
+                {/* <button
                     type="submit"
                     disabled={loading}
                     className={`!w-[190px] h-[43px] rounded-md px-[20px] bg-[var(--tmp-sec)] text-[var(--tmp-wtxt)] text-[16px] transition-all duration-300 hover:scale-105 flex items-center justify-center gap-2 disabled:cursor-not-allowed`}
@@ -55,7 +56,14 @@ const ApplyCoupon = ({ totalProductCost = 0, email, setCouponDiscount }) => {
                     ) : (
                         "Apply Coupon"
                     )}
-                </button>
+                </button> */}
+                <Button
+                    type='submit'
+                    loading={loading}
+                    variant='black'
+                    size='small'
+                    label='Apply Coupon'
+                />
             </div>
             {message && (
                 <p className="text-[12px] mt-[-5px] text-red-500">{message}</p>

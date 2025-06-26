@@ -7,7 +7,7 @@ import { IoMdArrowDropup } from "react-icons/io";
 const DropDown = ({
     defaultOptions = [],
     selectedOption = "",
-    setSelectedOption,
+    setSelectedOption = ()=>{},
     placeholder = "Select",
     required = true,
     error = null,
@@ -15,6 +15,7 @@ const DropDown = ({
     wantsCustomOption = false,
     label = "label",
     layout = null,
+    size = 'small'
 }) => {
     const [isOpen, setIsOpen] = useState(false);
     const [searchTerm, setSearchTerm] = useState("");
@@ -73,11 +74,12 @@ const DropDown = ({
         wantsCustomOption && searchTerm?.trim() && !options.find(opt => opt.label === searchTerm.trim());
 
     return (
-        <div className={`w-full flex flex-col ${className}`}>
+        <div className={`w-full flex flex-col`}>
             <div ref={dropdownRef} className="relative flex flex-col w-full gap-2">
                 <div>
                     <FormInput
-                        onFocus={() => setIsOpen(true)}
+                        onClick={() => setIsOpen((prev) => !prev)}
+                        // onFocus={() => setIsOpen(!isOpen)}
                         error={error}
                         value={searchTerm}
                         readOnly={!wantsCustomOption}
@@ -88,6 +90,7 @@ const DropDown = ({
                         placeholder={placeholder}
                         className={className}
                         label={label}
+                        size={size}
                         layout={layout}
                         actionIcon={
                             <span className={`ml-auto absolute right-0 text-textTC text-[20px] transition-all ${isOpen ? "rotate-0" : "rotate-180"}`}>
@@ -97,7 +100,7 @@ const DropDown = ({
                     />
                 </div>
 
-                {/* Dropdown options */}
+
                 <div
                     ref={dropdownOptionsRef}
                     className={`absolute top-[100%] mt-[4px] w-full bg-backgroundC box-content border rounded-md shadow-md z-50 transition-all duration-150 ease-in-out overflow-y-auto customScroll ${isOpen ? "max-h-[150px] border" : "max-h-0 border-none"}`}

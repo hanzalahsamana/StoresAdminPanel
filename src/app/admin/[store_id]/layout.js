@@ -12,6 +12,7 @@ import { getContents } from "@/APIs/PagesData/getContents";
 import NotFound from "@/components/404Pages/NotFound";
 import Sidebar from "@/components/Layout/Sidebar";
 import Header from "@/components/Layout/Header";
+import { getAdminStoreConfiguration } from "@/APIs/StoreConfigurations/configuration";
 
 export default function adminLayout({ children, params }) {
   const dispatch = useDispatch();
@@ -34,6 +35,7 @@ export default function adminLayout({ children, params }) {
           getCollections(store?._id),
           getSections(store?._id),
           getContents(store?._id),
+          getAdminStoreConfiguration(currUser?.token, store?._id),
           // fetchOrderData(dispatch, currUser.brandName),
         ]);
       } catch (error) {

@@ -43,10 +43,7 @@ export const productUploadValidate = (formData, setErrors) => {
       if (!variation.name?.trim()) {
         newErrors[`variations[${i}].name`] = "Variation name is required";
       }
-      if (
-        !Array.isArray(variation.options) ||
-        variation.options.length === 0
-      ) {
+      if (!Array.isArray(variation.options) || variation.options.length === 0) {
         newErrors[`variations[${i}].options`] =
           "At least one option is required";
       }
@@ -75,10 +72,10 @@ export const productUploadValidate = (formData, setErrors) => {
   return Object.keys(newErrors).length === 0;
 };
 
-
 export const paymentFormValidate = (formData, setErrors) => {
   const newErrors = {};
-  const { email, country, firstName, lastName, address, city, phone } = formData;
+  const { email, country, firstName, lastName, address, city, phone } =
+    formData;
 
   if (!email?.trim()) newErrors.email = "Email is required";
   if (!country) newErrors.country = "Country is required";
@@ -135,7 +132,8 @@ export const userRegisterValidate = (formData, setErrors) => {
   if (!password) {
     newErrors.password = "Password is required";
   } else if (password.length < 6 || /\s/.test(password)) {
-    newErrors.password = "Password must be at least 6 characters with no spaces";
+    newErrors.password =
+      "Password must be at least 6 characters with no spaces";
   }
 
   setErrors(newErrors);
@@ -150,5 +148,56 @@ export const userLoginValidate = (formData, setErrors) => {
   if (!password) newErrors.password = "Password is required";
 
   setErrors(newErrors);
+  return Object.keys(newErrors).length === 0;
+};
+
+export const updatePaymentMethodValidate = (methodKey, data, setErrors) => {
+  const newErrors = {};
+
+  console.log(data);
+  
+
+  switch (methodKey) {
+    case "cod":
+      // No credential validation needed
+      break;
+
+    case "jazzcash":
+      if (!data?.merchantId?.trim()) {
+        newErrors["merchantId"] = "Merchant ID is required";
+      }
+      if (!data?.pp_Password?.trim()) {
+        newErrors["pp_Password"] = "Password is required";
+      }
+      if (!data?.integritySalt?.trim()) {
+        newErrors["integritySalt"] = "Integrity Salt is required";
+      }
+      break;
+
+    case "easypaisa":
+      if (!data?.merchantId?.trim()) {
+        newErrors["merchantId"] = "Merchant ID is required";
+      }
+      if (!data?.apiKey?.trim()) {
+        newErrors["apiKey"] = "API Key is required";
+      }
+      break;
+
+    default:
+      newErrors.general = "Unsupported payment method";
+      break;
+  }
+
+  if (Object.keys(newErrors).length > 0) {
+    setErrors((prev) => ({
+      ...prev,
+      [methodKey]: newErrors,
+    }));
+  } else {
+    setErrors((prev) => ({
+      ...prev,
+      [methodKey]: null,
+    }));
+  }
   return Object.keys(newErrors).length === 0;
 };

@@ -20,19 +20,19 @@ function Sidebar({ isOpen, setIsOpen }) {
   const links = [
     { name: "Home", icon: 'https://img.icons8.com/fluency/48/home.png', path: "/" },
     { name: "Analytics", icon: 'https://img.icons8.com/doodle/48/analytics.png', path: "/analytics" },
-    {
-      name: "Products", icon: 'https://img.icons8.com/doodle/48/t-shirt--v1.png', path: "/products",
-    },
+    { name: "Products", icon: 'https://img.icons8.com/doodle/48/t-shirt--v1.png', path: "/products", },
     { name: "Categories", icon: 'https://img.icons8.com/external-flaticons-lineal-color-flat-icons/64/external-collections-modelling-agency-flaticons-lineal-color-flat-icons.png', path: "/categories", },
     { name: "Orders", icon: 'https://img.icons8.com/color/48/cardboard-box.png', path: "/ordersList" },
-    { name: "Discounts", icon: 'https://img.icons8.com/external-gradient-design-circle/66/external-discounts-activities-gradient-design-circle.png', path: "/discounts" ,
-      subLinks:[
+    {
+      name: "Discounts", icon: 'https://img.icons8.com/external-gradient-design-circle/66/external-discounts-activities-gradient-design-circle.png', path: "/discounts",
+      subLinks: [
         { name: "Over View", path: "/discounts" },
         { name: "Offers Announcement", path: "/discounts/popups" },
       ]
     },
     { name: "Domain", icon: 'https://img.icons8.com/color/48/internet--v1.png', path: "/domain" },
     { name: "Color Theme", icon: 'https://img.icons8.com/emoji/48/artist-palette.png', path: "/theme" },
+    { name: "Payment Methods", icon: 'https://img.icons8.com/color/48/bank-card-back-side.png', path: "/payment-methods" },
     {
       name: "Contents", icon: 'https://img.icons8.com/fluency/48/pricing-structure.png', path: "/content",
       subLinks: [
@@ -43,7 +43,6 @@ function Sidebar({ isOpen, setIsOpen }) {
         })) : [])
       ],
     },
-
     {
       name: "Design / Layout", icon: 'https://img.icons8.com/color/48/design--v1.png', path: "/design",
       subLinks: [
@@ -55,8 +54,9 @@ function Sidebar({ isOpen, setIsOpen }) {
       ],
     },
     { name: "Migration", icon: 'https://img.icons8.com/dusk/64/back-sorting.png', path: "/migration" },
-    { name: "Configurations", icon: 'https://img.icons8.com/fluency/48/settings.png', path: "/Configuration" ,
-      subLinks:[
+    {
+      name: "Configurations", icon: 'https://img.icons8.com/fluency/48/settings.png', path: "/Configuration",
+      subLinks: [
         { name: "Over View", path: "/configurations" },
         { name: "Shipping", path: "/configurations/shipping" },
         { name: "Payment", path: "/configurations/payment" },

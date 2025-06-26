@@ -16,7 +16,7 @@ function DiscountRow({ discount, label, adjustedTotal }) {
                 <p>{discount.name || label}</p>
             </div>
             <div>
-                <span className="text-[14px]">
+                <span className="text-[12px]">
                     {discount.amountType === 'percent' ? (
                         <>-{discount.amount}% = Rs -{formatAmount(validAmount)}</>
                     ) : (
@@ -28,7 +28,7 @@ function DiscountRow({ discount, label, adjustedTotal }) {
     );
 }
 
-function PaymentSummary({ totalProductCost, globalDiscount, couponDiscount, subTotal, shippingCost, tax, total, children }) {
+function PaymentSummary({ totalProductCost, globalDiscount, couponDiscount, subTotal, shippingCost, tax, total, children, className }) {
     const formatDiscount = () => (
         <div className="flex justify-between gap-3 py-2">
             <p>Discount</p>
@@ -44,33 +44,33 @@ function PaymentSummary({ totalProductCost, globalDiscount, couponDiscount, subT
     );
 
     return (
-        <div className="flex w-full gap-2 py-[25px] text-[var(--tmp-ltxt)] bg-[white] rounded-md border p-5">
+        <div className={`flex w-full gap-2 text-[var(--tmp-ltxt)] bg-[var(--tmp-pri)] rounded-md border py-4 px-4 ${className}`}>
             <div className="flex-col w-full">
-                <p className="w-full flex justify-between text-[14px] font-semibold border-b pb-2">
+                <p className="w-full flex justify-between text-[12px] font-semibold border-b pb-2">
                     <span>Total Product Cost</span>
                     <span>Rs {formatAmount(totalProductCost)}</span>
                 </p>
 
                 {globalDiscount || couponDiscount ? formatDiscount() : (
-                    <p className="w-full flex justify-between text-[14px] py-[10px]">
+                    <p className="w-full flex justify-between text-[12px] py-[10px]">
                         <span>Discount</span>
-                        <span className="text-[14px] text-gray-500 italic">No discounts applied</span>
+                        <span className="text-[12px] text-gray-500 italic">No discounts applied</span>
                     </p>
                 )}
 
-                <p className="w-full flex justify-between text-[14px] border-t pt-2">
+                <p className="w-full flex justify-between text-[12px] border-t pt-2">
                     <span>Sub Total</span>
                     <span>Rs {formatAmount(subTotal)}</span>
                 </p>
 
-                <p className="w-full flex justify-between text-[14px] pt-2">
+                <p className="w-full flex justify-between text-[12px] pt-2">
                     <span>Shipping Cost</span>
                     <span>
                         {shippingCost > 0 ? `Rs ${formatAmount(shippingCost)}` : <em className="italic">Free Shipping</em>}
                     </span>
                 </p>
 
-                <p className="w-full flex justify-between text-[14px] mt-[6px]">
+                <p className="w-full flex justify-between text-[12px] mt-[6px]">
                     <span>Tax</span>
                     <span>
                         {tax > 0 ? `Rs ${formatAmount(tax)}` : <em className="italic">No Tax</em>}

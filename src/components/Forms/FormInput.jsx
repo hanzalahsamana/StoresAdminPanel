@@ -15,13 +15,14 @@ const FormInput = ({
   required = true,
   error = "",
   className = "",
+  onClick = null,
   onFocus = null,
   onBlur = null,
   actionIcon = null,
   size = "small", // "small" or "large"
   layout = "floating", // "floating" or "label"
   label = "Name",
-  autocomplete = "on" // "on" or "off"
+  autocomplete = "on" // "on" or "off",
 }) => {
   const inputSizeClass = size === "small" ? "text-sm h-9" : "text-base h-11";
   return (
@@ -40,6 +41,7 @@ const FormInput = ({
           name={name}
           value={value}
           onChange={handleChange}
+          onClick={onClick}
           onFocus={onFocus}
           onBlur={onBlur}
           readOnly={readOnly}

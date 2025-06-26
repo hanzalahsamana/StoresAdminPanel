@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
+"use client";
+
 import { toast } from "react-toastify";
 
-export default function ToggleSwitch({ label = "", defaultChecked = false, onChange, isDisabled = false, message = "", className = "" }) {
-    const [checked, setChecked] = useState(defaultChecked);
+export default function ToggleSwitch({ label = "", checked = false, setChecked = () => { }, isDisabled = false, message = "", className = "" }) {
 
     const handleToggle = (e) => {
         if (isDisabled) {
@@ -13,12 +13,9 @@ export default function ToggleSwitch({ label = "", defaultChecked = false, onCha
 
         const newState = e.target.checked;
         setChecked(newState);
-        if (onChange) onChange(newState);
     };
 
-    useEffect(() => {
-        setChecked(defaultChecked);
-    }, [defaultChecked]);
+
 
     return (
         <div className={`flex justify-between items-center flex-row  gap-2 ${className}`}>

@@ -1,15 +1,15 @@
 "use client";
 
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useState } from 'react';
 import { selectPageByType } from '@/Redux/PagesData/PagesDataSlice';
 import { usePathname } from "next/navigation";
 import { useSelector } from "react-redux";
 import Link from "next/link";
 import { AiOutlineClose } from 'react-icons/ai';
 import { FaBars } from 'react-icons/fa';
-import { HiOutlineShoppingBag } from "react-icons/hi2";
 import { totalCalculate } from '@/Utils/TotalCalculator';
 import { getBasePath } from '@/Utils/GetBasePath';
+import { SlHandbag } from 'react-icons/sl';
 
 const TemplateHeader = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -57,7 +57,7 @@ const TemplateHeader = () => {
         </nav>
         <div className="flex items-center space-x-4 text-[24px]">
           <Link className="hover:text-yellow-500 text-[var(--tmp-txt)]  cartButton relative" href={`${Storepath}/cart`}>
-            <HiOutlineShoppingBag />
+            <SlHandbag />
             <span className="absolute flex justify-center items-center text-[12px] w-[18px] h-[18px] rounded-full bg-[var(--tmp-acc)] right-[-4px] bottom-[-6px]">
               {totalCalculate(cartData)}
             </span>

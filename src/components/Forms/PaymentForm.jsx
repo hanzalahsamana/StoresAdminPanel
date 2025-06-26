@@ -11,6 +11,7 @@ import FormInput from "@/components/Forms/FormInput";
 import { paymentFormValidate } from "@/Utils/FormsValidator";
 import { getBasePath } from "@/Utils/GetBasePath";
 import Link from "next/link";
+import DropDown from "../Actions/DropDown";
 
 
 const initialFormData = {
@@ -26,12 +27,13 @@ const initialFormData = {
 }
 
 
-const PaymentForm = ({ shipping, total, tax, discount, cartItem }) => {
+const PaymentForm = ({ shipping, total, tax, discount, cartItem, selectedMethod = '', setSelectedMethod = () => { } }) => {
 
-// todo send email in the coupon code
+  // todo send email in the coupon code
 
 
   const dispatch = useDispatch();
+  const { paymentMethods } = useSelector((state) => state?.storeConfiguration?.storeConfiguration);
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false)
   const { siteName } = useSelector((state) => state.siteName);
@@ -117,118 +119,126 @@ const PaymentForm = ({ shipping, total, tax, discount, cartItem }) => {
   }
 
   return (
-    <div className="w-full bg-[var(--tmp-pri)] flex flex-col items-end max-[750px]:items-center py-[45px] px-[30px]">
-      <div className="max-w-[500px] w-full">
-        <form onSubmit={handleSubmit} className="flex flex-wrap">
+    <div className="w-full flex flex-col items-end max-[750px]:items-center ">
+      <form onSubmit={handleSubmit} className="flex flex-wrap">
 
-          <div className="w-full ">
-            <h2 className="text-[24px] font-medium mb-4 text-[var(--tmp-txt)]">Payment</h2>
-            <p className="text-[var(--tmp-ltxt)] mb-4">
-              All transactions are secure and encrypted.
-            </p>
-            <div className="cursor-pointer h-[50px] pl-[20px] border-[1px] flex items-center rounded-md border-[blue] bg-[#e9f0fc] ">
-              Cash on Delivery (COD)
-            </div>
-          </div>
-          <div className="w-full">
-            <h2 className="text-[24px] font-medium my-4 text-[var(--tmp-txt)]">Contact</h2>
+        <div className="w-full ">
+          <h2 className="text-[24px] font-semibold my-4 text-[var(--tmp-txt)]">Payment Method</h2>
+          <p className="text-[var(--tmp-ltxt)] mb-4">
+            All transactions are secure and encrypted.
+          </p>
 
+          <DropDown
+            placeholder="Select Payment Method"
+            defaultOptions={paymentMethods?.map((method) => ({ label: method?.method, value: method?._id }))}
+            size="large"
+
+            setSelectedOption={setSelectedMethod}
+            selectedOption={selectedMethod}
+            className={`cursor-pointer select-none !px-4 font-medium !text-gray-700 placeholder:text-gray-700 placeholder:text-[18px] !bg-blue-50 !border-2 !border-[#297ed9]`}
+          />
+
+        </div>
+        <div className="w-full space-y-[18px]">
+          <h2 className="text-[24px] font-semibold my-4 text-[var(--tmp-txt)]">Contact</h2>
+
+          <FormInput
+            size="large"
+            type="email"
+            placeholder="Email"
+            name={"email"}
+            value={formData?.email}
+            handleChange={handleChange}
+            error={errors?.email}
+          />
             <FormInput
             size="large"
-              type="email"
-              placeholder="Email"
-              name={"email"}
-              value={formData?.email}
-              handleChange={handleChange}
-              error={errors?.email}
-            />
-          </div>
-          <div className="w-full flex flex-col space-y-[18px]">
-            <h3 className="text-[24px] font-medium mb-6 mt-3 text-[var(--tmp-txt)]">Billing address</h3>
+            type="tel"
+            placeholder="Phone"
+            handleChange={handleChange}
+            name={"phone"}
+            error={errors?.phone}
+            value={formData?.phone}
+          />
 
-            <FormInput
+        </div>
+        <div className="w-full flex flex-col space-y-[18px]">
+          <h3 className="text-[24px] font-semibold mb-0 mt-3 text-[var(--tmp-txt)]">Billing address</h3>
+
+          <FormInput
             size="large"
-              placeholder="Country"
-              handleChange={handleChange}
-              name={"country"}
-              error={errors?.country}
-              value={formData?.country}
-            />
+            placeholder="Country"
+            handleChange={handleChange}
+            name={"country"}
+            error={errors?.country}
+            value={formData?.country}
+          />
 
-            <div className="flex gap-[10px] w-full">
-              <FormInput
+          <div className="flex gap-[10px] w-full">
+            <FormInput
               size="large"
-                placeholder="First Name"
-                handleChange={handleChange}
-                name={"firstName"}
-                error={errors?.firstName}
-                value={formData?.firstName}
-              />
-              <FormInput
-              size="large"
-                placeholder="Last Name"
-                handleChange={handleChange}
-                name={"lastName"}
-                error={errors?.lastName}
-                value={formData?.lastName}
-              />
-            </div>
-            <FormInput
-            size="large"
-              placeholder="Address"
+              placeholder="First Name"
               handleChange={handleChange}
-              name={"address"}
-              error={errors?.address}
-              value={formData?.address}
+              name={"firstName"}
+              error={errors?.firstName}
+              value={formData?.firstName}
             />
             <FormInput
-            size="large"
-              placeholder="Appartment"
+              size="large"
+              placeholder="Last Name"
               handleChange={handleChange}
-              name={"appartment"}
-              error={errors?.appartment}
-              value={formData?.appartment}
+              name={"lastName"}
+              error={errors?.lastName}
+              value={formData?.lastName}
+            />
+          </div>
+          <FormInput
+            size="large"
+            placeholder="Address"
+            handleChange={handleChange}
+            name={"address"}
+            error={errors?.address}
+            value={formData?.address}
+          />
+          <FormInput
+            size="large"
+            placeholder="Appartment"
+            handleChange={handleChange}
+            name={"appartment"}
+            error={errors?.appartment}
+            value={formData?.appartment}
+            required={false}
+          />
+          <div className="flex gap-[10px] w-full">
+            <FormInput
+              size="large"
+              placeholder="City"
+              handleChange={handleChange}
+              name={"city"}
+              error={errors?.city}
+              value={formData?.city}
+            />
+            <FormInput
+              size="large"
+              type="number"
+              placeholder="Postal Code"
+              handleChange={handleChange}
+              name={"postalCode"}
+              error={errors?.postalCode}
+              value={formData?.postalCode}
               required={false}
             />
-            <div className="flex gap-[10px] w-full">
-              <FormInput
-              size="large"
-                placeholder="City"
-                handleChange={handleChange}
-                name={"city"}
-                error={errors?.city}
-                value={formData?.city}
-              />
-              <FormInput
-              size="large"
-                type="number"
-                placeholder="Postal Code"
-                handleChange={handleChange}
-                name={"postalCode"}
-                error={errors?.postalCode}
-                value={formData?.postalCode}
-                required={false}
-              />
-            </div>
-            <FormInput
-            size="large"
-              type="tel"
-              placeholder="Phone"
-              handleChange={handleChange}
-              name={"phone"}
-              error={errors?.phone}
-              value={formData?.phone}
-            />
           </div>
-          <button className="py-[14px] w-full mt-3 bg-[#407fc4] text-[var(--tmp-wtxt)] text-[22px] font-semibold rounded-md transition-all duration-300 hover:scale-105">
+        
+        </div>
+        {/* <button className="py-[14px] w-full mt-3 bg-[#407fc4] text-[var(--tmp-wtxt)] text-[22px] font-semibold rounded-md transition-all duration-300 hover:scale-105">
             Place Order
-          </button>
-        </form>
-        <div>
-            <p className='text-[var(--tmp-txt)] text-[14px] py-3'>
-              By placing this order, you agree to our <Link href={`${getBasePath()}/pages/terms-of-service`} className='text-[#299ae0] cursor-pointer'>Terms of Service</Link> and <Link href={`${getBasePath()}/pages/privacy-policy`} className='text-[#299ae0] cursor-pointer'>Privacy Policy</Link>
-            </p>
-          </div>
+          </button> */}
+      </form>
+      <div>
+        <p className='text-[var(--tmp-txt)] text-[14px] w-full py-3'>
+          By placing this order, you agree to our <Link href={`${getBasePath()}/pages/terms-of-service`} className='text-[#299ae0] cursor-pointer'>Terms of Service</Link> and <Link href={`${getBasePath()}/pages/privacy-policy`} className='text-[#299ae0] cursor-pointer'>Privacy Policy</Link>
+        </p>
       </div>
     </div>
   );

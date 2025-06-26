@@ -18,6 +18,8 @@ import { getCollections } from "@/APIs/Category/getCollections";
 import { getSections } from "@/APIs/SectionsData/getSections";
 import { getContents } from "@/APIs/PagesData/getContents";
 import SiteNotFound from "@/components/404Pages/SiteNotFound";
+import { getPublicStoreConfiguration } from "@/APIs/StoreConfigurations/configuration";
+import { usePathname } from "next/navigation";
 
 const assistant = Assistant({
   subsets: ["latin"],
@@ -32,6 +34,8 @@ export default function SiteLayout({ params, children }) {
   const { sectionsDataLoading } = useSelector((state) => state.sectionsData);
   const { categoryLoading } = useSelector((state) => state.categories);
   const SiteLogo = useSelector((state) => selectPageByType(state, "Site Logo"));
+  const pathname = usePathname();
+  const isCheckoutPage = pathname.includes("/checkout");
 
   useEffect(() => {
     if (params?.site_id) {
@@ -65,6 +69,7 @@ export default function SiteLayout({ params, children }) {
           getCollections(store._id),
           getSections(store._id),
           getContents(store._id),
+          getPublicStoreConfiguration(store?._id),
         ]);
 
         if (typeof window !== "undefined") {
@@ -134,9 +139,9 @@ export default function SiteLayout({ params, children }) {
             expiryDate: "2027-10-09T09:49:00.000+00:00",
           }}
         /> */}
-        <TemplateHeader />
+        {!isCheckoutPage && <TemplateHeader />}
         {children}
-        <TemplateFooter />
+        {!isCheckoutPage && <TemplateFooter />}
       </div>
     </>
   );

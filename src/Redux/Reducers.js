@@ -14,6 +14,7 @@ import { sectionsDataReducer } from "./SectionsData/SectionsDataSlice";
 import { livePreviewReducer } from "./LivePreview/livePreviewSlice";
 import allStoresReducer from "./AllStores/StoreDetail.slice";
 import storeReducer from "./Store/StoreDetail.slice";
+import storeConfgurationReducer from "./StoreConfiguration/StoreConfigurationSlice";
 
 const rootReducer = combineReducers({
   orderData: orderDataReducer,
@@ -29,6 +30,7 @@ const rootReducer = combineReducers({
   livePreview: livePreviewReducer,
   allStores: allStoresReducer,
   store: storeReducer,
+  storeConfiguration: storeConfgurationReducer,
 });
 
 export default rootReducer;
