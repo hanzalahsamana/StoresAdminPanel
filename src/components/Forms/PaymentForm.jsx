@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { deleteCartData } from "@/Redux/CartData/cartDataSlice";
 import { useDispatch, useSelector } from "react-redux";
@@ -27,14 +27,18 @@ const initialFormData = {
 }
 
 
-const PaymentForm = ({ shipping, total, tax, discount, cartItem, selectedMethod = '', setSelectedMethod = () => { } }) => {
+const PaymentForm = ({ cartItem, selectedMethod = '', setSelectedMethod = () => { }, errors = {} }) => {
 
   // todo send email in the coupon code
 
 
+  useEffect(()=>{
+    console.log("PaymentForm errors: ", errors);
+    
+  },[errors])
+
   const dispatch = useDispatch();
   const { paymentMethods } = useSelector((state) => state?.storeConfiguration?.storeConfiguration);
-  const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false)
   const { siteName } = useSelector((state) => state.siteName);
   const SiteLogo = useSelector((state) =>
@@ -48,71 +52,66 @@ const PaymentForm = ({ shipping, total, tax, discount, cartItem, selectedMethod 
   };
 
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
 
-    if (!paymentFormValidate(formData, setErrors)) {
-      return;
-    }
+  //   if (!paymentFormValidate(formData, setErrors)) {
+  //     return;
+  //   }
 
-    const {
-      email,
-      country,
-      firstName,
-      lastName,
-      address,
-      appartment,
-      city,
-      postalCode,
-      phone,
-    } = formData;
-    const extractedData = cartItem.map(({ name, quantity, selectedSize, discountedPrice, _id, images }) => ({
-      name,
-      selectedSize,
-      _id,
-      image: images[0],
-      quantity,
-      totalOfProduct: discountedPrice * quantity,
-    }));
+  //   const {
+  //     email,
+  //     country,
+  //     firstName,
+  //     lastName,
+  //     address,
+  //     appartment,
+  //     city,
+  //     postalCode,
+  //     phone,
+  //   } = formData;
+  //   const extractedData = cartItem.map(({ name, quantity, selectedSize, discountedPrice, _id, images }) => ({
+  //     name,
+  //     selectedSize,
+  //     _id,
+  //     image: images[0],
+  //     quantity,
+  //     totalOfProduct: discountedPrice * quantity,
+  //   }));
 
-    const data = {
-      from: siteName,
-      to: SiteLogo?.image,
-      customerInfo: {
-        email,
-        firstName,
-        lastName,
-        phone,
-        method: 'COD',
-        city,
-        country,
-        address,
-        postalCode,
-        appartment,
-      },
-      orderData: extractedData,
-      orderInfo: {
-        tax: tax,
-        shipping: shipping,
-        discount: discount,
-        total: total,
-      },
-    };
+  //   const data = {
+  //     from: siteName,
+  //     to: SiteLogo?.image,
+  //     customerInfo: {
+  //       email,
+  //       firstName,
+  //       lastName,
+  //       phone,
+  //       method: 'COD',
+  //       city,
+  //       country,
+  //       address,
+  //       postalCode,
+  //       appartment,
+  //     },
+  //     orderData: extractedData,
 
-    try {
-      setLoading(true)
-      await addOrderDataApi(siteName, data);
-      dispatch(deleteCartData({ siteName }))
-      localStorage.removeItem('cartId')
-      setFormData(initialFormData);
-      setErrors({});
-      setLoading(false)
-      toast.success("Your order has confirmed and will deliverd in 2 to 3 working days")
-    } catch (err) {
-      setLoading(false)
-      toast.error("Error sending email:", err)
-    }
-  };
+  //   };
+
+  //   try {
+  //     setLoading(true)
+  //     await addOrderDataApi(siteName, data);
+  //     dispatch(deleteCartData({ siteName }))
+  //     localStorage.removeItem('cartId')
+  //     setFormData(initialFormData);
+  //     setErrors({});
+  //     setLoading(false)
+  //     toast.success("Your order has confirmed and will deliverd in 2 to 3 working days")
+  //   } catch (err) {
+  //     setLoading(false)
+  //     toast.error("Error sending email:", err)
+  //   }
+  // };
 
   if (loading) {
     return <Loader />
@@ -120,7 +119,7 @@ const PaymentForm = ({ shipping, total, tax, discount, cartItem, selectedMethod 
 
   return (
     <div className="w-full flex flex-col items-end max-[750px]:items-center ">
-      <form onSubmit={handleSubmit} className="flex flex-wrap">
+      <form className="flex flex-wrap">
 
         <div className="w-full ">
           <h2 className="text-[24px] font-semibold my-4 text-[var(--tmp-txt)]">Payment Method</h2>
@@ -128,7 +127,7 @@ const PaymentForm = ({ shipping, total, tax, discount, cartItem, selectedMethod 
             All transactions are secure and encrypted.
           </p>
 
-          <DropDown
+          {/* <DropDown
             placeholder="Select Payment Method"
             defaultOptions={paymentMethods?.map((method) => ({ label: method?.method, value: method?._id }))}
             size="large"
@@ -136,7 +135,7 @@ const PaymentForm = ({ shipping, total, tax, discount, cartItem, selectedMethod 
             setSelectedOption={setSelectedMethod}
             selectedOption={selectedMethod}
             className={`cursor-pointer select-none !px-4 font-medium !text-gray-700 placeholder:text-gray-700 placeholder:text-[18px] !bg-blue-50 !border-2 !border-[#297ed9]`}
-          />
+          /> */}
 
         </div>
         <div className="w-full space-y-[18px]">
@@ -151,7 +150,7 @@ const PaymentForm = ({ shipping, total, tax, discount, cartItem, selectedMethod 
             handleChange={handleChange}
             error={errors?.email}
           />
-            <FormInput
+          <FormInput
             size="large"
             type="tel"
             placeholder="Phone"
@@ -229,7 +228,7 @@ const PaymentForm = ({ shipping, total, tax, discount, cartItem, selectedMethod 
               required={false}
             />
           </div>
-        
+
         </div>
         {/* <button className="py-[14px] w-full mt-3 bg-[#407fc4] text-[var(--tmp-wtxt)] text-[22px] font-semibold rounded-md transition-all duration-300 hover:scale-105">
             Place Order

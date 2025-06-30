@@ -155,7 +155,6 @@ export const updatePaymentMethodValidate = (methodKey, data, setErrors) => {
   const newErrors = {};
 
   console.log(data);
-  
 
   switch (methodKey) {
     case "cod":
@@ -199,5 +198,89 @@ export const updatePaymentMethodValidate = (methodKey, data, setErrors) => {
       [methodKey]: null,
     }));
   }
+  return Object.keys(newErrors).length === 0;
+};
+
+export const placeOrderValidate = (orderData, setErrors) => {
+  const newErrors = {};
+  const {
+    userId,
+    customer,
+    shippingAddress,
+    orderItems,
+    paymentMethod,
+    totalAmount,
+    taxAmount,
+    shippingFee,
+    discount,
+    storeRef,
+  } = orderData;
+
+  // Helper to validate address
+  const validateAddress = (prefix, address) => {
+    if (!address?.firstName?.trim())
+      newErrors[`firstName`] = "First name is required";
+    if (!address?.lastName?.trim())
+      newErrors[`lastName`] = "Last name is required";
+    if (!address?.email?.trim())
+      newErrors[`email`] = "Email is required";
+    if (!address?.phone?.trim())
+      newErrors[`phone`] = "Phone is required";
+    if (!address?.country?.trim())
+      newErrors[`country`] = "Country is required";
+    if (!address?.city?.trim())
+      newErrors[`city`] = "City is required";
+    if (!address?.address?.trim())
+      newErrors[`address`] = "Address is required";
+  };
+
+  // Validate customer & shipping address
+  validateAddress("customer", customer);
+  validateAddress("shippingAddress", shippingAddress);
+
+  // Order Items validation
+  // if (!Array.isArray(orderItems) || orderItems.length === 0) {
+  //   newErrors.orderItems = "At least one order item is required";
+  // } else {
+  //   orderItems.forEach((item, i) => {
+  //     if (!item.productId)
+  //       newErrors[`orderItems[${i}].productId`] = "Product ID is required";
+  //     if (!item.name?.trim())
+  //       newErrors[`orderItems[${i}].name`] = "Product name is required";
+  //     if (item.quantity === undefined || item.quantity <= 0)
+  //       newErrors[`orderItems[${i}].quantity`] =
+  //         "Quantity must be greater than 0";
+  //     if (item.price === undefined || item.price <= 0)
+  //       newErrors[`orderItems[${i}].price`] = "Price must be greater than 0";
+  //   });
+  // }
+
+  // Payment Method
+  const allowedMethods = [
+    "credit_card",
+    "paypal",
+    "cash_on_delivery",
+    "bank_transfer",
+  ];
+  if (!paymentMethod || !allowedMethods.includes(paymentMethod)) {
+    newErrors.paymentMethod = "Valid payment method is required";
+  }
+
+  // Total amount
+  if (totalAmount === undefined || isNaN(totalAmount) || totalAmount <= 0) {
+    newErrors.totalAmount = "Total amount must be greater than 0";
+  }
+
+  // Optional numeric fields
+  if (taxAmount !== undefined && isNaN(taxAmount))
+    newErrors.taxAmount = "Tax must be a number";
+  if (shippingFee !== undefined && isNaN(shippingFee))
+    newErrors.shippingFee = "Shipping fee must be a number";
+  if (discount !== undefined && isNaN(discount))
+    newErrors.discount = "Discount must be a number";
+
+  // Store Reference
+
+  setErrors(newErrors);
   return Object.keys(newErrors).length === 0;
 };

@@ -5,7 +5,6 @@ import { FaChevronUp, FaChevronDown } from "react-icons/fa";
 import { getBasePath } from '@/Utils/GetBasePath';
 import { useRouter } from 'next/navigation';
 import { useSelector } from 'react-redux';
-import { getValidDiscountAmount, getValidGlobalDiscount } from '@/Utils/CheckoutHelpers';
 import PaymentSummary from '@/components/UI/PaymentSummary';
 import ProductsRecipt from '@/components/UI/productsRecipt';
 import PaymentForm from '@/components/Forms/PaymentForm';
@@ -21,18 +20,91 @@ import { HiOutlineShoppingBag } from 'react-icons/hi';
 import { totalCalculate } from '@/Utils/TotalCalculator';
 import { SlHandbag } from 'react-icons/sl';
 import ProductsReciept from '@/components/UI/productsRecipt';
+import CheckoutHeader from '@/components/Layout/CheckoutHeader';
+import { paymentFormValidate, placeOrderValidate } from '@/Utils/FormsValidator';
+import { getValidGlobalDiscount } from '@/Utils/CheckoutHelpers';
+
+
+
+export const initialOrderFormData = {
+  userId: "", // optional (leave empty for guest)
+
+  customer: {
+    firstName: "",
+    lastName: "",
+    email: "",
+    phone: "",
+    country: "",
+    city: "",
+    postalCode: "",
+    address: "",
+    apartment: "",
+  },
+
+  shippingAddress: {
+    firstName: "",
+    lastName: "",
+    email: "",
+    phone: "",
+    country: "",
+    city: "",
+    postalCode: "",
+    address: "",
+    apartment: "",
+  },
+
+  orderItems: [
+    {
+      productId: "",
+      name: "",
+      image: "",
+      quantity: 1,
+      price: 0,
+      variant: {}, // optional: can be { size: "M", color: "Red" }, etc.
+    },
+  ],
+
+  paymentMethod: "", // "credit_card", "paypal", "cash_on_delivery", or "bank_transfer"
+  paymentStatus: "pending", // default
+  orderStatus: "pending",   // default
+
+  taxAmount: 0,
+  shippingFee: 0,
+  discount: 0,
+  totalAmount: 0,
+
+  trackingInfo: {
+    carrier: "",
+    trackingNumber: "",
+    estimatedDelivery: "", // can be Date object or ISO string
+  },
+
+  notes: "",
+  storeRef: "", // required
+};
 
 const Checkout = () => {
   const router = useRouter();
-  const [cartIsVisible, setCartIsVisible] = useState(false);
+  const [orderData, setOrderData] = useState(initialOrderFormData);
   const [loading, setLoading] = useState(true);
-  const [couponDiscount, setCouponDiscount] = useState(null);
   const { store } = useSelector((state) => state?.store);
   const { cartData, initialLoading } = useSelector((state) => state?.cartData);
-  const { discounts } = useSelector((state) => state?.storeDetail?.storeDetail || {});
+  const { discounts } = useSelector((state) => state?.storeConfiguration?.storeConfiguration);
   const [selectedMethod, setSelectedMethod] = useState("");
-  const SiteLogo = useSelector((state) => selectPageByType(state, "Site Logo"));
+  const [errors, setErrors] = useState({});
+  const [couponDiscount, setCouponDiscount] = useState(null);
 
+
+
+
+  useEffect(() => {
+    if (!initialLoading) {
+      if (!cartData || cartData.length === 0) {
+        router.push(`${getBasePath()}/cart`);
+      }
+      setLoading(false);
+    }
+  }, [initialLoading, cartData, router]);
 
 
   const totalProductCost = useMemo(() => {
@@ -45,17 +117,9 @@ const Checkout = () => {
     return getValidGlobalDiscount(discounts, totalProductCost);
   }, [discounts, totalProductCost]);
 
-  const globalDiscountAmount = useMemo(() => {
-    return getValidDiscountAmount(globalDiscount, totalProductCost);
-  }, [globalDiscount, totalProductCost]);
-
-  const couponDiscountAmount = useMemo(() => {
-    return getValidDiscountAmount(couponDiscount, totalProductCost - globalDiscountAmount);
-  }, [couponDiscount, globalDiscountAmount, totalProductCost]);
-
   const totalDiscountAmount = useMemo(() => {
-    return globalDiscountAmount + couponDiscountAmount;
-  }, [globalDiscountAmount, couponDiscountAmount]);
+    return (globalDiscount?.discountAmount || 0) + (couponDiscount?.discountAmount || 0);
+  }, [globalDiscount, couponDiscount]);
 
   const subTotalAfterDiscount = useMemo(() => {
     return Math.max(totalProductCost - totalDiscountAmount, 0);
@@ -68,22 +132,12 @@ const Checkout = () => {
     return subTotalAfterDiscount + shippingCost + tax;
   }, [subTotalAfterDiscount]);
 
-  useEffect(() => {
-    if (!initialLoading) {
-      if (!cartData || cartData.length === 0) {
-        router.push(`${getBasePath()}/cart`);
-      }
-      setLoading(false);
-    }
-  }, [initialLoading, cartData, router]);
-
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // if (!paymentFormValidate(formData, setErrors)) {
-    //   return;
-    // }
+    if (!placeOrderValidate(orderData, setErrors)) {
+      return;
+    }
 
     // const {
     //   email,
@@ -130,19 +184,7 @@ const Checkout = () => {
     // };
 
     try {
-      try {
-        await fetch(`http://localhost:1234/api/v1/jazzcash`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            status: "Testing",
-          }),
-        });
-      } catch (err) {
-        console.error("❌ Failed to update payment status:", err);
-      }
+
       setLoading(true)
       const credentials = await getHashedPaymentCredential(store?._id, selectedMethod)
       const { merchantId, pp_Password, integritySalt } = credentials
@@ -161,62 +203,37 @@ const Checkout = () => {
 
   return (
     <div className='grid grid-cols-2 w-full flex-col-reverse md:flex-row'>
+
       <div className={`bg-[var(--tmp-pri)] h-screen overflow-auto direction-rtl scroll-left customScroll w-full px-5 py-3 flex justify-end`}>
         <div className='max-w-[500px] w-full'>
-          <div className="flex justify-between items-center w-full py-[10px]">
-            <Link href={`${getBasePath()}/`} className="flex">
-              <img src={SiteLogo?.image} alt={''} className="w-24 max-h-16 object-contain object-left" />
-            </Link>
-            <Link href={`${getBasePath()}/cart`} className="flex items-end gap-2 cartButton text-[var(--tmp-txt)] hover:!text-yellow-500 ">
-              <span className='text-sm'>Back to cart</span>
-              <div className=" text-[24px] relative" >
-                <SlHandbag />
-                <span className="absolute flex justify-center items-center text-[12px] w-[18px] h-[18px] rounded-full bg-[var(--tmp-acc)] right-[-4px] bottom-[-6px]">
-                  {totalCalculate(cartData)}
-                </span>
-              </div>
-            </Link>
-          </div>
-          <PaymentForm total={total} shipping={shippingCost} discount={totalDiscountAmount} cartItem={cartData} tax={tax} selectedMethod={selectedMethod} setSelectedMethod={setSelectedMethod} />
+          <CheckoutHeader />
+          <PaymentForm errors={errors} selectedMethod={selectedMethod} setSelectedMethod={setSelectedMethod} />
         </div>
       </div>
 
       <div className="h-screen bg-[var(--tmp-acc)] w-full px-8 py-2 flex justify-start sticky top-0">
         <div className="max-w-[500px] w-full flex flex-col h-full">
-          {/* Optional mobile summary toggle */}
-          <div className="h-[60px] w-full hidden max-[700px]:flex justify-between items-center">
-            <p
-              className="flex items-center gap-2 text-[#299ae0]"
-              onClick={() => setCartIsVisible(!cartIsVisible)}
-            >
-              Show Order summary {cartIsVisible ? <FaChevronUp /> : <FaChevronDown />}
-            </p>
-            <p className="text-[#252525]">Rs {total?.toFixed(2)}</p>
-          </div>
           <h2 className="text-[24px] font-semibold mb-1 text-[var(--tmp-txt)]">Reciept</h2>
 
-
-          {/* This grows and scrolls if needed */}
           <ProductsReciept products={cartData} />
 
-          {/* Sticks at bottom */}
-          <PaymentSummary
+          <PaymentSummary className="bottom-0"
             totalProductCost={totalProductCost}
-            couponDiscount={couponDiscount}
             globalDiscount={globalDiscount}
+            couponDiscount={couponDiscount}
             subTotal={subTotalAfterDiscount}
-            shippingCost={shippingCost}
+            shipping={shippingCost}
             tax={tax}
             total={total}
-            className="bottom-0"
           >
             <ApplyCoupon
               email={"abc@gmail.com"}
               totalProductCost={
-                totalProductCost - getValidDiscountAmount(globalDiscount, totalProductCost)
+                totalProductCost - globalDiscount?.discountAmount || 0
               }
               setCouponDiscount={setCouponDiscount}
             />
+
             <Button
               label="Proceed To Payment"
               loading={loading}
@@ -226,8 +243,9 @@ const Checkout = () => {
               icon={<FaArrowRightLong />}
               iconPosition="right"
               iconOnHover={true}
-              className="bg-[var(--tmp-sec)] text-[var(--tmp-wtxt)] mt-4 rounded-md !w-full !py-[12px]"
+              className="bg-[var(--tmp-sec)] text-[var(--tmp-wtxt)] text-[16px] mt-4 rounded-md !w-full !py-[12px]"
             />
+
           </PaymentSummary>
         </div>
       </div>

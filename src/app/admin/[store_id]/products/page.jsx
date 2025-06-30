@@ -47,7 +47,7 @@ const Products = () => {
           <Button
             label="Add Product"
             size="small"
-            action={() => { router.push(`/products/add`); }}
+            action={() => { router.push('add'); }}
             className="w-max !py-2"
           />
           <Button

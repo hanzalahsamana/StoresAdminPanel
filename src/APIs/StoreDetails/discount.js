@@ -68,10 +68,10 @@ export const deleteDiscount = async (discountId, token, dispatch) => {
   }
 };
 
-export const applyCoupon = async (brandName, data) => {
+export const applyCoupon = async (storeId, data) => {
   try {
     const response = await axios.post(
-      `${Base_URL}/${brandName}/applyCoupon`,
+      `${Base_URL}/${storeId}/applyCoupon`,
       data
     );
     console.log("🏷️Coupon Applied", response);

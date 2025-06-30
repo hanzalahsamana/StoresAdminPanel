@@ -7,11 +7,11 @@ import { applyCoupon } from '@/APIs/StoreDetails/discount';
 import { CgSpinner } from 'react-icons/cg';
 import Button from '../Actions/Button';
 
-const ApplyCoupon = ({ totalProductCost = 0, email, setCouponDiscount }) => {
+const ApplyCoupon = ({ totalProductCost = 0, email = '', setCouponDiscount = () => { } }) => {
     const [couponCode, setCouponCode] = useState('');
     const [message, setMessage] = useState('');
     const [loading, setLoading] = useState(false);
-    const { siteName } = useSelector((state) => state.siteName);
+    const { store } = useSelector((state) => state.store);
 
     const handleApply = async (e) => {
         e.preventDefault();
@@ -21,7 +21,7 @@ const ApplyCoupon = ({ totalProductCost = 0, email, setCouponDiscount }) => {
         }
         try {
             setLoading(true)
-            const { discount } = await applyCoupon(siteName, { totalAmount: totalProductCost, email, couponCode })
+            const { discount } = await applyCoupon(store._id, { totalAmount: totalProductCost, email, couponCode })
             setCouponDiscount(discount)
             setMessage("Coupon applied successfully")
         } catch (error) {
@@ -46,23 +46,13 @@ const ApplyCoupon = ({ totalProductCost = 0, email, setCouponDiscount }) => {
                     labelClassname='bg-[var(--tmp-pri)]'
                     autocomplete='off'
                 />
-                {/* <button
-                    type="submit"
-                    disabled={loading}
-                    className={`!w-[190px] h-[43px] rounded-md px-[20px] bg-[var(--tmp-sec)] text-[var(--tmp-wtxt)] text-[16px] transition-all duration-300 hover:scale-105 flex items-center justify-center gap-2 disabled:cursor-not-allowed`}
-                >
-                    {loading ? (
-                        <CgSpinner className="text-[22px] animate-spin" />
-                    ) : (
-                        "Apply Coupon"
-                    )}
-                </button> */}
                 <Button
                     type='submit'
                     loading={loading}
                     variant='black'
                     size='small'
                     label='Apply Coupon'
+                    className='bg-[var(--tmp-sec)] text-[var(--tmp-wtxt)] '
                 />
             </div>
             {message && (

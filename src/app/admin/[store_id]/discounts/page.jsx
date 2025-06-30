@@ -19,7 +19,9 @@ import moment from 'moment';
 const Discount = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [updatedDiscount, setUpdatedDiscount] = useState(false);
-    const { discounts } = useSelector((state) => state?.storeDetail?.storeDetail);
+    const { discounts } = useSelector((state) => state?.storeConfiguration?.storeConfiguration);
+
+    // const { discounts } = useSelector((state) => state?.storeDetail?.storeDetail);
     const dispatch = useDispatch();
     const { currUser } = useSelector((state) => state.currentUser);
 
@@ -55,7 +57,7 @@ const Discount = () => {
                 <div className='grid grid-cols-1 md:grid-cols-2 gap-4  w-full'>
                     {discounts?.map((discount, index) => (
                         <CustomCard
-                            title={`${discount?.discountType === 'global'? 'Name': 'Code'}: ${discount?.name}`}
+                            title={`${discount?.discountType === 'global' ? 'Name' : 'Code'}: ${discount?.name}`}
                             key={index}
                             className="w-full"
                             actionPosition="top"

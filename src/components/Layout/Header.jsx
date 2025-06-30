@@ -7,6 +7,7 @@ import { IoEyeOutline } from "react-icons/io5";
 
 export default function Header({ toggleSidebar }) {
   const { currUser } = useSelector((state) => state.currentUser);
+  const { store } = useSelector((state) => state.store);
 
   return (
     <header className="bg-backgroundC border-b border-gray-300 px-3 md:px-10 text-textC flex justify-between items-center fixed w-full z-[110] top-0 left-0 h-[60px]">
@@ -15,7 +16,7 @@ export default function Header({ toggleSidebar }) {
       </button>
       <div className="flex items-center ">
 
-        <a target="_blank" href={`${HTTP}${currUser?.subDomain || currUser?.brandName}.${Base_Domain}`} className="flex gap-1 text-[20px] items-center cursor-pointer px-[10px] rounded-md py-[7px] hover:opacity-80">
+        <a target="_blank" href={`${HTTP}${store?.subDomain}.${Base_Domain}`} className="flex gap-1 text-[20px] items-center cursor-pointer px-[10px] rounded-md py-[7px] hover:opacity-80">
           <IoEyeOutline />
           <span className="sm:flex hidden text-[14px]" >
             view store
