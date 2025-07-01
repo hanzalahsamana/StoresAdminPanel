@@ -11,7 +11,7 @@ const ALLOWED_MIME_TYPES = ["image/jpeg", "image/png", "image/webp", "image/gif"
 
 const ImageUploader = ({
   image = placeholderImageUrl,
-  setImage = () => {},
+  setImage = () => { },
   size = "small",
   className,
 }) => {
@@ -80,17 +80,23 @@ const ImageUploader = ({
 
   return (
     <div className={`flex flex-col gap-2 justify-center items-start ${className}`}>
+
+      <div>
+        <p>Upload Image</p>
+        <p className="text-gray-400"> <span className="italic">Recommended Ratio</span> - size:100 x 100 px ratio: 1/1 format:Webp </p>
+      </div>
       <div
-        className={`relative group ${
-          size === "small"
+        className={`relative group ${size === "small"
             ? "w-[40px] h-[40px]"
-            : size === "large"
-            ? "w-[100px] h-[100px]"
-            : "w-[60px] h-[60px]"
-        } rounded-md cursor-pointer`}
+            : size === "medium"
+              ? "w-[60px] h-[60px]"
+              : size === "large"
+                ? "w-[100px] h-[100px]"
+                : "w-[200px] h-[200px]"
+          } rounded-md cursor-pointer`}
       >
         {!isPlaceholder ? (
-          <div className="relative group w-full h-full rounded-md border border-gray-200">
+          <div className="relative group w-full h-full rounded-md border hover:border-gray-300 transition-all border-gray-200">
             <img
               src={imagePreviewUrl}
               alt="Uploaded"
@@ -101,13 +107,12 @@ const ImageUploader = ({
               data-tooltip-id="my"
               data-tooltip-content="Remove Image"
               onClick={handleImageRemove}
-              className={`absolute z-20 top-[-8px] right-[-8px] rounded-full text-backgroundC bg-red-500 ${
-                size === "small"
+              className={`absolute z-20 top-[-8px] right-[-8px] rounded-full text-backgroundC bg-red-500 ${size === "small"
                   ? "text-[10px] p-0.5"
-                  : size === "large"
-                  ? "text-[15px] p-1"
-                  : "text-[10px] p-1"
-              } opacity-0 group-hover:opacity-100 transition-opacity duration-200`}
+                  : size === "medium"
+                    ? "text-[10px] p-1"
+                    : "text-[15px] p-1"
+                } opacity-0 group-hover:opacity-100 transition-opacity duration-200`}
             >
               <IoMdClose />
               <Tooltip className="!text-[10px]" id="my" />
@@ -119,13 +124,14 @@ const ImageUploader = ({
             onClick={handleClick}
           >
             <IoImageOutline
-              className={`text-primaryC font-bold ${
-                size === "small"
+              className={`text-primaryC font-bold ${size === "small"
                   ? "text-[15px]"
-                  : size === "large"
-                  ? "text-[40px]"
-                  : "text-[25px]"
-              }`}
+                  : size === "medium"
+                    ? "text-[25px]"
+                    : size === "large"
+                      ? "text-[40px]"
+                      : "text-[70px]"
+                }`}
             />
           </div>
         )}

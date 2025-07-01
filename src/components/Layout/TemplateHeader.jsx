@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from 'react';
-import { selectPageByType } from '@/Redux/PagesData/PagesDataSlice';
+import { getContentByName } from '@/Redux/ContentData/ContentDataSlice';
 import { usePathname } from "next/navigation";
 import { useSelector } from "react-redux";
 import Link from "next/link";
@@ -15,7 +15,7 @@ const TemplateHeader = () => {
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
 
-  const SiteLogo = useSelector((state) => selectPageByType(state, "Site Logo"));
+  const SiteLogo = useSelector((state) => getContentByName(state, "Site Logo"));
   const { cartData } = useSelector((state) => state?.cartData || []);
   const { siteName } = useSelector((state) => state.siteName);
   const { categories } = useSelector((state) => state?.categories);

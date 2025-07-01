@@ -1,22 +1,19 @@
-"use client";
-import axios from "axios";
-import BASE_URL from "../../../config";
-import {
-  setEditSectionLoading,
-  setSectionsData,
-} from "@/Redux/SectionsData/SectionsDataSlice";
+'use client';
+import axios from 'axios';
+import BASE_URL from '../../../config';
+import { setSectionsData } from '@/Redux/SectionsData/SectionsDataSlice';
+import { dispatch } from '@/Redux/Store';
 
-export const deleteSectionsData = async (type, sectionId, dispatch) => {
+export const deleteSection = async (token, storeId, sectionId) => {
   try {
-    dispatch(setEditSectionLoading(true));
-    const response = await axios.delete(
-      `${BASE_URL}/${type}/deleteSection?id=${sectionId}`
-    );
+    const response = await axios.delete(`${BASE_URL}/${storeId}/deleteSection?sectionId=${sectionId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     dispatch(setSectionsData(response?.data));
-    dispatch(setEditSectionLoading(false));
     return response.data;
   } catch (error) {
-    dispatch(setEditSectionLoading(false));
-    throw new Error(error?.responce?.data?.message);
+    throw error;
   }
 };

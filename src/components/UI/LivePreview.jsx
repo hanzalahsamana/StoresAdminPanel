@@ -25,7 +25,9 @@ const LivePreview = ({ children, extraAction = null }) => {
             )}
             <Tooltip id='buttonTIp' className='!text-[10px]' />
 
-            <div className={`${maximized ? 'w-[100%]  md:w-[400px] md:min-w-[400px] md:top-0 md:right-0 h-[calc(100vh-60px)] sticky' : 'min-w-[0px] w-[0px] h-[0px] sticky top-[20px] right-3 overflow-hidden'} origin-top-right  pointer-events-auto cursor-move duration-500 transition-all border-[1.4px] border-primaryC   overflow-hidden`}>
+            <div className={`origin-top-right  pointer-events-auto cursor-move duration-500 transition-all border-[1.4px] border-primaryC overflow-hidden 
+            ${maximized ? 'w-[100%]  md:w-[400px] md:min-w-[400px] md:top-0 md:right-0 h-[calc(100vh-60px)] sticky'
+                    : 'min-w-[0px] w-[0px] h-[0px] sticky top-[20px] right-3 overflow-hidden'}`}>
 
                 <div className={`w-full h-[30px] text-primaryC cursor-default overflow-hidden flex items-center px-[10px] gap-2 transition-all bg-secondaryC`}>
                     <div className='text-[14px]  flex-1'>

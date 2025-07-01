@@ -15,7 +15,7 @@ import Link from 'next/link';
 import { jazzCashPayment } from '@/Utils/PaymentMethodUtils/JazzcashPayment';
 import { getHashedPaymentCredential } from '@/APIs/StoreConfigurations/paymentMethodApi';
 import { toast } from 'react-toastify';
-import { selectPageByType } from '@/Redux/PagesData/PagesDataSlice';
+import { getContentByName } from '@/Redux/ContentData/ContentDataSlice';
 import { HiOutlineShoppingBag } from 'react-icons/hi';
 import { totalCalculate } from '@/Utils/TotalCalculator';
 import { SlHandbag } from 'react-icons/sl';

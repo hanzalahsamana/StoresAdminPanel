@@ -62,6 +62,7 @@ body {
 .Inputs:focus~label {
   font-size: 12px !important;
   top: -10px !important;
+  background-color: var(--background-color);
 }
 
 .dropDown {

@@ -1,12 +1,12 @@
 "use client";
-import { selectPageByType } from '@/Redux/PagesData/PagesDataSlice';
+import { getContentByName } from '@/Redux/ContentData/ContentDataSlice';
 import React from 'react';
 import { useSelector } from 'react-redux';
 
 const ReturnPolicy = () => {
 
   const selectedPage = useSelector((state) =>
-    selectPageByType(state, "Return Policy")
+    getContentByName(state, "Return Policy")
   );
   return (
     <div className="container max-w-[1500px] py-4 px-[3vw] max-[600px]:text-center">

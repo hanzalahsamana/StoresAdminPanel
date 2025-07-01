@@ -1,15 +1,12 @@
 "use client";
 
-import ProtectedRoute from "@/AuthenticRouting/ProtectedRoutes";
-import Loader from "@/components/Loader/loader";
-import React, { useEffect, useState } from "react";
-import { LuPlus } from "react-icons/lu";
-import { RiDraggable } from "react-icons/ri";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { RxExternalLink } from "react-icons/rx";
 import Link from "next/link";
 import ActionCard from "@/components/Cards/ActionCard";
 import BackgroundFrame from "@/components/Layout/BackgroundFrame";
+import Loader from "@/components/Loader/loader";
 
 const pagesIcons = {
     "About Us": "https://img.icons8.com/color/48/about.png",
@@ -27,25 +24,14 @@ const pagesIcons = {
 };
 
 const Content = () => {
-    const { pagesData, pagesDataLoading } = useSelector((state) => state.pagesData);
-    const [hoverIndex, setHoverIndex] = useState(null);
+    const { contentData, contentDataLoading } = useSelector((state) => state.contentData);
     const [items, setItems] = useState([]);
 
     useEffect(() => {
-        setItems(pagesData || []);
-    }, [pagesData]);
+        setItems(contentData || []);
+    }, [contentData]);
 
-    const handleDragEnd = (result) => {
-        if (!result.destination) return;
-        setItems((prevItems) => {
-            const reordered = [...prevItems];
-            const [movedItem] = reordered.splice(result.source.index, 1);
-            reordered.splice(result.destination.index, 0, movedItem);
-            return reordered;
-        });
-    };
-
-    if (pagesDataLoading) return <Loader />;
+    if (contentDataLoading || contentData.length === 0) return <Loader />;
 
     return (
         <BackgroundFrame>
@@ -57,24 +43,30 @@ const Content = () => {
                 <div className="space-y-3 px-[8px] h-full overflow-y-auto customScroll">
                     {items.map((item, index) => (
                         <div
-                            className={`relative flex    items-center pt-2 pb-4 border-b border-gray-300 bg-backgroundC transition-all duration-300 `}
+                            key={item._id || index}
+                            className="relative flex items-center pt-2 pb-4 border-b border-gray-300 bg-backgroundC transition-all duration-300"
                         >
+                            <div className="flex-shrink-0 w-10 h-10 flex items-center justify-center mr-4">
+                                <img
+                                    src={pagesIcons[item.type]}
+                                    alt={item.type}
+                                    className="w-10 h-10 object-contain rounded"
+                                />
+                            </div>
                             <div className="flex text-[14px] text-[#787676] cursor-grab">
                                 {index}
                             </div>
-
                             <div className="ml-3 flex flex-col ">
                                 <h2 className="text-lg font-medium text-gray-900">{item.type}</h2>
                                 <div className="flex gap-3">
                                     <Link
-                                        href={`/content/${item._id}`}
+                                        href={`./content/${item._id}`}
                                         className="text-sm cursor-pointer text-primaryC flex items-center gap-1"
                                     >
                                         Edit <RxExternalLink size={12} />
                                     </Link>
                                 </div>
                             </div>
-
                         </div>
                     ))}
                 </div>

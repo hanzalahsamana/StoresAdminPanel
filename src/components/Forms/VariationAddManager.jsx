@@ -43,16 +43,6 @@ const VariationAddManager = ({
         return currentErrors;
     };
 
-    const validateAll = () => {
-        const newErrors = {};
-        variationData.forEach((variation) => {
-            const error = validateVariation(variation, variationData);
-            if (Object.keys(error).length) newErrors[variation.id] = error;
-        });
-        setErrors(newErrors);
-        return Object.keys(newErrors).length === 0;
-    };
-
     const handleAddNewVariation = () => {
         if (variationData.length >= 3) return;
         const newId = uuidv4();
@@ -132,9 +122,6 @@ const VariationAddManager = ({
                                     <div
                                         onClick={() => toggleEdit(variation.id)}
                                         className="cursor-pointer  p-4 hover:bg-[#f5f5f5] transition-all"
-                                    // whileHover={{ backgroundColor: '#f5f5f5' }}
-                                    // transition={{ duration: 0.2 }}
-
                                     >
                                         <p className="font-bold text-[17px] text-textC">{variation.name}</p>
                                         <ul className="mt-1 flex gap-2 flex-wrap">

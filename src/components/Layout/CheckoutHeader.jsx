@@ -1,5 +1,5 @@
 "use client";
-import { selectPageByType } from '@/Redux/PagesData/PagesDataSlice';
+import { getContentByName } from '@/Redux/ContentData/ContentDataSlice';
 import { getBasePath } from '@/Utils/GetBasePath';
 import { totalCalculate } from '@/Utils/TotalCalculator';
 import Link from 'next/link';
@@ -8,7 +8,7 @@ import { useSelector } from 'react-redux';
 
 const CheckoutHeader = () => {
     const { cartData } = useSelector((state) => state?.cartData);
-    const SiteLogo = useSelector((state) => selectPageByType(state, "Site Logo"));
+    const SiteLogo = useSelector((state) => getContentByName(state, "Site Logo"));
 
     return (
         <div className="flex justify-between items-center w-full py-[10px]">

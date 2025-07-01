@@ -1,7 +1,5 @@
 "use client";
 
-import ProtectedRoute from "@/AuthenticRouting/ProtectedRoutes";
-import Loader from "@/components/Loader/loader";
 import React, { useEffect, useState } from "react";
 import { LuPlus } from "react-icons/lu";
 import { RiDraggable } from "react-icons/ri";
@@ -16,27 +14,27 @@ import LivePreview from "@/components/UI/LivePreview";
 import HomeLayout from "@/components/Layout/HomeLayout";
 import TemplateHeader from "@/components/Layout/TemplateHeader";
 import TemplateFooter from "@/components/Layout/TemplateFooter";
-import { deleteSectionsData } from "@/APIs/SectionsData/deleteSection";
-import TextLoader from "@/components/Loader/TextLoader";
+import { deleteSection } from "@/APIs/SectionsData/deleteSection";
 import Button from "@/components/Actions/Button";
 import { toast } from "react-toastify";
-import { updateSectionOrder } from "@/APIs/SectionsData/updateSectionOrder";
+import { changeSectionOrder } from "@/APIs/SectionsData/changeSectionOrder";
 import ActionCard from "@/components/Cards/ActionCard";
+import CardLoader from "@/components/Loader/CardLoader";
 
 const Design = () => {
-    const { sectionsData, sectionsDataLoading, editSectionLoading } = useSelector((state) => state.sectionsData);
+    const { sectionsData } = useSelector((state) => state.sectionsData);
     const [hoverIndex, setHoverIndex] = useState(null);
     const [items, setItems] = useState([]);
     const [isOpen, setIsOpen] = useState(false);
+    const [loading, setLoading] = useState(false);
     const [selectedOrder, setSelectedOrder] = useState(null);
-    const dispatch = useDispatch()
     const { currUser } = useSelector((state) => state.currentUser);
+    const { store } = useSelector((state) => state.store);
 
     useEffect(() => {
         setItems(sectionsData || []);
     }, [sectionsData]);
 
-    // Drag and drop logic
     const handleDragEnd = async (result) => {
         if (!result.destination) return;
 
@@ -49,34 +47,46 @@ const Design = () => {
         });
 
         try {
-
-            await updateSectionOrder(result.destination.index + 1, currUser?.brandName, result.draggableId, dispatch)
-
+            setLoading(true);
+            await changeSectionOrder(currUser?.token, store?._id, result.draggableId, result.destination.index + 1)
         } catch (error) {
-            console.log("Updated Order: 🧲🧲", error); // Debugging
-            toast.error(error)
-
+            console.log("Updated Order: 🧲🧲", error);
+            toast.error(error.response ? error.response.data.message : error.message)
+        } finally {
+            setLoading(false);
         }
     };
 
-    if (sectionsDataLoading) return <Loader />;
+    const handleDelete = async (sectionId) => {
+        try {
+            setLoading(true);
+            await deleteSection(currUser?.token, store?._id, sectionId)
+            toast.success('Section deleted successfully');
+        } catch (error) {
+            console.error("Error deleting section:", error);
+            toast.error(error.response ? error.response.data.message : error.message);
+        } finally {
+            setLoading(false);
+        }
+    };
 
     return (
         <div className="flex justify-center items-start flex-col md:flex-row">
-            <BackgroundFrame>
+            <BackgroundFrame className="gap-0">
                 <ActionCard
                     label={"Update Pages"}
                     actionPosition="hidden"
                     className={'!h-[calc(100vh-92px)]'}
                 >
-
                     <DragDropContext onDragEnd={handleDragEnd}>
                         <Droppable droppableId="pagesList">
                             {(provided) => (
                                 <div {...provided.droppableProps} ref={provided.innerRef} className="space-y-3 px-[8px] h-full overflow-y-auto customScroll">
                                     {items.length !== 0 ? items.map((item, index) => (
-                                        editSectionLoading ? (
-                                            <TextLoader />
+                                        loading ? (
+                                            <div key={item._id}>
+                                                <CardLoader />
+                                            </div>
                                         ) : (
                                             <Draggable key={item._id} draggableId={item._id.toString()} index={index}>
                                                 {(provided, snapshot) => (
@@ -105,7 +115,7 @@ const Design = () => {
                                                                     Edit <RxExternalLink size={12} />
                                                                 </Link>
                                                                 <h2
-                                                                    onClick={() => deleteSectionsData(currUser?.brandName, item._id, dispatch)}
+                                                                    onClick={() => handleDelete(item._id)}
                                                                     className="text-sm cursor-pointer text-red-500 flex items-center gap-1"
                                                                 >
                                                                     Delete <AiOutlineDelete scale={10} />
@@ -144,7 +154,6 @@ const Design = () => {
                                                 variant="outline"
                                                 label="Add Section"
                                                 className="w-max"
-
                                             />
 
                                         </div>
@@ -157,7 +166,7 @@ const Design = () => {
                     </DragDropContext>
                 </ActionCard>
 
-                <WidgetsModal isOpen={isOpen} setIsOpen={setIsOpen} selectedOrder={selectedOrder} setSelectedOrder={setSelectedOrder} />
+                <WidgetsModal isOpen={isOpen} setIsOpen={setIsOpen} selectedOrder={selectedOrder} setSelectedOrder={setSelectedOrder} setLoading={setLoading} />
             </BackgroundFrame>
             <LivePreview >
                 <TemplateHeader />

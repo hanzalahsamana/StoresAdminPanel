@@ -1,12 +1,12 @@
 "use client";
-import { selectPageByType } from '@/Redux/PagesData/PagesDataSlice';
+import { getContentByName } from '@/Redux/ContentData/ContentDataSlice';
 import React from 'react';
 import { useSelector } from 'react-redux';
 
 const PrivacyPolicy = () => {
 
   const selectedPage = useSelector((state) =>
-    selectPageByType(state, "Privacy Policy")
+    getContentByName(state, "Privacy Policy")
 );
 
   return (

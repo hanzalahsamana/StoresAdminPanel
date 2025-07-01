@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 import { deleteCartData } from "@/Redux/CartData/cartDataSlice";
 import { useDispatch, useSelector } from "react-redux";
 import Loader from "../Loader/TemplateLoader";
-import { selectPageByType } from "@/Redux/PagesData/PagesDataSlice";
+import { getContentByName } from "@/Redux/ContentData/ContentDataSlice";
 import { addOrderDataApi } from "@/APIs/Order/PlaceOrder";
 import FormInput from "@/components/Forms/FormInput";
 import { paymentFormValidate } from "@/Utils/FormsValidator";
@@ -42,7 +42,7 @@ const PaymentForm = ({ cartItem, selectedMethod = '', setSelectedMethod = () => 
   const [loading, setLoading] = useState(false)
   const { siteName } = useSelector((state) => state.siteName);
   const SiteLogo = useSelector((state) =>
-    selectPageByType(state, "Site Logo")
+    getContentByName(state, "Site Logo")
   );
   const [formData, setFormData] = useState(initialFormData);
 

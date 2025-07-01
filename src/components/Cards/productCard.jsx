@@ -1,9 +1,9 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "../UI/style.module.css";
 
 const ProductCard = ({ product }) => {
-  const [currentImage, setCurrentImage] = useState(product?.images?.[0] || "");
+  const [currentImage, setCurrentImage] = useState("");
   const [failedImages, setFailedImages] = useState(new Set());
 
   const handleMouseEnter = () => {
@@ -23,6 +23,12 @@ const ProductCard = ({ product }) => {
   const handleImageError = () => {
     setFailedImages(prev => new Set(prev).add(currentImage));
   };
+
+  useEffect(() => {
+    if (product?.images?.[0]) {
+      setCurrentImage(product.images[0]);
+    }
+  }, [product]);
 
   const isImageValid = currentImage && !failedImages.has(currentImage);
 

@@ -47,7 +47,7 @@ const ProductsSection = ({ content = {} }) => {
         <div className='max-w-[1500px] w-full md:py-4 bg-[var(--tmp-pri)]'>
             <h1 className='mb-6 text-[30px] text-[var(--tmp-txt)] font-semibold text-center'>{title}</h1>
             <div className="grid grid-cols-4 max-[1024px]:grid-cols-3 max-[750px]:grid-cols-2 max-[470px]:grid-cols-1 gap-2 m-6">
-                {filteredProducts.slice(0, maxLength || 4).map((product) => (
+                {filteredProducts?.slice(0, maxLength || 4).map((product) => (
                     <Link
                         className="cursor-pointer"
                         key={product._id}

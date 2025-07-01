@@ -10,7 +10,8 @@ import { useSelector } from "react-redux";
 import Loader from "../Loader/loader";
 
 function Sidebar({ isOpen, setIsOpen }) {
-  const { pagesData, pagesDataLoading } = useSelector((state) => state.pagesData);
+      const { contentData, contentDataLoading } = useSelector((state) => state.contentData);
+
   const { sectionsData, sectionsDataLoading } = useSelector((state) => state.sectionsData);
   const { store } = useSelector((state) => state.store);
   const pathname = usePathname();
@@ -37,7 +38,7 @@ function Sidebar({ isOpen, setIsOpen }) {
       name: "Contents", icon: 'https://img.icons8.com/fluency/48/pricing-structure.png', path: "/content",
       subLinks: [
         { name: "Over View", path: "/content" },
-        ...(Array.isArray(pagesData) ? pagesData.map(item => ({
+        ...(Array.isArray(contentData) ? contentData.map(item => ({
           name: item.type,
           path: `/content/${item._id}`
         })) : [])
@@ -82,7 +83,7 @@ function Sidebar({ isOpen, setIsOpen }) {
     });
   }, [pathname]);
 
-  if (pagesDataLoading || sectionsDataLoading) {
+  if (contentDataLoading || sectionsDataLoading) {
     return <Loader />
   }
 

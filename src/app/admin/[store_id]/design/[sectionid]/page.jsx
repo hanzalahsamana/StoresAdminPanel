@@ -13,11 +13,10 @@ import TextEditor from '@/components/Uploaders/TextEditor';
 import LivePreview from '@/components/UI/LivePreview';
 import { useParams } from 'next/navigation';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectSectionByID, setEditSectionLoading } from '@/Redux/SectionsData/SectionsDataSlice';
+import { selectSectionByID } from '@/Redux/SectionsData/SectionsDataSlice';
 import { SectionStructure } from '@/Structure/SectionStructure';
 import DropDown from '@/components/Actions/DropDown';
 import MultiSelectDropdown from '@/components/Actions/MultiSelectDropdown';
-import { editSectionsData } from '@/APIs/SectionsData/editSectionsData';
 import { toast } from 'react-toastify';
 import HomeLayout from '@/components/Layout/HomeLayout';
 import TemplateHeader from '@/components/Layout/TemplateHeader';
@@ -29,6 +28,7 @@ import IconButton from '@/components/Actions/IconButton';
 import { CiUndo } from 'react-icons/ci';
 import BackButton from '@/components/Actions/BackButton';
 import { IsEqual } from '@/Utils/IsEqual';
+import { editSection } from '@/APIs/SectionsData/editSection';
 
 
 
@@ -37,13 +37,14 @@ const ContentEdit = () => {
 
   const dispatch = useDispatch()
   const params = useParams()
-  const { currUser } = useSelector((state) => state.currentUser);
   const section = useSelector((state) => selectSectionByID(state, params?.sectionid));
+  const { currUser } = useSelector((state) => state.currentUser);
+  const { store } = useSelector((state) => state.store);
   const { products } = useSelector((state) => state.productData);
   const { categories } = useSelector((state) => state.categories);
-  const { editSectionLoading } = useSelector((state) => state.sectionsData);
   const [isModified, setIsModified] = useState(false);
   const [checked, setChecked] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   const [formData, setFormData] = useState(SectionStructure?.[section?.type]?.data);
 
@@ -99,6 +100,7 @@ const ContentEdit = () => {
       if (input === "imageUploader") {
         return (
           <ImageUploader
+            size='XLarge'
             key={name}
             image={formData?.[name]}
             setImage={(image) => handleInputChange(name, image)}
@@ -155,12 +157,11 @@ const ContentEdit = () => {
 
   const handleSubmit = async () => {
     try {
+      setLoading(true);
       let updatedData = { ...formData };
-      console.log(updatedData, "junaid");
-      dispatch(setEditSectionLoading(true));
 
       if (formData?.image && formData?.image instanceof File) {
-        const uploadedImageUrl = await uploadSingleImageToS3(currUser?.brandName, formData.image);
+        const uploadedImageUrl = await uploadSingleImageToS3(currUser?.token, store?._id, formData.image);
         updatedData.image = uploadedImageUrl;
       }
 
@@ -169,20 +170,19 @@ const ContentEdit = () => {
         const imagesToUpload = formData.imagesUrl.filter(image => image instanceof File);
 
         if (imagesToUpload.length > 0) {
-          const uploadedImagesUrls = await uploadImagesToS3(currUser?.brandName, imagesToUpload);
+          const uploadedImagesUrls = await uploadImagesToS3(currUser?.token, store?._id, imagesToUpload);
           updatedData.imagesUrl = [...existingUrls, ...uploadedImagesUrls];
         } else {
           updatedData.imagesUrl = existingUrls;
         }
       }
 
-      await editSectionsData(updatedData, currUser?.brandName, section?._id, dispatch);
-      dispatch(setEditSectionLoading(false));
-      toast.success("Form submitted successfully!");
+      await editSection(currUser?.token, store?._id, section?._id, updatedData);
+      toast.success("Section updated successfully!");
     } catch (error) {
-      dispatch(setEditSectionLoading(false));
-      console.log(error);
-      toast.error(error?.response?.data?.message || "Something went wrong");
+      toast.error(error.response ? error.response.data.message : error.message);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -193,8 +193,6 @@ const ContentEdit = () => {
   }, [section]);
 
   useEffect(() => {
-    console.log(section?.content, formData, "././././");
-
     setIsModified(!IsEqual(section?.content, formData));
   }, [formData, section]);
 
@@ -206,7 +204,6 @@ const ContentEdit = () => {
     )
   }
 
-
   return (
     <div className="flex justify-center items-start flex-col md:flex-row">
       <BackgroundFrame>
@@ -214,7 +211,7 @@ const ContentEdit = () => {
         <ActionCard
           actions={
             <>
-              <Button size='small' active={isModified} label="Save" loading={editSectionLoading} variant='black' className="w-max" action={handleSubmit} />
+              <Button size='small' active={isModified} label="Save" loading={loading} variant='black' className="w-max" action={handleSubmit} />
               <IconButton
                 icon={<CiUndo />}
                 tooltipLabel={'discard'}

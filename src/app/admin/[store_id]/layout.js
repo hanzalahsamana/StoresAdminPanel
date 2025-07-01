@@ -8,7 +8,7 @@ import { getStore } from "@/APIs/StoreDetails/getStore";
 import { getSections } from "@/APIs/SectionsData/getSections";
 import { getProducts } from "@/APIs/Product/getProducts";
 import { getCollections } from "@/APIs/Category/getCollections";
-import { getContents } from "@/APIs/PagesData/getContents";
+import { getContents } from "@/APIs/Content/getContents";
 import NotFound from "@/components/404Pages/NotFound";
 import Sidebar from "@/components/Layout/Sidebar";
 import Header from "@/components/Layout/Header";

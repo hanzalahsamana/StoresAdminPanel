@@ -4,6 +4,8 @@ const Checkbox = ({ label = "Checkbox", isChecked = false, setIsCheck, className
     const [checked, setChecked] = useState(isChecked);
 
     const toggleCheck = () => {
+        console.log(`Checkbox toggled: ${!checked}`);
+        
         setChecked(!checked);
         if (setIsCheck) setIsCheck(!checked);
     };
@@ -18,7 +20,7 @@ const Checkbox = ({ label = "Checkbox", isChecked = false, setIsCheck, className
             />
             <div
                 className={`w-[16px] h-[16px] border rounded-sm flex items-center justify-center transition-all duration-200 
-        ${checked ? "bg-primaryC border-pribg-primaryC" : "border-gray-400"}`}
+        ${checked ? "bg-primaryC border-primaryC" : "border-gray-400"}`}
             >
                 {checked && (
                     <svg
@@ -34,7 +36,7 @@ const Checkbox = ({ label = "Checkbox", isChecked = false, setIsCheck, className
                     </svg>
                 )}
             </div>
-            <span className="ml-1 text-[14px] text-gray-700 group-hover:opacity-80 text-primaryC transition-colors duration-200">
+            <span className={`ml-1 text-[14px] group-hover:opacity-80 ${checked?'text-primaryC':'text-gray-500'} transition-colors duration-200`}>
                 {label}
             </span>
         </div>

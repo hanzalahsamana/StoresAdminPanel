@@ -2,11 +2,11 @@
 
 import { useDispatch, useSelector } from "react-redux";
 import Head from "next/head";
-import { selectPageByType } from "@/Redux/PagesData/PagesDataSlice";
+import { getContentByName } from "@/Redux/ContentData/ContentDataSlice";
 
 const Favicon = ({ title, faviconUrl }) => {
     const { siteName } = useSelector((state) => state.siteName);
-    const SiteLogo = useSelector((state) => selectPageByType(state, "Site Logo"));
+    const SiteLogo = useSelector((state) => getContentByName(state, "Site Logo"));
     const dispatch = useDispatch();
 
     const pageTitle = title || siteName;

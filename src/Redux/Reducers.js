@@ -1,25 +1,25 @@
-"use client";
+'use client';
 
-import { combineReducers } from "@reduxjs/toolkit";
-import currentUserReducer from "./Authentication/AuthSlice";
-import orderDataReducer from "./Order/OrderSlice";
-import productDataReducer from "./Product/ProductSlice";
-import analyticDataReducer from "./Analytics/analytic.slice";
-import pagesDataReducer from "./PagesData/PagesDataSlice";
-import { categoryReducer } from "./Category/CategorySlice";
-import { siteNameReducer } from "./SiteName/SiteNameSlice";
-import cartDataReducer from "./CartData/cartDataSlice";
-import { networkReducer } from "./Network/networkSlice";
-import { sectionsDataReducer } from "./SectionsData/SectionsDataSlice";
-import { livePreviewReducer } from "./LivePreview/livePreviewSlice";
-import allStoresReducer from "./AllStores/StoreDetail.slice";
-import storeReducer from "./Store/StoreDetail.slice";
-import storeConfgurationReducer from "./StoreConfiguration/StoreConfigurationSlice";
+import { combineReducers } from '@reduxjs/toolkit';
+import currentUserReducer from './Authentication/AuthSlice';
+import orderDataReducer from './Order/OrderSlice';
+import productDataReducer from './Product/ProductSlice';
+import analyticDataReducer from './Analytics/analytic.slice';
+import cartDataReducer from './CartData/cartDataSlice';
+import allStoresReducer from './AllStores/StoreDetail.slice';
+import storeReducer from './Store/StoreDetail.slice';
+import storeConfgurationReducer from './StoreConfiguration/StoreConfigurationSlice';
+import { contentDataReducer } from './ContentData/ContentDataSlice';
+import { sectionsDataReducer } from './SectionsData/SectionsDataSlice';
+import { livePreviewReducer } from './LivePreview/livePreviewSlice';
+import { categoryReducer } from './Category/CategorySlice';
+import { siteNameReducer } from './SiteName/SiteNameSlice';
+import { networkReducer } from './Network/networkSlice';
 
 const rootReducer = combineReducers({
   orderData: orderDataReducer,
   currentUser: currentUserReducer,
-  pagesData: pagesDataReducer,
+  contentData: contentDataReducer,
   sectionsData: sectionsDataReducer,
   siteName: siteNameReducer,
   analytics: analyticDataReducer,

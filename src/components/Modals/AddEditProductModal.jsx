@@ -43,8 +43,8 @@ const AddEditProductModal = ({ isOpen, setIsOpen, updatedData = null }) => {
   const [selectedOptionsMap, setSelectedOptionsMap] = useState({});
 
   useEffect(() => {
-    console.log(categories, "Abcd");
-  }, [categories])
+    console.log(formData, "🦍🦍🦍");
+  }, [formData])
 
   useEffect(() => {
     if (updatedData) {
@@ -68,6 +68,8 @@ const AddEditProductModal = ({ isOpen, setIsOpen, updatedData = null }) => {
         metaTitle: "",
         metaDescription: "",
         wantsCustomerReview: true,
+        trackInventory: true,
+        continueSelling: false,
         note: "",
         collections: [],
         ratings: { average: 0, count: 0 },
@@ -245,16 +247,18 @@ const AddEditProductModal = ({ isOpen, setIsOpen, updatedData = null }) => {
           </CustomCard>
 
           <CustomCard icon={<MdOutlineProductionQuantityLimits />} title="Stock" className="break-inside-avoid flex-none !p-4 pt-3">
-            <FormInput type="number" name="stock" label="Stock" layout="label" placeholder="e.g. 100" value={formData.stock || 0} handleChange={(e) => handleChange(e.target.name, e.target.value)} error={errors.stock} />
-            <Checkbox isCheck={formData.showStock || false} onChange={(val) => handleChange("showStock", val)} label="Show Stock Number" className={'w-full'} />
-            <Checkbox isCheck={formData.continueSelling || false} onChange={(val) => handleChange("continueSelling", val)} label="Continue selling when out of stock" className={'w-full'} />
+            <Checkbox isCheck={formData.trackInventory} setIsCheck={(val) => handleChange("trackInventory", val)} label="Track Inventory" className={'w-full'} />
+            {formData.trackInventory === true && (<>
+              <FormInput type="number" name="stock" label="Stock" layout="label" placeholder="e.g. 100" value={formData.stock || 0} handleChange={(e) => handleChange(e.target.name, e.target.value)} error={errors.stock} />
+              <Checkbox isCheck={formData.showStock } setIsCheck={(val) => handleChange("showStock", val)} label="Show Stock Number" className={'w-full'} />
+              <Checkbox isCheck={formData.continueSelling} setIsCheck={(val) => handleChange("continueSelling", val)} label="Continue selling when out of stock" className={'w-full'} />
+            </>)}
           </CustomCard>
 
           <CustomCard icon={<MdMiscellaneousServices />} title="Extras" className="break-inside-avoid flex-none !p-4 pt-3">
             <MultiSelectDropdown wantsCustomOption={false} label="Associate with collections" placeholder="e.g. Shoes , Shirts" defaultOptions={categories?.map((cat) => (cat.name))} selectedOption={formData.collections || []} setSelectedOption={(value) => handleChange("collections", value)} error={errors.collections} />
             <FormInput name="note" label="Note" layout="label" placeholder="e.g. Wash Seperately" value={formData.note || ""} handleChange={(e) => handleChange(e.target.name, e.target.value)} error={errors.note} />
-            <Checkbox isCheck={formData.enableReview || false} onChange={(val) => handleChange("enableReview", val)} label="Enable Customer Review" className={'w-full'} />
-            <Checkbox isCheck={formData.continueSellingExtra || false} onChange={(val) => handleChange("continueSellingExtra", val)} label="Continue selling when out of stock" className={'w-full'} />
+            <Checkbox isCheck={formData.enableReview} setIsCheck={(val) => handleChange("enableReview", val)} label="Enable Customer Review" className={'w-full'} />
           </CustomCard>
 
           <CustomCard icon={<FaSearchengin />} title="Meta Info" info={"Meta Info helps search engines understand your product better. 'Meta Title' is the short headline shown in search results, and 'Meta Description' is a short summary that encourages people to click your product. It's optional but useful for improving visibility on Google."} className="break-inside-avoid flex-none !p-4 pt-3">

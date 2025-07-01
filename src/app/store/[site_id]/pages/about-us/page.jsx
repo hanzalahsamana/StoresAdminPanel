@@ -1,11 +1,11 @@
 'use client'
-import { selectPageByType } from '@/Redux/PagesData/PagesDataSlice';
+import { getContentByName } from '@/Redux/ContentData/ContentDataSlice';
 import React from 'react';
 import { useSelector } from 'react-redux';
 
 const AboutUs = () => {
   const selectedPage = useSelector((state) =>
-    selectPageByType(state, "About Us")
+    getContentByName(state, "About Us")
   );
 
   return (

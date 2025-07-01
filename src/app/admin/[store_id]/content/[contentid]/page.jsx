@@ -2,7 +2,6 @@
 
 import React, { useEffect, useState } from 'react'
 import "../../../../../components/UI/style.css";
-import ProtectedRoute from '@/AuthenticRouting/ProtectedRoutes';
 import Button from '@/components/Actions/Button';
 import ActionCard from '@/components/Cards/ActionCard';
 import FormInput from '@/components/Forms/FormInput';
@@ -10,10 +9,10 @@ import BackgroundFrame from '@/components/Layout/BackgroundFrame';
 import FaqUploader from '@/components/Uploaders/FaqUploader';
 import ImageUploader from '@/components/Uploaders/ImageUploader';
 import TextEditor from '@/components/Uploaders/TextEditor';
-import { selectPageByID } from '@/Redux/PagesData/PagesDataSlice';
+import { getContentByID } from '@/Redux/ContentData/ContentDataSlice';
 import { useParams } from 'next/navigation';
-import { useDispatch, useSelector } from 'react-redux';
-import { editPagesData } from '@/APIs/PagesData/editPagesData';
+import { useSelector } from 'react-redux';
+import { editContentData } from '@/APIs/Content/editContentData';
 import { toast } from 'react-toastify';
 import { CiUndo } from 'react-icons/ci';
 import IconButton from '@/components/Actions/IconButton';
@@ -21,6 +20,7 @@ import { uploadSingleImageToS3 } from '@/APIs/uploadImageS3';
 import { pageDataValidate } from '@/Utils/FormsValidator';
 import BackButton from '@/components/Actions/BackButton';
 import { IsEqual } from '@/Utils/IsEqual';
+import { cleanObjectFields } from '@/Utils/cleanObjectFields';
 
 
 const componentMapping = {
@@ -63,27 +63,27 @@ const componentMapping = {
 };
 
 
-
+const initialFormData = {
+  title: "",
+  type: "",
+  text: "",
+  image: "",
+  faqs: [{ Q: "", A: "" }],
+  email: "",
+  phone: "",
+  address: "",
+}
 const ContentEdit = () => {
 
   const params = useParams()
-  const dispatch = useDispatch();
 
-  const page = useSelector((state) => selectPageByID(state, params?.pageid));
   const { currUser } = useSelector((state) => state.currentUser);
+  const { store } = useSelector((state) => state.store);
   const [isModified, setIsModified] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [formData, setFormData] = useState(initialFormData);
 
-  const [formData, setFormData] = useState({
-    title: "",
-    type: "",
-    text: "",
-    image: "",
-    faqs: [{ Q: "", A: "" }],
-    email: "",
-    phone: "",
-    address: "",
-  });
+  const page = useSelector((state) => getContentByID(state, params?.contentid));
 
   const handleInputChange = (key, value) => {
     setFormData((prev) => ({ ...prev, [key]: value }));
@@ -127,6 +127,7 @@ const ContentEdit = () => {
         return (
           <ImageUploader
             key={index}
+            size='Xlarge'
             image={formData[field]}
             setImage={(image) => handleInputChange(field, image)}
           />
@@ -148,36 +149,39 @@ const ContentEdit = () => {
       let updatedData = { ...formData };
 
       if (formData?.image && formData?.image instanceof File) {
-        const uploadedImageUrl = await uploadSingleImageToS3(currUser?.brandName, formData.image);
+        const uploadedImageUrl = await uploadSingleImageToS3(currUser?.token , store?._id, formData.image);
         updatedData.image = uploadedImageUrl;
       }
-      await editPagesData(updatedData, currUser?.brandName, page?._id, dispatch);
-      setLoading(false)
+      await editContentData(currUser?.token, store?._id, page?._id, updatedData);
       toast.success("Form submitted successfully!");
     } catch (error) {
-      setLoading(false)
       console.log(error);
-
-      toast.error(error?.response?.data?.message || "Something went wrong");
+      toast.error(error.response ? error.response.data.message : error.message)
+    } finally {
+      setLoading(false)
     }
   };
 
 
   useEffect(() => {
     if (page) {
-      const { _id, __v, updatedAt, ...rest } = page;
-      setFormData(rest);
+      const cleaned = cleanObjectFields(page); //
+      setFormData(cleaned);
     }
   }, [page]);
 
   useEffect(() => {
-    const { _id, __v, updatedAt, ...rest } = page;
-    setIsModified(!IsEqual(rest, formData));
+    if (page) {
+      const cleaned = cleanObjectFields(page);
+      setIsModified(!IsEqual(cleaned, formData));
+    }
   }, [page, formData]);
 
   const discardData = () => {
-    const { _id, __v, updatedAt, ...rest } = page;
-    setFormData(rest);
+    if (page) {
+      const cleaned = cleanObjectFields(page);
+      setFormData(cleaned);
+    }
   }
 
   if (!page) {

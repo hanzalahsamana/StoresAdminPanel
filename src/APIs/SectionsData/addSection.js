@@ -1,20 +1,21 @@
-"use client";
+'use client';
 
-import axios from "axios";
-import Base_URL from "../../../config";
-import { toast } from "react-toastify";
-import { setSectionsData } from "@/Redux/SectionsData/SectionsDataSlice";
+import axios from 'axios';
+import Base_URL from '../../../config';
+import { setSectionsData } from '@/Redux/SectionsData/SectionsDataSlice';
+import { dispatch } from '@/Redux/Store';
 
-export const addSection = async (type , data, dispatch) => {
+export const addSection = async (token, storeId, data) => {
   try {
-    const apiUrl = `${Base_URL}/${type}/addSection`;
-    const response = await axios.post(apiUrl, data, {});
-    toast.success("Section added successfully");
+    const apiUrl = `${Base_URL}/${storeId}/addSection`;
+    const response = await axios.post(apiUrl, data, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     dispatch(setSectionsData(response.data));
     return response.data;
   } catch (error) {
-    throw "Section adding failed" || error.response
-      ? error.response.data.message
-      : error.message;
+    throw error;
   }
 };

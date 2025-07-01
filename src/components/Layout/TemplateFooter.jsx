@@ -1,7 +1,7 @@
 "use client";
 import Link from 'next/link';
 import { useSelector } from 'react-redux';
-import { selectPageByType } from '@/Redux/PagesData/PagesDataSlice';
+import { getContentByName } from '@/Redux/ContentData/ContentDataSlice';
 import { useState } from 'react';
 import OrderTrackModal from '@/components/Modals/OrderTrackModal';
 import { getBasePath } from '@/Utils/GetBasePath';
@@ -14,11 +14,11 @@ const TemplateFooter = () => {
   const path = getBasePath();
 
   const SiteLogo = useSelector((state) =>
-    selectPageByType(state, "Site Logo")
+    getContentByName(state, "Site Logo")
   );
 
   const ContactDetails = useSelector((state) =>
-    selectPageByType(state, "Contact")
+    getContentByName(state, "Contact")
   );
 
   const { categories } = useSelector((state) => state?.categories);

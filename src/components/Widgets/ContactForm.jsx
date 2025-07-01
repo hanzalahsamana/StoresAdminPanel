@@ -4,14 +4,14 @@ import { useState, useCallback } from "react";
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
 import { postContact } from "@/APIs/Contact/postContact";
-import { selectPageByType } from "@/Redux/PagesData/PagesDataSlice";
+import { getContentByName } from "@/Redux/ContentData/ContentDataSlice";
 import FormInput from "../Forms/FormInput";
 
 const ContactForm = () => {
   const [formData, setFormData] = useState({ name: "", email: "", phone: "", message: "" });
   const [loading, setLoading] = useState(false);
 
-  const siteLogo = useSelector((state) => selectPageByType(state, "Site Logo")?.image);
+  const siteLogo = useSelector((state) => getContentByName(state, "Site Logo")?.image);
   const { siteName } = useSelector((state) => state.siteName);
 
   const handleChange = useCallback((e) => {

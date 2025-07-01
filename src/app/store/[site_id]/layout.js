@@ -11,12 +11,12 @@ import DiscountCountdownBar from "@/components/UI/DiscountCountdownBar";
 import Loader from "@/components/Loader/TemplateLoader";
 
 import { setCartData } from "@/Redux/CartData/cartDataSlice";
-import { selectPageByType } from "@/Redux/PagesData/PagesDataSlice";
+import { getContentByName } from "@/Redux/ContentData/ContentDataSlice";
 import { getStore } from "@/APIs/StoreDetails/getStore";
 import { getProducts } from "@/APIs/Product/getProducts";
 import { getCollections } from "@/APIs/Category/getCollections";
 import { getSections } from "@/APIs/SectionsData/getSections";
-import { getContents } from "@/APIs/PagesData/getContents";
+import { getContents } from "@/APIs/Content/getContents";
 import SiteNotFound from "@/components/404Pages/SiteNotFound";
 import { getPublicStoreConfiguration } from "@/APIs/StoreConfigurations/configuration";
 import { usePathname } from "next/navigation";
@@ -33,7 +33,7 @@ export default function SiteLayout({ params, children }) {
   const { pagesDataLoading } = useSelector((state) => state.pagesData);
   const { sectionsDataLoading } = useSelector((state) => state.sectionsData);
   const { categoryLoading } = useSelector((state) => state.categories);
-  const SiteLogo = useSelector((state) => selectPageByType(state, "Site Logo"));
+  const SiteLogo = useSelector((state) => getContentByName(state, "Site Logo"));
   const pathname = usePathname();
   const isCheckoutPage = pathname.includes("/checkout");
 

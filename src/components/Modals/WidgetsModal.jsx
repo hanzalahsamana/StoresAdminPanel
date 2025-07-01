@@ -1,9 +1,8 @@
 import { addSection } from "@/APIs/SectionsData/addSection";
-import { setSectionsData, setSectionsDataLoading } from "@/Redux/SectionsData/SectionsDataSlice";
 import { SectionStructure } from "@/Structure/SectionStructure";
 import { useEffect } from "react";
 import { IoCloseOutline } from "react-icons/io5";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 
 const widgets = [
@@ -17,21 +16,19 @@ const widgets = [
     { id: 8, name: "Contact Form" },
 ];
 
-const WidgetsModal = ({ isOpen, setIsOpen, selectedOrder = 1, setSelectedOrder }) => {
-    const dispatch = useDispatch()
+const WidgetsModal = ({ isOpen, setIsOpen, selectedOrder = 1, setSelectedOrder, setLoading = () => { } }) => {
     const { currUser } = useSelector((state) => state.currentUser);
+    const { store } = useSelector((state) => state.store);
 
     const handleAddSection = async (section) => {
         try {
-            dispatch(setSectionsDataLoading(true));
-            const responce = await addSection(currUser?.brandName, section, dispatch);
-            console.log(responce, "🙂‍↔️");
-
-            dispatch(setSectionsData(responce));
-            dispatch(setSectionsDataLoading(false));
+            setLoading(true);
+            await addSection(currUser?.token, store?._id, section);
+            toast.success('Section added successfully');
         } catch (error) {
-            dispatch(setSectionsDataLoading(false));
-            toast.error(error?.response?.data?.message || "Something went wrong");
+            toast.error(error.response ? error.response.data.message : error.message)
+        } finally {
+            setLoading(false);
         }
 
 
