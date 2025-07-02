@@ -12,7 +12,7 @@ import storeConfgurationReducer from './StoreConfiguration/StoreConfigurationSli
 import { contentDataReducer } from './ContentData/ContentDataSlice';
 import { sectionsDataReducer } from './SectionsData/SectionsDataSlice';
 import { livePreviewReducer } from './LivePreview/livePreviewSlice';
-import { categoryReducer } from './Category/CategorySlice';
+import { collectionReducer } from './Collection/CollectionSlice';
 import { siteNameReducer } from './SiteName/SiteNameSlice';
 import { networkReducer } from './Network/networkSlice';
 
@@ -26,7 +26,7 @@ const rootReducer = combineReducers({
   network: networkReducer,
   productData: productDataReducer,
   cartData: cartDataReducer,
-  categories: categoryReducer,
+  collection: collectionReducer,
   livePreview: livePreviewReducer,
   allStores: allStoresReducer,
   store: storeReducer,

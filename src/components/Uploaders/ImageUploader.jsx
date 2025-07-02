@@ -2,22 +2,38 @@ import { useState, useEffect, useRef } from "react";
 import { IoMdClose } from "react-icons/io";
 import { Tooltip } from "react-tooltip";
 import { IoImageOutline } from "react-icons/io5";
+import { HiOutlineInformationCircle } from "react-icons/hi";
 
 const placeholderImageUrl =
   "https://res.cloudinary.com/duaxitxph/image/upload/v1736247980/cjzl4ivq2lduxqbtnfj1.webp";
 
 const MAX_FILE_SIZE = 4 * 1024 * 1024; // 4MB
 const ALLOWED_MIME_TYPES = ["image/jpeg", "image/png", "image/webp", "image/gif"];
+const RECOMMENDED_SIZE = '100x100';
+const RECOMMENDED_RATIO = '1:1';
 
 const ImageUploader = ({
   image = placeholderImageUrl,
   setImage = () => { },
   size = "small",
-  className,
+  formats = ALLOWED_MIME_TYPES,
+  maxFileSize = MAX_FILE_SIZE,
+  recommendedSize = RECOMMENDED_SIZE,
+  recommendedRatio = RECOMMENDED_RATIO,
+  error = "",
+  className = "",
+
+
 }) => {
   const fileInputRef = useRef(null);
   const [imagePreviewUrl, setImagePreviewUrl] = useState();
-  const [error, setError] = useState("");
+  const [validateError, setValidateError] = useState("");
+
+  useEffect(() => {
+    if (error) {
+      setValidateError(error);
+    }
+  }, [error]);
 
   useEffect(() => {
     return () => {
@@ -47,23 +63,23 @@ const ImageUploader = ({
     if (!file) return;
 
     if (!ALLOWED_MIME_TYPES.includes(file.type)) {
-      setError("Invalid file type. Allowed: JPEG, PNG, WEBP, GIF.");
+      setValidateError("Invalid file type. Allowed: JPEG, PNG, WEBP, GIF.");
       return;
     }
 
     if (file.size > MAX_FILE_SIZE) {
-      setError("File size exceeds 4MB limit.");
+      setValidateError("File size exceeds 4MB limit.");
       return;
     }
 
-    setError("");
+    setValidateError("");
     setImage(file);
     event.target.value = "";
   };
 
   const handleImageRemove = () => {
     setImage(placeholderImageUrl);
-    setError("");
+    setValidateError("");
     if (fileInputRef.current) {
       fileInputRef.current.value = "";
     }
@@ -83,16 +99,17 @@ const ImageUploader = ({
 
       <div>
         <p>Upload Image</p>
-        <p className="text-gray-400"> <span className="italic">Recommended Ratio</span> - size:100 x 100 px ratio: 1/1 format:Webp </p>
+
+        {/* <p className="text-gray-400"> <span className="italic">Recommended Ratio</span> - size:100 x 100 px ratio: 1/1 format:Webp </p> */}
       </div>
       <div
         className={`relative group ${size === "small"
-            ? "w-[40px] h-[40px]"
-            : size === "medium"
-              ? "w-[60px] h-[60px]"
-              : size === "large"
-                ? "w-[100px] h-[100px]"
-                : "w-[200px] h-[200px]"
+          ? "w-[40px] h-[40px]"
+          : size === "medium"
+            ? "w-[60px] h-[60px]"
+            : size === "large"
+              ? "w-[100px] h-[100px]"
+              : "w-[200px] h-[200px]"
           } rounded-md cursor-pointer`}
       >
         {!isPlaceholder ? (
@@ -108,10 +125,10 @@ const ImageUploader = ({
               data-tooltip-content="Remove Image"
               onClick={handleImageRemove}
               className={`absolute z-20 top-[-8px] right-[-8px] rounded-full text-backgroundC bg-red-500 ${size === "small"
-                  ? "text-[10px] p-0.5"
-                  : size === "medium"
-                    ? "text-[10px] p-1"
-                    : "text-[15px] p-1"
+                ? "text-[10px] p-0.5"
+                : size === "medium"
+                  ? "text-[10px] p-1"
+                  : "text-[15px] p-1"
                 } opacity-0 group-hover:opacity-100 transition-opacity duration-200`}
             >
               <IoMdClose />
@@ -125,27 +142,33 @@ const ImageUploader = ({
           >
             <IoImageOutline
               className={`text-primaryC font-bold ${size === "small"
-                  ? "text-[15px]"
-                  : size === "medium"
-                    ? "text-[25px]"
-                    : size === "large"
-                      ? "text-[40px]"
-                      : "text-[70px]"
+                ? "text-[15px]"
+                : size === "medium"
+                  ? "text-[25px]"
+                  : size === "large"
+                    ? "text-[40px]"
+                    : "text-[70px]"
                 }`}
             />
           </div>
         )}
       </div>
-
+      <div className="flex items-start gap-2 text-xs text-gray-600 bg-gray-50 border border-gray-200 rounded-md p-2 mt-2">
+        <HiOutlineInformationCircle className="text-blue-500 mt-0.5 flex-shrink-0" size={16} />
+        <div>
+          <p className="font-medium text-gray-700">Recommended:</p>
+          <span>Size: <b>{recommendedSize}</b> px, Ratio: <b>{recommendedRatio}</b>, Max Size: <b>{'3MB'}</b></span>
+        </div>
+      </div>
       <input
         type="file"
         ref={fileInputRef}
-        accept={ALLOWED_MIME_TYPES.join(",")}
+        accept={formats.join(",")}
         onChange={handleImageUpload}
         className="hidden"
       />
 
-      {error && <p className="text-red-500 text-[14px] font-medium">*{error}</p>}
+      {validateError && <p className="text-red-500 text-[14px] font-medium">*{validateError}</p>}
     </div>
   );
 };

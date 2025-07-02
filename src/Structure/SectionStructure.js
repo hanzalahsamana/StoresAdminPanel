@@ -61,7 +61,7 @@ export const SectionStructure = {
     sectionName: "Featured Collection",
     data: {
       title: "Featured Collection",
-      selectedCategories: [],
+      selectedcollections: [],
     },
     fields: [
       {
@@ -70,7 +70,7 @@ export const SectionStructure = {
         input: "text",
       },
       {
-        name: "selectedCategories",
+        name: "selectedcollections",
         placeholder: "Select Collections",
         input: "multiDropdown",
         options: "collections",
@@ -150,7 +150,7 @@ export const SectionStructure = {
       title: "Featured Product",
       maxLength: 4,
       productType: "All",
-      selectedCategories: [],
+      selectedcollections: [],
       selectedProducts: [],
     },
     fields: [
@@ -168,14 +168,14 @@ export const SectionStructure = {
         name: "productType",
         placeholder: "Products To Show",
         input: "dropdown",
-        options: ["All", "Selected Categories", "Selected Products"],
+        options: ["All", "Selected collections", "Selected Products"],
       },
       {
-        name: "selectedCategories",
-        placeholder: "Select Category",
+        name: "selectedcollections",
+        placeholder: "Select Collection",
         input: "multiDropdown",
         options: "collections",
-        dependsOn: { field: "productType", value: "Selected Categories" },
+        dependsOn: { field: "productType", value: "Selected collections" },
       },
       {
         name: "selectedProducts",

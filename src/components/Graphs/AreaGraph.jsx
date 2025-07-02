@@ -4,7 +4,7 @@ import React from 'react';
 import Chart from 'react-apexcharts';
 
 const AreaGraph = ({ data = {} }) => {
-  const categories = Object.keys(data);
+  const collections = Object.keys(data);
   const views = Object.values(data);
 
   const optionsRevenue = {
@@ -21,7 +21,7 @@ const AreaGraph = ({ data = {} }) => {
     legend: { show: false },
     markers: { size: 3 },
     xaxis: {
-      categories,
+      collections,
       labels: {
         show: true,
         style: { colors: '#99abb4', fontSize: '12px' },

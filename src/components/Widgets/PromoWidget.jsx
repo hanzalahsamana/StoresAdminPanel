@@ -8,7 +8,7 @@ const PromoWidget = ({ content}) => {
     const { styleType = 'style1', title, text, image, buttonText } = content;
 
     return (
-        <div className={styleType === "style1" ? "febric-category" : "fabric-container"}>
+        <div className={styleType === "style1" ? "febric-Collection" : "fabric-container"}>
             <div className={styleType === "style1" ? "img-wrap" : "fabric-img"}>
                 {styleType === "style2" && (
                     <div className="fabric-text-wrap">

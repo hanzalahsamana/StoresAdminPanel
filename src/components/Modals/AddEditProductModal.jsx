@@ -12,14 +12,14 @@ import CustomCard from "../Cards/CustomCard";
 import BackButton from "../Actions/BackButton";
 import MultiSelectDropdown from "../Actions/MultiSelectDropdown";
 import { toast } from "react-toastify";
-import { addProducts } from "@/APIs/Product/addProductData";
-import { editProductData } from "@/APIs/Product/editProductData";
+import { addProducts } from "@/APIs/Product/addProduct";
+import { editProductData } from "@/APIs/Product/editProduct";
 import { useDispatch, useSelector } from "react-redux";
 import { calculateDiscountedPrice } from "@/Utils/CalculateDiscountedPrice";
 import { uploadImagesToS3, uploadSingleImageToS3 } from "@/APIs/uploadImageS3";
 import { productUploadValidate } from "@/Utils/FormsValidator";
 import VariantsSelector from "../Uploaders/VariantsSelector";
-import { MdMiscellaneousServices, MdOutlineCategory, MdOutlineProductionQuantityLimits } from "react-icons/md";
+import { MdMiscellaneousServices, MdOutlineCollection, MdOutlineProductionQuantityLimits } from "react-icons/md";
 import { IoPricetagsOutline } from "react-icons/io5";
 import { CgDetailsMore } from "react-icons/cg";
 import { LuGalleryVerticalEnd } from "react-icons/lu";
@@ -34,7 +34,7 @@ const AddEditProductModal = ({ isOpen, setIsOpen, updatedData = null }) => {
   const dispatch = useDispatch();
   const { currUser } = useSelector((state) => state.currentUser);
   const { store } = useSelector((state) => state.store);
-  const { categories, categoryLoading } = useSelector((state) => state.categories);
+  const { collections, collectionLoading } = useSelector((state) => state.collection);
 
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
@@ -188,7 +188,7 @@ const AddEditProductModal = ({ isOpen, setIsOpen, updatedData = null }) => {
     }
   };
 
-  if (categoryLoading || !categories) {
+  if (collectionLoading || !collections) {
     return
   }
 
@@ -235,7 +235,7 @@ const AddEditProductModal = ({ isOpen, setIsOpen, updatedData = null }) => {
             <MultiImageUploader images={formData.galleryImages || []} setImages={(images) => handleChange("galleryImages", images)} error={errors.galleryImages} />
           </CustomCard>
 
-          <CustomCard icon={<MdOutlineCategory />} title="Variation" info={'Variation is Optional thing Which allow you to devide the product in differnt varieties like Size, Color, etc'} className="break-inside-avoid flex-none !p-4 pt-3">
+          <CustomCard icon={<MdOutlineCollection />} title="Variation" info={'Variation is Optional thing Which allow you to devide the product in differnt varieties like Size, Color, etc'} className="break-inside-avoid flex-none !p-4 pt-3">
             <VariantsSelector />
           </CustomCard>
         </div>
@@ -256,7 +256,7 @@ const AddEditProductModal = ({ isOpen, setIsOpen, updatedData = null }) => {
           </CustomCard>
 
           <CustomCard icon={<MdMiscellaneousServices />} title="Extras" className="break-inside-avoid flex-none !p-4 pt-3">
-            <MultiSelectDropdown wantsCustomOption={false} label="Associate with collections" placeholder="e.g. Shoes , Shirts" defaultOptions={categories?.map((cat) => (cat.name))} selectedOption={formData.collections || []} setSelectedOption={(value) => handleChange("collections", value)} error={errors.collections} />
+            <MultiSelectDropdown wantsCustomOption={false} label="Associate with collections" placeholder="e.g. Shoes , Shirts" defaultOptions={collections?.map((cat) => (cat.name))} selectedOption={formData.collections || []} setSelectedOption={(value) => handleChange("collections", value)} error={errors.collections} />
             <FormInput name="note" label="Note" layout="label" placeholder="e.g. Wash Seperately" value={formData.note || ""} handleChange={(e) => handleChange(e.target.name, e.target.value)} error={errors.note} />
             <Checkbox isCheck={formData.enableReview} setIsCheck={(val) => handleChange("enableReview", val)} label="Enable Customer Review" className={'w-full'} />
           </CustomCard>

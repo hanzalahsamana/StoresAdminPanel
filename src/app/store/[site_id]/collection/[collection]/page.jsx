@@ -28,9 +28,9 @@ const Collection = ({ params }) => {
     <ProductsSection content={{
       title: capitalizeFirstLetter(params?.collection),
       maxLength: Infinity,
-      productType: "Selected Categories",
+      productType: "Selected collections",
       selectedProducts: [],
-      selectedCategories: [params?.collection]
+      selectedcollections: [params?.collection]
     }} />
   )
 }

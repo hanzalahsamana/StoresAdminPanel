@@ -92,6 +92,7 @@ const DropDown = ({
                         label={label}
                         size={size}
                         layout={layout}
+                        required={required}
                         actionIcon={
                             <span className={`ml-auto absolute right-0 text-textTC text-[20px] transition-all ${isOpen ? "rotate-0" : "rotate-180"}`}>
                                 <IoMdArrowDropup />

@@ -12,21 +12,20 @@ import { getBasePath } from '@/Utils/GetBasePath';
 import { SlHandbag } from 'react-icons/sl';
 
 const TemplateHeader = () => {
-  const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
-
-  const SiteLogo = useSelector((state) => getContentByName(state, "Site Logo"));
+  const Storepath = getBasePath();
+  
   const { cartData } = useSelector((state) => state?.cartData || []);
   const { siteName } = useSelector((state) => state.siteName);
-  const { categories } = useSelector((state) => state?.categories);
-  const Storepath = getBasePath();
-
+  const { collections } = useSelector((state) => state?.collection);
+  const SiteLogo = useSelector((state) => getContentByName(state, "Site Logo"));
+  const [isOpen, setIsOpen] = useState(false);
 
   const toggleMenu = () => setIsOpen(!isOpen);
 
   const navLinks = [
     { path: "/", label: "Home" },
-    ...categories?.slice(0, 2).map((category) => ({ path: `/collection/${category.link}`, label: category.name })) || [],
+    ...collections?.slice(0, 2).map((collection) => ({ path: `/collection/${collection?.slug}`, label: collection.name })) || [],
     { path: "/products", label: "Products" },
     { path: "/contact", label: "Contact" },
   ];

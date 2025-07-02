@@ -12,6 +12,22 @@ const TableSkeletonLoader = props => {
             preserveAspectRatio="none"
             {...props}
         >
+            <rect x="27" y="80" rx="4" ry="4" width="20" height="20" />
+            <rect x="67" y="80" rx="10" ry="10" width="85" height="19" />
+            <rect x="188" y="80" rx="10" ry="10" width="169" height="19" />
+            <rect x="402" y="80" rx="10" ry="10" width="85" height="19" />
+            <rect x="523" y="80" rx="10" ry="10" width="169" height="19" />
+            <rect x="731" y="80" rx="10" ry="10" width="85" height="19" />
+            <rect x="852" y="80" rx="10" ry="10" width="85" height="19" />
+
+            <rect x="27" y="20" rx="4" ry="4" width="20" height="20" />
+            <rect x="67" y="20" rx="10" ry="10" width="85" height="19" />
+            <rect x="188" y="20" rx="10" ry="10" width="169" height="19" />
+            <rect x="402" y="20" rx="10" ry="10" width="85" height="19" />
+            <rect x="523" y="20" rx="10" ry="10" width="169" height="19" />
+            <rect x="731" y="20" rx="10" ry="10" width="85" height="19" />
+            <rect x="852" y="20" rx="10" ry="10" width="85" height="19" />
+            
             <rect x="27" y="139" rx="4" ry="4" width="20" height="20" />
             <rect x="67" y="140" rx="10" ry="10" width="85" height="19" />
             <rect x="188" y="141" rx="10" ry="10" width="169" height="19" />
@@ -52,15 +68,17 @@ const TableSkeletonLoader = props => {
             <rect x="730" y="379" rx="10" ry="10" width="85" height="19" />
             <rect x="851" y="378" rx="10" ry="10" width="85" height="19" />
 
+            <rect x="978" y="20" rx="10" ry="10" width="169" height="19" />
+            <rect x="978" y="80" rx="10" ry="10" width="169" height="19" />
             <rect x="978" y="138" rx="10" ry="10" width="169" height="19" />
             <rect x="977" y="195" rx="10" ry="10" width="169" height="19" />
             <rect x="977" y="257" rx="10" ry="10" width="169" height="19" />
             <rect x="977" y="315" rx="10" ry="10" width="169" height="19" />
             <rect x="977" y="378" rx="10" ry="10" width="169" height="19" />
-
+{/* 
             <circle cx="37" cy="97" r="11" />
             <rect x="26" y="23" rx="5" ry="5" width="153" height="30" />
-            <circle cx="77" cy="96" r="11" />
+            <circle cx="77" cy="96" r="11" /> */}
         </ContentLoader>
     )
 }

@@ -4,7 +4,7 @@ import { useEffect, useState, useRef } from "react";
 import { GrDeliver } from "react-icons/gr";
 import { IoAnalyticsOutline, IoHomeOutline, IoShirtOutline, IoChevronForward, IoColorPaletteOutline } from "react-icons/io5";
 import { TfiLayoutMediaCenterAlt, TfiWorld } from "react-icons/tfi";
-import { BiBookContent, BiCategoryAlt, BiTransferAlt } from "react-icons/bi";
+import { BiBookContent, BiCollectionAlt, BiTransferAlt } from "react-icons/bi";
 import { PiTreeStructureLight } from "react-icons/pi";
 import { useSelector } from "react-redux";
 import Loader from "../Loader/loader";
@@ -22,7 +22,7 @@ function Sidebar({ isOpen, setIsOpen }) {
     { name: "Home", icon: 'https://img.icons8.com/fluency/48/home.png', path: "/" },
     { name: "Analytics", icon: 'https://img.icons8.com/doodle/48/analytics.png', path: "/analytics" },
     { name: "Products", icon: 'https://img.icons8.com/doodle/48/t-shirt--v1.png', path: "/products", },
-    { name: "Categories", icon: 'https://img.icons8.com/external-flaticons-lineal-color-flat-icons/64/external-collections-modelling-agency-flaticons-lineal-color-flat-icons.png', path: "/categories", },
+    { name: "collections", icon: 'https://img.icons8.com/external-flaticons-lineal-color-flat-icons/64/external-collections-modelling-agency-flaticons-lineal-color-flat-icons.png', path: "/collections", },
     { name: "Orders", icon: 'https://img.icons8.com/color/48/cardboard-box.png', path: "/ordersList" },
     {
       name: "Discounts", icon: 'https://img.icons8.com/external-gradient-design-circle/66/external-discounts-activities-gradient-design-circle.png', path: "/discounts",

@@ -50,8 +50,8 @@ const ProductDetail = ({ params }) => {
           <ProductsSection content={{
             title: "You may also like,",
             maxLength: 4,
-            productType: "Selected Categories",
-            selectedCategories: [product?.collectionName]
+            productType: "Selected collections",
+            selectedcollections: [product?.collectionName]
           }} />
           <ReviewsList allReviews={allReviews} />
           <AddReviews storeId={store?._id} productId={params?.id} setReviewInState={setAllReviews} />

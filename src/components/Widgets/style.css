@@ -1,4 +1,4 @@
-.febric-category {
+.febric-Collection {
   padding: 30px 3rem;
   display: flex;
   flex-direction: row-reverse;
@@ -131,7 +131,7 @@
   /* .grid{
       column-gap:10px !important;
     } */
-  .febric-category {
+  .febric-Collection {
     flex-direction: column;
     padding: 30px 1rem;
   }

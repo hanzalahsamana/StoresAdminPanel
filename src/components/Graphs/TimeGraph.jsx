@@ -23,7 +23,7 @@ const TimeGraph = ({ analytics, analyticsLoading }) => {
             row: { colors: ["transparent", "transparent"], opacity: 0.5 },
         },
         xaxis: {
-            categories: [],
+            collections: [],
             labels: {
                 style: { colors: "#6E8192", fontSize: "12px" },
             },
@@ -56,12 +56,12 @@ const TimeGraph = ({ analytics, analyticsLoading }) => {
         // Shuffle data to make the flow random
         dataPairs = dataPairs.sort(() => Math.random() - 0.5);
 
-        const categories = dataPairs.map(item => item.country);
+        const collections = dataPairs.map(item => item.country);
         const data = dataPairs.map(item => item.users);
 
         setChartOptions(prev => ({
             ...prev,
-            xaxis: { ...prev.xaxis, categories },
+            xaxis: { ...prev.xaxis, collections },
         }));
         setChartSeries([{ name: "Country Views", data }]);
     }, [analytics]);

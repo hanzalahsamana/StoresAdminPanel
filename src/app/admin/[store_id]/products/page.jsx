@@ -1,41 +1,39 @@
 "use client";
-import ProtectedRoute from "@/AuthenticRouting/ProtectedRoutes";
-import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { deleteProduct } from "@/APIs/Product/deleteProductData.jsx";
+import { useSelector } from "react-redux";
+import { deleteProduct } from "@/APIs/Product/deleteProduct.js";
+import { useRouter } from "next/navigation";
 import Button from "@/components/Actions/Button";
 import DynamicTable from "@/components/Tables/Table";
 import BackgroundFrame from "@/components/Layout/BackgroundFrame";
 import ActionCard from "@/components/Cards/ActionCard";
-import AddGlobalVariationModal from "@/components/Modals/AddGlobalVariationModal";
-import { useRouter } from "next/navigation";
-
+import useConfirm from "@/Hooks/useConfirm";
+import ImgToIcon from "@/components/Actions/ImgToIcon";
 
 const Products = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [updatedProduct, setUpdatedProduct] = useState(null);
-  const { currUser } = useSelector((state) => state.currentUser);
   const router = useRouter();
-  const { products, productLoading } = useSelector(
-    (state) => state.productData
-  );
-  const dispatch = useDispatch();
+  const { currUser } = useSelector((state) => state.currentUser);
+  const { store } = useSelector((state) => state.store);
+  const { products, productLoading } = useSelector((state) => state.productData);
 
-  const toggleModal = () => {
-    setIsOpen((prev) => !prev);
-  };
+  const { confirm, ConfirmationModal } = useConfirm();
 
   const columns = [
-    { key: "images", label: "Image", type: "image" },
+    { key: "displayImage", label: "Image", type: "image" },
     { key: "name", label: "Title" },
-    { key: "collectionName", label: "Collection", },
-    { key: "brand", label: "Vendor", },
+    { key: "price", label: "price" },
+    { key: "vendor", label: "Vendor", },
     { key: "stock", label: "Stock", type: "stock" },
   ];
 
   const actions = {
     edit: (row) => { router.push(`/products/edit/${row?._id}`); },
-    delete: (row) => { deleteProduct(currUser.brandName, row?._id, dispatch) },
+    delete: (row) => { handleProductDelete(row?._id) },
+  };
+
+  const handleProductDelete = async (productId) => {
+    const ok = await confirm("Delete Product", "Are you sure you want to delete this product?");
+    if (!ok) return;
+    await deleteProduct(currUser.token, store?._id, productId);
   };
 
   return (
@@ -43,6 +41,8 @@ const Products = () => {
       <ActionCard
         label={'Products'}
         actionPosition="top"
+        icon={<ImgToIcon url={'https://img.icons8.com/doodle/48/t-shirt--v1.png'} />}
+        subText={'Manage your products here. You can add, edit, or delete products as needed.'}
         actions={<>
           <Button
             label="Add Product"
@@ -50,20 +50,12 @@ const Products = () => {
             action={() => { router.push('add'); }}
             className="w-max !py-2"
           />
-          <Button
-            label="Variations"
-            variant="outline"
-            size="small"
-            action={() => { setUpdatedProduct(null); toggleModal(); }}
-            className="w-max !py-2"
-          />
         </>}
       >
 
-
         <DynamicTable columns={columns} data={products} actions={actions} loading={productLoading} notFoundText="There are no products to show" />
-        <AddGlobalVariationModal setIsOpen={setIsOpen} isOpen={isOpen} />
-
+        {ConfirmationModal}
+        {/* <AddGlobalVariationModal setIsOpen={setIsOpen} isOpen={isOpen} /> */}
       </ActionCard>
     </BackgroundFrame>
 

@@ -12,7 +12,7 @@ const ProductsSection = ({ content = {} }) => {
         maxLength = 4,
         productType = "All",
         selectedProducts = [],
-        selectedCategories = []
+        selectedcollections = []
     } = content;
 
     const { products, loading, error } = useSelector((state) => state.productData);
@@ -32,9 +32,9 @@ const ProductsSection = ({ content = {} }) => {
 
     if (productType === "All") {
         filteredProducts = products;  // Show all products
-    } else if (productType === "Selected Categories") {
+    } else if (productType === "Selected collections") {
         filteredProducts = products?.filter(product =>
-            selectedCategories.includes(product.collectionName)
+            selectedcollections.includes(product.collectionName)
         );
     } else if (productType === "Selected Products") {
         console.log(products, selectedProducts, "🍔🍔🎃");
@@ -48,13 +48,7 @@ const ProductsSection = ({ content = {} }) => {
             <h1 className='mb-6 text-[30px] text-[var(--tmp-txt)] font-semibold text-center'>{title}</h1>
             <div className="grid grid-cols-4 max-[1024px]:grid-cols-3 max-[750px]:grid-cols-2 max-[470px]:grid-cols-1 gap-2 m-6">
                 {filteredProducts?.slice(0, maxLength || 4).map((product) => (
-                    <Link
-                        className="cursor-pointer"
-                        key={product._id}
-                        href={`${getBasePath()}/products/${product._id}`}
-                    >
-                        <ProductCard product={product} />
-                    </Link>
+                    <ProductCard product={product} />
                 ))}
             </div>
         </div>

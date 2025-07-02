@@ -41,7 +41,7 @@ const ContentEdit = () => {
   const { currUser } = useSelector((state) => state.currentUser);
   const { store } = useSelector((state) => state.store);
   const { products } = useSelector((state) => state.productData);
-  const { categories } = useSelector((state) => state.categories);
+  const { collections } = useSelector((state) => state.collection);
   const [isModified, setIsModified] = useState(false);
   const [checked, setChecked] = useState(true);
   const [loading, setLoading] = useState(false);
@@ -135,7 +135,7 @@ const ContentEdit = () => {
           options === "products"
             ? products.map((product) => product?.name)
             : options === "collections"
-              ? categories.map((category) => category?.link)
+              ? collections.map((Collection) => Collection?.slug)
               : [];
 
         return (

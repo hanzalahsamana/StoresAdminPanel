@@ -14,7 +14,7 @@ export const AnnouncementsStructure = [
           input: "text",
         },
         {
-          name: "selectedCategories",
+          name: "selectedcollections",
           placeholder: "Select Collections",
           input: "multiDropdown",
           options: "collections",

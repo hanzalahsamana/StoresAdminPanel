@@ -127,7 +127,7 @@ const PaymentForm = ({ cartItem, selectedMethod = '', setSelectedMethod = () => 
             All transactions are secure and encrypted.
           </p>
 
-          {/* <DropDown
+          <DropDown
             placeholder="Select Payment Method"
             defaultOptions={paymentMethods?.map((method) => ({ label: method?.method, value: method?._id }))}
             size="large"
@@ -135,7 +135,7 @@ const PaymentForm = ({ cartItem, selectedMethod = '', setSelectedMethod = () => 
             setSelectedOption={setSelectedMethod}
             selectedOption={selectedMethod}
             className={`cursor-pointer select-none !px-4 font-medium !text-gray-700 placeholder:text-gray-700 placeholder:text-[18px] !bg-blue-50 !border-2 !border-[#297ed9]`}
-          /> */}
+          />
 
         </div>
         <div className="w-full space-y-[18px]">

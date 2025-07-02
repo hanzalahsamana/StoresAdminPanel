@@ -1,6 +1,6 @@
 export const MigrationDefaultKeys = [
   "products",
-  "categories",
+  "collections",
   "contents",
   "sections",
   "orders",

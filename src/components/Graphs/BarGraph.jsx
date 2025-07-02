@@ -33,7 +33,7 @@ const BarGraph = ({ analytics, analyticsLoading }) => {
       show: false,
     },
     xaxis: {
-      categories: [],
+      collections: [],
       labels: {
         style: {
           colors: "#99abb4",
@@ -63,7 +63,7 @@ const BarGraph = ({ analytics, analyticsLoading }) => {
   useEffect(() => {
     if (!analytics) return;
 
-    const categories = [
+    const collections = [
       "New Users",
       "Returning Users",
       "New Views",
@@ -85,7 +85,7 @@ const BarGraph = ({ analytics, analyticsLoading }) => {
 
     setChartOptions((prev) => ({
       ...prev,
-      xaxis: { ...prev.xaxis, categories },
+      xaxis: { ...prev.xaxis, collections },
     }));
 
     setChartSeries([{ name: "Metrics", data }]);

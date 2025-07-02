@@ -31,7 +31,7 @@ const DynamicTable = ({ columns = [], data = [], actions = {}, loading = false, 
                         </tr>
                     ) : !data || data?.length === 0 ? (
                         <tr>
-                            <td colSpan={columns.length + (Object.keys(actions).length > 0 ? 1 : 0)} className="text-center p-5 w-full">
+                            <td colSpan={columns?.length + (Object.keys(actions)?.length > 0 ? 1 : 0)} className="text-center p-5 w-full">
                                 <div className="flex flex-col gap-[20px] justify-center items-center min-h-[250px] w-full">
                                     <MdOutlineSentimentDissatisfied className="text-borderC text-[40px]" />
                                     <p className="text-borderC text-[12px] font-extralight">{notFoundText}</p>
@@ -57,7 +57,7 @@ const DynamicTable = ({ columns = [], data = [], actions = {}, loading = false, 
                                                 />
                                             ) : col.type === "id" ? (
                                                 <div className="flex items-center gap-2">
-                                                    #{value.length > 16 ? value?.toString()?.slice(0, 10) + ".." : (value || "-")}
+                                                    #{value?.length > 16 ? value?.toString()?.slice(0, 10) + ".." : (value || "-")}
                                                     <IconButton
                                                         icon={<IoCopyOutline />}
                                                         className="text-primaryC !text-[16px]"
@@ -84,13 +84,13 @@ const DynamicTable = ({ columns = [], data = [], actions = {}, loading = false, 
                                                     ))}
                                                 </select>
                                             ) : (
-                                                value.length > 16 ? value?.toString()?.slice(0, 16) + ".." : (value || "-")
+                                                value?.length > 16 ? value?.toString()?.slice(0, 16) + ".." : (value || "-")
                                             )}
                                         </td>
                                     );
                                 })}
 
-                                {!!Object.keys(actions).length && (
+                                {!!Object.keys(actions)?.length && (
                                     <td className="p-3 space-x-2 flex">
                                         {actions.edit && (
                                             <IconButton

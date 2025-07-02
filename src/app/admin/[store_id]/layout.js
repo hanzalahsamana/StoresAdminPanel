@@ -7,7 +7,7 @@ import Loader from "@/components/Loader/TemplateLoader";
 import { getStore } from "@/APIs/StoreDetails/getStore";
 import { getSections } from "@/APIs/SectionsData/getSections";
 import { getProducts } from "@/APIs/Product/getProducts";
-import { getCollections } from "@/APIs/Category/getCollections";
+import { getCollections } from "@/APIs/Collection/getCollections";
 import { getContents } from "@/APIs/Content/getContents";
 import NotFound from "@/components/404Pages/NotFound";
 import Sidebar from "@/components/Layout/Sidebar";
@@ -18,7 +18,7 @@ export default function adminLayout({ children, params }) {
   const dispatch = useDispatch();
   const { currUser } = useSelector((state) => state.currentUser);
   const { store, storeLoading } = useSelector((state) => state.store);
-  const { categoryLoading } = useSelector((state) => state.categories);
+  const { collectionLoading } = useSelector((state) => state.collection);
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
   useEffect(() => {
@@ -56,7 +56,7 @@ export default function adminLayout({ children, params }) {
     return <NotFound />;
   }
 
-  if (categoryLoading) {
+  if (collectionLoading) {
     return <Loader />;
   }
 

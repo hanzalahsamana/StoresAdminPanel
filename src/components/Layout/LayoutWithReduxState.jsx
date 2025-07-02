@@ -7,7 +7,7 @@
 // import { useDispatch, useSelector } from 'react-redux'
 // import { fetchPagesData } from '@/APIs/PagesData/getContents';
 // import { fetchProducts } from '@/APIs/Product/getProducts';
-// import { fetchCategory } from '@/APIs/Category/getCollections';
+// import { fetchCollection } from '@/APIs/Collection/getCollections';
 // import { setCartData } from '@/Redux/CartData/cartDataSlice';
 // import { fetchOrderData } from '@/APIs/Order/getOrderData';
 // import TemplateHeader from './TemplateHeader';
@@ -30,7 +30,7 @@
 //   const { productLoading } = useSelector((state) => state.productData);
 //   const { pagesDataLoading } = useSelector((state) => state.pagesData);
 //   const { sectionsDataLoading } = useSelector((state) => state.sectionsData);
-//   const { categoryLoading } = useSelector((state) => state.categories);
+//   const { collectionLoading } = useSelector((state) => state.collection);
 //   // const { loading } = useSelector((state) => state.orderData);
 //   // const { storeDetail, storeDetailLoading } = useSelector((state) => state?.storeDetail);
 //   // const { theme } = storeDetail;
@@ -54,7 +54,7 @@
 //         await Promise.all([
 //           // fetchProducts(dispatch, siteName),
 //           // fetchPagesData(dispatch, siteName),
-//           // fetchCategory(dispatch, siteName),
+//           // fetchCollection(dispatch, siteName),
 //           // fetchOrderData(dispatch, siteName),
 //           // fetchSectionsData(dispatch, siteName),
 //           // fetchStoreDetails(dispatch, siteName),
@@ -81,7 +81,7 @@
 //   console.log(sectionsDataLoading, "sectionDataLoading");
 
 
-//   if (productLoading || pagesDataLoading || categoryLoading || sectionsDataLoading ) {
+//   if (productLoading || pagesDataLoading || collectionLoading || sectionsDataLoading ) {
 //     return <Loader />
 //   }
 

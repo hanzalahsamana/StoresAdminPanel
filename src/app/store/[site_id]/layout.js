@@ -14,7 +14,7 @@ import { setCartData } from "@/Redux/CartData/cartDataSlice";
 import { getContentByName } from "@/Redux/ContentData/ContentDataSlice";
 import { getStore } from "@/APIs/StoreDetails/getStore";
 import { getProducts } from "@/APIs/Product/getProducts";
-import { getCollections } from "@/APIs/Category/getCollections";
+import { getCollections } from "@/APIs/Collection/getCollections";
 import { getSections } from "@/APIs/SectionsData/getSections";
 import { getContents } from "@/APIs/Content/getContents";
 import SiteNotFound from "@/components/404Pages/SiteNotFound";
@@ -30,9 +30,9 @@ export default function SiteLayout({ params, children }) {
   const dispatch = useDispatch();
   const { store, storeLoading } = useSelector((state) => state.store);
   const { productLoading } = useSelector((state) => state.productData);
-  const { pagesDataLoading } = useSelector((state) => state.pagesData);
+  const { contentDataLoading } = useSelector((state) => state.contentData);
   const { sectionsDataLoading } = useSelector((state) => state.sectionsData);
-  const { categoryLoading } = useSelector((state) => state.categories);
+  const { collectionLoading } = useSelector((state) => state.collection);
   const SiteLogo = useSelector((state) => getContentByName(state, "Site Logo"));
   const pathname = usePathname();
   const isCheckoutPage = pathname.includes("/checkout");
@@ -94,8 +94,8 @@ export default function SiteLayout({ params, children }) {
 
   if (
     productLoading ||
-    pagesDataLoading ||
-    categoryLoading ||
+    contentDataLoading ||
+    collectionLoading ||
     sectionsDataLoading
   ) {
     return <Loader />;

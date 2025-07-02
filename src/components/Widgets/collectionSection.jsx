@@ -7,29 +7,29 @@ import CollectionCard from "../Cards/collectionCard";
 import { getBasePath } from "@/Utils/GetBasePath";
 
 const CollectionSection = ({ content = {}, toShowLink = true }) => {
-  const { title = "Featured Collections", selectedCategories = [] } = content
+  const { title = "Featured Collections", selectedcollections = [] } = content
 
-  const { categories } = useSelector((state) => state.categories);
+  const { collections } = useSelector((state) => state.collection);
   const basePath = getBasePath();
 
-  if (!categories || categories.length === 0) {
+  if (!collections || collections.length === 0) {
     return (
       <div className="text-center p-6 bg-[var(--tmp-pri)] text-[--tmp-txt] ">
-        <p className="text-[30px] font-normal text-center">No categories availabel...</p>
+        <p className="text-[30px] font-normal text-center">No collections availabel...</p>
       </div>
     );
   }
 
-  let categoriesToDisplay = [];
+  let collectionsToDisplay = [];
 
-  if (Array.isArray(selectedCategories) && selectedCategories.length > 0) {
-    categoriesToDisplay = categories.filter(cat => selectedCategories.includes(cat.link));
+  if (Array.isArray(selectedcollections) && selectedcollections.length > 0) {
+    collectionsToDisplay = collections.filter(cat => selectedcollections.includes(cat.slug));
   } else {
-    categoriesToDisplay = categories; // Show all categories if none are selected
+    collectionsToDisplay = collections; // Show all collections if none are selected
 
-    // Ensure at least 3 categories by duplicating
-    while (categoriesToDisplay.length < 3) {
-      categoriesToDisplay = [...categoriesToDisplay, ...categoriesToDisplay].slice(0, 3);
+    // Ensure at least 3 collections by duplicating
+    while (collectionsToDisplay.length < 3) {
+      collectionsToDisplay = [...collectionsToDisplay, ...collectionsToDisplay].slice(0, 3);
     }
   }
 
@@ -47,8 +47,8 @@ const CollectionSection = ({ content = {}, toShowLink = true }) => {
         </div>
       )}
       <div className="grid grid-cols-3 max-[700px]:grid-cols-1 gap-5">
-        {categoriesToDisplay?.map((category, index) => (
-          <CollectionCard key={index} collection={category} />
+        {collectionsToDisplay?.map((Collection, index) => (
+          <CollectionCard key={index} collection={Collection} />
         ))}
       </div>
     </div>

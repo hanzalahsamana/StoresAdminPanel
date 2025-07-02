@@ -8,7 +8,7 @@ import { FaArrowRightLong } from "react-icons/fa6";
 const CollectionCard = ({ collection }) => {
   const basePath = getBasePath();
   return (
-    <Link href={`${basePath}/collection/${collection?.link}`}>
+    <Link href={`${basePath}/collection/${collection?.slug}`}>
       <div className='rounded-[20px] cursor-pointer flex flex-col'>
         {/* Ensure consistent height with aspect-ratio */}
         <div className='rounded-md overflow-hidden aspect-[1/1] flex items-center justify-center'>

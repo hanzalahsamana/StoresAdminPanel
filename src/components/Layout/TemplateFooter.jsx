@@ -21,9 +21,9 @@ const TemplateFooter = () => {
     getContentByName(state, "Contact")
   );
 
-  const { categories } = useSelector((state) => state?.categories);
-  console.log(siteName , "wow");
-  
+  const { collections } = useSelector((state) => state?.collection);
+  console.log(siteName, "wow");
+
 
   return (
     <div className="bg-[var(--tmp-sec)] py-10 px-10 text-[var(--tmp-wtxt)] w-full max-w-[1500px]">
@@ -61,8 +61,8 @@ const TemplateFooter = () => {
         <div className='uppercase'>
           <h4 className="font-bold mb-4 text-[16px] text-[var(--tmp-wtxt)]">SHOP</h4>
           <ul>
-            {categories?.map((category, i) => (
-              <li key={i} className="mb-2 hover:opacity-[0.7] w-max"><a href={`${path}/collection/${category?.link}`}>{category?.name}</a></li>
+            {collections?.map((Collection, i) => (
+              <li key={i} className="mb-2 hover:opacity-[0.7] w-max"><a href={`${path}/collection/${Collection?.slug}`}>{Collection?.name}</a></li>
             ))}
             <li className="mb-2 hover:opacity-[0.7] w-max"><a href={`${path}/products`}>ALL PRODUCTS</a></li>
           </ul>
@@ -81,7 +81,7 @@ const TemplateFooter = () => {
             </a></li>
           </ul> */}
           <ul>
-            <SubscribeForm/>
+            <SubscribeForm />
           </ul>
           <ul className='mt-[20px]'>
 
