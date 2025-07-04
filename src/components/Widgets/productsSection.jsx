@@ -1,10 +1,12 @@
 "use client";
-import { useSelector } from 'react-redux';
+import { useEffect, useState } from 'react';
 import ProductCard from '../Cards/productCard';
-import Link from 'next/link';
 import Loader from '../Loader/TemplateLoader';
 import { MdSignalWifiConnectedNoInternet2 } from "react-icons/md";
 import { getBasePath } from '@/Utils/GetBasePath';
+import BASE_URL from 'config';
+import { useSelector } from 'react-redux';
+import axios from 'axios';
 
 const ProductsSection = ({ content = {} }) => {
     const {
@@ -14,8 +16,44 @@ const ProductsSection = ({ content = {} }) => {
         selectedProducts = [],
         selectedcollections = []
     } = content;
+    const { store } = useSelector((state) => state.store);
 
-    const { products, loading, error } = useSelector((state) => state.productData);
+    const [products, setProducts] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+
+    const fetchProducts = async () => {
+        setLoading(true);
+        setError(null);
+
+        try {
+            const query = new URLSearchParams();
+
+            if (productType === "Selected Products" && selectedProducts.length > 0) {
+                query.append("productId", selectedProducts.join(","));
+            }
+
+            if (productType === "Selected collections" && selectedcollections.length > 0) {
+                query.append("collection", selectedcollections.join(","));
+            }
+            query.append("limit", maxLength)
+            query.append("page", 1)
+
+
+            const { data } = await axios.get(`${BASE_URL}/${store?._id}/getProducts?${query.toString()}`);
+            setProducts(data.data || []);
+            return data?.data;
+        } catch (err) {
+            const msg = error?.response?.data?.message || error?.message || 'Something went wrong';
+            setError(msg);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        fetchProducts();
+    }, [productType, selectedProducts, selectedcollections]);
 
     if (loading) return <Loader />;
 
@@ -27,28 +65,12 @@ const ProductsSection = ({ content = {} }) => {
         );
     }
 
-    // Filter products based on the selected product type
-    let filteredProducts = [];
-
-    if (productType === "All") {
-        filteredProducts = products;  // Show all products
-    } else if (productType === "Selected collections") {
-        filteredProducts = products?.filter(product =>
-            selectedcollections.includes(product.collectionName)
-        );
-    } else if (productType === "Selected Products") {
-        console.log(products, selectedProducts, "🍔🍔🎃");
-        filteredProducts = products?.filter(product =>
-            selectedProducts.includes(product.name)
-        );
-    }
-
     return (
         <div className='max-w-[1500px] w-full md:py-4 bg-[var(--tmp-pri)]'>
             <h1 className='mb-6 text-[30px] text-[var(--tmp-txt)] font-semibold text-center'>{title}</h1>
             <div className="grid grid-cols-4 max-[1024px]:grid-cols-3 max-[750px]:grid-cols-2 max-[470px]:grid-cols-1 gap-2 m-6">
-                {filteredProducts?.slice(0, maxLength || 4).map((product) => (
-                    <ProductCard product={product} />
+                {products?.map((product) => (
+                    <ProductCard key={product._id} product={product} />
                 ))}
             </div>
         </div>

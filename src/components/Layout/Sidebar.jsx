@@ -1,25 +1,22 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState, useRef } from "react";
-import { GrDeliver } from "react-icons/gr";
-import { IoAnalyticsOutline, IoHomeOutline, IoShirtOutline, IoChevronForward, IoColorPaletteOutline } from "react-icons/io5";
-import { TfiLayoutMediaCenterAlt, TfiWorld } from "react-icons/tfi";
-import { BiBookContent, BiCollectionAlt, BiTransferAlt } from "react-icons/bi";
-import { PiTreeStructureLight } from "react-icons/pi";
+import { IoChevronForward } from "react-icons/io5";
 import { useSelector } from "react-redux";
 import Loader from "../Loader/loader";
 
 function Sidebar({ isOpen, setIsOpen }) {
-      const { contentData, contentDataLoading } = useSelector((state) => state.contentData);
-
-  const { sectionsData, sectionsDataLoading } = useSelector((state) => state.sectionsData);
-  const { store } = useSelector((state) => state.store);
   const pathname = usePathname();
-  const [openDropdown, setOpenDropdown] = useState(null);
   const subNavRefs = useRef({});
 
+  const [openDropdown, setOpenDropdown] = useState(null);
+
+  const { contentData, contentDataLoading } = useSelector((state) => state.contentData);
+  const { sectionsData, sectionsDataLoading } = useSelector((state) => state.sectionsData);
+  const { store } = useSelector((state) => state.store);
+
   const links = [
-    { name: "Home", icon: 'https://img.icons8.com/fluency/48/home.png', path: "/" },
+    { name: "Home", icon: 'https://img.icons8.com/fluency/48/home.png', path: "" },
     { name: "Analytics", icon: 'https://img.icons8.com/doodle/48/analytics.png', path: "/analytics" },
     { name: "Products", icon: 'https://img.icons8.com/doodle/48/t-shirt--v1.png', path: "/products", },
     { name: "collections", icon: 'https://img.icons8.com/external-flaticons-lineal-color-flat-icons/64/external-collections-modelling-agency-flaticons-lineal-color-flat-icons.png', path: "/collections", },
@@ -100,9 +97,13 @@ function Sidebar({ isOpen, setIsOpen }) {
             <Link
               href={subLinks ? "#" : `/admin/${store?._id}${path}`}
               onClick={() => subLinks && toggleDropdown(index)}
+
               className={`flex justify-between items-center gap-2 py-[10px] px-4 rounded transition duration-200 text-left
-                ${(pathname.startsWith(path) && path !== "/") || pathname === path ? "text-textC border-l-4 border-primaryC bg-[#eeeff1f0]" : "text-textC hover:bg-[#eeeff1f0]"}`}
+              ${pathname === `/admin/${store?._id}${path}` ? "text-textC border-l-4 border-primaryC bg-[#eeeff1f0]"
+                  : "text-textC hover:bg-[#eeeff1f0]"
+                }`}
             >
+
               <span className="flex gap-2 items-center w-full"><img className="w-[22px] h-[22px]" src={icon} alt="home" /> {name}</span>
               {subLinks && (
                 <IoChevronForward className={`transition-transform ${openDropdown === index ? "rotate-90" : "rotate-0"}`} />

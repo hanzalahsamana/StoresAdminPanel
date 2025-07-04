@@ -1,28 +1,23 @@
-"use client";
+'use client';
 
-import Button from "@/components/Actions/Button";
-import JazzCashForm from "@/components/Actions/JazzcashRedirectButton";
-// import JazzcashRedirectButton from "@/components/Actions/JazzcashRedirectButton";
-import { payment } from "@/Utils/payment";
-import Link from "next/link";
+import Button from '@/components/Actions/Button';
+import { useRouter } from 'next/navigation';
 
 const Home = () => {
-  const handlePayment = async () => {
-    await payment();
-  };
+  const router = useRouter();
   return (
-    <>
-      <p className="text-[20px]">This will be our home page website</p>
-      <Button size="small" label="Jazzcash payment" action={handlePayment} />
-      {/* <JazzcashRedirectButton/> */}
-      <JazzCashForm/>
-      <Link
-        className="text-blue-500 hover:underline text-[20px]"
-        href="/authentication/login"
-      >
-        Login
-      </Link>
-    </>
+    <div className=''>
+      <div className="flex justify-between p-5 bg-gray-100 border-b">
+        <h1 className="text-[30px] font-semibold">Our Logo</h1>
+        <div className="flex gap-2">
+          <Button size="small" label="Login" variant="black" action={() => router.push('/authentication/login')} />
+          <Button size="small" label="Admin Panel" action={() => router.push('/admin/stores')} />
+        </div>
+      </div>
+      <div className='flex justify-center items-center p-5 mt-[150px]'>
+        <h1>This will be our home page website</h1>
+      </div>
+    </div>
   );
 };
 export default Home;

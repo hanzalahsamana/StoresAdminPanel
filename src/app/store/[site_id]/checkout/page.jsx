@@ -23,6 +23,7 @@ import ProductsReciept from '@/components/UI/productsRecipt';
 import CheckoutHeader from '@/components/Layout/CheckoutHeader';
 import { paymentFormValidate, placeOrderValidate } from '@/Utils/FormsValidator';
 import { getValidGlobalDiscount } from '@/Utils/CheckoutHelpers';
+import { alfalahPayment } from '@/Utils/PaymentMethodUtils/AlfalahPayment';
 
 
 
@@ -135,9 +136,9 @@ const Checkout = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!placeOrderValidate(orderData, setErrors)) {
-      return;
-    }
+    // if (!placeOrderValidate(orderData, setErrors)) {
+    //   return;
+    // }
 
     // const {
     //   email,
@@ -186,9 +187,31 @@ const Checkout = () => {
     try {
 
       setLoading(true)
-      const credentials = await getHashedPaymentCredential(store?._id, selectedMethod)
-      const { merchantId, pp_Password, integritySalt } = credentials
-      jazzCashPayment({ merchantId, password: pp_Password, salt: integritySalt, amount: 1000, returnUrl: `https://dev.xperiode.com/store/683e8be81cd7939b6e016b92/payment/responce`, phone: '0321-8969332', isTestAccount: true });
+      const paymentMethod = await getHashedPaymentCredential(store?._id, selectedMethod)
+
+      if (paymentMethod?.method === "jazzcash") {
+        const { merchantId, pp_Password, integritySalt } = paymentMethod?.credentials
+        jazzCashPayment({ merchantId, password: pp_Password, salt: integritySalt, amount: 1000, returnUrl: `https://dev.xperiode.com/store/683e8be81cd7939b6e016b92/payment/responce`, phone: '0321-8969332', isTestAccount: true });
+      } else if (paymentMethod?.method === "alfalah") {
+        const { merchantId, pp_Password, integritySalt } = paymentMethod?.credentials
+        alfalahPayment({
+          merchantId: "TESTMERCHANT123",
+          storeId: "TESTSTORE001",
+          merchantHash: "ABC123HASHCODE",
+          merchantUsername: "testuser",
+          merchantPassword: "testpass",
+          secretKey: "TESTSECRETKEY123",
+          amount: "1000.00",
+          returnUrl: "https://dev.xperiode.com/store/683e8be81cd7939b6e016b92/payment/responce",
+          isTest: true,
+          customFields: {
+            HS_IsRedirectionRequest: "0"
+          }
+        });
+      }
+
+
+
       // dispatch(deleteCartData({ siteName }))
       // localStorage.removeItem('cartId')
       // setFormData(initialFormData);

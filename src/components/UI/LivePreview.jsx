@@ -2,7 +2,6 @@
 
 import { setMaximized, } from '@/Redux/LivePreview/livePreviewSlice';
 import React from 'react';
-import { CgMaximize, CgMinimize } from 'react-icons/cg';
 import { IoCloseOutline } from 'react-icons/io5';
 import { VscOpenPreview } from 'react-icons/vsc';
 import { useDispatch, useSelector } from 'react-redux';
@@ -25,11 +24,11 @@ const LivePreview = ({ children, extraAction = null }) => {
             )}
             <Tooltip id='buttonTIp' className='!text-[10px]' />
 
-            <div className={`origin-top-right  pointer-events-auto cursor-move duration-500 transition-all border-[1.4px] border-primaryC overflow-hidden 
-            ${maximized ? 'w-[100%]  md:w-[400px] md:min-w-[400px] md:top-0 md:right-0 h-[calc(100vh-60px)] sticky'
+            <div className={`origin-top-right bg-backgroundC  pointer-events-auto cursor-move duration-500 transition-all border-[1.4px] overflow-hidden 
+            ${maximized ? 'w-[100%]  md:w-[470px] md:min-w-[470px] md:top-0 md:right-0 h-[calc(100vh-60px)] sticky'
                     : 'min-w-[0px] w-[0px] h-[0px] sticky top-[20px] right-3 overflow-hidden'}`}>
 
-                <div className={`w-full h-[30px] text-primaryC cursor-default overflow-hidden flex items-center px-[10px] gap-2 transition-all bg-secondaryC`}>
+                {/* <div className={`w-full h-[30px] text-primaryC cursor-default overflow-hidden flex items-center px-[10px] gap-2 transition-all bg-secondaryC`}>
                     <div className='text-[14px]  flex-1'>
                         Live preview
                     </div>
@@ -43,10 +42,13 @@ const LivePreview = ({ children, extraAction = null }) => {
                         {maximized ? <IoCloseOutline /> : <IoCloseOutline />}
                     </div>
 
-                </div>
+                </div> */}
+                <p className='py-4 text-center text-[20px] font-semibold text-textC'>Live Preview</p>
 
-                <div className={` md:w-[1280px] md:scale-[0.32] ${maximized ? 'md:w-[1280px] md:scale-[0.32] left-0 top-[30px] w-full h-[calc(((100vh-90px)))] md:h-[calc(((100vh-62px)/34)*100)] absolute overflow-y-auto' : ''}  origin-top-left `}>
-                    {children}
+                <div className={`border glowSpinBox md:w-[1280px] md:scale-[0.32] bg-backgroundC ${maximized ? 'md:w-[1280px] md:scale-[0.32] left-[30px] top-[50px] w-full h-[calc(((100vh-90px)))] md:h-auto md:max-h-[calc(((100vh-100px)/34)*100)] absolute overflow-y-auto' : ''}  origin-top-left `}>
+                    <div className='rounded-[25px] overflow-hidden'>
+                        {children}
+                    </div>
                 </div>
 
             </div>

@@ -5,6 +5,7 @@ import DropDown from "@/components/Actions/DropDown";
 import ProductCard from "@/components/Cards/productCard";
 import ProductsSection from "@/components/Widgets/productsSection";
 import { useInfiniteScroll } from "@/Hooks/useInfiniteScroll";
+import BASE_URL from "config";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 
@@ -15,7 +16,14 @@ const Products = () => {
 
 
   const handleGetProducts = async (page, limit) => {
-    return await getProducts(store?._id, page, limit, filter);
+    let queryParams = [];
+    if (page !== undefined && page !== null) queryParams.push(`page=${page}`);
+    if (limit !== undefined && limit !== null) queryParams.push(`limit=${limit}`);
+    if (filter !== undefined && filter !== null && filter !== '') queryParams.push(`filter=${encodeURIComponent(filter)}`);
+    const queryString = queryParams.length ? `?${queryParams.join('&')}` : '';
+    const { data } = await axios.get(`${BASE_URL}/${store?._id}/getProducts${queryString}`);
+
+    return data?.data;
   };
 
   const {
@@ -24,7 +32,7 @@ const Products = () => {
     hasMore,
     loaderRef,
     refresh,
-  } = useInfiniteScroll({ apiFn: handleGetProducts, limit: 10, dependencies: [filter] });
+  } = useInfiniteScroll({ apiFn: handleGetProducts, limit: 6, dependencies: [filter] });
 
 
   return (

@@ -1,6 +1,5 @@
 "use client";
 import { FetchAnalytics } from '@/APIs/Analytics/FetchAnalytics';
-import ProtectedRoute from '@/AuthenticRouting/ProtectedRoutes'
 import DropDown from '@/components/Actions/DropDown';
 import CustomCard from '@/components/Cards/CustomCard';
 import MapChart from '@/components/Graphs/MapChart';
@@ -30,8 +29,8 @@ const options = [
 
 const Analytics = () => {
 
-  const products = useSelector((state) => state.productData.products);
-  const { orders, loading } = useSelector((state) => state?.orderData);
+  const { products } = useSelector((state) => state.productData);
+  // const { orders } = useSelector((state) => state?.orderData);
   const { analytics, analyticloading } = useSelector((state) => state.analytics);
   const [selectedValue, setSelectedValue] = useState('Last Year');
   const { siteName } = useSelector((state) => state.siteName);
@@ -52,7 +51,7 @@ const Analytics = () => {
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-5 w-full mb-5 text-[25px] text-primaryC font-semibold">
         <CustomCard title="Total Views">{analytics?.views}</CustomCard>
         <CustomCard title="Returning Users">{analytics?.returningUsers}</CustomCard>
-        <CustomCard title="Total Orders">{orders?.length}</CustomCard>
+        {/* <CustomCard title="Total Orders">{orders?.length}</CustomCard> */}
         <CustomCard title="Total Products">{products?.length}</CustomCard>
       </div>
 
@@ -78,12 +77,12 @@ const Analytics = () => {
           <BarGraph analytics={analytics} analyticsLoading={analyticloading} />
         </CustomCard>
 
-        <CustomCard title="Recent Orders" className="!h-auto col-span-4">
+        {/* <CustomCard title="Recent Orders" className="!h-auto col-span-4">
           <OrderListTable limit={5} />
           <Link href="/ordersList" className="flex gap-1 w-full text-textTC justify-center items-center hover:gap-3 transition-all pt-5">
             See all <MdArrowRightAlt />
           </Link>
-        </CustomCard>
+        </CustomCard> */}
 
       </div>
     </div>

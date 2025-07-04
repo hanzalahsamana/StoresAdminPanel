@@ -17,36 +17,41 @@ const MultiSelectDropdown = ({
   error = null,
   label = "",
   className = "",
+  loadOptionsFromAPI = null, // <- NEW: async fetch function
 }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [isOpen, setIsOpen] = useState(false);
   const [openUpward, setOpenUpward] = useState(false);
+  const [dynamicOptions, setDynamicOptions] = useState([]);
+
   const dropdownRef = useRef(null);
   const containerRef = useRef(null);
   const inputRef = useRef(null);
 
-  // Convert defaultOptions to array of { label, value }
-  const stableDefaultOptions = useMemo(
-    () => normalizeOptions(defaultOptions),
-    [JSON.stringify(defaultOptions)]
-  );
+  // Normalize default options
+  const stableDefaultOptions = useMemo(() => normalizeOptions(defaultOptions), [JSON.stringify(defaultOptions)]);
 
-  // Convert selected string values to array of full objects using defaultOptions
+  // Decide which options to use: default or dynamic
+  const availableOptions = loadOptionsFromAPI ? dynamicOptions : stableDefaultOptions;
+
+  // Resolve selectedOptions into full {label, value} objects
   const resolvedSelectedOptions = useMemo(() => {
     return selectedOptions.map((val) => {
-      const match = stableDefaultOptions.find((opt) => opt.value === val);
-      return match || { label: val, value: val }; // fallback if custom
+      const match = availableOptions.find((opt) => opt.value === val);
+      return match || { label: val, value: val }; // fallback for custom entries
     });
-  }, [selectedOptions, stableDefaultOptions]);
+  }, [selectedOptions, availableOptions]);
 
+  // Filter options based on search input and what's already selected
   const filteredOptions = useMemo(() => {
-    return stableDefaultOptions.filter(
+    return availableOptions.filter(
       (option) =>
         option.label.toLowerCase().includes(searchTerm.toLowerCase()) &&
         !selectedOptions.includes(option.value)
     );
-  }, [searchTerm, stableDefaultOptions, selectedOptions]);
+  }, [searchTerm, availableOptions, selectedOptions]);
 
+  // Handle outside click to close dropdown
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -57,6 +62,7 @@ const MultiSelectDropdown = ({
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  // Open dropdown upward if not enough space below
   useEffect(() => {
     if (isOpen && containerRef.current) {
       const rect = containerRef.current.getBoundingClientRect();
@@ -65,6 +71,23 @@ const MultiSelectDropdown = ({
       setOpenUpward(spaceBelow < 200 && spaceAbove > spaceBelow);
     }
   }, [isOpen]);
+
+  // Debounced API fetching
+  useEffect(() => {
+    const delayDebounce = setTimeout(async () => {
+      if (loadOptionsFromAPI && searchTerm.trim()) {
+        try {
+          const result = await loadOptionsFromAPI(searchTerm);
+          setDynamicOptions(normalizeOptions(result));
+        } catch (err) {
+          console.error("Failed to fetch options:", err);
+          setDynamicOptions([]);
+        }
+      }
+    }, 300);
+
+    return () => clearTimeout(delayDebounce);
+  }, [searchTerm, loadOptionsFromAPI]);
 
   const handleSelect = (option) => {
     if (!selectedOptions.includes(option.value)) {
@@ -81,12 +104,8 @@ const MultiSelectDropdown = ({
     const trimmed = searchTerm.trim();
     if (
       trimmed &&
-      !selectedOptions.some(
-        (val) => val.toLowerCase() === trimmed.toLowerCase()
-      ) &&
-      !stableDefaultOptions.some(
-        (opt) => opt.label.toLowerCase() === trimmed.toLowerCase()
-      )
+      !selectedOptions.some((val) => val.toLowerCase() === trimmed.toLowerCase()) &&
+      !availableOptions.some((opt) => opt.label.toLowerCase() === trimmed.toLowerCase())
     ) {
       setSelectedOptions([...selectedOptions, trimmed]);
       setSearchTerm("");
@@ -98,7 +117,7 @@ const MultiSelectDropdown = ({
     !selectedOptions.some(
       (val) => val.toLowerCase() === searchTerm.trim().toLowerCase()
     ) &&
-    !stableDefaultOptions.some(
+    !availableOptions.some(
       (opt) => opt.label.toLowerCase() === searchTerm.trim().toLowerCase()
     ) &&
     wantsCustomOption;
@@ -169,7 +188,7 @@ const MultiSelectDropdown = ({
           </span>
         </div>
 
-        {/* Dropdown */}
+        {/* Dropdown Options */}
         <div
           className={`absolute w-full select-none bg-backgroundC box-content border rounded-md shadow-md z-50 transition-all duration-150 ease-in-out overflow-y-auto customScroll ${
             isOpen ? "max-h-[150px] border" : "max-h-0 border-none"
@@ -211,7 +230,7 @@ const MultiSelectDropdown = ({
           ) : null}
         </div>
       </div>
-      {error && <p className="text-xs text-red-500 ">{error}</p>}
+      {error && <p className="text-xs text-red-500">{error}</p>}
     </div>
   );
 };

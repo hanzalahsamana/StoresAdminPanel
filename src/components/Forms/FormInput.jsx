@@ -23,7 +23,7 @@ const FormInput = ({
   layout = "floating", // "floating" or "label"
   label = "Name",
   autocomplete = "on", // "on" or "off"
-  labelClassname = "bg-[var(--tmp-pri)]",
+  labelClassname = "",
 
 }) => {
   const inputSizeClass = size === "small" ? "text-sm h-9" : "text-base h-11";

@@ -7,19 +7,19 @@ export const useInfiniteScroll = ({ apiFn, limit = 10, initialPage = 1, dependen
   const [hasMore, setHasMore] = useState(true);
   const loaderRef = useRef(null);
 
-  const fetchData = async () => {
+  const fetchData = async (pageToFetch = page) => {
     if (loading || !hasMore) return;
 
     setLoading(true);
     try {
-      const result = await apiFn(page, limit);
+      const result = await apiFn(pageToFetch, limit);
       const items = Array.isArray(result) ? result : result.data;
 
       if (!items?.length) {
         setHasMore(false);
       } else {
         setData((prev) => [...prev, ...items]);
-        setPage((prev) => prev + 1);
+        setPage((prev) => prev + 1); // prepare for next page
       }
     } catch (err) {
       console.error('Infinite scroll error:', err);
@@ -27,24 +27,23 @@ export const useInfiniteScroll = ({ apiFn, limit = 10, initialPage = 1, dependen
     setLoading(false);
   };
 
-  // Initial fetch or when dependencies change
+  // When dependencies change, reset everything and load the first page
   useEffect(() => {
     setData([]);
     setPage(initialPage);
     setHasMore(true);
+
+    // Immediately fetch first page
+    fetchData(initialPage);
   }, [...dependencies]);
 
-  useEffect(() => {
-    fetchData();
-  }, [page, ...dependencies]);
-
-  // Intersection observer
+  // Intersection observer to fetch next pages on scroll
   useEffect(() => {
     if (!loaderRef.current || !hasMore || loading) return;
 
     const observer = new IntersectionObserver((entries) => {
       if (entries[0].isIntersecting) {
-        setPage((prev) => prev + 1);
+        fetchData(page); // fetch next page only on scroll
       }
     });
 
@@ -55,7 +54,7 @@ export const useInfiniteScroll = ({ apiFn, limit = 10, initialPage = 1, dependen
       if (el) observer.unobserve(el);
       observer.disconnect();
     };
-  }, [loaderRef.current, hasMore, loading]);
+  }, [loaderRef.current, hasMore, loading, page]);
 
   return {
     data,
@@ -66,6 +65,7 @@ export const useInfiniteScroll = ({ apiFn, limit = 10, initialPage = 1, dependen
       setData([]);
       setPage(initialPage);
       setHasMore(true);
+      fetchData(initialPage);
     },
   };
 };

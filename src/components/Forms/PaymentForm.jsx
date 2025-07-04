@@ -51,68 +51,6 @@ const PaymentForm = ({ cartItem, selectedMethod = '', setSelectedMethod = () => 
     setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
 
-
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-
-  //   if (!paymentFormValidate(formData, setErrors)) {
-  //     return;
-  //   }
-
-  //   const {
-  //     email,
-  //     country,
-  //     firstName,
-  //     lastName,
-  //     address,
-  //     appartment,
-  //     city,
-  //     postalCode,
-  //     phone,
-  //   } = formData;
-  //   const extractedData = cartItem.map(({ name, quantity, selectedSize, discountedPrice, _id, images }) => ({
-  //     name,
-  //     selectedSize,
-  //     _id,
-  //     image: images[0],
-  //     quantity,
-  //     totalOfProduct: discountedPrice * quantity,
-  //   }));
-
-  //   const data = {
-  //     from: siteName,
-  //     to: SiteLogo?.image,
-  //     customerInfo: {
-  //       email,
-  //       firstName,
-  //       lastName,
-  //       phone,
-  //       method: 'COD',
-  //       city,
-  //       country,
-  //       address,
-  //       postalCode,
-  //       appartment,
-  //     },
-  //     orderData: extractedData,
-
-  //   };
-
-  //   try {
-  //     setLoading(true)
-  //     await addOrderDataApi(siteName, data);
-  //     dispatch(deleteCartData({ siteName }))
-  //     localStorage.removeItem('cartId')
-  //     setFormData(initialFormData);
-  //     setErrors({});
-  //     setLoading(false)
-  //     toast.success("Your order has confirmed and will deliverd in 2 to 3 working days")
-  //   } catch (err) {
-  //     setLoading(false)
-  //     toast.error("Error sending email:", err)
-  //   }
-  // };
-
   if (loading) {
     return <Loader />
   }
@@ -149,6 +87,7 @@ const PaymentForm = ({ cartItem, selectedMethod = '', setSelectedMethod = () => 
             value={formData?.email}
             handleChange={handleChange}
             error={errors?.email}
+            labelClassname={'bg-transparent'}
           />
           <FormInput
             size="large"

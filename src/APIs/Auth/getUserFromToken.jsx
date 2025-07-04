@@ -29,7 +29,7 @@ export const getUserFromToken = async (token) => {
         } else {
             console.error("Error fetching user:", error);
         }
-        dispatch(setLogout());
+        // dispatch(setLogout());
     } finally {
         dispatch(setLoading(false));
     }

@@ -29,6 +29,8 @@ import { CiUndo } from 'react-icons/ci';
 import BackButton from '@/components/Actions/BackButton';
 import { IsEqual } from '@/Utils/IsEqual';
 import { editSection } from '@/APIs/SectionsData/editSection';
+import { HTTP } from 'config';
+import { Base_Domain } from 'config';
 
 
 
@@ -133,7 +135,7 @@ const ContentEdit = () => {
       if (input === "multiDropdown") {
         const optionsData =
           options === "products"
-            ? products.map((product) => product?.name)
+            ? products.map((product) => ({ label: product?.name, value: product?._id }))
             : options === "collections"
               ? collections.map((Collection) => Collection?.slug)
               : [];
