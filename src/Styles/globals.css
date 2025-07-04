@@ -295,57 +295,46 @@ input:-webkit-autofill {
   @apply text-textC rounded-md py-1 px-1.5 flex justify-center items-center text-[15px] font-semibold shadow-[inset_0_0px_4px_0_rgb(0_0_0_/_0.2)];
 }
 
-/* Add to your CSS file or <style> block */
-@keyframes spinGlow {
+@property --angle {
+  syntax: '<angle>';
+  inherits: false;
+  initial-value: 0deg;
+}
+
+@keyframes spinAngle {
   0% {
-    border-color: #a0cbff;
-    box-shadow: 0 0 20px 0px #a0cbff;
-  }
-
-  25% {
-    border-color: #d1bdff;
-    box-shadow: 0 0 20px 0px #d1bdff;
-  }
-
-  50% {
-    border-color: #f4c2ff;
-    box-shadow: 0 0 20px 0px #f4c2ff;
-  }
-
-  75% {
-    border-color: #ffb9a2;
-    box-shadow: 0 0 20px 0px #ffb9a2;
+    --angle: 0deg;
   }
 
   100% {
-    border-color: #a0cbff;
-    box-shadow: 0 0 20px 0px #a0cbff;
+    --angle: 360deg;
   }
 }
 
-/* @keyframes rotate360 {
-  to {
-    transform: rotate(360deg);
-  }
-} */
 .glowSpinBox {
   border-radius: 25px;
-  background: conic-gradient(from 0deg at 50% 50%, #a0cbff 0deg, #d1bdff 90deg, #f4c2ff 126deg, #ffb9a2 180deg, #f4c2ff 234deg, #d1bdff 270deg, #a0cbff 306deg);
-  overflow: visible;
-  border: 4px solid transparent;
-  border-radius: 25px !important;
+  border: 4px solid rgba(196, 196, 196, 0.358) !important;
+  /* overflow: visible; */
 }
 
 .glowSpinBox::before {
   content: '';
   position: absolute;
   z-index: -1;
-  bottom: 0;
   top: 0;
+  bottom: 0;
   left: 0;
   right: 0;
   border: 4px solid transparent;
   border-radius: 25px;
-  background: conic-gradient(from 0deg at 50% 50%, #a0cbff 0deg, #d1bdff 90deg, #f4c2ff 126deg, #ffb9a2 180deg, #f4c2ff 234deg, #d1bdff 270deg, #a0cbff 306deg);
   filter: blur(20px);
+  background: conic-gradient(from var(--angle) at 50% 50%,
+      #a0cbff 0deg,
+      #d1bdff 90deg,
+      #f4c2ff 126deg,
+      #ffb9a2 180deg,
+      #f4c2ff 234deg,
+      #d1bdff 270deg,
+      #a0cbff 306deg);
+  animation: spinAngle 4s linear infinite;
 }

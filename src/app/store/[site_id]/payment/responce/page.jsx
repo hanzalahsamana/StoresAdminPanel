@@ -42,7 +42,7 @@ export default function PaymentResponse() {
   return <Loader content="Verifying Payment via JazzCash Inquiry..." />;
 }
 
-<div className="h-[60px] w-full hidden max-[700px]:flex justify-between items-center">
+{/* <div className="h-[60px] w-full hidden max-[700px]:flex justify-between items-center">
   <p
     className="flex items-center gap-2 text-[#299ae0]"
     onClick={() => setCartIsVisible(!cartIsVisible)}
@@ -50,4 +50,4 @@ export default function PaymentResponse() {
     Show Order summary {cartIsVisible ? <FaChevronUp /> : <FaChevronDown />}
   </p>
   <p className="text-[#252525]">Rs {total?.toFixed(2)}</p>
-</div>;
+</div>; */}
