@@ -1,8 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
-
 import { useDispatch, useSelector } from "react-redux";
+import { usePathname } from "next/navigation";
+
 import Loader from "@/components/Loader/TemplateLoader";
 import { getStore } from "@/APIs/StoreDetails/getStore";
 import { getSections } from "@/APIs/SectionsData/getSections";
@@ -16,15 +17,24 @@ import { getAdminStoreConfiguration } from "@/APIs/StoreConfigurations/configura
 
 export default function adminLayout({ children, params }) {
   const dispatch = useDispatch();
+  const pathname = usePathname();
   const { currUser } = useSelector((state) => state.currentUser);
   const { store, storeLoading } = useSelector((state) => state.store);
   const { collectionLoading } = useSelector((state) => state.collection);
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
+  // ❌ Exclude layout on these pages
+  const excludedPaths = ["/profile", "/live-previeww"];
+  const shouldExcludeLayout = excludedPaths.some((path) =>
+    pathname?.includes(path)
+  );
+
+  // Load store
   useEffect(() => {
     getStore(params?.store_id);
   }, [dispatch, params?.store_id]);
 
+  // Fetch all required data once store is ready
   useEffect(() => {
     if (!store?._id) return;
 
@@ -36,7 +46,6 @@ export default function adminLayout({ children, params }) {
           getSections(store?._id),
           getContents(store?._id),
           getAdminStoreConfiguration(currUser?.token, store?._id),
-          // fetchOrderData(dispatch, currUser.brandName),
         ]);
       } catch (error) {
         console.error("Data fetching failed:", error);
@@ -48,16 +57,14 @@ export default function adminLayout({ children, params }) {
 
   const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
 
-  if (storeLoading) {
-    return <Loader />;
+  if (shouldExcludeLayout) {
+    return <>{children}</>; // ✅ Skip layout
   }
+
+  if (storeLoading || collectionLoading) return <Loader />;
 
   if (!store?._id || store?.userRef !== currUser?._id) {
     return <NotFound />;
-  }
-
-  if (collectionLoading) {
-    return <Loader />;
   }
 
   return (

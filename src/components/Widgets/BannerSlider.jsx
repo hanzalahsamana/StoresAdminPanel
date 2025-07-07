@@ -19,14 +19,9 @@ function BannerSlider({
 
     useEffect(() => {
         if (Array.isArray(content?.imagesUrl)) {
-            const mappedImages = content.imagesUrl.map((image) =>
-                image instanceof File || image instanceof Blob
-                    ? URL.createObjectURL(image)
-                    : image
-            );
-            setImages(mappedImages);
+            setImages(content?.imagesUrl);
         }
-    }, [content]);
+    }, [content?.imagesUrl]);
 
     useEffect(() => {
         if (!autoRun || images.length <= 1) {

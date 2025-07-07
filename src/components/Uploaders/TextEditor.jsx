@@ -6,7 +6,7 @@ import dynamic from "next/dynamic";
 
 const Quill = dynamic(() => import("quill"), { ssr: false, loading: () => <p>Loading editor...</p> });
 
-const TextEditor = ({ editorContent, setEditorContent }) => {
+const TextEditor = ({ editorContent, setEditorContent, label, className }) => {
     const editorRef = useRef(null);
     const quillRef = useRef(null);
     const [isClient, setIsClient] = useState(false);
@@ -64,8 +64,15 @@ const TextEditor = ({ editorContent, setEditorContent }) => {
     }, [editorContent]);
 
     return (
-        <div className="w-full !border-[1.5px] !border-primaryC">
-            <div ref={editorRef} className="max-h-[190px] min-h-[190px] overflow-auto !border-none"></div>
+        <div>
+            {label && (
+                <label className="text-[14px] font-medium text-textC mb-1 block">
+                    {label}
+                </label>
+            )}
+            <div className={`w-full !border-[1.5px] !border-primaryC ${className}`}>
+                <div ref={editorRef} className="max-h-[190px] min-h-[190px] overflow-auto !border-none"></div>
+            </div>
         </div>
     );
 };

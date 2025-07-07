@@ -74,7 +74,7 @@ const Design = () => {
         <div className="flex justify-center items-start flex-col md:flex-row">
             <BackgroundFrame className="gap-0">
                 <ActionCard
-                    label={"Update Pages"}
+                    label={"Update Home Page"}
                     actionPosition="hidden"
                     className={'!h-[calc(100vh-92px)]'}
                 >
@@ -109,7 +109,7 @@ const Design = () => {
                                                             <h2 className="text-lg font-medium text-gray-900">{item?.sectionName}</h2>
                                                             <div className="flex gap-3">
                                                                 <Link
-                                                                    href={`/design/${item._id}`}
+                                                                    href={`./design/${item._id}`}
                                                                     className="text-sm cursor-pointer text-primaryC flex items-center gap-1"
                                                                 >
                                                                     Edit <RxExternalLink size={12} />

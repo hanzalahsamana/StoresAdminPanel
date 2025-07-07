@@ -2,7 +2,6 @@
 
 import React, { useEffect, useState } from 'react'
 import "../../../../../components/UI/style.css";
-import ProtectedRoute from '@/AuthenticRouting/ProtectedRoutes';
 import Button from '@/components/Actions/Button';
 import ActionCard from '@/components/Cards/ActionCard';
 import FormInput from '@/components/Forms/FormInput';
@@ -22,15 +21,15 @@ import HomeLayout from '@/components/Layout/HomeLayout';
 import TemplateHeader from '@/components/Layout/TemplateHeader';
 import TemplateFooter from '@/components/Layout/TemplateFooter';
 import Checkbox from '@/components/Actions/CheckBox';
-import { uploadImagesToS3, uploadSingleImageToS3 } from '@/APIs/uploadImageS3';
 import MultiImageUploader from '@/components/Uploaders/MultiImageUploader';
 import IconButton from '@/components/Actions/IconButton';
 import { CiUndo } from 'react-icons/ci';
 import BackButton from '@/components/Actions/BackButton';
 import { IsEqual } from '@/Utils/IsEqual';
 import { editSection } from '@/APIs/SectionsData/editSection';
-import { HTTP } from 'config';
-import { Base_Domain } from 'config';
+import { convertImageBlobsToUrlsPreview, convertImageBlobsToUrlsPublish } from '@/Utils/ConvertImageBlobsToUrls';
+import LivePreviewIframe from '@/components/UI/LivePreviewIframe';
+import { ScrollShadows, useScrollShadow } from '@/Hooks/useScrollShadow';
 
 
 
@@ -39,6 +38,7 @@ const ContentEdit = () => {
 
   const dispatch = useDispatch()
   const params = useParams()
+
   const section = useSelector((state) => selectSectionByID(state, params?.sectionid));
   const { currUser } = useSelector((state) => state.currentUser);
   const { store } = useSelector((state) => state.store);
@@ -47,6 +47,7 @@ const ContentEdit = () => {
   const [isModified, setIsModified] = useState(false);
   const [checked, setChecked] = useState(true);
   const [loading, setLoading] = useState(false);
+  const { scrollRef, showTopShadow, showBottomShadow } = useScrollShadow([section]);
 
   const [formData, setFormData] = useState(SectionStructure?.[section?.type]?.data);
 
@@ -71,7 +72,8 @@ const ContentEdit = () => {
             type={input}
             key={name}
             value={formData?.[name] ?? ""}
-            placeholder={placeholder}
+            label={placeholder}
+            layout='label'
             handleChange={(e) => handleInputChange(name, e.target.value)}
             className='!outline-primaryC !bg-transparent'
 
@@ -85,6 +87,8 @@ const ContentEdit = () => {
             key={name}
             editorContent={formData?.[name]}
             setEditorContent={(value) => handleInputChange(name, value)}
+            label={'Description'}
+            className={'!w-[500px] scale-[0.58] origin-top-left'}
           />
         );
       }
@@ -102,13 +106,14 @@ const ContentEdit = () => {
       if (input === "imageUploader") {
         return (
           <ImageUploader
-            size='XLarge'
+            size='large'
             key={name}
             image={formData?.[name]}
             setImage={(image) => handleInputChange(name, image)}
           />
         );
       }
+
       if (input === "multiImageUploader") {
         return (
           <MultiImageUploader
@@ -126,7 +131,8 @@ const ContentEdit = () => {
             selectedOption={formData?.[name]}
             setSelectedOption={(option) => handleInputChange(name, option)}
             key={name}
-            placeholder={placeholder}
+            label={placeholder}
+            layout={'label'}
             className='!outline-primaryC !bg-transparent'
           />
         );
@@ -160,25 +166,7 @@ const ContentEdit = () => {
   const handleSubmit = async () => {
     try {
       setLoading(true);
-      let updatedData = { ...formData };
-
-      if (formData?.image && formData?.image instanceof File) {
-        const uploadedImageUrl = await uploadSingleImageToS3(currUser?.token, store?._id, formData.image);
-        updatedData.image = uploadedImageUrl;
-      }
-
-      if (formData?.imagesUrl && Array.isArray(formData.imagesUrl)) {
-        const existingUrls = formData.imagesUrl.filter(image => typeof image === "string");
-        const imagesToUpload = formData.imagesUrl.filter(image => image instanceof File);
-
-        if (imagesToUpload.length > 0) {
-          const uploadedImagesUrls = await uploadImagesToS3(currUser?.token, store?._id, imagesToUpload);
-          updatedData.imagesUrl = [...existingUrls, ...uploadedImagesUrls];
-        } else {
-          updatedData.imagesUrl = existingUrls;
-        }
-      }
-
+      const updatedData = convertImageBlobsToUrlsPublish(currUser?.token, store?._id, formData);
       await editSection(currUser?.token, store?._id, section?._id, updatedData);
       toast.success("Section updated successfully!");
     } catch (error) {
@@ -207,49 +195,79 @@ const ContentEdit = () => {
   }
 
   return (
-    <div className="flex justify-center items-start flex-col md:flex-row">
-      <BackgroundFrame>
+    <div className="flex w-full ">
+      {/* <BackgroundFrame> */}
 
-        <ActionCard
-          actions={
-            <>
-              <Button size='small' active={isModified} label="Save" loading={loading} variant='black' className="w-max" action={handleSubmit} />
-              <IconButton
-                icon={<CiUndo />}
-                tooltipLabel={'discard'}
-                className={` !text-[22px] ${isModified ? 'text-black' : 'text-[#4f4c4c89] !cursor-not-allowed'}`}
-                action={() => setFormData(section?.content)}
-              />
-              <BackButton link={"/design"} />
-            </>}
-          actionPosition='top'
-          label={section.sectionName}
-          className={'!h-[calc(100vh-92px)]'}
-        >
+      <ActionCard
+        actions={
+          <>
+            <IconButton
+              icon={<CiUndo />}
+              tooltipLabel={'discard'}
+              className={` !text-[22px] ${isModified ? 'text-black' : 'text-[#4f4c4c89] !cursor-not-allowed'}`}
+              action={() => setFormData(section?.content)}
+            />
+            <Button size='small' active={isModified} label="Save" loading={loading} variant='black' className="w-max" action={handleSubmit} />
+            {/* <BackButton link={`/admin/${store._id}/design`} /> */}
+          </>}
+        actionPosition='bottom'
+        label={formData?.title || section?.sectionName}
+        className={'!h-[calc(100vh-60px)] min-h-0 !border-y-0 border-l-0 !p-3 rounded-e-2xl rounded-s-none !w-[350px]'}
+      >
+        <div
+          className='relative min-h-0'>
           <div
-            className={`border-t px-[8px] py-[20px] border-[#c9c9c98f] h-full overflow-y-auto customScroll flex flex-col`}
+            ref={scrollRef}
+            className={`border-y px-[8px] py-[20px] border-[#c9c9c98f] h-full overflow-y-auto customScroll flex flex-col gap-3`}
           >
-            <div className='flex flex-col gap-3'>
-              {renderComponents()}
-            </div>
+            {renderComponents()}
           </div>
-        </ActionCard>
-      </BackgroundFrame>
-      <LivePreview extraAction={(
+          <ScrollShadows
+            showTopShadow={showTopShadow}
+            showBottomShadow={showBottomShadow}
+          />
+        </div>
+      </ActionCard>
+
+
+      {/* </BackgroundFrame> */}
+
+      {/* <iframe className='' src='/admin/68416a1bd4645140e49c62d8/design/68416a20d4645140e49c62f9'></iframe> */}
+        <div
+        className=' flex-1 overflow-hidden'
+        >
+          <LivePreviewIframe
+            previewData={{
+              formData: convertImageBlobsToUrlsPreview(formData),     // your updatedFormData
+              previewComponent: { ...section, component: "section" },      // current section object
+              checked       // boolean — whether rendering single component or whole layout
+            }}
+          />
+        </div>
+      {/* <LivePreview extraAction={(
         <div
           className='cursor-pointer flex items-center justify-center rounded-full mr-[10px] text-[14px]'>
-          <Checkbox isChecked={checked} setIsCheck={setChecked} label={checked ? 'Full Page' : 'Editing Section'} />
+          <Checkbox isChecked={checked} setIsCheck={setChecked} label={checked ? 'Show only editing page' : 'Show only editing page'} />
         </div>
       )}>
         <TemplateHeader />
-        {checked ? (
-          SectionStructure[section?.type]?.component && formData &&
-          React.createElement(SectionStructure[section?.type].component, { content: formData })
-        ) : (
-          <HomeLayout overrideSectionId={section?._id} formData={formData} />
-        )}
+
+        {(() => {
+          const updatedFormData = convertImageBlobsToUrlsPreview(formData);
+
+          return checked ? (
+            SectionStructure[section?.type]?.component && updatedFormData &&
+            React.createElement(SectionStructure[section?.type].component, {
+              content: updatedFormData,
+            })
+          ) : (
+            <HomeLayout overrideSectionId={section?._id} formData={updatedFormData} />
+          );
+        })()}
+
         <TemplateFooter />
-      </LivePreview>
+
+      </LivePreview> */}
     </div>
   )
 }

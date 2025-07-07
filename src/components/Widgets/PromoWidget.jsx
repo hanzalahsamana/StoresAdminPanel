@@ -4,7 +4,7 @@ import Link from "next/link";
 import "./style.css";
 import { getBasePath } from "@/Utils/GetBasePath";
 
-const PromoWidget = ({ content}) => {
+const PromoWidget = ({ content }) => {
     const { styleType = 'style1', title, text, image, buttonText } = content;
 
     return (
@@ -28,7 +28,7 @@ const PromoWidget = ({ content}) => {
 
                 <img
                     className={styleType === "style1" ? "aspect-square object-contain p-[35px]" : "object-cover aspect-[2/3] max-h-[500px]"}
-                    src={typeof image === "object"? URL.createObjectURL(image): image}
+                    src={image}
                     alt={title}
                 />
             </div>

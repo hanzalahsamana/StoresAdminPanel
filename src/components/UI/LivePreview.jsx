@@ -42,8 +42,8 @@ const LivePreview = ({ children, extraAction = null }) => {
                     </div>
                 </div>
 
-                <div className={` glowSpinBox overflow-visible   ${maximized ? 'md:w-[1280px] md:scale-[0.32] left-[30px] top-[50px] absolute w-full h-[calc(((100vh-90px)))] md:h-auto md:max-h-[calc(((100vh-100px)/34)*100)]  ' : ''} origin-top-left`}>
-                    <div className={`bg-backgroundC rounded-[25px] ${maximized ? ' w-full h-[calc(((100vh-90px)))] md:h-full  md:max-h-[calc(((100vh-100px)/34)*100)]' : ''}  overflow-y-auto`}>
+                <div className={` glowSpinBox overflow-visible   ${maximized ? 'w-[1280px] scale-[0.32] left-[30px] top-[50px] absolute  md:h-auto md:max-h-[calc(((100vh-100px)/34)*100)]  ' : ''} origin-top-left`}>
+                    <div className={`bg-backgroundC rounded-[25px] ${maximized ? ' w-full h-full  max-h-[calc(((100vh-100px)/34)*100)]' : ''}  overflow-y-auto hideScroll preview-frame`}>
                         {children}
                     </div>
                 </div>

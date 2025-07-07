@@ -2,7 +2,7 @@ import React from 'react'
 import TextLoader from '../Loader/TextLoader'
 import BackButton from '../Actions/BackButton'
 
-const ActionCard = ({ label, actionPosition = 'bottom', className, children, actions, error, loading = false, loader = <TextLoader />, icon, subText = null}) => {
+const ActionCard = ({ label, actionPosition = 'bottom', className, children, actions, error, loading = false, loader = <TextLoader />, icon, subText = null }) => {
     return (
         <div className={`relative p-5 w-full border-[1.5px]  rounded-md flex flex-col gap-[20px] bg-backgroundC ${error ? 'border-[red]' : 'border-[#788a9a2c]'} ${className}`}>
 
@@ -30,7 +30,7 @@ const ActionCard = ({ label, actionPosition = 'bottom', className, children, act
                 children
             )}
             {actionPosition === 'bottom' && (
-                <div className="flex justify-end items-end flex-1 mt-[15px] gap-[20px]">
+                <div className="flex justify-end items-center flex-1  gap-[20px]">
                     {actions}
                 </div>
             )}

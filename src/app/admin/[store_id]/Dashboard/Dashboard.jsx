@@ -25,7 +25,7 @@ const Dashboard = () => {
       <div className="">
         <WebPrevFrame />
       </div>
-      <div className="bg-backgroundC shadow-md">
+      <div className="bg-backgroundC shadow-md border-t">
         <div className=" grid grid-cols-4 gap-6 py-3 px-6" >
           {/* This is the APi for get the perfomance analytics of site  */}
           {/* https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=https://dev.xperiode.com/store/68416a1bd4645140e49c62d8&key=AIzaSyD4wVoxqtSsstQXYUnaBD94WbtQNxR9Pig */}

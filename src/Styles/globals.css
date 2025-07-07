@@ -111,6 +111,18 @@ body {
   background-color: #a5a4a4;
 }
 
+.hideScroll {
+  scrollbar-width: none;
+  /* Firefox */
+  -ms-overflow-style: none;
+  /* IE 10+ */
+}
+
+.hideScroll::-webkit-scrollbar {
+  display: none;
+  /* Chrome, Safari */
+}
+
 .LaptopFrame {
 
   width: 1274px;
@@ -118,11 +130,7 @@ body {
   padding: 11px 10px;
   overflow-x: hidden;
   overflow-y: auto;
-  /* transform: scale(0.5);
-  transform-origin: top left; */
   border-radius: 7px 7px 0px 0px;
-  /* background-color: white; */
-  /* pointer-events: none; */
   cursor: not-allowed;
 }
 
@@ -133,6 +141,8 @@ body {
   height: 100%;
   border: none;
 }
+
+
 
 .MobileFrame {
   width: 400px;
@@ -166,6 +176,7 @@ body {
   z-index: 1;
   pointer-events: none;
 }
+
 
 .MobileFrameCover {
   width: 300px;
@@ -337,4 +348,74 @@ input:-webkit-autofill {
       #d1bdff 270deg,
       #a0cbff 306deg);
   animation: spinAngle 4s linear infinite;
+}
+
+/* Force Tailwind to behave like >= md inside preview */
+.preview-frame {
+  /* Trick Tailwind by scaling up the preview */
+  width: 1280px !important;
+}
+
+@media (max-width: 1280px) {
+  .preview-frame {
+    /* Force it to always act like it's on desktop */
+    --tw-screen: 1280px;
+  }
+
+  .preview-frame * {
+    /* Force it to always act like it's on desktop */
+    --tw-screen: 1280px;
+  }
+}
+
+
+
+
+
+.LaptopFrame2 {
+
+  /* width: 1274px; */
+  /* height: 700px; */
+  /* padding: 11px 10px; */
+  /* overflow-x: hidden; */
+  /* overflow-y: auto; */
+  /* border-radius: 7px 7px 0px 0px; */
+  /* transform: scale(0.5); */
+  /* cursor: not-allowed; */
+}
+
+
+/* .LaptopFrame2 iframe {
+  transform-origin: center;
+  transform: scale(0.5);
+  min-width: 135% !important;
+  min-height: 160%;
+  border: none;
+} */
+
+
+.LaptopFrameCover2 {
+  width: 100%;
+  height: calc(100vh - 120px);
+  /* padding: 18px 13px; */
+  /* overflow: hidden; */
+  /* transform: scale(0.8); */
+  /* position: absolute; */
+  /* top: 0; */
+  /* transform-origin: top left; */
+  background-image: url("../Assets/Images/laptopFrameLive.png");
+  background-repeat: no-repeat;
+  background-position: top left;
+  background-size: contain;
+  /* display: flex;
+  justify-content: center;
+  align-items: center; */
+  /* z-index: 1; */
+  /* pointer-events: none; */
+}
+
+.scale-wrapper {
+  /* transform-origin: top center; */
+  /* transform: scale(clamp(1280, 1 / 0.5, 90vw )); fits inside 90% of viewport */
+  /* transform: scale(calc()); */
 }

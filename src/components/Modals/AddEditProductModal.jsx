@@ -85,6 +85,7 @@ const AddEditProductModal = ({ isOpen, setIsOpen, updatedData = null }) => {
     }
   }, [updatedData]);
 
+
   useEffect(() => {
     if (!isOpen) {
       setTimeout(() => {
@@ -96,6 +97,7 @@ const AddEditProductModal = ({ isOpen, setIsOpen, updatedData = null }) => {
       }, 0);
     }
   }, [isOpen]);
+
 
   const handleChange = (key, value) => {
     setErrors((prev) => ({ ...prev, [key]: "" }));
@@ -250,7 +252,7 @@ const AddEditProductModal = ({ isOpen, setIsOpen, updatedData = null }) => {
             <Checkbox isCheck={formData.trackInventory} setIsCheck={(val) => handleChange("trackInventory", val)} label="Track Inventory" className={'w-full'} />
             {formData.trackInventory === true && (<>
               <FormInput type="number" name="stock" label="Stock" layout="label" placeholder="e.g. 100" value={formData.stock || 0} handleChange={(e) => handleChange(e.target.name, e.target.value)} error={errors.stock} />
-              <Checkbox isCheck={formData.showStock } setIsCheck={(val) => handleChange("showStock", val)} label="Show Stock Number" className={'w-full'} />
+              <Checkbox isCheck={formData.showStock} setIsCheck={(val) => handleChange("showStock", val)} label="Show Stock Number" className={'w-full'} />
               <Checkbox isCheck={formData.continueSelling} setIsCheck={(val) => handleChange("continueSelling", val)} label="Continue selling when out of stock" className={'w-full'} />
             </>)}
           </CustomCard>

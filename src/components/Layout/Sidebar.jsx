@@ -88,7 +88,7 @@ function Sidebar({ isOpen, setIsOpen }) {
 
   return (
     <aside
-      className={`bg-backgroundC w-[230px] py-5 border-r border-borderC text-backgroundC h-[calc(100vh-60px)] customScroll !overflow-y-scroll space-y-6 absolute top-[60px] left-0 transform transition duration-200 ease-in-out z-[100]
+      className={`bg-backgroundC w-[230px] py-5 border-r border-borderC  h-[calc(100vh-60px)]  customScroll !overflow-y-scroll space-y-6 absolute top-[60px] left-0 transform transition duration-200 ease-in-out z-[100]
         ${isOpen ? "translate-x-0" : "-translate-x-full"}`}
     >
       <nav className="px-4 space-y-1">

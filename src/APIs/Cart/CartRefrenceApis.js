@@ -1,13 +1,11 @@
-"use client";
-import axios from "axios";
-import { toast } from "react-toastify";
-import BASE_URL from "../../../config";
+'use client';
+import axios from 'axios';
+import { toast } from 'react-toastify';
+import BASE_URL from '../../../config';
 
 export const setCartDataApi = async (cartId, storeId) => {
   try {
-    const { data } = await axios.get(
-      `${BASE_URL}/${storeId}/getCartData?cartId=${cartId}`
-    );
+    const { data } = await axios.get(`${BASE_URL}/${storeId}/getCartData?cartId=${cartId}`);
     return data;
   } catch (error) {
     localStorage.removeItem(`${storeId}_cartId`);
@@ -18,12 +16,12 @@ export const setCartDataApi = async (cartId, storeId) => {
 export const addCartDataApi = async (storeId, cartId, addedProduct) => {
   try {
     let url = `${BASE_URL}/${storeId}/addToCart`;
-    if (cartId && cartId !== "undefined") {
+    if (cartId && cartId !== 'undefined') {
       url += `?cartId=${cartId}`;
     }
 
     const { data } = await axios.post(url, addedProduct);
-    console.log(cartId, data, "🪙🪙");
+    console.log(cartId, data, '🪙🪙');
     localStorage.setItem(`${data.storeRef}_cartId`, data._id);
     return data;
   } catch (error) {
