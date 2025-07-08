@@ -30,6 +30,11 @@ import { editSection } from '@/APIs/SectionsData/editSection';
 import { convertImageBlobsToUrlsPreview, convertImageBlobsToUrlsPublish } from '@/Utils/ConvertImageBlobsToUrls';
 import LivePreviewIframe from '@/components/UI/LivePreviewIframe';
 import { ScrollShadows, useScrollShadow } from '@/Hooks/useScrollShadow';
+import { devices } from '@/Structure/DefaultStructures';
+import { setSelectedDevicePreview } from '@/Redux/LivePreview/livePreviewSlice';
+import { Tooltip } from 'react-tooltip';
+import { VscLiveShare } from 'react-icons/vsc';
+import DataSelectionList from '@/components/Actions/DataSelectionList';
 
 
 
@@ -44,6 +49,7 @@ const ContentEdit = () => {
   const { store } = useSelector((state) => state.store);
   const { products } = useSelector((state) => state.productData);
   const { collections } = useSelector((state) => state.collection);
+  const { selectedDevicePreview } = useSelector((state) => state.livePreview);
   const [isModified, setIsModified] = useState(false);
   const [checked, setChecked] = useState(true);
   const [loading, setLoading] = useState(false);
@@ -159,6 +165,33 @@ const ContentEdit = () => {
         );
       }
 
+      if (input === 'dataSelectionList') {
+        <DataSelectionList
+          selectedData={[]}
+          setSelectedData={() => { }}
+          data={[
+            {
+              _id: "1",
+              image: "https://i.pravatar.cc/100?img=1",
+              name: "Dan Rowden",
+              subText: "@dr",
+            },
+            {
+              _id: "2",
+              image: "https://placekitten.com/100/100",
+              name: "Product Hunt",
+              subText: "@ProductHunt",
+            },
+            {
+              _id: "3",
+              image: "https://i.pravatar.cc/100?img=3",
+              name: "Janel",
+              subText: "@JanelSGM",
+            },
+          ]}
+        />
+      }
+
       return null;
     });
   };
@@ -196,20 +229,7 @@ const ContentEdit = () => {
 
   return (
     <div className="flex w-full ">
-      {/* <BackgroundFrame> */}
-
       <ActionCard
-        actions={
-          <>
-            <IconButton
-              icon={<CiUndo />}
-              tooltipLabel={'discard'}
-              className={` !text-[22px] ${isModified ? 'text-black' : 'text-[#4f4c4c89] !cursor-not-allowed'}`}
-              action={() => setFormData(section?.content)}
-            />
-            <Button size='small' active={isModified} label="Save" loading={loading} variant='black' className="w-max" action={handleSubmit} />
-            {/* <BackButton link={`/admin/${store._id}/design`} /> */}
-          </>}
         actionPosition='bottom'
         label={formData?.title || section?.sectionName}
         className={'!h-[calc(100vh-60px)] min-h-0 !border-y-0 border-l-0 !p-3 rounded-e-2xl rounded-s-none !w-[350px]'}
@@ -221,6 +241,7 @@ const ContentEdit = () => {
             className={`border-y px-[8px] py-[20px] border-[#c9c9c98f] h-full overflow-y-auto customScroll flex flex-col gap-3`}
           >
             {renderComponents()}
+
           </div>
           <ScrollShadows
             showTopShadow={showTopShadow}
@@ -229,45 +250,42 @@ const ContentEdit = () => {
         </div>
       </ActionCard>
 
+      <div className=' flex-1 overflow-hidden w-full h-full'>
 
-      {/* </BackgroundFrame> */}
-
-      {/* <iframe className='' src='/admin/68416a1bd4645140e49c62d8/design/68416a20d4645140e49c62f9'></iframe> */}
-        <div
-        className=' flex-1 overflow-hidden'
-        >
-          <LivePreviewIframe
-            previewData={{
-              formData: convertImageBlobsToUrlsPreview(formData),     // your updatedFormData
-              previewComponent: { ...section, component: "section" },      // current section object
-              checked       // boolean — whether rendering single component or whole layout
-            }}
-          />
+        <div className="bg-white h-[60px] flex justify-between items-center px-4 shadow-sm">
+          <p className="text-lg font-medium text-gray-700">Live Preview</p>
+          <div
+            className='cursor-pointer flex items-center justify-center rounded-full mr-[10px] text-[14px]'>
+            <Checkbox isChecked={checked} setIsCheck={setChecked} label={checked ? 'Show only editing page' : 'Show only editing page'} />
+          </div>
+          <div className="flex gap-2 bg-white rounded-md p-2 shadow-inner">
+            {Object.entries(devices).map(([key, device]) => (
+              <div
+                key={key}
+                data-tooltip-id={"preview"}
+                data-tooltip-content={device.ratio}
+                onClick={() => dispatch(setSelectedDevicePreview(key))}
+                className={`cursor-pointer p-2 rounded-md transition-all duration-200
+                            ${selectedDevicePreview === key ? "bg-blue-100 text-blue-600" : "text-gray-500 hover:bg-gray-100"}`}>
+                {device.icon}
+              </div>
+            ))}
+            <Tooltip id='preview' place="bottom" className="!text-[12px] z-20 " />
+          </div>
+          <div className="flex gap-2">
+            <Button size="small" label="Save as draft" variant="white" />
+            <Button size="small" label="Publish" icon={<VscLiveShare />} />
+          </div>
         </div>
-      {/* <LivePreview extraAction={(
-        <div
-          className='cursor-pointer flex items-center justify-center rounded-full mr-[10px] text-[14px]'>
-          <Checkbox isChecked={checked} setIsCheck={setChecked} label={checked ? 'Show only editing page' : 'Show only editing page'} />
-        </div>
-      )}>
-        <TemplateHeader />
-
-        {(() => {
-          const updatedFormData = convertImageBlobsToUrlsPreview(formData);
-
-          return checked ? (
-            SectionStructure[section?.type]?.component && updatedFormData &&
-            React.createElement(SectionStructure[section?.type].component, {
-              content: updatedFormData,
-            })
-          ) : (
-            <HomeLayout overrideSectionId={section?._id} formData={updatedFormData} />
-          );
-        })()}
-
-        <TemplateFooter />
-
-      </LivePreview> */}
+        <LivePreviewIframe
+          selectedDevicePreview={selectedDevicePreview}
+          previewData={{
+            formData: convertImageBlobsToUrlsPreview(formData),
+            previewComponent: { ...section, component: "section" },
+            checked,
+          }}
+        />
+      </div>
     </div>
   )
 }

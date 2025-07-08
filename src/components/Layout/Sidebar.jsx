@@ -2,11 +2,12 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState, useRef } from "react";
 import { IoChevronForward } from "react-icons/io5";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Loader from "../Loader/loader";
 
 function Sidebar({ isOpen, setIsOpen }) {
   const pathname = usePathname();
+  const dispatch = useDispatch();
   const subNavRefs = useRef({});
 
   const [openDropdown, setOpenDropdown] = useState(null);
@@ -66,7 +67,7 @@ function Sidebar({ isOpen, setIsOpen }) {
   ];
 
   useEffect(() => {
-    const handleResize = () => setIsOpen(window.innerWidth > 1024);
+    const handleResize = () => dispatch(setIsOpen(window.innerWidth > 1024));
     handleResize();
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);

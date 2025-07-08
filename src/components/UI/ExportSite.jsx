@@ -12,15 +12,16 @@ import { toast } from 'react-toastify';
 const ExportSite = () => {
     const [selectedOptions, setSelectedOptions] = useState([]);
     const { currUser } = useSelector((state) => state.currentUser);
+    const { store } = useSelector((state) => state.store);
     const [loading, setLoading] = useState(false);
 
     const handleExport = async () => {
         setLoading(true);
         try {
-            const { data } = await exportSite(currUser?.token, selectedOptions);
-            GenerateJSONFile(data, currUser?.brandName)
+            const data = await exportSite(currUser?.token, store?._id, selectedOptions);
+            GenerateJSONFile(data.data, currUser?.brandName)
         } catch (error) {
-            console.log(error.response.data ,'error in export site');
+            console.log(error.response ? error.response.data.message : error.message);
             toast.error(error.response ? error.response.data.message : error.message);
         } finally {
             setLoading(false);

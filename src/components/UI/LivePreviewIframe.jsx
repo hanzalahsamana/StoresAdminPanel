@@ -1,75 +1,69 @@
 // components/LivePreviewIframe.jsx
 import { useEffect, useRef, useState } from "react";
+import { devices } from "@/Structure/DefaultStructures";
 
-export default function LivePreviewIframe({ previewData }) {
+export default function LivePreviewIframe({ previewData, selectedDevicePreview }) {
     const iframeRef = useRef(null);
     const resizeRef = useRef(null);
     const [scale, setScale] = useState(1);
 
     useEffect(() => {
-        const handleResize = () => {
-            if (resizeRef.current) {
-                const { width, height } = resizeRef.current.getBoundingClientRect();
-                const scaleo = Math.min(width / 1024, height / 1024)
-                setScale(scaleo)
-                console.log('w', width, 'h', height);
+        if (!resizeRef.current) repointerturn;
+
+        const observer = new ResizeObserver((entries) => {
+            for (let entry of entries) {
+                const { width, height } = entry.contentRect;
+                const targetWidth = devices?.[selectedDevicePreview]?.targetWidth;
+                const targetHeight = devices?.[selectedDevicePreview]?.targetHeight;
+                const maxScale = devices?.[selectedDevicePreview]?.maxScale;
+
+                const scaleFactor = Math.min(width / targetWidth, height / targetHeight, maxScale); // max 1
+                setScale(scaleFactor);
             }
-        };
+        });
 
-        handleResize(); // call once
-        window.addEventListener("resize", handleResize);
-        return () => window.removeEventListener("resize", handleResize);
-    }, []);
+        observer.observe(resizeRef.current);
 
-    // useEffect(() => {
-    //     const handleResize = () => {
-    //         const baseWidth = 1024;
-    //         const padding = 40;
-    //         const availableWidth = 580 - padding;
-    //         const newScale = Math.min(1, availableWidth / baseWidth);
-    //         setScale(newScale);
-    //     };
+        return () => observer.disconnect();
+    }, [selectedDevicePreview]);
 
-    //     handleResize(); // Initial
-    //     window.addEventListener("resize", handleResize);
-    //     return () => window.removeEventListener("resize", handleResize);
-    // }, []);
 
     useEffect(() => {
-        const timer = setInterval(() => {
-            if (iframeRef.current?.contentWindow) {
-                iframeRef.current.contentWindow.postMessage(
-                    {
-                        type: "UPDATE_PREVIEW",
-                        payload: previewData,
-                    },
-                    "*"
-                );
-            }
-        }, 300); // sends update every 300ms (or use debounce if needed)
-
-        return () => clearInterval(timer);
+        if (iframeRef.current?.contentWindow) {
+            iframeRef.current.contentWindow.postMessage(
+                {
+                    type: "UPDATE_PREVIEW",
+                    payload: previewData,
+                },
+                "*"
+            );
+        }
     }, [previewData]);
 
     return (
-        // <div className={`  overflow-visible   ${true ? 'w-[1280px] scale-[0.32] left-[30px] top-[220px] absolute h-[calc(((100vh-100px)/34)*100)]  ' : ''} origin-top-left`}>
+        <div ref={resizeRef} className=" w-full h-[calc(100vh_-_120px)] flex justify-center items-center overflow-hidden">
+            <div
+                style={{
+                    width: `${devices?.[selectedDevicePreview]?.targetWidth * scale}px`,
+                    height: `${devices?.[selectedDevicePreview]?.targetHeight * scale}px`,
+                }}
+                className=" w-max h-max relative overflow-hidden">
 
+                <div
+                    className=" bg-300 h-[calc(100vh_-_120px)] w-full  relative  origin-top-left transition-all duration-75"
+                    style={{ transform: `scale(${scale})` }}>
 
+                    <iframe
+                        ref={iframeRef}
+                        src="/admin/68416a1bd4645140e49c62d8/live-previeww"
+                        className={`${devices?.[selectedDevicePreview]?.render} origin-top-left `}
+                    />
 
-        <div ref={resizeRef} className="w-full h-full bg-green-300 overflow-hidden relative">
+                    <div className={`${devices?.[selectedDevicePreview]?.frame}  pointer-events-none absolute top-0 left-0 origin-top-left`}>
+                    </div>
 
-            <div className="">
-                <iframe
-                    ref={iframeRef}
-                    src="/admin/68416a1bd4645140e49c62d8/live-previeww"
-                    style={{ pointerEvents: "auto", transform: `scale(${scale})` }}
-                    className="!w-[1024px]  cale-[0.526] h-[626px] origin-top-left mt-[2.9%] ml-[11.8%]"
-                />
+                </div>
             </div>
-
-            <div className="LaptopFrameCover2 no-scrollbar absolute top-0 left-0">
-            </div>
-
         </div>
     );
-}
+};

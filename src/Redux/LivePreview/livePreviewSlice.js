@@ -1,12 +1,14 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   maximized: true,
   alwaysExtend: false,
+  isSidebarOpen: true,
+  selectedDevicePreview: 'laptop',
 };
 
 const livePreviewSlice = createSlice({
-  name: "livePreview",
+  name: 'livePreview',
   initialState,
   reducers: {
     setMaximized: (state, action) => {
@@ -15,8 +17,14 @@ const livePreviewSlice = createSlice({
     setAlwaysExtend: (state, action) => {
       state.alwaysExtend = action.payload;
     },
+    setIsSidebarOpen: (state, action) => {
+      state.isSidebarOpen = action.payload;
+    },
+    setSelectedDevicePreview: (state, action) => {
+      state.selectedDevicePreview = action.payload;
+    },
   },
 });
 
-export const { setMaximized, setAlwaysExtend } = livePreviewSlice.actions;
+export const { setMaximized, setAlwaysExtend, setIsSidebarOpen, setSelectedDevicePreview } = livePreviewSlice.actions;
 export const livePreviewReducer = livePreviewSlice.reducer;

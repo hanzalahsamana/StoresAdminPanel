@@ -25,7 +25,7 @@ export default function RootLayout({ children }) {
       <head>
         <title>Web Nest</title>
       </head>
-      <body className={`${assistant.className} antialiased`} suppressHydrationWarning>
+      <body className={`${assistant.className} antialiased customScroll`} suppressHydrationWarning>
         <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_AUTH_CLIENT_ID}>
           <Provider store={store}>
             <ReduxProviderWrap>{children}</ReduxProviderWrap>

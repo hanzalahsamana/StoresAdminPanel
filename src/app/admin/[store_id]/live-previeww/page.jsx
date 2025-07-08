@@ -48,10 +48,10 @@ export default function LivePrevieww() {
   }
 
   return (
-    <>
+    <div className="">
       <TemplateHeader />
       {renderContent()}
       <TemplateFooter />
-    </>
+    </div>
   );
 }

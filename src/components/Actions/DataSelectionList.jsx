@@ -12,7 +12,7 @@ const DataSelectionList = ({ data = [], selectedData = [], setSelectedData }) =>
   return (
     <div className="w-full max-w-sm rounded-xl border p-2 space-y-2 bg-white">
       {data.map((item) => {
-        const isSelected = selectedData.includes(item._id);
+        const isSelected = selectedData?.includes(item._id);
 
         return (
           <div

@@ -368,54 +368,23 @@ input:-webkit-autofill {
   }
 }
 
-
-
-
-
-.LaptopFrame2 {
-
-  /* width: 1274px; */
-  /* height: 700px; */
-  /* padding: 11px 10px; */
-  /* overflow-x: hidden; */
-  /* overflow-y: auto; */
-  /* border-radius: 7px 7px 0px 0px; */
-  /* transform: scale(0.5); */
-  /* cursor: not-allowed; */
-}
-
-
-/* .LaptopFrame2 iframe {
-  transform-origin: center;
-  transform: scale(0.5);
-  min-width: 135% !important;
-  min-height: 160%;
-  border: none;
-} */
-
-
-.LaptopFrameCover2 {
-  width: 100%;
-  height: calc(100vh - 120px);
-  /* padding: 18px 13px; */
-  /* overflow: hidden; */
-  /* transform: scale(0.8); */
-  /* position: absolute; */
-  /* top: 0; */
-  /* transform-origin: top left; */
+.LaptopFrameLive {
   background-image: url("../Assets/Images/laptopFrameLive.png");
   background-repeat: no-repeat;
   background-position: top left;
   background-size: contain;
-  /* display: flex;
-  justify-content: center;
-  align-items: center; */
-  /* z-index: 1; */
-  /* pointer-events: none; */
 }
 
-.scale-wrapper {
-  /* transform-origin: top center; */
-  /* transform: scale(clamp(1280, 1 / 0.5, 90vw )); fits inside 90% of viewport */
-  /* transform: scale(calc()); */
+.MobileFrameLive {
+  background-image: url("../Assets/Images/mobileFrameLive.png");
+  background-repeat: no-repeat;
+  background-position: top left;
+  background-size: contain;
+}
+
+.DesktopFrameLive {
+  background-image: url("../Assets/Images/desktopFrameLive2.png");
+  background-repeat: no-repeat;
+  background-position: top left;
+  background-size: contain;
 }

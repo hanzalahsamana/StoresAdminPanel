@@ -1,19 +1,20 @@
-"use client";
+'use client';
 
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { usePathname } from "next/navigation";
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { usePathname } from 'next/navigation';
 
-import Loader from "@/components/Loader/TemplateLoader";
-import { getStore } from "@/APIs/StoreDetails/getStore";
-import { getSections } from "@/APIs/SectionsData/getSections";
-import { getProducts } from "@/APIs/Product/getProducts";
-import { getCollections } from "@/APIs/Collection/getCollections";
-import { getContents } from "@/APIs/Content/getContents";
-import NotFound from "@/components/404Pages/NotFound";
-import Sidebar from "@/components/Layout/Sidebar";
-import Header from "@/components/Layout/Header";
-import { getAdminStoreConfiguration } from "@/APIs/StoreConfigurations/configuration";
+import Loader from '@/components/Loader/TemplateLoader';
+import { getStore } from '@/APIs/StoreDetails/getStore';
+import { getSections } from '@/APIs/SectionsData/getSections';
+import { getProducts } from '@/APIs/Product/getProducts';
+import { getCollections } from '@/APIs/Collection/getCollections';
+import { getContents } from '@/APIs/Content/getContents';
+import NotFound from '@/components/404Pages/NotFound';
+import Sidebar from '@/components/Layout/Sidebar';
+import Header from '@/components/Layout/Header';
+import { getAdminStoreConfiguration } from '@/APIs/StoreConfigurations/configuration';
+import { setIsSidebarOpen } from '@/Redux/LivePreview/livePreviewSlice';
 
 export default function adminLayout({ children, params }) {
   const dispatch = useDispatch();
@@ -21,13 +22,11 @@ export default function adminLayout({ children, params }) {
   const { currUser } = useSelector((state) => state.currentUser);
   const { store, storeLoading } = useSelector((state) => state.store);
   const { collectionLoading } = useSelector((state) => state.collection);
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const { isSidebarOpen } = useSelector((state) => state.livePreview);
 
   // ❌ Exclude layout on these pages
-  const excludedPaths = ["/profile", "/live-previeww"];
-  const shouldExcludeLayout = excludedPaths.some((path) =>
-    pathname?.includes(path)
-  );
+  const excludedPaths = ['/profile', '/live-previeww'];
+  const shouldExcludeLayout = excludedPaths.some((path) => pathname?.includes(path));
 
   // Load store
   useEffect(() => {
@@ -48,14 +47,14 @@ export default function adminLayout({ children, params }) {
           getAdminStoreConfiguration(currUser?.token, store?._id),
         ]);
       } catch (error) {
-        console.error("Data fetching failed:", error);
+        console.error('Data fetching failed:', error);
       }
     };
 
     fetchAllData();
   }, [store?._id, dispatch]);
 
-  const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
+  const toggleSidebar = () => dispatch(setIsSidebarOpen(!isSidebarOpen));
 
   if (shouldExcludeLayout) {
     return <>{children}</>; // ✅ Skip layout
@@ -74,7 +73,7 @@ export default function adminLayout({ children, params }) {
         <Header toggleSidebar={toggleSidebar} />
         <div
           className={`${
-            isSidebarOpen ? "lg:w-[calc(100%-230px)]" : "lg:w-full"
+            isSidebarOpen ? 'lg:w-[calc(100%-230px)]' : 'lg:w-full'
           } w-full mt-[60px] h-[100%] transition-all duration-200 ease-in-out overflow-scroll no-scrollbar bg-lbgC`}
         >
           {children}
