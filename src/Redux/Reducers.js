@@ -15,6 +15,7 @@ import { livePreviewReducer } from './LivePreview/livePreviewSlice';
 import { collectionReducer } from './Collection/CollectionSlice';
 import { siteNameReducer } from './SiteName/SiteNameSlice';
 import { networkReducer } from './Network/networkSlice';
+import { galleryReducer } from './Gallery/GallerySlice';
 
 const rootReducer = combineReducers({
   orderData: orderDataReducer,
@@ -31,6 +32,7 @@ const rootReducer = combineReducers({
   allStores: allStoresReducer,
   store: storeReducer,
   storeConfiguration: storeConfgurationReducer,
+  gallery: galleryReducer,
 });
 
 export default rootReducer;

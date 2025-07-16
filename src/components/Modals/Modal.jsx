@@ -2,7 +2,7 @@ import { useEffect, useCallback } from "react";
 import { IoMdClose } from "react-icons/io";
 import { VscClose } from "react-icons/vsc";
 
-const Modal = ({ isOpen, setIsOpen, children, className, extraFuntion = () => { }, position = "fixed" }) => {
+const Modal = ({ isOpen, setIsOpen, children, className, extraFuntion = () => { }, position = "fixed", closeOnEsc = true }) => {
   const closeModal = useCallback(() => {
     extraFuntion()
     setIsOpen(false)
@@ -16,7 +16,8 @@ const Modal = ({ isOpen, setIsOpen, children, className, extraFuntion = () => { 
     }
 
     const handleKeyDown = (e) => {
-      if (e.key === "Escape") closeModal();
+
+      if (e.key === "Escape" && closeOnEsc) closeModal();
     };
 
     window.addEventListener("keydown", handleKeyDown);
@@ -39,7 +40,7 @@ const Modal = ({ isOpen, setIsOpen, children, className, extraFuntion = () => { 
         >
           <VscClose size={22} />
         </button>
-        <div>{children}</div>
+        <div className="h-full">{children}</div>
       </div>
     </div>
   );

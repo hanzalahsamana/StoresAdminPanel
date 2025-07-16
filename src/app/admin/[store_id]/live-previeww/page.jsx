@@ -12,15 +12,15 @@ import ProductDetailCard from "@/components/Cards/productDetailCard";
 export default function LivePrevieww() {
   const [previewData, setPreviewData] = useState({});
   const [previewComponent, setPreviewContent] = useState(null);
-  const [checked, setChecked] = useState(false); // toggle single section mode
+  const [activeSectionId, setActiveSectionId] = useState(null); // toggle single section mode
 
   useEffect(() => {
     const handleMessage = (e) => {
       if (e.data?.type === "UPDATE_PREVIEW") {
         const data = e.data.payload;
         setPreviewData(data?.formData || {});
-        setPreviewContent(data?.previewComponent || null);
-        setChecked(data?.checked || false);
+        setPreviewContent(data?.previewComponent?.sections || null);
+        setActiveSectionId(data?.activeSectionId || null);
       }
     };
     window.addEventListener("message", handleMessage);
@@ -30,18 +30,14 @@ export default function LivePrevieww() {
   const renderContent = () => {
     const updatedFormData = previewData;
 
-    if (previewComponent?.component === 'section') {
-      if (checked && previewComponent?.type && SectionStructure[previewComponent.type]) {
-        const Component = SectionStructure[previewComponent.type].component;
-        return <Component content={updatedFormData} />;
-      } else {
-        return (
-          <HomeLayout
-            overrideSectionId={previewComponent?._id}
-            formData={updatedFormData}
-          />
-        );
-      }
+    if (true) {
+      return (
+        <HomeLayout
+          homePageData={previewComponent}
+          overrideSectionId={activeSectionId}
+          formData={updatedFormData}
+        />
+      );
     } else if (previewComponent?.component === 'ProductDetailCard') {
       <ProductDetailCard product={updatedFormData} />
     }

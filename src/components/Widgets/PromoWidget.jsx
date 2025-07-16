@@ -3,12 +3,13 @@
 import Link from "next/link";
 import "./style.css";
 import { getBasePath } from "@/Utils/GetBasePath";
+import { forwardRef } from "react";
 
-const PromoWidget = ({ content }) => {
+const PromoWidget = forwardRef(({ content , ...rest }, ref) => {
     const { styleType = 'style1', title, text, image, buttonText } = content;
 
     return (
-        <div className={styleType === "style1" ? "febric-Collection" : "fabric-container"}>
+        <div {...rest} ref={ref} className={styleType === "style1" ? "febric-Collection" : "fabric-container"}>
             <div className={styleType === "style1" ? "img-wrap" : "fabric-img"}>
                 {styleType === "style2" && (
                     <div className="fabric-text-wrap">
@@ -50,6 +51,6 @@ const PromoWidget = ({ content }) => {
             )}
         </div>
     );
-};
+});
 
 export default PromoWidget;

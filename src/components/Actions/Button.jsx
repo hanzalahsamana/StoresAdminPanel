@@ -64,7 +64,7 @@ const Button = ({
                         </span>
                     )}
 
-                    <span className="whitespace-nowrap">{label}</span>
+                    {label && (<span className="whitespace-nowrap">{label}</span>)}
 
                     {icon && iconPosition === "right" && (
                         <span

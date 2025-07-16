@@ -5,7 +5,7 @@ import { toast } from 'react-toastify';
 import { setProductData, setProductLoading } from '@/Redux/Product/ProductSlice';
 import { dispatch } from '@/Redux/Store';
 
-export const getProducts = async (storeId, page = 1, limit = 1, filter) => {
+export const getProducts = async (storeId, page = 1, limit = 10, filter) => {
   try {
     let queryParams = [];
     if (page !== undefined && page !== null) queryParams.push(`page=${page}`);

@@ -1,10 +1,10 @@
 import { getBasePath } from '@/Utils/GetBasePath';
 import Link from 'next/link';
-import React from 'react'
+import React, { forwardRef } from 'react'
 
-const RichText = ({ content }) => {
+const RichText = forwardRef(({ content , ...rest }, ref) => {
     return (
-        <div className="flex bg-[var(--tmp-pri)] justify-center items-center flex-col gap-[40px] py-[40px] px-[15px]">
+        <div {...rest} ref={ref} className="flex bg-[var(--tmp-pri)] justify-center items-center flex-col gap-[40px] py-[40px] px-[15px]">
             <h1 className="text-[30px] text-[var(--tmp-txt)] font-extrabold text-center">{content?.title}</h1>
             <div className="ql-editor text-lg text-center leading-relaxed text-[var(--tmp-ltxt)]" dangerouslySetInnerHTML={{ __html: content?.text }}>
             </div>
@@ -16,6 +16,6 @@ const RichText = ({ content }) => {
             </Link>
         </div>
     )
-}
+})
 
 export default RichText;

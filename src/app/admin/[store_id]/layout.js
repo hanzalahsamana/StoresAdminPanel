@@ -25,7 +25,7 @@ export default function adminLayout({ children, params }) {
   const { isSidebarOpen } = useSelector((state) => state.livePreview);
 
   // ❌ Exclude layout on these pages
-  const excludedPaths = ['/profile', '/live-previeww'];
+  const excludedPaths = ['/profile', '/live-previeww' , '/customize'];
   const shouldExcludeLayout = excludedPaths.some((path) => pathname?.includes(path));
 
   // Load store
@@ -40,11 +40,11 @@ export default function adminLayout({ children, params }) {
     const fetchAllData = async () => {
       try {
         await Promise.all([
-          getProducts(store?._id),
-          getCollections(store?._id),
+          // getProducts(store?._id),
+          // getCollections(store?._id),
           getSections(store?._id),
-          getContents(store?._id),
-          getAdminStoreConfiguration(currUser?.token, store?._id),
+          // getContents(store?._id),
+          // getAdminStoreConfiguration(currUser?.token, store?._id),
         ]);
       } catch (error) {
         console.error('Data fetching failed:', error);
@@ -60,7 +60,7 @@ export default function adminLayout({ children, params }) {
     return <>{children}</>; // ✅ Skip layout
   }
 
-  if (storeLoading || collectionLoading) return <Loader />;
+  if (storeLoading ) return <Loader />;
 
   if (!store?._id || store?.userRef !== currUser?._id) {
     return <NotFound />;

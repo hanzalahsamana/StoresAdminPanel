@@ -11,7 +11,6 @@ import { MdArrowRightAlt } from 'react-icons/md';
 import { useDispatch, useSelector } from 'react-redux';
 import DeviceTypeGraph from '@/components/Graphs/DeviceTypeGraph';
 
-
 const TimeGraph = dynamic(() => import("../../../../components/Graphs/TimeGraph"), { ssr: false });
 const Piechart = dynamic(() => import("../../../../components/Graphs/Piechart"), { ssr: false });
 const BarGraph = dynamic(() => import("../../../../components/Graphs/BarGraph"), { ssr: false });

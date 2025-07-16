@@ -10,6 +10,8 @@ export default function LivePreviewIframe({ previewData, selectedDevicePreview }
     useEffect(() => {
         if (!resizeRef.current) repointerturn;
 
+        if (selectedDevicePreview === 'full') return setScale(1);
+
         const observer = new ResizeObserver((entries) => {
             for (let entry of entries) {
                 const { width, height } = entry.contentRect;
@@ -41,16 +43,20 @@ export default function LivePreviewIframe({ previewData, selectedDevicePreview }
     }, [previewData]);
 
     return (
-        <div ref={resizeRef} className=" w-full h-[calc(100vh_-_120px)] flex justify-center items-center overflow-hidden">
+        <div ref={resizeRef} className=" w-full h-[calc(100vh_-_60px)] flex justify-center items-center overflow-hidden">
             <div
                 style={{
-                    width: `${devices?.[selectedDevicePreview]?.targetWidth * scale}px`,
-                    height: `${devices?.[selectedDevicePreview]?.targetHeight * scale}px`,
+                    width: selectedDevicePreview === "full"
+                        ? '100%'
+                        : `${devices?.[selectedDevicePreview]?.targetWidth * scale}px`,
+                    height: selectedDevicePreview === "full"
+                        ? '100%'
+                        : `${devices?.[selectedDevicePreview]?.targetHeight * scale}px`,
                 }}
                 className=" w-max h-max relative overflow-hidden">
 
                 <div
-                    className=" bg-300 h-[calc(100vh_-_120px)] w-full  relative  origin-top-left transition-all duration-75"
+                    className=" bg-300 h-[calc(100vh_-_60px)] w-full  relative  origin-top-left transition-all duration-75"
                     style={{ transform: `scale(${scale})` }}>
 
                     <iframe

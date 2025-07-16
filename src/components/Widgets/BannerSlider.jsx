@@ -1,16 +1,11 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, forwardRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { SlArrowLeft, SlArrowRight } from "react-icons/sl";
 import { useSwipeable } from "react-swipeable";
 
-function BannerSlider({
-    content,
-    duration = 400,
-    autoRun = true,
-    interval = 3500
-}) {
+const BannerSlider = forwardRef(({ content, duration = 400, autoRun = true, interval = 3500, ...rest }, ref) => {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [images, setImages] = useState([]);
     const [direction, setDirection] = useState(1);
@@ -66,7 +61,7 @@ function BannerSlider({
     const isImageValid = currentImage && !failedImages.has(currentImage);
 
     return (
-        <div className="relative h-[calc(100vh_-_60px)] max-h-[1000px] w-full overflow-hidden">
+        <div {...rest} ref={ref} className="relative h-[calc(100vh_-_60px)] max-h-[1000px] w-full overflow-hidden">
             <div className="relative w-full h-full flex items-center justify-center" {...handlers}>
                 {images.length === 0 ? (
                     <div className="absolute w-full h-full flex items-center justify-center bg-gray-500 text-white">
@@ -111,6 +106,6 @@ function BannerSlider({
             )}
         </div>
     );
-}
+})
 
 export default BannerSlider;

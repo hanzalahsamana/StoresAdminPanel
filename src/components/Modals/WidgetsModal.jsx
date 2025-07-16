@@ -5,34 +5,9 @@ import { IoCloseOutline } from "react-icons/io5";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 
-const widgets = [
-    { id: 1, name: "Banner Section" },
-    { id: 2, name: "Rich Text" },
-    { id: 3, name: "Product Feature" },
-    { id: 4, name: "Testimonials" },
-    { id: 5, name: "Image Gallery" },
-    { id: 6, name: "Call to Action" },
-    { id: 7, name: "Pricing Table" },
-    { id: 8, name: "Contact Form" },
-];
-
-const WidgetsModal = ({ isOpen, setIsOpen, selectedOrder = 1, setSelectedOrder, setLoading = () => { } }) => {
+const WidgetsModal = ({ isOpen, setIsOpen, handleAddSection, selectedOrder, setSelectedOrder }) => {
     const { currUser } = useSelector((state) => state.currentUser);
     const { store } = useSelector((state) => state.store);
-
-    const handleAddSection = async (section) => {
-        try {
-            setLoading(true);
-            await addSection(currUser?.token, store?._id, section);
-            toast.success('Section added successfully');
-        } catch (error) {
-            toast.error(error.response ? error.response.data.message : error.message)
-        } finally {
-            setLoading(false);
-        }
-
-
-    }
 
     useEffect(() => {
         const handleKeyDown = (e) => {
@@ -46,6 +21,7 @@ const WidgetsModal = ({ isOpen, setIsOpen, selectedOrder = 1, setSelectedOrder, 
         }
         return () => window.removeEventListener("keydown", handleKeyDown);
     }, [isOpen, setIsOpen]);
+
     return (
         <div className="relative">
 
@@ -58,26 +34,30 @@ const WidgetsModal = ({ isOpen, setIsOpen, selectedOrder = 1, setSelectedOrder, 
 
             <div className={`fixed top-0 right-0 h-full w-80 bg-backgroundC shadow-lg z-[100] transform ${isOpen ? "translate-x-0" : "translate-x-full"} transition-transform duration-300`}>
                 <div className="flex justify-between items-center p-4 border-b">
-                    <h2 className="text-2xl font-semibold">Widgets</h2>
+                    <h2 className="text-xl font-semibold">Add Widgets</h2>
                     <button className="text-[18px]" onClick={() => { setSelectedOrder(null); setIsOpen(false) }}>
                         <IoCloseOutline />
                     </button>
                 </div>
-
-                <div className="p-4 overflow-y-auto max-h-[80vh]">
+                <div className=" grid grid-cols-2 gap-3 p-4 overflow-y-auto max-h-[80vh]">
                     {Object.entries(SectionStructure).map(([widget, section]) => (
                         <div
                             key={widget} // Ensuring a unique key
-                            onClick={() => handleAddSection({
-                                type: widget,
-                                sectionName: section?.sectionName || section?.data?.title || "Untitled",
-                                visibility: true,
-                                content: section?.data,
-                                order: selectedOrder,
-                            })}
-                            className="p-3 bg-gray-100 rounded-sm mb-2 cursor-pointer hover:bg-gray-200"
+                            onClick={() => {
+                                handleAddSection({
+                                    type: widget,
+                                    name: section?.name || section?.data?.title || "Untitled",
+                                    visibility: true,
+                                    content: section?.data,
+                                    _id: section?._id
+                                });
+                                setSelectedOrder(null)
+                                setIsOpen(false)
+                            }}
+                            className={`p-3 flex flex-col gap-2  justify-center items-center rounded-sm  ${section?.comingSoon ? 'cursor-not-allowed bg-gray-100 opacity-60' : 'bg-gray-100 cursor-pointer hover:bg-gray-200'}`}
                         >
-                            {section?.sectionName || section?.data?.title || "Untitled"}
+                            <p className="text-[20px]"> {section?.icon}</p>
+                            <p className="text-[14px] text-center"> {section?.name || "Untitled"}</p>
                         </div>
                     ))}
                 </div>

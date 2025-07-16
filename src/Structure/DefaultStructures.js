@@ -1,6 +1,7 @@
-import { IoMdLaptop } from "react-icons/io";
-import { LuMonitor } from "react-icons/lu";
-import { TbDeviceMobile } from "react-icons/tb";
+import { BsArrowsFullscreen } from 'react-icons/bs';
+import { IoMdLaptop } from 'react-icons/io';
+import { LuMonitor } from 'react-icons/lu';
+import { TbDeviceMobile } from 'react-icons/tb';
 
 export const MigrationDefaultKeys = ['products', 'collections', 'contents', 'sections', 'orders'];
 
@@ -334,20 +335,30 @@ export const popularVendors = [
 ];
 
 export const devices = {
-  desktop: {
-    label: 'Desktop',
-    icon: <LuMonitor size={20} />, // you can use another icon if you want to differentiate
-    ratio: '1440x900',
-    render: '!w-[1900px] h-[1150px] pt-[60px] ml-[50px] ',
-    frame: 'DesktopFrameLive !w-[2000px] !h-[1500px]  ',
-    targetWidth: 2000,
-    targetHeight: 1500,
-    maxScale: 0.3,
+  full: {
+    label: 'Full Screen',
+    icon: <BsArrowsFullscreen size={16} />,
+    ratio: '100%',
+    render: '!w-[calc(100%_-_20px)] !h-[calc(100%_-_20px)] ml-[10px] mt-[10px] rounded-2xl border shadow-md',
+    frame: ' !w-[calc(100%_-_20px)] !h-[calc(100%_-_20px)]',
+    targetWidth: null,
+    targetHeight: null,
+    maxScale: 1,
   },
+  // desktop: {
+  //   label: 'Desktop',
+  //   icon: <LuMonitor size={20} />, // you can use another icon if you want to differentiate
+  //   ratio: '1440 x 900',
+  //   render: '!w-[1900px] h-[1150px] pt-[60px] ml-[50px] ',
+  //   frame: 'DesktopFrameLive !w-[2000px] !h-[1500px]  ',
+  //   targetWidth: 2000,
+  //   targetHeight: 1500,
+  //   maxScale: 0.3,
+  // },
   laptop: {
     label: 'Laptop',
     icon: <IoMdLaptop size={20} />,
-    ratio: '1024x600',
+    ratio: '1024 x 600',
     render: '!w-[1274px] h-[800px] pt-[20px] ml-[160px] ',
     frame: 'LaptopFrameLive !w-[1600px] !h-[950px] ',
     targetWidth: 1640,
@@ -357,11 +368,303 @@ export const devices = {
   mobile: {
     label: 'Mobile',
     icon: <TbDeviceMobile size={19} />,
-    ratio: '375x667',
+    ratio: '375 x 667',
     render: '!w-[450px] h-[960px] pt-[20px] ml-[9px] rounded-2xl',
     frame: 'MobileFrameLive  !w-[490px]  !h-[980px]',
     targetWidth: 490,
     targetHeight: 1000,
     maxScale: 0.45,
   },
+};
+
+export const ecommercePages = [
+  {
+    key: 'home',
+    title: 'Home Page',
+    subText: 'Your main landing page',
+    // icon: <IoHomeOutline size={20} />,
+    viewPath: '/',
+    editPath: '/admin/home',
+  },
+  {
+    key: 'about',
+    title: 'About Us',
+    subText: 'Tell about your brand in this page',
+    // icon: <BsInfoSquare size={20} />,
+    viewPath: '/about-us',
+    editPath: '/admin/about-us',
+  },
+  {
+    key: 'products',
+    title: 'Products',
+    subText: 'Products Catalogue Page',
+    // icon: <MdShoppingCart size={20} />,
+    viewPath: '/products',
+    editPath: '/admin/products',
+  },
+  {
+    key: 'product-detail',
+    title: 'Product Detail',
+    subText: 'Detailed product information page',
+    // icon: <MdDescription size={20} />,
+    viewPath: '/products/sample-product',
+    editPath: '/admin/products',
+  },
+  {
+    key: 'checkout',
+    title: 'Checkout',
+    subText: 'Customer checkout process',
+    // icon: <MdViewList size={20} />,
+    viewPath: '/checkout',
+    editPath: '/admin/checkout',
+  },
+  {
+    key: 'cart',
+    title: 'Cart',
+    subText: 'Shopping cart page',
+    // icon: <MdShoppingCart size={20} />,
+    viewPath: '/cart',
+    editPath: '/admin/cart',
+  },
+  {
+    key: 'login',
+    title: 'Login / Register',
+    subText: 'Customer authentication',
+    // icon: <MdPersonOutline size={20} />,
+    viewPath: '/login',
+    editPath: '/admin/login',
+  },
+  {
+    key: 'shipping-policy',
+    title: 'Shipping Policy',
+    subText: 'Details of your shipping methods',
+    // icon: <MdLocalShipping size={20} />,
+    viewPath: '/shipping-policy',
+    editPath: '/admin/policies/shipping',
+  },
+  {
+    key: 'privacy-policy',
+    title: 'Privacy Policy',
+    subText: 'Your store’s privacy commitment',
+    // icon: <MdPrivacyTip size={20} />,
+    viewPath: '/privacy-policy',
+    editPath: '/admin/policies/privacy',
+  },
+  {
+    key: 'faq',
+    title: 'FAQ',
+    subText: 'Frequently asked questions',
+    // icon: <MdHelpOutline size={20} />,
+    viewPath: '/faq',
+    editPath: '/admin/faq',
+  },
+];
+
+export const SideBarData = [
+  { name: 'Dashboard', icon: 'https://img.icons8.com/fluency/48/home.png', path: '' },
+  { name: 'Analytics', icon: 'https://img.icons8.com/doodle/48/analytics.png', path: '/analytics' },
+  { name: 'Products', icon: 'https://img.icons8.com/doodle/48/t-shirt--v1.png', path: '/products' },
+  {
+    name: 'collections',
+    icon: 'https://img.icons8.com/external-flaticons-lineal-color-flat-icons/64/external-collections-modelling-agency-flaticons-lineal-color-flat-icons.png',
+    path: '/collections',
+  },
+  { name: 'Orders', icon: 'https://img.icons8.com/color/48/cardboard-box.png', path: '/ordersList' },
+  { name: 'Pages', icon: 'https://img.icons8.com/fluency/48/terms-and-conditions.png', path: '/pages' },
+  { name: 'Domain', icon: 'https://img.icons8.com/color/48/internet--v1.png', path: '/domain' },
+  { name: 'Color Theme', icon: 'https://img.icons8.com/emoji/48/artist-palette.png', path: '/theme' },
+  { name: 'Payment Methods', icon: 'https://img.icons8.com/color/48/bank-card-back-side.png', path: '/payment-methods' },
+  { name: 'Gallery', icon: 'https://img.icons8.com/fluency/48/gallery.png', path: '/gallery' },
+  {
+    name: 'Discounts',
+    icon: 'https://img.icons8.com/external-gradient-design-circle/66/external-discounts-activities-gradient-design-circle.png',
+    path: '/discounts',
+    subLinks: [
+      { name: 'Over View', path: '/discounts' },
+      { name: 'Offers Announcement', path: '/discounts/popups' },
+    ],
+  },
+  // {
+  //   name: 'Contents',
+  //   icon: 'https://img.icons8.com/fluency/48/pricing-structure.png',
+  //   path: '/content',
+  //   subLinks: [
+  //     { name: 'Over View', path: '/content' },
+  //     ...(Array.isArray(contentData)
+  //       ? contentData.map((item) => ({
+  //           name: item.type,
+  //           path: `/content/${item._id}`,
+  //         }))
+  //       : []),
+  //   ],
+  // },
+  // {
+  //   name: 'Design / Layout',
+  //   icon: 'https://img.icons8.com/color/48/design--v1.png',
+  //   path: '/design',
+  //   subLinks: [
+  //     { name: 'Over View', path: '/design' },
+  //     ...(Array.isArray(sectionsData)
+  //       ? sectionsData.map((item) => ({
+  //           name: item?.name,
+  //           path: `/design/${item._id}`,
+  //         }))
+  //       : []),
+  //   ],
+  // },
+  { name: 'Migration', icon: 'https://img.icons8.com/dusk/64/back-sorting.png', path: '/migration' },
+  {
+    name: 'Configurations',
+    icon: 'https://img.icons8.com/fluency/48/settings.png',
+    path: '/Configuration',
+    subLinks: [
+      { name: 'Over View', path: '/configurations' },
+      { name: 'Shipping', path: '/configurations/shipping' },
+      { name: 'Payment', path: '/configurations/payment' },
+      { name: 'Tax', path: '/configurations/tax' },
+      { name: 'Currency', path: '/configurations/currency' },
+    ],
+  },
+  { name: 'Documentation', icon: 'https://img.icons8.com/external-flaticons-flat-flat-icons/64/external-documentation-agile-flaticons-flat-flat-icons.png', path: '/migrkation' },
+];
+
+export const ThemeSettingStructure = {
+  storeId: '64f2a7632e3a6d28a1c8b456',
+  theme: {
+    layout: 'boxed',
+    font: 'Inter',
+    colors: {
+      primary: '#1a73e8',
+      secondary: '#e8f0fe',
+      background: '#ffffff',
+      text: '#202124',
+    },
+    logo: {
+      url: '/images/logo.svg',
+      alt: 'My Awesome Brand',
+    },
+    favicon: '/images/favicon.ico',
+    customCss: 'body { font-weight: 500; }',
+    customJs: "console.log('Theme loaded');",
+  },
+};
+
+export const AllPagesStructure = [
+  {
+    name: 'About Us',
+    isEnabled: true,
+    slug: '/about',
+    sections: [
+      {
+        type: 'textBlock',
+        name: 'Text Block',
+        order: 1,
+        content: {
+          heading: 'Welcome to Our Store',
+          description: 'We have been serving customers for over a decade.',
+          image: '/images/about-banner.jpg',
+        },
+      },
+      {
+        type: 'teamGrid',
+        name: 'Team Grid',
+        order: 2,
+        content: {
+          title: 'Meet the Team',
+          members: [
+            { name: 'Ali', role: 'Founder', image: '/images/ali.jpg' },
+            { name: 'Sara', role: 'Designer', image: '/images/sara.jpg' },
+          ],
+        },
+      },
+    ],
+  },
+  {
+    name: 'About Us',
+    isEnabled: true,
+    slug: '/about',
+    sections: [
+      {
+        type: 'textBlock',
+        name: 'Text Block',
+        order: 1,
+        content: {
+          heading: 'Welcome to Our Store',
+          description: 'We have been serving customers for over a decade.',
+          image: '/images/about-banner.jpg',
+        },
+      },
+      {
+        type: 'teamGrid',
+        name: 'Team Grid',
+        order: 2,
+        content: {
+          title: 'Meet the Team',
+          members: [
+            { name: 'Ali', role: 'Founder', image: '/images/ali.jpg' },
+            { name: 'Sara', role: 'Designer', image: '/images/sara.jpg' },
+          ],
+        },
+      },
+    ],
+  },
+  {
+    name: 'About Us',
+    isEnabled: true,
+    slug: '/about',
+    sections: [
+      {
+        type: 'textBlock',
+        name: 'Text Block',
+        order: 1,
+        content: {
+          heading: 'Welcome to Our Store',
+          description: 'We have been serving customers for over a decade.',
+          image: '/images/about-banner.jpg',
+        },
+      },
+      {
+        type: 'teamGrid',
+        name: 'Team Grid',
+        order: 2,
+        content: {
+          title: 'Meet the Team',
+          members: [
+            { name: 'Ali', role: 'Founder', image: '/images/ali.jpg' },
+            { name: 'Sara', role: 'Designer', image: '/images/sara.jpg' },
+          ],
+        },
+      },
+    ],
+  },
+];
+
+export const PageStructure = {
+  name: 'Home',
+  isEnabled: true,
+  slug: '/',
+  isHeaderFooter: true,
+  sections: [
+    {
+      _id: '123',
+      type: 'hero_banner',
+      name: 'Hero Banner',
+      order: 1,
+      content: {
+        title: 'Hero Banner',
+        image: 'https://res.cloudinary.com/duaxitxph/image/upload/v1736247980/cjzl4ivq2lduxqbtnfj1.webp',
+      },
+    },
+    {
+      _id: '234',
+      type: 'rich_text',
+      name: 'Rich Text',
+      order: 2,
+      content: {
+        title: 'Why Choose Us?',
+        text: 'We provide high-quality products with fast delivery and excellent customer service.',
+        buttonText: 'Shop Now',
+      },
+    },
+  ],
 };

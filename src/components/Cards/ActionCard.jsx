@@ -10,11 +10,11 @@ const ActionCard = ({ label, actionPosition = 'bottom', className, children, act
                 <div className='flex items-center gap-4 text-textC'>
                     {icon && icon}
                     <div className='flex flex-col gap-1'>
-                        <h1 className=" font-semibold text-[23px] md:text-[30px] leading-[30px] ">{label}</h1>
+                        <h1 className=" font-bold text-[23px] md:text-[30px] leading-[30px] ">{label}</h1>
                         {subText && <p className='text-textTC text-[13px]'>{subText}</p>}
                     </div>
                 </div>
-                {actionPosition === 'top' && (
+                {actionPosition === 'top' && actions && (
                     <div className="flex justify-end items-center  gap-[20px]">
                         {actions}
                     </div>
@@ -29,8 +29,8 @@ const ActionCard = ({ label, actionPosition = 'bottom', className, children, act
             ) : (
                 children
             )}
-            {actionPosition === 'bottom' && (
-                <div className="flex justify-end items-center flex-1  gap-[20px]">
+            {actionPosition === 'bottom' && actions && (
+                <div className="flex justify-end items-center gap-[20px]">
                     {actions}
                 </div>
             )}

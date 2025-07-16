@@ -23,14 +23,13 @@ const TextEditor = ({ editorContent, setEditorContent, label, className }) => {
                 theme: "snow",
                 modules: {
                     toolbar: [
-                        [{ size: ["small", false, "large", "huge"] }],
-                        ["bold", "italic", "underline", "strike"],
+                        // [{ size: ["small", false, "large", "huge"] }],
+                        ["bold", "italic"],
                         [{ color: [] }, { background: [] }],
-                        [{ script: "sub" }, { script: "super" }],
-                        [{ align: [] }],
+                        // [{ align: [] }],
                         [{ list: "ordered" }, { list: "bullet" }],
-                        ["link", "image", "video"],
-                        ["clean"],
+                        ["link"],
+                        // ["clean"],
                     ],
                 },
             });
@@ -64,14 +63,14 @@ const TextEditor = ({ editorContent, setEditorContent, label, className }) => {
     }, [editorContent]);
 
     return (
-        <div>
+        <div className="">
             {label && (
                 <label className="text-[14px] font-medium text-textC mb-1 block">
                     {label}
                 </label>
             )}
-            <div className={`w-full !border-[1.5px] !border-primaryC ${className}`}>
-                <div ref={editorRef} className="max-h-[190px] min-h-[190px] overflow-auto !border-none"></div>
+            <div className={`w-full !border-[1px] !border-[#6b7280] ${className} rounded-2xl overflow-hidden`}>
+                <div ref={editorRef} className="max-h-[150px] min-h-[100px] overflow-auto !border-none "></div>
             </div>
         </div>
     );

@@ -5,8 +5,9 @@ import { FaArrowRightLong } from "react-icons/fa6";
 import { useSelector } from "react-redux";
 import CollectionCard from "../Cards/collectionCard";
 import { getBasePath } from "@/Utils/GetBasePath";
+import { forwardRef } from "react";
 
-const CollectionSection = ({ content = {}, toShowLink = true }) => {
+const CollectionSection = forwardRef(({ content = {}, toShowLink = true , ...rest },ref) => {
   const { title = "Featured Collections", selectedcollections = [] } = content
 
   const { collections } = useSelector((state) => state.collection);
@@ -34,7 +35,7 @@ const CollectionSection = ({ content = {}, toShowLink = true }) => {
   }
 
   return (
-    <div className="p-2 md:p-6 flex flex-col gap-[25px] bg-[var(--tmp-pri)]">
+    <div {...rest} ref={ref} className="p-2 md:p-6 flex flex-col gap-[25px] bg-[var(--tmp-pri)]">
       {toShowLink && (
         <div className="flex justify-between items-center">
           <h1 className="mt-2 md:text-[30px] text-[var(--tmp-txt)] font-semibold text-start">{title || 'Collections'}</h1>
@@ -53,6 +54,6 @@ const CollectionSection = ({ content = {}, toShowLink = true }) => {
       </div>
     </div>
   );
-};
+});
 
 export default CollectionSection;

@@ -1,7 +1,7 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, forwardRef } from "react";
 
-const Hero = ({ content }) => {
+const Hero = forwardRef(({ content , ...rest } , ref) => {
   const [videoSrc, setVideoSrc] = useState("/videos/WebsiteBannerVideo.mp4");
   const [imgSrc, setImgSrc] = useState("");
   const [isImageBroken, setIsImageBroken] = useState(false);
@@ -33,7 +33,7 @@ const Hero = ({ content }) => {
   };
 
   return (
-    <div className="h-[100vh] max-h-[900px]">
+    <div {...rest} ref={ref} className="h-[100vh] max-h-[900px]">
       {!isImageBroken && imgSrc ? (
         <img
           className="w-full h-full bg-cover object-cover"
@@ -48,6 +48,6 @@ const Hero = ({ content }) => {
       )}
     </div>
   );
-};
+});
 
 export default Hero;

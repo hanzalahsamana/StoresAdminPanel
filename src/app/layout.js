@@ -16,7 +16,7 @@ import ReduxProviderWrap from '@/components/Layout/ProviderWrap';
 
 const assistant = Assistant({
   subsets: ['latin'],
-  weight: ['400', '500', '700'],
+  weight: ['400', '500', '600','700'],
 });
 
 export default function RootLayout({ children }) {

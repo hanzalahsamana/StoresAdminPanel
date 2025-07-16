@@ -8,7 +8,7 @@ export const uploadImagesToS3 = async (token, storeId, files) => {
   });
 
   try {
-    const response = await axios.post(`${BASE_URL}/${storeId}/uploadMultiple`, formData, {
+    const response = await axios.post(`${BASE_URL}/${storeId}/uploadImages`, formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
         Authorization: `Bearer ${token}`,

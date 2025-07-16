@@ -24,10 +24,10 @@ import CardLoader from "@/components/Loader/CardLoader";
 const Design = () => {
     const { sectionsData } = useSelector((state) => state.sectionsData);
     const [hoverIndex, setHoverIndex] = useState(null);
+    const [selectedOrder, setSelectedOrder] = useState(null);
     const [items, setItems] = useState([]);
     const [isOpen, setIsOpen] = useState(false);
     const [loading, setLoading] = useState(false);
-    const [selectedOrder, setSelectedOrder] = useState(null);
     const { currUser } = useSelector((state) => state.currentUser);
     const { store } = useSelector((state) => state.store);
 
@@ -133,7 +133,7 @@ const Design = () => {
                                                                 <div className="w-full flex flex-col items-center justify-center">
                                                                     <span className="absolute border-b-2 animate-expand border-primaryC"></span>
                                                                     <div
-                                                                        onClick={() => { setSelectedOrder(index + 2); setIsOpen(true); }}
+                                                                        onClick={() => { setSelectedOrder(index + 1); setIsOpen(true); }}
                                                                         className="relative w-[25px] h-[25px] cursor-pointer rounded-full bg-primaryC text-backgroundC flex justify-center items-center"
                                                                     >
                                                                         <LuPlus />

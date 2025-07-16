@@ -26,7 +26,15 @@ const FormInput = ({
   labelClassname = "",
 
 }) => {
-  const inputSizeClass = size === "small" ? "text-sm h-9" : "text-base h-11";
+
+  const Classes = {
+    editor: '!w-[100%] bg-gray-50 text-sm rounded-md outline-black !h-8 !text-[#6b7280] !border-[#6b7280]',
+    small: 'text-sm h-9',
+    large: 'text-base h-11',
+  }
+  const inputSizeClass = Classes?.[size] || Classes.small;
+
+
   return (
     <div className="relative w-full ">
       {layout === "label" && (
@@ -63,9 +71,7 @@ const FormInput = ({
           </label>
         )}
       </div>
-
-
-
+      
       {error && <p className="text-red-500 text-xs mt-1">{error}</p>}
     </div>
   );

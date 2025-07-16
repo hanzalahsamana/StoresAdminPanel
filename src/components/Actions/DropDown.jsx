@@ -76,9 +76,9 @@ const DropDown = ({
     return (
         <div className={`w-full flex flex-col`}>
             <div ref={dropdownRef} className="relative flex flex-col w-full gap-2">
-                <div>
+                <div onClick={() => setIsOpen((prev) => !prev)}>
                     <FormInput
-                        onClick={() => setIsOpen((prev) => !prev)}
+                        // onClick={() => setIsOpen((prev) => !prev)}
                         // onFocus={() => setIsOpen(!isOpen)}
                         error={error}
                         value={searchTerm}

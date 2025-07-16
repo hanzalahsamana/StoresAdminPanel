@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { Base_Domain, HTTP } from "../../../config";
 import PopupMenu from "../Modals/PopupMenu";
 import { IoEyeOutline } from "react-icons/io5";
-
+import logo from "../../Assets/Images/logo.png";
 
 export default function Header({ toggleSidebar }) {
   const { currUser } = useSelector((state) => state.currentUser);
@@ -11,8 +11,9 @@ export default function Header({ toggleSidebar }) {
 
   return (
     <header className="bg-backgroundC border-b border-gray-300 px-3 md:px-10 text-textC flex justify-between items-center fixed w-full z-[110] top-0 left-0 h-[60px]">
-      <button onClick={toggleSidebar} className="text-textC focus:outline-none text-2xl font-semibold ">
-        Multi Nest
+      <button onClick={toggleSidebar} className="text-black  flex justify-center items-center gap-2 focus:outline-none text-xl  font-semibold ">
+        <img src={logo?.src} alt="" className="w-12" />
+        Multi Tenant
       </button>
       <div className="flex items-center ">
 

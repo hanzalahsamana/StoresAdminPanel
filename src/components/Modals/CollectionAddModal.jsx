@@ -12,6 +12,7 @@ import { uploadSingleImageToS3 } from "@/APIs/uploadImageS3";
 import ActionCard from "../Cards/ActionCard";
 import Button from "../Actions/Button";
 import MultiSelectDropdown from "../Actions/MultiSelectDropdown";
+import ImageSlector from "../Uploaders/ImageSlector";
 
 const initialFormData = {
     name: '',
@@ -101,7 +102,7 @@ const CollectionAddModal = ({
     };
 
     return (
-        <Modal isOpen={isOpen} setIsOpen={setIsOpen} extraFuntion={() => setUpdatedData(null)} >
+        <Modal isOpen={isOpen} setIsOpen={setIsOpen} extraFuntion={() => setUpdatedData(null)} closeOnEsc={false} >
             <ActionCard
                 actionPosition="top"
                 label={!updatedData ? "Add Collection" : "Update Collection"}
@@ -133,7 +134,7 @@ const CollectionAddModal = ({
                     }}
                 />
 
-                <ImageUploader
+                <ImageSlector
                     key={"image"}
                     image={formData["image"]}
                     size="large"
