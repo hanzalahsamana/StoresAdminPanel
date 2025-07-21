@@ -111,7 +111,7 @@ const CollectionAddModal = ({
                 <FormInput
                     label="Collection Name"
                     placeholder="e.g. Summer Collection"
-                    handleChange={handleChange}
+                    onChange={handleChange}
                     name={"name"}
                     value={formData?.name}
                     error={errors?.name}

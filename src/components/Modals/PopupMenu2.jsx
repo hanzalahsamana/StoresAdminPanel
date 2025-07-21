@@ -59,7 +59,7 @@ export default function PopupMenu2({ label = '', trigger = null, data = [], onOp
 
 
     return (
-        <div className="relative z-10 w-max">
+        <div className="relative w-max">
             <div ref={buttonRef} onClick={toggleMenu}>
                 {trigger ? trigger : (
                     <div className='p-2 hover:bg-gray-200 rounded-md transition'>

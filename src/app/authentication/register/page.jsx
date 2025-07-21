@@ -87,7 +87,7 @@ const Register = () => {
           type="email"
           name="email"
           value={formData.email}
-          handleChange={handleChange}
+          onChange={handleChange}
           placeholder="Email"
           error={errors.email}
           size="large"
@@ -97,20 +97,11 @@ const Register = () => {
           type={showPassword ? "text" : "password"}
           name="password"
           value={formData.password}
-          handleChange={handleChange}
+          onChange={handleChange}
           placeholder="Password"
           error={errors.password}
           size="large"
-          actionIcon={
-            <div
-              onClick={() => setShowPassword(!showPassword)}
-              className="absolute right-[12px] text-[#7f7b7b] top-[4px]"
-            >
-              <IconButton
-                icon={showPassword ? <FaEyeSlash /> : <FaEye />}
-              />
-            </div>
-          }
+          suffix={<IconButton action={() => setShowPassword(!showPassword)} icon={showPassword ? <FaEye /> : <FaEyeSlash />} className={'text-[#7f7b7b] h-full w-full'} />}
         />
       </Form>
     </div>

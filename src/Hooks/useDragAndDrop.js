@@ -6,8 +6,14 @@ export const useDragAndDrop = ({ initialItems = [], onReorder }) => {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    setItems(initialItems);
+    if (initialItems && initialItems.length > 0) {
+      setItems(initialItems);
+    }
   }, [initialItems]);
+
+  // if (!items || items.length === 0) {
+  //   return;
+  // }
 
   const handleDragEnd = async (result) => {
     if (!result.destination) return;

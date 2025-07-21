@@ -1,26 +1,20 @@
 'use client';
 import React, { useEffect, useState } from 'react';
-import { RxSection } from 'react-icons/rx';
 import { Tooltip } from 'react-tooltip';
-import { LuPlus } from 'react-icons/lu';
-import { useSelector } from 'react-redux';
 import DragAndDropWrapper, { useDragAndDrop } from '@/Hooks/useDragAndDrop';
 import WidgetsModal from '../Modals/WidgetsModal';
-import { IoIosArrowBack } from 'react-icons/io';
+import { IoIosArrowBack, IoIosArrowDown } from 'react-icons/io';
 import IconButton from '../Actions/IconButton';
 import { TbCreditCardPay } from 'react-icons/tb';
 import Button from '../Actions/Button';
-import { PageStructure } from '@/Structure/DefaultStructures';
+import { ecommercePages, PageStructure } from '@/Structure/DefaultStructures';
 import FormInput from '@/components/Forms/FormInput';
 import FaqUploader from '@/components/Uploaders/FaqUploader';
-import ImageUploader from '@/components/Uploaders/ImageUploader';
 import TextEditor from '@/components/Uploaders/TextEditor';
 import DropDown from '@/components/Actions/DropDown';
 import MultiSelectDropdown from '@/components/Actions/MultiSelectDropdown';
 import { SectionStructure } from '@/Structure/SectionStructure';
 import PopupMenu2 from '../Modals/PopupMenu2';
-import { IoHomeOutline } from 'react-icons/io5';
-import { BsThreeDots } from 'react-icons/bs';
 import MultiImageUploader from '../Uploaders/MultiImageUploader';
 import { HiOutlineEye, HiOutlineEyeSlash, HiOutlinePencilSquare, HiOutlineTrash } from 'react-icons/hi2';
 import { HiOutlineDuplicate } from 'react-icons/hi';
@@ -31,6 +25,10 @@ import { MdOutlineAddCircleOutline } from 'react-icons/md';
 import { duplicateSection, insertSection, removeSection, toggleSectionVisibility } from '@/Utils/BuilderUtils/BuilderUtilsFuctions';
 import { BuilderSideBarCard, GlobalSectionCard, SectionAddAnimationLine, SectionItemCard } from '@/Utils/BuilderUtils/BuilderUtilsComponents';
 import PillSelector from '../Actions/PillSelector';
+import { CiFileOn } from 'react-icons/ci';
+import ImageSelector from '../Uploaders/ImageSlector';
+import RangeInput from '../Forms/RangeInput';
+import { useSelector } from 'react-redux';
 
 const bulderTabs = [
     { name: 'editor', icon: <TbCreditCardPay /> },
@@ -42,6 +40,7 @@ const BuilderCustomizer = ({ customizePageData, setCustomizePageData, activeSect
     const [selectedOrder, setSelectedOrder] = useState(null);
     const [activeTab, setActiveTab] = useState("editor");
     const [isOpen, setIsOpen] = useState(false);
+    // const { pages } = useSelector((state) => state.pages);
 
 
     const sectionActions = [
@@ -64,26 +63,34 @@ const BuilderCustomizer = ({ customizePageData, setCustomizePageData, activeSect
         },
     ];
 
-    useEffect(() => {
-        if (PageStructure) setCustomizePageData(PageStructure);
-    }, [PageStructure]);
 
     const handleInputChange = (key, value) => {
+        // Step 1: Create updated active section
+        const updatedActiveSection = {
+            ...activeSection,
+            sectionData: {
+                ...activeSection.sectionData,
+                [key]: value,
+            },
+        };
+
+        // Step 2: Update activeSection state
+        setActiveSection(updatedActiveSection);
+
+        // Step 3: Update customizePageData with updated active section
         setCustomizePageData((prev) => ({
             ...prev,
             sections: prev.sections.map((section) =>
-                section._id === activeSection?._id
-                    ? {
-                        ...section,
-                        content: {
-                            ...section.content,
-                            [key]: value,
-                        },
-                    }
-                    : section
+                section._id === updatedActiveSection._id ? updatedActiveSection : section
             ),
         }));
     };
+
+
+    useEffect(() => {
+        // console.log(activeSection, "🦍🦍🦍");
+    }, [activeSection])
+
 
 
     const { items, handleDragEnd } = useDragAndDrop({
@@ -117,32 +124,23 @@ const BuilderCustomizer = ({ customizePageData, setCustomizePageData, activeSect
     });
 
     const handleAddSection = (newSection) => {
-        insertSection(setCustomizePageData , newSection, selectedOrder)
+        insertSection(setCustomizePageData, newSection, selectedOrder)
     }
 
-
-
-    const renderComponents = ({ name, placeholder, input, options, dependsOn, formData }) => {
-
-        if (dependsOn) {
-            const { field: depField, value: expectedValue } = dependsOn;
-            if (activeSection?.[depField] !== expectedValue) {
-                return null;
-            }
-        }
+    const renderComponents = ({ name, placeholder, input, options, multiple, dependsOn, formData }) => {
 
         if (input === "text" || input === "number") {
             return (
                 <FormInput
                     type={input}
                     key={name}
-                    value={formData?.[name] ?? ""}
+                    value={formData?.sectionData?.[name] ?? ""}
                     label={null}
                     layout='label'
                     placeholder={placeholder}
                     size='editor'
                     required={false}
-                    handleChange={(e) => handleInputChange(name, e.target.value)}
+                    onChange={(e) => handleInputChange(name, e.target.value)}
                 />
             );
         }
@@ -151,7 +149,7 @@ const BuilderCustomizer = ({ customizePageData, setCustomizePageData, activeSect
             return (
                 <TextEditor
                     key={name}
-                    editorContent={formData?.[name]}
+                    editorContent={formData?.sectionData?.[name]}
                     setEditorContent={(value) => handleInputChange(name, value)}
                 />
             );
@@ -161,9 +159,21 @@ const BuilderCustomizer = ({ customizePageData, setCustomizePageData, activeSect
             return (
                 <PillSelector
                     data={options}
-                    selectedValue={formData?.[name]}
+                    selectedValue={formData?.sectionData?.[name]}
                     setSelectedValue={(value) => handleInputChange(name, value)}
                     key={name}
+                />
+            );
+        }
+
+        if (input === "range") {
+            return (
+                <RangeInput
+                    label={`${name}`}
+                    min={2}
+                    max={8}
+                    range={formData?.sectionData?.[name]}
+                    setRange={(value) => handleInputChange(name, value)}
                 />
             );
         }
@@ -218,13 +228,14 @@ const BuilderCustomizer = ({ customizePageData, setCustomizePageData, activeSect
             );
         }
 
-        if (input === "imageUploader") {
+        if (input === "ImageSelector") {
             return (
-                <ImageUploader
-                    size='medium'
+                <ImageSelector
+                    size='large'
                     label={null}
                     key={name}
-                    image={formData?.[name]}
+                    multiple={multiple}
+                    image={formData?.sectionData?.[name]}
                     setImage={(image) => handleInputChange(name, image)}
                 />
             );
@@ -275,7 +286,7 @@ const BuilderCustomizer = ({ customizePageData, setCustomizePageData, activeSect
             );
         }
 
-        if (input === 'dataSelectionList') {
+        if (input === 'dataSelectorList') {
             <DataSelectionList
                 selectedData={[]}
                 setSelectedData={() => { }}
@@ -347,12 +358,19 @@ const BuilderCustomizer = ({ customizePageData, setCustomizePageData, activeSect
                 {!activeSection ? (
                     <div className='border-b h-full '>
                         <div className='flex justify-start items-center gap-1  h-[55px] text-[#323232] border-b p-3'>
-                            <IoHomeOutline className='m-1' />
-                            <p className='flex-1 text-lg font-semibold'>Home Page</p>
+                            <p className="text-[18px] font-medium text-gray-700 flex flex-1 items-center gap-1 "><CiFileOn /> {customizePageData?.name}
+                            </p>
+                            <PopupMenu2
+                                data={ecommercePages.map((page) => ({
+                                    icon: <CiFileOn />,
+                                    name: page?.title,
+                                }))}
+                                trigger={<IoIosArrowDown className="!text-[30px] select-none cursor-pointer bg-gray-100 p-2 rounded-md" />}
+                            />
                         </div>
                         <div className='h-[calc(100vh_-_115px)] overflow-y-auto customScroll'>
                             {customizePageData?.isHeaderFooter && (
-                                <BuilderSideBarCard label={'Header'}>
+                                <BuilderSideBarCard label={null}>
                                     <GlobalSectionCard
                                         globalSectionName={'header'}
                                         globalSection={SectionStructure?.['header']}
@@ -360,6 +378,7 @@ const BuilderCustomizer = ({ customizePageData, setCustomizePageData, activeSect
                                         setOpenMenuId={setOpenMenuId}
                                         onClick={setActiveSection}
                                         sectionActions={sectionActions}
+                                        setActiveSection={setActiveSection}
                                     />
                                 </BuilderSideBarCard>
                             )}
@@ -407,10 +426,10 @@ const BuilderCustomizer = ({ customizePageData, setCustomizePageData, activeSect
                                 </DragAndDropWrapper>
                                 <Button
                                     icon={<MdOutlineAddCircleOutline />}
-                                    label='Add section'
+                                    label='Add New Section'
                                     variant='text'
                                     size='small'
-                                    className='!w-full text-start mt-[10px] !bg-gray-100 hover:!bg-gray-200'
+                                    className='!w-full text-start mt-[10px] !bg-gray-100 hover:!bg-gray-200 !border'
                                     action={() => {
                                         setSelectedOrder(customizePageData?.sections?.length + 1);
                                         setIsOpen(true);
@@ -418,7 +437,7 @@ const BuilderCustomizer = ({ customizePageData, setCustomizePageData, activeSect
                                 />
                             </BuilderSideBarCard>
                             {customizePageData?.isHeaderFooter && (
-                                <BuilderSideBarCard label={'Footer'}>
+                                <BuilderSideBarCard label={null}>
                                     <GlobalSectionCard
                                         globalSectionName={'footer'}
                                         globalSection={SectionStructure?.['footer']}
@@ -426,6 +445,7 @@ const BuilderCustomizer = ({ customizePageData, setCustomizePageData, activeSect
                                         setOpenMenuId={setOpenMenuId}
                                         onClick={setActiveSection}
                                         sectionActions={sectionActions}
+                                        setActiveSection={setActiveSection}
                                     />
                                 </BuilderSideBarCard>
                             )}
@@ -439,11 +459,19 @@ const BuilderCustomizer = ({ customizePageData, setCustomizePageData, activeSect
                         </div>
                         <div className="h-[calc(100vh_-_115px)] overflow-y-auto customScroll">
                             {(SectionStructure[activeSection?.type]?.fields || []).map(
-                                ({ name, placeholder, input, options, dependsOn, label }, index) => (
-                                    <BuilderSideBarCard key={index} label={label || placeholder}>
-                                        {renderComponents({ name, placeholder, input, options, dependsOn, formData: activeSection })}
-                                    </BuilderSideBarCard>
-                                )
+                                ({ name, placeholder, input, options, multiple, dependsOn, label }, index) => {
+                                    if (dependsOn) {
+                                        const { field: depField, value: expectedValue } = dependsOn;
+                                        if (activeSection?.sectionData?.[depField] !== expectedValue) {
+                                            return null;
+                                        }
+                                    }
+                                    return (
+                                        <BuilderSideBarCard key={index} label={label || placeholder}>
+                                            {renderComponents({ name, placeholder, input, multiple, options, dependsOn, formData: activeSection })}
+                                        </BuilderSideBarCard>
+                                    )
+                                }
                             )}
                         </div>
                     </div>

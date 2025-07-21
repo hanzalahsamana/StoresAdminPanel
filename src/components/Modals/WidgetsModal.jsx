@@ -40,26 +40,29 @@ const WidgetsModal = ({ isOpen, setIsOpen, handleAddSection, selectedOrder, setS
                     </button>
                 </div>
                 <div className=" grid grid-cols-2 gap-3 p-4 overflow-y-auto max-h-[80vh]">
-                    {Object.entries(SectionStructure).map(([widget, section]) => (
-                        <div
-                            key={widget} // Ensuring a unique key
-                            onClick={() => {
-                                handleAddSection({
-                                    type: widget,
-                                    name: section?.name || section?.data?.title || "Untitled",
-                                    visibility: true,
-                                    content: section?.data,
-                                    _id: section?._id
-                                });
-                                setSelectedOrder(null)
-                                setIsOpen(false)
-                            }}
-                            className={`p-3 flex flex-col gap-2  justify-center items-center rounded-sm  ${section?.comingSoon ? 'cursor-not-allowed bg-gray-100 opacity-60' : 'bg-gray-100 cursor-pointer hover:bg-gray-200'}`}
-                        >
-                            <p className="text-[20px]"> {section?.icon}</p>
-                            <p className="text-[14px] text-center"> {section?.name || "Untitled"}</p>
-                        </div>
-                    ))}
+                    {Object.entries(SectionStructure).map(([widget, section]) => {
+                        if (section?.isGlobal) return null;
+                        return (
+                            <div
+                                key={widget} // Ensuring a unique key
+                                onClick={() => {
+                                    handleAddSection({
+                                        type: widget,
+                                        name: section?.name || section?.data?.title || "Untitled",
+                                        visibility: true,
+                                        sectionData: section?.data,
+                                        _id: section?._id
+                                    });
+                                    setSelectedOrder(null)
+                                    setIsOpen(false)
+                                }}
+                                className={`p-3 flex flex-col gap-2  justify-center items-center rounded-sm  ${section?.comingSoon ? 'cursor-not-allowed bg-gray-100 opacity-60' : 'bg-gray-100 cursor-pointer hover:bg-gray-200'}`}
+                            >
+                                <p className="text-[20px]"> {section?.icon}</p>
+                                <p className="text-[14px] text-center"> {section?.name || "Untitled"}</p>
+                            </div>
+                        )
+                    })}
                 </div>
 
             </div>

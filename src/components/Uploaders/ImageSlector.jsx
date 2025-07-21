@@ -2,7 +2,6 @@
 import { useEffect, useState } from "react";
 import { IoMdClose } from "react-icons/io";
 import { Tooltip } from "react-tooltip";
-import { IoImageOutline } from "react-icons/io5";
 import { HiOutlineUpload } from "react-icons/hi";
 import ImageSelectorModal from "../Modals/ImageSelectorModal";
 

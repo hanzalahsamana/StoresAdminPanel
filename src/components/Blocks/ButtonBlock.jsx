@@ -37,7 +37,7 @@ const ButtonBlock = ({ selectedValue = {}, setSelectedValue = () => { } }) => {
                 layout='label'
                 placeholder='e.g. Shop Now'
                 value={blockData.buttonText}
-                handleChange={(e) => handleChange('buttonText', e.target.value)}
+                onChange={(e) => handleChange('buttonText', e.target.value)}
             />
             {/* <PillSelector
                 label="Select Style"
@@ -69,7 +69,7 @@ const ButtonBlock = ({ selectedValue = {}, setSelectedValue = () => { } }) => {
                 required={false}
                 placeholder='e.g. /products'
                 value={blockData.buttonLink}
-                handleChange={(e) => handleChange('buttonLink', e.target.value)}
+                onChange={(e) => handleChange('buttonLink', e.target.value)}
             />
 
             <Checkbox

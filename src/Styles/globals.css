@@ -59,12 +59,6 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
-.Inputs:focus~label {
-  font-size: 12px !important;
-  top: -10px !important;
-  background-color: var(--background-color);
-}
-
 .dropDown {
   animation: move 0.1s ease-in-out;
 }
@@ -392,6 +386,15 @@ input:-webkit-autofill {
   backdrop-filter: blur(40px);
 }
 
+input[type=number]::-webkit-outer-spin-button,
+input[type=number]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.rangeSlider::-webkit-slider-thumb {
+  cursor: grab;
+}
 
 
 @keyframes popupMenuAnimation {
@@ -410,13 +413,16 @@ input:-webkit-autofill {
   box-shadow: 0rem .5rem 1.5rem -.5rem rgba(0, 0, 0, .28), 0rem .5rem 1rem -.25rem rgba(0, 0, 0, .05), 0rem .1875rem .375rem 0rem rgba(0, 0, 0, .05), 0rem .125rem .25rem 0rem rgba(0, 0, 0, .05), 0rem .0625rem .125rem 0rem rgba(0, 0, 0, .05), 0rem 0rem 0rem .0625rem rgba(0, 0, 0, .06);
 }
 
+/* .builderSelectedSection {
+  position: relative;
+}
+
 .builderSelectedSection::before {
   content: '';
-  box-shadow: 0 0 0 4px #0084ff;
+  position: absolute;
+  outline: #0078D4 4px solid;
   box-sizing: border-box;
-  /* use border-box for better layout control */
   width: 100%;
-  /* make sure it fills parent */
-  position: relative;
-  /* z-index: 10; */
-}
+  height: 300px;
+  z-index: 100000;
+} */

@@ -7,7 +7,7 @@ import "../../Styles/globals.css";
 const TemplateFormInput = ({
   name,
   value,
-  handleChange,
+  onChange,
   placeholder = "Enter text",
   type = "text",
   readOnly = false,
@@ -42,7 +42,7 @@ const TemplateFormInput = ({
           type={type}
           name={name}
           value={value}
-          onChange={handleChange}
+          onChange={onChange}
           onClick={onClick}
           onFocus={onFocus}
           onBlur={onBlur}

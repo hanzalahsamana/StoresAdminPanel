@@ -129,7 +129,7 @@ const VariantsAddManager = ({
                                 layout=""
                                 type="number"
                                 value={groupByIndex === 0 ? bulkEdit.price : variants[0].price}
-                                handleChange={e => handleGroupChange(groupKey, 'price', e.target.value)}
+                                onChange={e => handleGroupChange(groupKey, 'price', e.target.value)}
                                 className="rounded-lg h-[30px]"
                                 placeholder="Price"
                             />
@@ -137,7 +137,7 @@ const VariantsAddManager = ({
                                 layout=""
                                 type="number"
                                 value={groupByIndex === 0 ? bulkEdit.stock : variants[0].stock}
-                                handleChange={e => handleGroupChange(groupKey, 'stock', e.target.value)}
+                                onChange={e => handleGroupChange(groupKey, 'stock', e.target.value)}
                                 className="rounded-lg h-[30px]"
                                 placeholder="Stock"
                             />
@@ -164,7 +164,7 @@ const VariantsAddManager = ({
                                         layout=""
                                         placeholder="Price"
                                         value={variant.price}
-                                        handleChange={e => handleChange(variant.id, 'price', e.target.value)}
+                                        onChange={e => handleChange(variant.id, 'price', e.target.value)}
                                     />
                                     <FormInput
                                         label=""
@@ -173,7 +173,7 @@ const VariantsAddManager = ({
                                         placeholder="Stock"
                                         type="number"
                                         value={variant.stock}
-                                        handleChange={e => handleChange(variant.id, 'stock', e.target.value)}
+                                        onChange={e => handleChange(variant.id, 'stock', e.target.value)}
                                     />
                                 </div>
                             ))}

@@ -1,7 +1,7 @@
 import BannerSlider from '@/components/Widgets/BannerSlider';
 
 const { default: CollectionSection } = require('@/components/Widgets/collectionSection');
-const { default: Hero } = require('@/components/Widgets/hero');
+const { default: Hero } = require('@/components/Widgets/Hero');
 const { default: ProductsSection } = require('@/components/Widgets/productsSection');
 const { default: PromoWidget } = require('@/components/Widgets/PromoWidget');
 const { default: RichText } = require('@/components/Widgets/RichText');
@@ -34,7 +34,6 @@ export const SectionStructure = {
     name: 'Banner Slider',
     icon: <TfiLayoutSliderAlt />,
     data: {
-      title: 'Banner Slider',
       imagesUrl: [
         'https://res.cloudinary.com/duaxitxph/image/upload/v1736247980/cjzl4ivq2lduxqbtnfj1.webp',
         'https://res.cloudinary.com/duaxitxph/image/upload/v1736247980/cjzl4ivq2lduxqbtnfj1.webp',
@@ -42,14 +41,10 @@ export const SectionStructure = {
     },
     fields: [
       {
-        name: 'title',
-        placeholder: 'Title',
-        input: 'text',
-      },
-      {
         name: 'imagesUrl',
-        placeholder: 'ImagesUrls',
-        input: 'multiImageUploader',
+        label: 'Select Images',
+        input: 'ImageSelector',
+        multiple: true,
       },
     ],
     component: BannerSlider,
@@ -60,19 +55,14 @@ export const SectionStructure = {
     name: 'Hero Banner',
     icon: <HiOutlinePhoto />,
     data: {
-      title: 'Hero Banner',
       image: 'https://res.cloudinary.com/duaxitxph/image/upload/v1736247980/cjzl4ivq2lduxqbtnfj1.webp',
     },
     fields: [
       {
-        name: 'title',
-        placeholder: 'Title',
-        input: 'text',
-      },
-      {
         name: 'image',
-        placeholder: 'Image',
-        input: 'imageUploader',
+        label: 'Image',
+        input: 'ImageSelector',
+        multiple: false,
       },
     ],
     component: Hero,
@@ -108,17 +98,25 @@ export const SectionStructure = {
     icon: <HiOutlineTag />,
 
     data: {
-      title: 'Exclusive Offer!',
-      image: 'https://res.cloudinary.com/duaxitxph/image/upload/v1736859498/v6pws4qg9rfegcqx85en.jpg',
-      text: "Get the best deals on our latest products. Limited-time offer! Enjoy huge discounts, free shipping, and special perks when you shop today. Don't miss out on this opportunity to save big!",
+      heading: 'Exclusive Offer!',
       buttonText: 'Shop Now',
-      styleType: 'style1',
+      content:
+        "Get the best deals on our latest products. Limited-time offer! Enjoy huge discounts, free shipping, and special perks when you shop today. Don't miss out on this opportunity to save big!",
+      image: 'https://res.cloudinary.com/duaxitxph/image/upload/v1736859498/v6pws4qg9rfegcqx85en.jpg',
+      style: 'style1',
     },
+
     fields: [
       {
-        name: 'title',
-        label: 'Title',
+        name: 'heading',
+        label: 'Heading',
         placeholder: 'e.g. Our Quality',
+        input: 'text',
+      },
+      {
+        name: 'buttonText',
+        label: 'Button Text',
+        placeholder: 'e.g. Shop Now',
         input: 'text',
       },
       {
@@ -128,12 +126,13 @@ export const SectionStructure = {
       },
       {
         name: 'image',
-        label: 'Upload Image',
-        input: 'imageUploader',
-        recommended:'500x500'
+        label: 'Image',
+        input: 'ImageSelector',
+        multiple: false,
+        recommended: '500x500',
       },
       {
-        label: 'Select Style',
+        label: 'Style',
         name: 'style',
         input: 'pillSelector',
         options: [
@@ -151,9 +150,10 @@ export const SectionStructure = {
     icon: <HiOutlinePencilSquare />,
 
     data: {
-      title: 'Why Choose Us?',
-      text: 'We provide high-quality products with fast delivery and excellent customer service.',
+      heading: 'Why Choose Us?',
+      content: 'We provide high-quality products with fast delivery and excellent customer service.',
       buttonText: 'Shop Now',
+      style: 'Style 1',
     },
     fields: [
       {
@@ -169,15 +169,15 @@ export const SectionStructure = {
         input: 'text',
       },
       {
-        label: 'Description',
-        name: 'description',
+        label: 'Content',
+        name: 'content',
         input: 'textEditor',
       },
       {
         label: 'Select Style',
         name: 'style',
         input: 'pillSelector',
-        options: [{ label: 'Style 1' }, { label: 'Style 2' }, { label: 'Style 3' }],
+        options: [{ value: 'Style 1' }, { value: 'Style 2' }, { value: 'Style 3' }],
       },
     ],
     component: RichText,
@@ -188,45 +188,150 @@ export const SectionStructure = {
     name: 'Featured Product',
     icon: <HiOutlineShoppingBag />,
     data: {
-      title: 'Featured Product',
-      maxLength: 4,
-      productType: 'All',
-      selectedcollections: [],
+      heading: 'Featured Product',
+      productCount: 1,
+      column: 4,
+      productsToShow: 'all',
+      selectedCollections: [],
       selectedProducts: [],
+      style: 'grid',
     },
     fields: [
       {
-        name: 'title',
-        placeholder: 'Title',
+        name: 'heading',
+        label: 'Heading',
+        placeholder: 'e.g. Best Sellers',
         input: 'text',
       },
       {
-        name: 'maxLength',
-        placeholder: 'Maximum Length Of Products',
-        input: 'number',
+        name: 'productCount',
+        label: 'Product Count',
+        placeholder: 'e.g. 6',
+        input: 'range',
       },
       {
-        name: 'productType',
-        placeholder: 'Products To Show',
-        input: 'dropdown',
-        options: ['All', 'Selected collections', 'Selected Products'],
+        name: 'column',
+        label: 'Product In One Row',
+        placeholder: 'e.g. 4',
+        input: 'range',
       },
       {
-        name: 'selectedcollections',
-        placeholder: 'Select Collection',
-        input: 'multiDropdown',
+        name: 'productsToShow',
+        label: 'Select Products To Show',
+        input: 'pillSelector',
+        options: [
+          { label: 'All Products', value: 'all' },
+          { label: 'Selected Collections', value: 'collections' },
+          { label: 'Selected Products', value: 'products' },
+        ],
+      },
+      {
+        name: 'selectedCollections',
+        label: 'Select Collections',
+        input: 'dataSelectorList',
         options: 'collections',
-        dependsOn: { field: 'productType', value: 'Selected collections' },
+        dependsOn: { field: 'productType', value: 'collections' },
       },
       {
         name: 'selectedProducts',
-        placeholder: 'Select Products',
-        input: 'multiDropdown',
+        label: 'Select Products',
+        input: 'dataSelectorList',
         options: 'products',
-        dependsOn: { field: 'productType', value: 'Selected Products' },
+        dependsOn: { field: 'productType', value: 'products' },
+      },
+      {
+        name: 'style',
+        label: 'Style',
+        input: 'pillSelector',
+        options: 'products',
+        options: [
+          { label: 'Grid', value: 'grid' },
+          { label: 'Slider', value: 'slider' },
+        ],
       },
     ],
     component: ProductsSection,
+  },
+
+  header: {
+    _id: uuidv4(),
+    name: 'Header',
+    icon: <CgToolbarTop />,
+    isGlobal: true,
+    data: {
+      logo: 'https://yourcdn.com/logo.png',
+      navLinks: [
+        { label: 'Home', url: '/' },
+        { label: 'Shop', url: '/shop' },
+        { label: 'About', url: '/about' },
+        { label: 'Contact', url: '/contact' },
+      ],
+      ctaText: 'Sign Up',
+      ctaUrl: '/signup',
+    },
+    fields: [
+      {
+        name: 'logo',
+        placeholder: 'Logo Image',
+        input: 'imageUploader',
+      },
+      {
+        name: 'navLinks',
+        placeholder: 'Navigation Links',
+        input: 'linkListEditor', // assume custom component for managing link list
+      },
+      {
+        name: 'ctaText',
+        placeholder: 'CTA Button Text',
+        input: 'text',
+      },
+      {
+        name: 'ctaUrl',
+        placeholder: 'CTA Button URL',
+        input: 'text',
+      },
+    ],
+    component: TemplateHeader,
+  },
+
+  footer: {
+    _id: uuidv4(),
+    name: 'Footer',
+    icon: <CgToolbarBottom />,
+    isGlobal: true,
+    data: {
+      logo: 'https://yourcdn.com/logo-footer.png',
+      description: 'Stay connected with us for the latest updates and offers.',
+      socialLinks: [
+        { platform: 'Facebook', url: 'https://facebook.com' },
+        { platform: 'Instagram', url: 'https://instagram.com' },
+        { platform: 'Twitter', url: 'https://twitter.com' },
+      ],
+      copyright: '© 2025 YourCompany. All rights reserved.',
+    },
+    fields: [
+      {
+        name: 'logo',
+        placeholder: 'Logo',
+        input: 'imageUploader',
+      },
+      {
+        name: 'description',
+        placeholder: 'Description',
+        input: 'textEditor',
+      },
+      {
+        name: 'socialLinks',
+        placeholder: 'Social Links',
+        input: 'linkListEditor', // again assuming reusable component for link list
+      },
+      {
+        name: 'copyright',
+        placeholder: 'Copyright Text',
+        input: 'text',
+      },
+    ],
+    component: TemplateFooter,
   },
 
   testimonials: {
@@ -420,85 +525,5 @@ export const SectionStructure = {
         ],
       },
     ],
-  },
-
-  header: {
-    _id: uuidv4(),
-    name: 'Header',
-    icon: <CgToolbarTop />,
-    data: {
-      logo: 'https://yourcdn.com/logo.png',
-      navLinks: [
-        { label: 'Home', url: '/' },
-        { label: 'Shop', url: '/shop' },
-        { label: 'About', url: '/about' },
-        { label: 'Contact', url: '/contact' },
-      ],
-      ctaText: 'Sign Up',
-      ctaUrl: '/signup',
-    },
-    fields: [
-      {
-        name: 'logo',
-        placeholder: 'Logo Image',
-        input: 'imageUploader',
-      },
-      {
-        name: 'navLinks',
-        placeholder: 'Navigation Links',
-        input: 'linkListEditor', // assume custom component for managing link list
-      },
-      {
-        name: 'ctaText',
-        placeholder: 'CTA Button Text',
-        input: 'text',
-      },
-      {
-        name: 'ctaUrl',
-        placeholder: 'CTA Button URL',
-        input: 'text',
-      },
-    ],
-    component: TemplateHeader,
-  },
-
-  footer: {
-    _id: uuidv4(),
-    name: 'Footer',
-    icon: <CgToolbarBottom />,
-
-    data: {
-      logo: 'https://yourcdn.com/logo-footer.png',
-      description: 'Stay connected with us for the latest updates and offers.',
-      socialLinks: [
-        { platform: 'Facebook', url: 'https://facebook.com' },
-        { platform: 'Instagram', url: 'https://instagram.com' },
-        { platform: 'Twitter', url: 'https://twitter.com' },
-      ],
-      copyright: '© 2025 YourCompany. All rights reserved.',
-    },
-    fields: [
-      {
-        name: 'logo',
-        placeholder: 'Logo',
-        input: 'imageUploader',
-      },
-      {
-        name: 'description',
-        placeholder: 'Description',
-        input: 'textEditor',
-      },
-      {
-        name: 'socialLinks',
-        placeholder: 'Social Links',
-        input: 'linkListEditor', // again assuming reusable component for link list
-      },
-      {
-        name: 'copyright',
-        placeholder: 'Copyright Text',
-        input: 'text',
-      },
-    ],
-    component: TemplateFooter,
   },
 };

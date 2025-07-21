@@ -41,11 +41,17 @@ const TextEditor = ({ editorContent, setEditorContent, label, className }) => {
             }
 
             quill.on("text-change", () => {
-                const content = quill.root.innerHTML;
-                if (content !== editorContent) {
+                let content = quill.root.innerHTML;
+                // const plainText = quill.getText().trim();
+
+                // if (plainText === "") {
+                //     content = '';
+                // }
+
+                // if (content !== editorContent) {
                     setEditorContent(content);
-                }
-            });
+                // }
+            }); 
         });
 
         return () => {
@@ -60,6 +66,7 @@ const TextEditor = ({ editorContent, setEditorContent, label, className }) => {
         if (quillRef.current && editorContent !== quillRef.current.root.innerHTML) {
             quillRef.current.root.innerHTML = editorContent;
         }
+        console.log(editorContent, "🦍🦍🦍");
     }, [editorContent]);
 
     return (

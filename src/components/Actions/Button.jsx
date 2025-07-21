@@ -23,19 +23,19 @@ const Button = ({
 
     // Define button styles based on variant
     const buttonStyles = {
-        primary: "bg-primaryC text-backgroundC shadow-[inset_0_-3.2px_#02599b]",
+        primary: "bg-primaryC text-backgroundC border border-primaryC shadow-[inset_0_-3.2px_#02599b]",
         outline: "border-2 border-primaryC text-primaryC bg-transparent  leading-[calc(1em)]",
-        danger: "bg-red-600 text-backgroundC shadow-[inset_0_-3.2px_#991b1b]",
-        black: "bg-[#424242] text-backgroundC shadow-[inset_0_-3.2px_#000000]",
+        danger: "bg-red-600 text-backgroundC border border-red-600 shadow-[inset_0_-3.2px_#991b1b]",
+        black: "bg-[#424242] border border-[#424242] text-backgroundC shadow-[inset_0_-3.2px_#000000]",
         white: "bg-backgroundC border text-textC border-borderC shadow-[inset_0_-3px_#d7d7da]",
-        warning: "bg-[#FA9A1F] text-white shadow-[inset_0_-3.2px_#b45309]",
+        warning: "bg-[#FA9A1F] text-white border border-[#FA9A1F] shadow-[inset_0_-3.2px_#b45309]",
         text: "bg-transparent text-primaryC py-0 !px-[5px]",
         disable: "cursor-not-allowed bg-[#424242] text-[#4f4c4c89] !bg-[#c5c5c589]"
     };
 
     const buttonSizes = {
         large: "text-[16px] h-[42px] px-[10px] min-w-[150px] ",
-        small: "text-[14px] py-[8px] px-[20px] w-max"
+        small: "text-[14px] py-[8px] px-[20px] h-max w-max"
     };
 
     return (

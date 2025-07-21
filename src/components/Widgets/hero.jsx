@@ -1,9 +1,11 @@
 "use client";
+import { placeholderImageUrl } from "@/Structure/DefaultStructures";
 import React, { useState, useEffect, forwardRef } from "react";
 
-const Hero = forwardRef(({ content , ...rest } , ref) => {
+const Hero = forwardRef(({ sectionData, ...rest }, ref) => {
+  const { image } = sectionData;
+
   const [videoSrc, setVideoSrc] = useState("/videos/WebsiteBannerVideo.mp4");
-  const [imgSrc, setImgSrc] = useState("");
   const [isImageBroken, setIsImageBroken] = useState(false);
 
   useEffect(() => {
@@ -20,31 +22,21 @@ const Hero = forwardRef(({ content , ...rest } , ref) => {
     return () => window.removeEventListener("resize", updateVideoSrc);
   }, []);
 
-  useEffect(() => {
-    if (content?.image && typeof content.image === "object") {
-      setImgSrc(URL.createObjectURL(content.image));
-    } else {
-      setImgSrc(content?.image);
-    }
-  }, [content]);
-
-  const handleImageError = () => {
-    setIsImageBroken(true);
-  };
-
   return (
     <div {...rest} ref={ref} className="h-[100vh] max-h-[900px]">
-      {!isImageBroken && imgSrc ? (
+      {!isImageBroken && image ? (
         <img
           className="w-full h-full bg-cover object-cover"
-          src={imgSrc}
-          alt={content?.title || "Banner"}
-          onError={handleImageError}
+          src={image}
+          alt={"Hero Banner"}
+          onError={() => setIsImageBroken(true)}
         />
       ) : (
-        <div className="w-full h-full flex items-center justify-center bg-gray-300 text-gray-600 text-xl">
-          Banner Image Not Found
-        </div>
+        <img
+          className="w-full h-full bg-cover object-cover"
+          src={placeholderImageUrl}
+          alt={"Hero Banner"}
+        />
       )}
     </div>
   );

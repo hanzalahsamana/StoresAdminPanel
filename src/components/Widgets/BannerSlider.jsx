@@ -5,7 +5,9 @@ import { motion, AnimatePresence } from "framer-motion";
 import { SlArrowLeft, SlArrowRight } from "react-icons/sl";
 import { useSwipeable } from "react-swipeable";
 
-const BannerSlider = forwardRef(({ content, duration = 400, autoRun = true, interval = 3500, ...rest }, ref) => {
+const BannerSlider = forwardRef(({ sectionData, duration = 400, autoRun = true, interval = 3500, ...rest }, ref) => {
+
+    const { imagesUrl } = sectionData
     const [currentIndex, setCurrentIndex] = useState(0);
     const [images, setImages] = useState([]);
     const [direction, setDirection] = useState(1);
@@ -13,10 +15,10 @@ const BannerSlider = forwardRef(({ content, duration = 400, autoRun = true, inte
     const isCooldown = useRef(false);
 
     useEffect(() => {
-        if (Array.isArray(content?.imagesUrl)) {
-            setImages(content?.imagesUrl);
+        if (Array.isArray(imagesUrl)) {
+            setImages(imagesUrl);
         }
-    }, [content?.imagesUrl]);
+    }, [imagesUrl]);
 
     useEffect(() => {
         if (!autoRun || images.length <= 1) {

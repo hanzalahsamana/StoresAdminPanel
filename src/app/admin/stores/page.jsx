@@ -140,7 +140,7 @@ const StoreDetails = ({ onClose, onComplete }) => {
                     <FormInput
                         name="storeName"
                         value={formData.storeName}
-                        handleChange={(e) => handleChange("storeName", e.target.value)}
+                        onChange={(e) => handleChange("storeName", e.target.value)}
                         label="Brand Name"
                         error={errors.storeName}
                         placeholder="Enter your brand name"

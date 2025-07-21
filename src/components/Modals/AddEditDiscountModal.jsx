@@ -209,7 +209,7 @@ const AddEditDiscountModal = ({ isOpen, setIsOpen, updatedDiscount = null, setUp
                         label="Name / Code"
                         placeholder="e.g. NEWYEAR2025"
                         value={form.name}
-                        handleChange={(e) => handleChange("name", e.target.value)}
+                        onChange={(e) => handleChange("name", e.target.value)}
                         error={errors.name}
                     />
 
@@ -218,7 +218,7 @@ const AddEditDiscountModal = ({ isOpen, setIsOpen, updatedDiscount = null, setUp
                         label={form.amountType === "fixed" ? "Amount (RS)" : "Amount (%)"}
                         type="number"
                         value={form.amount}
-                        handleChange={(e) => handleChange("amount", e.target.value)}
+                        onChange={(e) => handleChange("amount", e.target.value)}
                         error={errors.amount}
                         placeholder="Enter amount"
                     />
@@ -228,7 +228,7 @@ const AddEditDiscountModal = ({ isOpen, setIsOpen, updatedDiscount = null, setUp
                         type="datetime-local"
                         label="Expiry Date"
                         value={form.expiryDate}
-                        handleChange={(e) => handleChange("expiryDate", e.target.value)}
+                        onChange={(e) => handleChange("expiryDate", e.target.value)}
                         error={errors.expiryDate}
                         placeholder="Select expiry date"
                     />
@@ -238,7 +238,7 @@ const AddEditDiscountModal = ({ isOpen, setIsOpen, updatedDiscount = null, setUp
                         label="Min Order Amount (RS)"
                         type="number"
                         value={form.minOrderAmount}
-                        handleChange={(e) => handleChange("minOrderAmount", e.target.value)}
+                        onChange={(e) => handleChange("minOrderAmount", e.target.value)}
                         error={errors.minOrderAmount}
                         placeholder="Leave empty for unlimited"
                     />
@@ -250,7 +250,7 @@ const AddEditDiscountModal = ({ isOpen, setIsOpen, updatedDiscount = null, setUp
                                 label="Total Usage Limit (Optional)"
                                 type="number"
                                 value={form.usageLimit}
-                                handleChange={(e) => handleChange("usageLimit", e.target.value)}
+                                onChange={(e) => handleChange("usageLimit", e.target.value)}
                                 error={errors.usageLimit}
                                 placeholder="Leave empty for unlimited"
                             />
@@ -260,7 +260,7 @@ const AddEditDiscountModal = ({ isOpen, setIsOpen, updatedDiscount = null, setUp
                                 label="Usage Per User (Optional)"
                                 type="number"
                                 value={form.usagePerUser}
-                                handleChange={(e) => handleChange("usagePerUser", e.target.value)}
+                                onChange={(e) => handleChange("usagePerUser", e.target.value)}
                                 error={errors.usagePerUser}
                                 placeholder="Leave empty for unlimited"
                             />
@@ -271,7 +271,7 @@ const AddEditDiscountModal = ({ isOpen, setIsOpen, updatedDiscount = null, setUp
                         layout="label"
                         label="Headline (Optional)"
                         value={form.headline}
-                        handleChange={(e) => handleChange("headline", e.target.value)}
+                        onChange={(e) => handleChange("headline", e.target.value)}
                         placeholder="e.g. 10% off on all orders above 1000 Rs"
                     />
 

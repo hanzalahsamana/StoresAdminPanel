@@ -48,7 +48,7 @@ const OrderTrackModal = ({ isOpen, setIsOpen }) => {
                 error={error}
                 value={orderId}
                 placeholder="Enter Order ID"
-                handleChange={handleChange}
+                onChange={handleChange}
                 type="text"
             />
 

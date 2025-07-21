@@ -85,7 +85,7 @@ const PaymentForm = ({ cartItem, selectedMethod = '', setSelectedMethod = () => 
             placeholder="Email"
             name={"email"}
             value={formData?.email}
-            handleChange={handleChange}
+            onChange={handleChange}
             error={errors?.email}
             labelClassname={'bg-transparent'}
           />
@@ -93,7 +93,7 @@ const PaymentForm = ({ cartItem, selectedMethod = '', setSelectedMethod = () => 
             size="large"
             type="tel"
             placeholder="Phone"
-            handleChange={handleChange}
+            onChange={handleChange}
             name={"phone"}
             error={errors?.phone}
             value={formData?.phone}
@@ -106,7 +106,7 @@ const PaymentForm = ({ cartItem, selectedMethod = '', setSelectedMethod = () => 
           <FormInput
             size="large"
             placeholder="Country"
-            handleChange={handleChange}
+            onChange={handleChange}
             name={"country"}
             error={errors?.country}
             value={formData?.country}
@@ -116,7 +116,7 @@ const PaymentForm = ({ cartItem, selectedMethod = '', setSelectedMethod = () => 
             <FormInput
               size="large"
               placeholder="First Name"
-              handleChange={handleChange}
+              onChange={handleChange}
               name={"firstName"}
               error={errors?.firstName}
               value={formData?.firstName}
@@ -124,7 +124,7 @@ const PaymentForm = ({ cartItem, selectedMethod = '', setSelectedMethod = () => 
             <FormInput
               size="large"
               placeholder="Last Name"
-              handleChange={handleChange}
+              onChange={handleChange}
               name={"lastName"}
               error={errors?.lastName}
               value={formData?.lastName}
@@ -133,7 +133,7 @@ const PaymentForm = ({ cartItem, selectedMethod = '', setSelectedMethod = () => 
           <FormInput
             size="large"
             placeholder="Address"
-            handleChange={handleChange}
+            onChange={handleChange}
             name={"address"}
             error={errors?.address}
             value={formData?.address}
@@ -141,7 +141,7 @@ const PaymentForm = ({ cartItem, selectedMethod = '', setSelectedMethod = () => 
           <FormInput
             size="large"
             placeholder="Appartment"
-            handleChange={handleChange}
+            onChange={handleChange}
             name={"appartment"}
             error={errors?.appartment}
             value={formData?.appartment}
@@ -151,7 +151,7 @@ const PaymentForm = ({ cartItem, selectedMethod = '', setSelectedMethod = () => 
             <FormInput
               size="large"
               placeholder="City"
-              handleChange={handleChange}
+              onChange={handleChange}
               name={"city"}
               error={errors?.city}
               value={formData?.city}
@@ -160,7 +160,7 @@ const PaymentForm = ({ cartItem, selectedMethod = '', setSelectedMethod = () => 
               size="large"
               type="number"
               placeholder="Postal Code"
-              handleChange={handleChange}
+              onChange={handleChange}
               name={"postalCode"}
               error={errors?.postalCode}
               value={formData?.postalCode}

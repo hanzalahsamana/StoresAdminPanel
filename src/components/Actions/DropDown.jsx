@@ -83,7 +83,7 @@ const DropDown = ({
                         error={error}
                         value={searchTerm}
                         readOnly={!wantsCustomOption}
-                        handleChange={(e) => {
+                        onChange={(e) => {
                             setSearchTerm(e.target.value);
                             setIsOpen(true);
                         }}
@@ -93,8 +93,8 @@ const DropDown = ({
                         size={size}
                         layout={layout}
                         required={required}
-                        actionIcon={
-                            <span className={`ml-auto absolute right-0 text-textTC text-[20px] transition-all ${isOpen ? "rotate-0" : "rotate-180"}`}>
+                        suffix={
+                            <span className={`text-textTC text-[20px] transition-all ${isOpen ? "rotate-0" : "rotate-180"}`}>
                                 <IoMdArrowDropup />
                             </span>
                         }

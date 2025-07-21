@@ -9,14 +9,14 @@ import { RxSection } from "react-icons/rx";
 
 export const BuilderSideBarCard = ({ label, children }) => {
   return (
-    <div className="border-b py-[18px] px-[12px] flex flex-col gap-3">
-      <p className="text-[16px] font-semibold ">{label || 'Text'}</p>
+    <div className="border-b py-[10px] px-[12px] flex flex-col gap-3">
+      {label && (<p className="text-[16px] font-semibold ">{label}</p>)}
       <div>{children}</div>
     </div>
   );
 };
 
-export const GlobalSectionCard = ({ globalSectionName, globalSection, setActiveSection, openMenuId, setOpenMenuId , sectionActions }) => (
+export const GlobalSectionCard = ({ globalSectionName, globalSection, setActiveSection, openMenuId, setOpenMenuId, sectionActions }) => (
   <div
     className={`group flex items-center justify-between w-full relative cursor-pointer 
     transition-opacity text-[15px] font-medium rounded-md text-[#838383] hover:bg-gray-100
@@ -28,7 +28,7 @@ export const GlobalSectionCard = ({ globalSectionName, globalSection, setActiveS
         type: 'header',
         name: globalSection?.name || "Untitled",
         visibility: true,
-        content: globalSection?.data,
+        sectionData: globalSection?.data,
         _id: globalSection?._id
       })}
       className="flex-1 text-start text-gray-700 px-2 py-2"
@@ -49,7 +49,7 @@ export const GlobalSectionCard = ({ globalSectionName, globalSection, setActiveS
 );
 
 
-export const SectionAddAnimationLine = ({ selectedOrder, setSelectedOrder , index  , setIsOpen}) => {
+export const SectionAddAnimationLine = ({ selectedOrder, setSelectedOrder, index, setIsOpen }) => {
   const [hoverIndex, setHoverIndex] = useState(null);
 
   return (
@@ -84,15 +84,14 @@ export const SectionItemCard = ({ section, provided, snapshot, openMenuId, setOp
     key={section._id}
     ref={provided.innerRef}
     {...provided.draggableProps}
-    className={`group flex items-center justify-between w-full relative cursor-pointer transition-opacity text-[15px] font-medium rounded-md text-[#838383] ${snapshot.isDragging ? 'bg-gray-200' : openMenuId === section._id ? 'bg-gray-100' : 'hover:bg-gray-100'
-      }`}
+    className={`group flex items-center justify-between w-full relative cursor-pointer transition-opacity text-[15px] font-medium rounded-md text-[#838383] ${snapshot.isDragging ? 'bg-gray-200' : openMenuId === section._id ? 'bg-gray-100' : 'hover:bg-gray-100'}`}
   >
     <div {...provided.dragHandleProps} className="p-2 hover:bg-gray-200 rounded-md cursor-move">
       {SectionStructure?.[section?.type]?.icon || <RxSection />}
     </div>
     <p
       onClick={() => {
-        setActiveSection(section);                
+        setActiveSection(section);
       }}
       className="flex-1 text-start text-gray-700 px-2 py-2"
     >
@@ -103,7 +102,7 @@ export const SectionItemCard = ({ section, provided, snapshot, openMenuId, setOp
       label="Actions"
       onOpenChange={(isOpen) => setOpenMenuId(isOpen ? section._id : null)}
       trigger={
-        <div className={`p-2 rounded-md transition ${openMenuId === section._id ? 'bg-gray-200' : 'opacity-0 group-hover:opacity-100 hover:bg-gray-200'}`}>
+        <div className={`p-2 rounded-md transition !select-none ${openMenuId === section._id ? 'bg-gray-200' : 'opacity-0 group-hover:opacity-100 hover:bg-gray-200'}`}>
           <BsThreeDots />
         </div>
       }

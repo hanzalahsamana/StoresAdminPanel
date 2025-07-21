@@ -27,6 +27,11 @@ export default function LivePrevieww() {
     return () => window.removeEventListener("message", handleMessage);
   }, []);
 
+  useEffect(() => {
+    // Notify parent that iframe is ready to receive data
+    window.parent.postMessage({ type: "IFRAME_READY" }, "*");
+  }, []);
+
   const renderContent = () => {
     const updatedFormData = previewData;
 
@@ -34,8 +39,7 @@ export default function LivePrevieww() {
       return (
         <HomeLayout
           homePageData={previewComponent}
-          overrideSectionId={activeSectionId}
-          formData={updatedFormData}
+          activeSectionId={activeSectionId}
         />
       );
     } else if (previewComponent?.component === 'ProductDetailCard') {

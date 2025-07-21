@@ -99,7 +99,7 @@ const ContentEdit = () => {
             key={index}
             value={formData[field]}
             placeholder={field.charAt(0).toUpperCase() + field.slice(1)}
-            handleChange={(e) => handleInputChange(field, e.target.value)}
+            onChange={(e) => handleInputChange(field, e.target.value)}
             className='!outline-primaryC !bg-transparent'
 
           />

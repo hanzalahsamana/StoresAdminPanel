@@ -36,7 +36,7 @@ const HeadingBlock = ({ selectedValue = {}, setSelectedValue = () => { } }) => {
                 name="headingText"
                 required={false}
                 value={blockData.headingText}
-                handleChange={(e) => handleChange('headingText', e.target.value)}
+                onChange={(e) => handleChange('headingText', e.target.value)}
             />
 
             {/* <PillSelector

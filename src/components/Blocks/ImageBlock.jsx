@@ -64,7 +64,7 @@ const ImageBlock = ({ selectedValue = {}, setSelectedValue = () => { } }) => {
                 type="text"
                 placeholder="Alt text"
                 value={blockData.altText}
-                handleChange={(e) => handleChange('altText', e.target.value)}
+                onChange={(e) => handleChange('altText', e.target.value)}
             />
         </div>
     );

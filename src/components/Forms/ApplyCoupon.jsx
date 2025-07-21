@@ -41,7 +41,7 @@ const ApplyCoupon = ({ totalProductCost = 0, email = '', setCouponDiscount = () 
                     name="coupon"
                     size="small"
                     value={couponCode}
-                    handleChange={(e) => setCouponCode(e.target.value)}
+                    onChange={(e) => setCouponCode(e.target.value)}
                     className='!bg-[var(--tmp-pri)]'
                     labelClassname='bg-[var(--tmp-pri)]'
                     autocomplete='off'

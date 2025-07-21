@@ -52,7 +52,7 @@ const SubscribeForm = () => {
         label="Email"
         value={email}
         size="large"
-        handleChange={(e) => {
+        onChange={(e) => {
           setError(null);
           setEmail(e.target.value);
         }}

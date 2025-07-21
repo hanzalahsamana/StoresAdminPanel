@@ -213,7 +213,7 @@ const PaymentMethods = () => {
                                                     type='text'
                                                     className='border border-gray-300 p-2 rounded '
                                                     placeholder={''}
-                                                    handleChange={(e) => handleFieldChange(method.key, field.name, e.target.value)}
+                                                    onChange={(e) => handleFieldChange(method.key, field.name, e.target.value)}
                                                     value={paymentState[method.key][field.name] || ''}
                                                     error={validationErrors?.[method.key]?.[`${field.name}`]}
                                                 />

@@ -83,7 +83,7 @@ const AddReviews = ({ storeId, productId, setReviewInState }) => {
           <div className="">
             <TemplateFormInput
               placeholder="Jhon Doe"
-              handleChange={(e) => handleChange("name", e.target.value)}
+              onChange={(e) => handleChange("name", e.target.value)}
               value={reviewData.name}
               name="name"
               size="large"
@@ -98,7 +98,7 @@ const AddReviews = ({ storeId, productId, setReviewInState }) => {
           <div className="">
             <TemplateFormInput
               placeholder="abc@example.com"
-              handleChange={(e) => handleChange("email", e.target.value)}
+              onChange={(e) => handleChange("email", e.target.value)}
               value={reviewData.email}
               name="email"
               size="large"
@@ -115,7 +115,7 @@ const AddReviews = ({ storeId, productId, setReviewInState }) => {
           <TemplateFormInput
             placeholder="On Time Delivery"
             required={false}
-            handleChange={(e) => handleChange("reviewTitle", e.target.value)}
+            onChange={(e) => handleChange("reviewTitle", e.target.value)}
             value={reviewData.reviewTitle}
             name="reviewTitle"
             size="large"

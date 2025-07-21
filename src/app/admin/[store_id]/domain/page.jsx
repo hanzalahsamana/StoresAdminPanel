@@ -98,7 +98,7 @@ const DomainVerification = () => {
         {/* <FormInput
           value={domain}
           placeholder="Enter your custom domain"
-          handleChange={(e) => setDomain(e.target.value)}
+          onChange={(e) => setDomain(e.target.value)}
         /> */}
 
         <p className="text-[18px] text-textC">Your Site subdomain is <Link href={`https://${currUser?.subDomain}.${Base_Domain}`} target={'blank'} className="text-[#386ec5] hover:opacity-80">{currUser?.subDomain}.{Base_Domain}</Link></p>
@@ -150,7 +150,7 @@ const DomainVerification = () => {
             <FormInput
               value={domain}
               placeholder="example.com"
-              handleChange={(e) => setDomain(e.target.value)}
+              onChange={(e) => setDomain(e.target.value)}
             />
           </ActionCard>
         </form>

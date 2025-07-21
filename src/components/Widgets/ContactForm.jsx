@@ -53,10 +53,10 @@ const ContactForm = () => {
         <form onSubmit={handleSubmit}>
           <div className="flex flex-col gap-5">
             <div className="flex gap-5 w-full max-sm:flex-col">
-              <FormInput type="text" name="name" value={formData.name} handleChange={handleChange} placeholder="Name" className="!rounded-none border-[#aaaaaa] focus:border-[2px] focus:border-[var(--tmp-txt)] !outline-none" />
-              <FormInput type="email" name="email" value={formData.email} handleChange={handleChange} placeholder="Email" className="!rounded-none border-[#aaaaaa] focus:border-[2px] focus:border-[var(--tmp-txt)] !outline-none" />
+              <FormInput type="text" name="name" value={formData.name} onChange={handleChange} placeholder="Name" className="!rounded-none border-[#aaaaaa] focus:border-[2px] focus:border-[var(--tmp-txt)] !outline-none" />
+              <FormInput type="email" name="email" value={formData.email} onChange={handleChange} placeholder="Email" className="!rounded-none border-[#aaaaaa] focus:border-[2px] focus:border-[var(--tmp-txt)] !outline-none" />
             </div>
-            <FormInput type="tel" name="phone" value={formData.phone} handleChange={handleChange} placeholder="Phone" className="!rounded-none border-[#aaaaaa] focus:border-[2px] focus:border-[var(--tmp-txt)] !outline-none" />
+            <FormInput type="tel" name="phone" value={formData.phone} onChange={handleChange} placeholder="Phone" className="!rounded-none border-[#aaaaaa] focus:border-[2px] focus:border-[var(--tmp-txt)] !outline-none" />
 
             <div className="relative w-full">
               <textarea

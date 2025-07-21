@@ -2,79 +2,115 @@
 "use client";
 
 import React from "react";
-import "../../Styles/globals.css";
 
 const FormInput = ({
+  type = "text",
   name,
   value,
-  handleChange,
-  placeholder = "Enter text",
-  type = "text",
+  onChange,
+  label = "Name",
+  placeholder = null,
+  variant = "default",
+  size = "small", // "small" or "large"
+  suffix = null,
+  prefix = null,
+  error = null,
   readOnly = false,
   disabled = false,
   required = true,
-  error = "",
-  className = "",
+  autocomplete = "on", // "on" or "off"
   onClick = null,
   onFocus = null,
   onBlur = null,
-  actionIcon = null,
-  size = "small", // "small" or "large"
-  layout = "floating", // "floating" or "label"
-  label = "Name",
-  autocomplete = "on", // "on" or "off"
-  labelClassname = "",
-
+  className = "",
 }) => {
 
-  const Classes = {
-    editor: '!w-[100%] bg-gray-50 text-sm rounded-md outline-black !h-8 !text-[#6b7280] !border-[#6b7280]',
-    small: 'text-sm h-9',
-    large: 'text-base h-11',
+  const sizeClasses = {
+    short: 'w-max text-sm rounded-md !h-8 ',
+    small: 'text-sm rounded-md h-9 w-full',
+    large: 'text-base rounded-md h-11 w-full',
   }
-  const inputSizeClass = Classes?.[size] || Classes.small;
+
+  const variantClasses = {
+    default: {
+      text: 'text-gray-600',
+      lightBg: 'bg-white',
+      bg: 'bg-gray-200',
+      border: 'border-gray-300',
+      outline: 'focus-within:border-2 focus-within:border-primaryC'
+    },
+    primary: {
+      text: 'text-blue-600',
+      lightBg: 'bg-blue-50',
+      bg: 'bg-blue-200',
+      border: 'border-blue-300'
+    },
+    error: {
+      text: 'text-red-600',
+      lightBg: 'bg-red-50',
+      bg: 'bg-red-200',
+      border: 'border-red-300'
+    },
+    warn: {
+      text: 'text-yellow-600',
+      lightBg: 'bg-yellow-50',
+      bg: 'bg-yellow-200',
+      border: 'border-yellow-300'
+    },
+    success: {
+      text: 'text-green-600',
+      lightBg: 'bg-green-50',
+      bg: 'bg-green-200',
+      border: 'border-green-300'
+    },
+  };
+
+  const inputSizeClass = sizeClasses?.[size] || sizeClasses.small;
+  const variantClass = error ? variantClasses?.error : variantClasses?.[variant] || variantClasses.default;
 
 
   return (
     <div className="relative w-full ">
-      {layout === "label" && (
-        <label className="text-[14px] font-medium text-textC mb-1 block">
+      {label && (
+        <label className="text-[15px] font-medium text-textC mb-1 block">
           {label}
           {required && <span className="text-red-500"> *</span>}
         </label>
       )}
-      <div className="relative w-full">
-
-
+      <div className={`flex border ${inputSizeClass} ${variantClass?.border} ${variantClass?.lightBg} ${variantClass?.outline} ${className} `}>
+        {prefix && (
+          <PrefSuffBox data={prefix} className={'rounded-l-md'} variantClass={variantClass} />
+        )}
         <input
           type={type}
           name={name}
           value={value}
-          onChange={handleChange}
+          onChange={onChange}
           onClick={onClick}
           onFocus={onFocus}
           onBlur={onBlur}
           readOnly={readOnly}
           disabled={disabled}
           autoComplete={autocomplete}
-          placeholder={layout !== "floating" ? placeholder : ''}
-          className={`Inputs  placeholder:text-sm   placeholder:text-[#b9b9b9] shadow-[inset_0_0px_6px_0_rgb(0_0_0_/_0.02)] px-3 text-textTC  flex items-center border-[1.3px] w-full rounded-[4px] ${inputSizeClass} ${error ? "border-red-500 outline-none bg-red-50" : "border-gray-300 bg-backgroundC outline-[#297ed9]"
-            } ${className}`}
+          placeholder={placeholder}
+          className={`placeholder:text-sm !outline-none bg-transparent w-full placeholder:text-[#b9b9b9] shadow-[inset_0_0px_6px_0_rgb(0_0_0_/_0.02)] px-3 text-textTC h-full`}
         />
-        {actionIcon && <div className={`absolute right-3 ${size === "large" ? 'bottom-[32px]' : 'bottom-[28px]'} transform -translate-y-1/2`}>{actionIcon}</div>}
-        {layout === "floating" && (
-          <label
-            className={`absolute left-3 px-1  ${labelClassname} transition-all text-[#b9b9b9] ${value || value === 0 ? "top-[-10px] text-xs bg-backgroundC" : `${size === "large" ? "top-[12px] text-base" : "top-[8px] text-sm"}`} pointer-events-none`}
-          >
-            {placeholder}
-            {required && <span className="text-red-500"> *</span>}
-          </label>
+        {suffix && (
+          <PrefSuffBox data={suffix} className={'rounded-r-md'} variantClass={variantClass} />
         )}
       </div>
-      
+
       {error && <p className="text-red-500 text-xs mt-1">{error}</p>}
-    </div>
+    </div >
   );
 };
+
+const PrefSuffBox = ({ data, className, variantClass }) => {
+  return (
+    <div className={` font-semibold h-full px-2 flex justify-center gap-3 items-center ${variantClass?.bg} ${variantClass?.text} ${className}`}>
+      {data}
+    </div>
+  )
+}
 
 export default FormInput;

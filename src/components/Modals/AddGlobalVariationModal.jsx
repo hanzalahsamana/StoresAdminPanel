@@ -33,7 +33,7 @@ const AddGlobalVariationModal = ({ isOpen, setIsOpen }) => {
   // }, [variationFormData.name]);
 
 
-  // const handleChange = (key, value) => {
+  // const onChange = (key, value) => {
   //   setErrors((prev) => ({ ...prev, [key]: "" }));
   //   setVariationFormData((prev) => ({ ...prev, [key]: value }));
   //   if (key === "name") {
@@ -195,7 +195,7 @@ const AddGlobalVariationModal = ({ isOpen, setIsOpen }) => {
     //           <div className="flex flex-col gap-2">
     //             <p>Variation Name:</p>
     //             <DropDown
-    //               setSelectedOption={(value) => handleChange("name", value)}
+    //               setSelectedOption={(value) => onChange("name", value)}
     //               selectedOption={variationFormData.name}
     //               wantsCustomOption={true}
     //               defaultOptions={variationSuggestions.map((v) => v?.name) || []}
@@ -209,7 +209,7 @@ const AddGlobalVariationModal = ({ isOpen, setIsOpen }) => {
     //             <span className="flex justify-between">
     //               <p>Variation Options:</p>
     //               <button
-    //                 onClick={() => handleChange("options", [])}
+    //                 onClick={() => onChange("options", [])}
     //                 className="text-red-500 text-sm block"
     //               >
     //                 <IoMdClose />
@@ -219,7 +219,7 @@ const AddGlobalVariationModal = ({ isOpen, setIsOpen }) => {
     //               error={errors.options}
     //               wantsCustomOption={true}
     //               selectedOptions={variationFormData?.options}
-    //               setSelectedOptions={(value) => handleChange("options", value)}
+    //               setSelectedOptions={(value) => onChange("options", value)}
     //               defaultOptions={defaultVariationOptions}
     //               placeholder="Eg: S, M, L"
     //             />

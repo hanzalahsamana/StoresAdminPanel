@@ -18,7 +18,7 @@ import { toast } from "react-toastify";
 const Login = () => {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
-  const [typePassword, setTypePassword] = useState(true);
+  const [showPassword, setShowPassword] = useState(false);
   const [errors, setErrors] = useState({});
   const [formData, setFormData] = useState({
     email: "",
@@ -75,23 +75,22 @@ const Login = () => {
           error={errors.email}
           value={formData.email}
           name={"email"}
-          handleChange={handleChange}
-          placeholder="Email"
+          onChange={handleChange}
+          placeholder="e.g. abc@example.com"
+          label="Enter Email"
           size="large"
         />
 
         <FormInput
-          type={typePassword ? 'password' : 'text'}
+          type={showPassword ? 'text' : 'password'}
           error={errors.password}
           name={"password"}
           value={formData.password}
-          handleChange={handleChange}
+          onChange={handleChange}
           placeholder="Password"
+          label="Enter Password"
           size="large"
-          actionIcon={
-            <div onClick={() => setTypePassword(!typePassword)} className="absolute right-[12px] text-[#7f7b7b]  top-[3px]">
-              <IconButton icon={!typePassword ? <FaEye /> : <FaEyeSlash />} />
-            </div>}
+          suffix={<IconButton action={() => setShowPassword(!showPassword)} icon={showPassword ? <FaEye /> : <FaEyeSlash />} className={' h-full w-full'} />}
         />
 
       </Form>

@@ -1,7 +1,8 @@
 import { BsArrowsFullscreen } from 'react-icons/bs';
 import { IoMdLaptop } from 'react-icons/io';
-import { LuMonitor } from 'react-icons/lu';
 import { TbDeviceMobile } from 'react-icons/tb';
+
+export const placeholderImageUrl = 'https://res.cloudinary.com/duaxitxph/image/upload/v1736247980/cjzl4ivq2lduxqbtnfj1.webp';
 
 export const MigrationDefaultKeys = ['products', 'collections', 'contents', 'sections', 'orders'];
 
@@ -339,7 +340,7 @@ export const devices = {
     label: 'Full Screen',
     icon: <BsArrowsFullscreen size={16} />,
     ratio: '100%',
-    render: '!w-[calc(100%_-_20px)] !h-[calc(100%_-_20px)] ml-[10px] mt-[10px] rounded-2xl border shadow-md',
+    render: '!w-[calc(100%_-_20px)] !h-[calc(100%_-_20px)] ml-[10px] mt-[10px] rounded-2xl border dropdownShadow',
     frame: ' !w-[calc(100%_-_20px)] !h-[calc(100%_-_20px)]',
     targetWidth: null,
     targetHeight: null,
@@ -650,8 +651,7 @@ export const PageStructure = {
       type: 'hero_banner',
       name: 'Hero Banner',
       order: 1,
-      content: {
-        title: 'Hero Banner',
+      sectionData: {
         image: 'https://res.cloudinary.com/duaxitxph/image/upload/v1736247980/cjzl4ivq2lduxqbtnfj1.webp',
       },
     },
@@ -660,10 +660,26 @@ export const PageStructure = {
       type: 'rich_text',
       name: 'Rich Text',
       order: 2,
-      content: {
-        title: 'Why Choose Us?',
-        text: 'We provide high-quality products with fast delivery and excellent customer service.',
+      sectionData: {
+        heading: 'Why Choose Us?',
+        content: '<p>We provide high-quality products with fast delivery and excellent customer service.</p>',
         buttonText: 'Shop Now',
+        style: 'Style 1',
+      },
+    },
+    {
+      _id: '123344',
+      type: 'feature_product',
+      name: 'Featured Product',
+      order: 3,
+      sectionData: {
+        heading: 'Featured Product',
+        productCount: 1,
+        column: 4,
+        productsToShow: 'all',
+        selectedCollections: [],
+        selectedProducts: [],
+        style: 'grid',
       },
     },
   ],
