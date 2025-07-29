@@ -17,10 +17,6 @@ const assistant = Assistant({
 
 export default function RootLayout({ children }) {
   // Run only once when the component mounts
-
-
-
-  
   
   return (
     <html lang="en" suppressHydrationWarning>
