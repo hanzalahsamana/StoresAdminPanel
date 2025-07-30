@@ -117,8 +117,6 @@ const PaymentMethods = () => {
     const handleToggle = async (key, value) => {
 
 
-        console.log("🦽🦽🦽", key, value);
-
         const isValid = updatePaymentMethodValidate(key, paymentState[key], setValidationErrors);
         if (!isValid) {
             if (!value) {

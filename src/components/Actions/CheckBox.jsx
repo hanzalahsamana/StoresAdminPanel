@@ -1,5 +1,8 @@
 const Checkbox = ({ label = "Checkbox", checked = false, setChecked = () => { }, className }) => {
 
+    console.log(checked);
+    
+
     return (
         <div className={`relative flex items-center cursor-pointer group ${className}`} onClick={() => setChecked(!checked)}>
             <div className={`w-[16px] h-[16px] border rounded-sm flex items-center justify-center transition-all duration-200 

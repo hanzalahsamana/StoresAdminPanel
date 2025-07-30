@@ -6,7 +6,7 @@ const AllCollections = () => {
         <div className='w-full bg-[var(--tmp-pri)]'>
 
             <CollectionSection content={{
-                selectedcollections: [],
+                collectionIds: [],
                 title: "All Collections"
             }} toShowLink={false} />
         </div>

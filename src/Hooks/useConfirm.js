@@ -10,10 +10,12 @@ export default function useConfirm() {
   const [message, setMessage] = useState({});
   const [resolver, setResolver] = useState(null);
 
-  const confirm = (label = 'Please Confirm', text = 'Are you sure?') => {
+  const confirm = (label = 'Please Confirm', text = 'Are you sure?', button1 = 'No, keep it', button2 = 'Yes, delete it') => {
     setMessage({
       label,
       text,
+      button1,
+      button2,
     });
     setIsOpen(true);
     return new Promise((resolve) => setResolver(() => resolve));
@@ -38,8 +40,8 @@ export default function useConfirm() {
               <h1 className="mb-4 font-semibold text-center">{message?.label}</h1>
               <p className="mb-4 text-center">{message?.text}</p>
               <div className="flex justify-end gap-3 mt-4 w-full">
-                <Button label="No, keep it" size="small" variant="white" action={handleCancel} />
-                <Button label="Yes, delete it" size="small" variant="danger" action={handleConfirm} />
+                <Button label={message?.button1} size="small" variant="white" action={handleCancel} />
+                <Button label={message?.button2} size="small" variant="danger" action={handleConfirm} />
               </div>
             </div>
           </Modal>

@@ -1,7 +1,7 @@
 import axios from 'axios';
 import BASE_URL from '../../../config';
 import { dispatch } from '@/Redux/Store';
-import { addPage, setEditingPage, setPageData, setPageLoading, setPages } from '@/Redux/Pages/PagesSlice';
+import { addPage, setEditingMode, setEditingPage, setPageData, setPageLoading, setPages } from '@/Redux/Pages/PagesSlice';
 
 // Save Draft Page
 export const saveDraftPage = async (token, storeId, payload) => {
@@ -11,31 +11,29 @@ export const saveDraftPage = async (token, storeId, payload) => {
         Authorization: `Bearer ${token}`,
       },
     });
+    dispatch(setEditingPage(data?.data));
+    dispatch(setEditingMode(data?.data?.mode || 'draft'));
     return data?.data;
   } catch (error) {
     console.error('Save draft error:', error);
     throw error;
-  } finally {
   }
 };
 
 // Publish Page
 export const publishPage = async (token, storeId, payload) => {
   try {
-    // dispatch(setPageLoading(true));
-
     const { data } = await axios.post(`${BASE_URL}/${storeId}/publishPage`, payload, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     });
-
-    // dispatch(setPageData({ page: data.data, mode: 'published' }));
+    dispatch(setEditingPage(data?.data));
+    dispatch(setEditingMode(data?.data?.mode || 'published'));
+    return data?.data;
   } catch (error) {
     console.error('Publish error:', error);
     throw error;
-  } finally {
-    // dispatch(setPageLoading(false));
   }
 };
 
@@ -49,6 +47,7 @@ export const getDraftPage = async (token, storeId, slug) => {
     });
 
     dispatch(setEditingPage(data?.data));
+    dispatch(setEditingMode(data?.mode));
     return data;
   } catch (error) {
     console.error('Get draft error:', error);
@@ -76,6 +75,27 @@ export const getPublishedPage = async (token, storeId, slug) => {
   }
 };
 
+// Discard Draft
+export const discardDraft = async (token, storeId, slug) => {
+  try {
+    const { data } = await axios.post(
+      `${BASE_URL}/${storeId}/discardDraft?slug=${slug}`,
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    dispatch(setEditingPage(data?.data));
+    dispatch(setEditingMode(data?.data?.mode || 'published'));
+    return data?.data;
+  } catch (error) {
+    console.error('Save draft error:', error);
+    throw error;
+  }
+};
+
 // Get All Pages
 export const getAllPages = async (token, storeId) => {
   try {
@@ -95,6 +115,7 @@ export const getAllPages = async (token, storeId) => {
   }
 };
 
+// Create Page
 export const createPage = async (token, storeId, payload) => {
   try {
     const { data } = await axios.post(`${BASE_URL}/${storeId}/createPage`, payload, {

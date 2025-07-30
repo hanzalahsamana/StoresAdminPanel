@@ -1,10 +1,10 @@
 import { setLoading, setLogout } from "@/Redux/Authentication/AuthSlice";
 import Link from "next/link";
 import { useState, useRef, useEffect } from "react";
-import { CiLogout, CiSettings } from "react-icons/ci";
 import { FaRegUser } from "react-icons/fa";
 import { IoIosArrowDown } from "react-icons/io";
-import { LuUserCog } from "react-icons/lu";
+import { IoBagAddOutline } from "react-icons/io5";
+import { TbLogout2 } from "react-icons/tb";
 import { useDispatch, useSelector } from "react-redux";
 
 const PopupMenu = () => {
@@ -70,14 +70,14 @@ const PopupMenu = () => {
             })}
             <li>
               <Link href={'/admin/stores'} className="flex items-center px-2 py-2 w-full text-[14px] rounded-md hover:bg-secondaryC hover:text-primaryC transition-all">
-                <CiLogout className="text-primaryC mr-2" />
+                <IoBagAddOutline className="text-primaryC mr-2" />
                 Create Store
               </Link>
             </li>
             <li>
               <Link href={'#'} onClick={() => logout()} className="flex items-center px-2 py-2 w-full text-[14px] rounded-md hover:bg-secondaryC hover:text-primaryC transition-all">
-                <CiLogout className="text-primaryC mr-2" />
-                Create Store
+                <TbLogout2 className="text-primaryC mr-2" />
+                Logout
               </Link>
             </li>
             {/* <li>

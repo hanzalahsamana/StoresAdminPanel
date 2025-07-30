@@ -66,7 +66,6 @@ const TextEditor = ({ editorContent, setEditorContent, label, className }) => {
         if (quillRef.current && editorContent !== quillRef.current.root.innerHTML) {
             quillRef.current.root.innerHTML = editorContent;
         }
-        console.log(editorContent, "🦍🦍🦍");
     }, [editorContent]);
 
     return (

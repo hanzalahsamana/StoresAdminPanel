@@ -43,10 +43,6 @@ const AddEditProductModal = ({ isOpen, setIsOpen, updatedData = null }) => {
   const [selectedOptionsMap, setSelectedOptionsMap] = useState({});
 
   useEffect(() => {
-    console.log(formData, "🦍🦍🦍");
-  }, [formData])
-
-  useEffect(() => {
     if (updatedData) {
       setFormData({
         ...updatedData,

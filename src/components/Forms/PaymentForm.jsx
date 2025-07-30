@@ -27,15 +27,13 @@ const initialFormData = {
 }
 
 
-const PaymentForm = ({ cartItem, selectedMethod = '', setSelectedMethod = () => { }, errors = {} }) => {
+const PaymentForm = ({ selectedMethod = '', setSelectedMethod = () => { }, errors = {}, requiredContactFields = '' }) => {
 
   // todo send email in the coupon code
 
-
-  useEffect(()=>{
+  useEffect(() => {
     console.log("PaymentForm errors: ", errors);
-    
-  },[errors])
+  }, [errors])
 
   const dispatch = useDispatch();
   const { paymentMethods } = useSelector((state) => state?.storeConfiguration?.storeConfiguration);
@@ -69,36 +67,38 @@ const PaymentForm = ({ cartItem, selectedMethod = '', setSelectedMethod = () => 
             placeholder="Select Payment Method"
             defaultOptions={paymentMethods?.map((method) => ({ label: method?.method, value: method?._id }))}
             size="large"
-
+            variant="primary"
             setSelectedOption={setSelectedMethod}
             selectedOption={selectedMethod}
-            className={`cursor-pointer select-none !px-4 font-medium !text-gray-700 placeholder:text-gray-700 placeholder:text-[18px] !bg-blue-50 !border-2 !border-[#297ed9]`}
+            className={`cursor-pointer select-none font-medium  placeholder:text-[18px]  !border-2 !border-[#297ed9]`}
           />
 
         </div>
         <div className="w-full space-y-[18px]">
           <h2 className="text-[24px] font-semibold my-4 text-[var(--tmp-txt)]">Contact</h2>
-
-          <FormInput
-            size="large"
-            type="email"
-            placeholder="Email"
-            name={"email"}
-            value={formData?.email}
-            onChange={handleChange}
-            error={errors?.email}
-            labelClassname={'bg-transparent'}
-          />
-          <FormInput
-            size="large"
-            type="tel"
-            placeholder="Phone"
-            onChange={handleChange}
-            name={"phone"}
-            error={errors?.phone}
-            value={formData?.phone}
-          />
-
+          {(requiredContactFields === 'both' || requiredContactFields === 'email') && (
+            <FormInput
+              size="large"
+              type="email"
+              placeholder="Email"
+              name={"email"}
+              value={formData?.email}
+              onChange={handleChange}
+              error={errors?.email}
+              labelClassname={'bg-transparent'}
+            />
+          )}
+          {(requiredContactFields === 'both' || requiredContactFields === 'phone') && (
+            <FormInput
+              size="large"
+              type="tel"
+              placeholder="Phone"
+              onChange={handleChange}
+              name={"phone"}
+              error={errors?.phone}
+              value={formData?.phone}
+            />
+          )}
         </div>
         <div className="w-full flex flex-col space-y-[18px]">
           <h3 className="text-[24px] font-semibold mb-0 mt-3 text-[var(--tmp-txt)]">Billing address</h3>

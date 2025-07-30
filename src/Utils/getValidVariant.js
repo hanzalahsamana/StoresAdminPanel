@@ -12,7 +12,6 @@ export const getValidVariant = (product, selectedVariant) => {
     const matchValue = rule[matchKey];
 
     if (selectedVariant[matchKey] === matchValue) {
-      console.log(mergedData, rule, "👓👓");
       mergedData = { ...mergedData, ...rule };
     }
   });

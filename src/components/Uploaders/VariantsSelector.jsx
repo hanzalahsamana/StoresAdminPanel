@@ -21,10 +21,6 @@ const VariantsSelector = () => {
         },
     ]);
 
-    useEffect(() => {
-        console.log(variationData, "🦽🦽🦽🦽");
-    }, [variationData]);
-
     return (
         <div className="flex flex-col gap-4 w-full ">
             <div className={`flex flex-col gap-5`}>

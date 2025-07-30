@@ -2,6 +2,7 @@
 import { colorPalettes } from "@/Structure/DefaultStructures";
 import { applyTheme } from "@/Utils/ApplyTheme";
 import { IoCheckmarkOutline } from "react-icons/io5";
+import RadioButton from "../Actions/RadioButton";
 
 
 
@@ -10,7 +11,7 @@ const isThemeEqual = (a, b) => {
   return Object.keys(a).every((key) => a[key]?.toLowerCase() === b[key]?.toLowerCase());
 };
 
-export default function ThemeSelector({ theme, setTheme }) {
+export default function ThemeSelector({ theme = {}, setTheme = () => { } }) {
   const handleChange = (e) => {
     const updatedTheme = { ...theme, [e.target.name]: e.target.value };
     setTheme(updatedTheme);
@@ -18,42 +19,42 @@ export default function ThemeSelector({ theme, setTheme }) {
   };
 
   return (
-    <div className="w-full flex flex-col gap-3 ">
-      <div className="flex flex-col border border-borderC p-4">
-        <h2 className="text-lg text-gray-600 ">Default Color Palettes</h2>
-        <div className="flex justify-between flex-wrap mt-[20px] gap-4">
-          {Object.entries(colorPalettes).map(([name, palette]) => {
-            const isSelected = isThemeEqual(theme, palette);
-            return (
-              <div key={name} className=" border p-2 flex flex-col items-center gap-2">
-                <div
-                  onClick={() => {
-                    setTheme(palette);
-                    applyTheme(palette);
-                  }}
-                  className="relative flex flex-col border border-textTC w-[60px] h-[70px] cursor-pointer "
-                >
-                  {isSelected && (
-                    <div className="absolute w-full h-full z-10 bg-[#00000058] text-backgroundC text-[20px] flex items-center justify-center">
-                      <IoCheckmarkOutline />
-                    </div>
-                  )}
-                  {["pri", "acc", "ltxt", "txt", "sec"].map((key) => (
-                    <div
-                      key={key}
-                      style={{ backgroundColor: palette[key] }}
-                      className="w-full h-[10px] first:h-[20px]"
-                    ></div>
-                  ))}
-                </div>
-                <p className="text-[12px] text-textC">{name}</p>
+    <div className="w-full flex flex-col gap-3  origin-top-left ">
+      <div className="grid grid-cols-4 gap-4 ">
+        {Object.entries(colorPalettes).map(([name, palette]) => {
+          const isSelected = isThemeEqual(theme, palette);
+          return (
+            <div
+              onClick={() => {
+                setTheme(palette);
+                applyTheme(palette);
+              }}
+              key={name} className=" flex flex-col-reverse items-start gap-4 border rounded-md bg-gray-100 p-2">
+              <div
+
+                className="relative flex border rounded-md overflow-hidden  w-[100%] h-[auto] cursor-pointer "
+              >
+                {["pri", "acc", "ltxt", "txt", "sec"].map((key) => (
+                  <div
+                    key={key}
+                    style={{ backgroundColor: palette[key] }}
+                    className="w-full h-[30px] first:h-[30px] "
+                  ></div>
+                ))}
               </div>
-            );
-          })}
-        </div>
+              <RadioButton
+                label={null}
+                options={[name]}
+                selectedOption={isSelected ? name : false}
+                // className="!scale"
+              />
+              {/* <p className="text-[12px] text-textC">{name}</p> */}
+            </div>
+          );
+        })}
       </div>
 
-      <div className="flex flex-col border border-borderC p-4">
+      {/* <div className="flex flex-col border border-borderC p-4">
         <h2 className="text-lg text-gray-600">Customize Your Theme</h2>
         <div className="flex justify-between flex-wrap mt-[20px]">
           <ColorPicker label="Primary" name="pri" value={theme?.pri} onChange={handleChange} />
@@ -63,7 +64,7 @@ export default function ThemeSelector({ theme, setTheme }) {
           <ColorPicker label="Light Text" name="ltxt" value={theme?.ltxt} onChange={handleChange} />
           <ColorPicker label="backgroundC Text" name="wtxt" value={theme?.wtxt} onChange={handleChange} />
         </div>
-      </div>
+      </div> */}
     </div>
   );
 }

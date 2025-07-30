@@ -1,61 +1,94 @@
 "use client";
 
-import React, { useState } from 'react';
-import { getContentByName } from '@/Redux/ContentData/ContentDataSlice';
-import { usePathname } from "next/navigation";
-import { useSelector } from "react-redux";
+import React, { useEffect, useState } from 'react';
 import Link from "next/link";
 import { AiOutlineClose } from 'react-icons/ai';
 import { FaBars } from 'react-icons/fa';
+import { SlHandbag } from 'react-icons/sl';
+import { useSelector } from "react-redux";
 import { totalCalculate } from '@/Utils/TotalCalculator';
 import { getBasePath } from '@/Utils/GetBasePath';
-import { SlHandbag } from 'react-icons/sl';
+import { usePathname } from "next/navigation";
 
-const TemplateHeader = () => {
+/**
+ * @param {{
+ *   sectionData: {
+ *     headerLogo: string,
+ *     navLinks: { name: string, slug: string }[],
+ *     style?: 'default' | 'swipedown' | 'sticky'
+ *   }
+ * }} props 
+ */
+const TemplateHeader = ({ sectionData }) => {
   const pathname = usePathname();
   const Storepath = getBasePath();
-  
   const { cartData } = useSelector((state) => state?.cartData || []);
-  const { siteName } = useSelector((state) => state.siteName);
-  const { collections } = useSelector((state) => state?.collection);
-  const SiteLogo = useSelector((state) => getContentByName(state, "Site Logo"));
   const [isOpen, setIsOpen] = useState(false);
+  const [showHeader, setShowHeader] = useState(true);
+  const [lastScrollTop, setLastScrollTop] = useState(0);
 
   const toggleMenu = () => setIsOpen(!isOpen);
 
-  const navLinks = [
-    { path: "/", label: "Home" },
-    ...collections?.slice(0, 2).map((collection) => ({ path: `/collection/${collection?.slug}`, label: collection.name })) || [],
-    { path: "/products", label: "Products" },
-    { path: "/contact", label: "Contact" },
-  ];
+  const { headerLogo, navLinks = [], style = 'sticky' } = sectionData || {};
+
+  useEffect(() => {
+    if (style !== 'swipe') return;
+
+    const handleScroll = () => {
+      const st = window.scrollY;
+      if (st > lastScrollTop) {
+        setShowHeader(false);
+      } else {
+        setShowHeader(true);
+      }
+      setLastScrollTop(st <= 0 ? 0 : st);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [lastScrollTop, style]);
+
+  const headerStyleClass = {
+    default: 'relative',
+    sticky: 'sticky top-0 z-10',
+    swipe: `fixed top-0 z-10 transition-transform duration-300 ${showHeader ? 'translate-y-0' : '-translate-y-full'}`,
+  }[style] || 'sticky top-0 z-10';
 
   return (
     <header
-      className={`w-full transition-all sticky duration-300 ease-in-out top-0 z-10 bg-[var(--tmp-acc)] text-[var(--tmp-txt)] border-b border-[#b3b3b36f]`}>
-
+      className={`w-full ease-in-out ${headerStyleClass} bg-[var(--tmp-pri)] text-[var(--tmp-txt)] border-b border-[#b3b3b36f]`}
+    >
       <div className="mx-auto flex justify-between gap-10 items-center max-w-[1200px] min-h-[70px] py-[12px] px-[20px] md:px-[40px]">
+        <button className='md:hidden flex' onClick={toggleMenu}>
+          {isOpen ? <AiOutlineClose size={24} /> : <FaBars size={24} />}
+        </button>
 
-
-        <button className='md:hidden flex' onClick={toggleMenu}>{isOpen ? <AiOutlineClose size={24} /> : <FaBars size={24} />}</button>
         <Link href={`${Storepath}/`} className="flex items-center">
-          <img src={SiteLogo?.image} alt={siteName} className="w-20 max-h-12 object-contain" />
+          {headerLogo && (
+            <img
+              src={headerLogo}
+              alt="Site Logo"
+              className="w-20 max-h-12 object-contain"
+            />
+          )}
         </Link>
 
         <nav className="hidden md:flex gap-3 space-x-4">
-          {navLinks.map(({ path, label }, i) => (
+          {navLinks.map(({ slug, name }, i) => (
             <Link
               key={i}
-              href={`${Storepath}${path}`}
-              className={`text-[18px] text-[var(--tmp-txt)] cursor-pointer hover:opacity-[0.6] ${pathname === `${Storepath}${path}` || (pathname === Storepath && path === '/') ? 'underline font-semibold' : ''}`}
+              href={`${Storepath}${slug}`}
+              className={`text-[18px] text-[var(--tmp-txt)] cursor-pointer hover:opacity-[0.6] ${pathname === `${Storepath}${slug}` || (pathname === Storepath && slug === '/') ? 'underline font-semibold' : ''
+                }`}
               prefetch={true}
             >
-              {label}
+              {name}
             </Link>
           ))}
         </nav>
+
         <div className="flex items-center space-x-4 text-[24px]">
-          <Link className="hover:text-yellow-500 text-[var(--tmp-txt)]  cartButton relative" href={`${Storepath}/cart`}>
+          <Link className="hover:text-yellow-500 text-[var(--tmp-txt)] relative" href={`${Storepath}/cart`}>
             <SlHandbag />
             <span className="absolute flex justify-center items-center text-[12px] w-[18px] h-[18px] rounded-full bg-[var(--tmp-acc)] right-[-4px] bottom-[-6px]">
               {totalCalculate(cartData)}
@@ -64,15 +97,15 @@ const TemplateHeader = () => {
         </div>
       </div>
 
-      <div className={`md:hidden flex max-w-[1500px] transition-all duration-3000 ease-in-out ${isOpen ? 'max-h-[260px]' : 'max-h-[0px] overflow-hidden'}`}>
+      <div className={`md:hidden transition-all duration-3000 ease-in-out ${isOpen ? 'max-h-[260px]' : 'max-h-[0px] overflow-hidden'}`}>
         <nav className="flex flex-col gap-6 p-[30px] py-4">
-          {navLinks.map(({ path, label }, i) => (
+          {navLinks.map(({ name, slug }, i) => (
             <Link
               key={i}
-              href={`${Storepath}${path}`}
+              href={`${Storepath}${slug}`}
               className="text-[18px] cursor-pointer hover:opacity-[0.6]"
             >
-              {label}
+              {name}
             </Link>
           ))}
         </nav>

@@ -61,13 +61,13 @@ export const initialOrderFormData = {
       image: "",
       quantity: 1,
       price: 0,
-      variant: {}, // optional: can be { size: "M", color: "Red" }, etc.
+      variant: {},
     },
   ],
 
   paymentMethod: "", // "credit_card", "paypal", "cash_on_delivery", or "bank_transfer"
-  paymentStatus: "pending", // default
-  orderStatus: "pending",   // default
+  paymentStatus: "pending",
+  orderStatus: "pending",
 
   taxAmount: 0,
   shippingFee: 0,
@@ -77,11 +77,10 @@ export const initialOrderFormData = {
   trackingInfo: {
     carrier: "",
     trackingNumber: "",
-    estimatedDelivery: "", // can be Date object or ISO string
+    estimatedDelivery: "",
   },
 
   notes: "",
-  storeRef: "", // required
 };
 
 const Checkout = () => {
@@ -101,7 +100,7 @@ const Checkout = () => {
   useEffect(() => {
     if (!initialLoading) {
       if (!cartData || cartData.length === 0) {
-        router.push(`${getBasePath()}/cart`);
+        // router.push(`${getBasePath()}/cart`);
       }
       setLoading(false);
     }

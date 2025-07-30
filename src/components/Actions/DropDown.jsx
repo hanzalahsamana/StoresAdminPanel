@@ -3,19 +3,21 @@ import React, { useState, useEffect, useRef } from "react";
 import { CgInsertAfter } from "react-icons/cg";
 import FormInput from "../Forms/FormInput";
 import { IoMdArrowDropup } from "react-icons/io";
+import { IsArrayEqual } from "@/Utils/IsEqual";
 
 const DropDown = ({
     defaultOptions = [],
     selectedOption = "",
-    setSelectedOption = ()=>{},
+    setSelectedOption = () => { },
     placeholder = "Select",
     required = true,
     error = null,
     className = '',
     wantsCustomOption = false,
-    label = "label",
+    label = '',
     layout = null,
-    size = 'small'
+    size = 'small',
+    variant = "default"
 }) => {
     const [isOpen, setIsOpen] = useState(false);
     const [searchTerm, setSearchTerm] = useState("");
@@ -28,7 +30,12 @@ const DropDown = ({
         const normalized = defaultOptions.map(opt =>
             typeof opt === "string" ? { value: opt, label: opt } : opt
         );
-        setOptions(normalized);
+        setOptions(prev => {
+            if (!IsArrayEqual(prev, normalized)) {
+              return normalized;
+            }
+            return prev;
+          });
     }, [defaultOptions]);
 
     // Update searchTerm if selectedOption changes
@@ -93,8 +100,9 @@ const DropDown = ({
                         size={size}
                         layout={layout}
                         required={required}
+                        variant={variant}
                         suffix={
-                            <span className={`text-textTC text-[20px] transition-all ${isOpen ? "rotate-0" : "rotate-180"}`}>
+                            <span className={` text-[20px] transition-all ${isOpen ? "rotate-0" : "rotate-180"}`}>
                                 <IoMdArrowDropup />
                             </span>
                         }

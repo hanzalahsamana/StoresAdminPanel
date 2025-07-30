@@ -4,6 +4,7 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
   pages: [],
   editingPage: null,
+  editingPageMode: '',
   pagesLoading: false,
 };
 
@@ -20,13 +21,16 @@ export const pagesSlice = createSlice({
     setEditingPage: (state, action) => {
       state.editingPage = action.payload;
     },
+    setEditingMode: (state, action) => {
+      state.editingPageMode = action.payload;
+    },
     setPageLoading: (state, action) => {
       state.pagesLoading = action.payload;
     },
   },
 });
 
-export const { setPages, addPage, setEditingPage, setPageLoading } = pagesSlice.actions;
+export const { setPages, addPage, setEditingPage, setEditingMode, setPageLoading } = pagesSlice.actions;
 
 export const pagesReducer = pagesSlice.reducer;
 

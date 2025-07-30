@@ -8,7 +8,7 @@ const FormInput = ({
   name,
   value,
   onChange,
-  label = "Name",
+  label = '',
   placeholder = null,
   variant = "default",
   size = "small", // "small" or "large"

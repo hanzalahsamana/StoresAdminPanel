@@ -19,7 +19,7 @@ export default function LivePrevieww() {
       if (e.data?.type === "UPDATE_PREVIEW") {
         const data = e.data.payload;
         setPreviewData(data?.formData || {});
-        setPreviewContent(data?.previewComponent?.sections || null);
+        setPreviewContent(data?.previewComponent || null);
         setActiveSectionId(data?.activeSectionId || null);
       }
     };
@@ -38,7 +38,7 @@ export default function LivePrevieww() {
     if (true) {
       return (
         <HomeLayout
-          homePageData={previewComponent}
+          PageData={previewComponent}
           activeSectionId={activeSectionId}
         />
       );
@@ -49,9 +49,9 @@ export default function LivePrevieww() {
 
   return (
     <div className="">
-      <TemplateHeader />
+      {/* <TemplateHeader /> */}
       {renderContent()}
-      <TemplateFooter />
+      {/* <TemplateFooter /> */}
     </div>
   );
 }

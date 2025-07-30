@@ -154,8 +154,6 @@ export const userLoginValidate = (formData, setErrors) => {
 export const updatePaymentMethodValidate = (methodKey, data, setErrors) => {
   const newErrors = {};
 
-  console.log(data);
-
   switch (methodKey) {
     case "cod":
       // No credential validation needed

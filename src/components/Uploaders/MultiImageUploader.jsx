@@ -28,8 +28,6 @@ const MultiImageUploader = ({
         setImages(updatedImages);
     };
 
-    useEffect(() => console.log(images, "👍l"), [images])
-
     return (
         <div className="flex flex-col justify-center items-start w-full">
             <div className="flex w-full gap-3">

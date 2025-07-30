@@ -141,8 +141,6 @@ const AddEditDiscountModal = ({ isOpen, setIsOpen, updatedDiscount = null, setUp
         }
 
         try {
-            console.log(data, "🍔🍔🍔🍔");
-
             setLoading(true);
             if (updatedDiscount) {
                 await editDiscount(updatedDiscount._id, data, currUser?.token, dispatch);

@@ -1,6 +1,8 @@
 import { BsArrowsFullscreen } from 'react-icons/bs';
 import { IoMdLaptop } from 'react-icons/io';
 import { TbDeviceMobile } from 'react-icons/tb';
+import { FaFacebook, FaInstagramSquare, FaLinkedin, FaPinterest, FaTiktok, FaTwitter, FaWhatsapp, FaYoutube } from 'react-icons/fa';
+import { HiOutlineHome, HiOutlineInformationCircle, HiOutlinePhone, HiOutlineShoppingCart, HiOutlineUser, HiOutlineShieldCheck } from 'react-icons/hi';
 
 export const placeholderImageUrl = 'https://res.cloudinary.com/duaxitxph/image/upload/v1736247980/cjzl4ivq2lduxqbtnfj1.webp';
 
@@ -333,6 +335,49 @@ export const popularVendors = [
   'ASOS',
   'Boohoo',
   'Forever 21',
+];
+
+export const headerLinks = [
+  {
+    label: 'Home',
+    value: '/',
+    icon: HiOutlineHome,
+  },
+  {
+    label: 'About Us',
+    value: '/about',
+    icon: HiOutlineInformationCircle,
+  },
+  {
+    label: 'Contact Us',
+    value: '/contact',
+    icon: HiOutlinePhone,
+  },
+  {
+    label: 'Shop',
+    value: '/shop',
+    icon: HiOutlineShoppingCart,
+  },
+  {
+    label: 'My Account',
+    value: '/account',
+    icon: HiOutlineUser,
+  },
+  {
+    label: 'Privacy Policy',
+    value: '/privacy-policy',
+    icon: HiOutlineShieldCheck,
+  },
+];
+
+export const socialPlatforms = [
+  { name: 'Facebook', icon: <FaFacebook />, key: 'facebook' },
+  { name: 'LinkedIn', icon: <FaLinkedin />, key: 'linkedin' },
+  { name: 'YouTube', icon: <FaYoutube />, key: 'youtube' },
+  { name: 'Instagram', icon: <FaInstagramSquare />, key: 'instagram' },
+  { name: 'Twitter', icon: <FaTwitter />, key: 'twitter' },
+  { name: 'Pinterest', icon: <FaPinterest />, key: 'pinterest' },
+  { name: 'Whatsapp', icon: <FaWhatsapp />, key: 'whatsapp' },
 ];
 
 export const devices = {
@@ -683,4 +728,19 @@ export const PageStructure = {
       },
     },
   ],
+};
+
+export const ThemeCustomization = {
+  data: {
+    colors: {
+      pri: '#FFFFFF',
+      sec: '#121212',
+      acc: '#F3F3F3',
+      txt: '#000000',
+      ltxt: '#4b4949',
+      wtxt: '#ffffff',
+    },
+    font: 'Assistant',
+    layout: 'Boxed',
+  },
 };

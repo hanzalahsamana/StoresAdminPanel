@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import styles from "../UI/style.module.css";
 import Link from "next/link";
 import { getBasePath } from "@/Utils/GetBasePath";
+import { motion } from "framer-motion";  // Import Framer Motion
 
 const ProductCard = ({ product }) => {
   const [currentImage, setCurrentImage] = useState("");
@@ -40,11 +41,14 @@ const ProductCard = ({ product }) => {
       key={product._id}
       href={`${getBasePath()}/products/${product._id}`}
     >
-      <div
+      <motion.div
         className={`bg-[var(--tmp-pri)] overflow-hidden ${styles.ProductCardContainer}`}
         key={product?._id}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4, ease: "easeOut" }}
       >
         <div className="relative flex items-center justify-center overflow-hidden min-h-[200px] bg-gray-200">
           {isImageValid ? (
@@ -71,20 +75,13 @@ const ProductCard = ({ product }) => {
           </h2>
           <h3 className="text-[10px] text-[var(--tmp-ltxt)]">{product?.brand}</h3>
           <div className="flex gap-2 items-center">
-            {/* {product?.comparedAtPrice && (
-              <p className="text-[var(--tmp-ltxt)] text-xs line-through">
-                Rs. {product?.comparedAtPrice?.toFixed(2)} PKR
-              </p>
-            )} */}
-
             <p className="text-l font-bold text-[var(--tmp-txt)]">
               Rs. {product?.price?.toFixed(2)} PKR
             </p>
           </div>
         </div>
-      </div>
+      </motion.div>
     </Link>
-
   );
 };
 

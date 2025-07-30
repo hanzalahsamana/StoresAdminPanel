@@ -7,38 +7,33 @@ import CollectionCard from "../Cards/collectionCard";
 import { getBasePath } from "@/Utils/GetBasePath";
 import { forwardRef } from "react";
 
-const CollectionSection = forwardRef(({ content = {}, toShowLink = true , ...rest },ref) => {
-  const { title = "Featured Collections", selectedcollections = [] } = content
+const CollectionSection = forwardRef(({ sectionData = {}, toShowLink = true, ...rest }, ref) => {
+  const { heading = "Featured Collections", collectionIds = [], collections } = sectionData
 
-  const { collections } = useSelector((state) => state.collection);
   const basePath = getBasePath();
+
+  console.log("CollectionSection content:", collectionIds);
+
 
   if (!collections || collections.length === 0) {
     return (
       <div className="text-center p-6 bg-[var(--tmp-pri)] text-[--tmp-txt] ">
-        <p className="text-[30px] font-normal text-center">No collections availabel...</p>
+        <p className="text-[30px] font-normal text-center">No collections available...</p>
       </div>
     );
   }
 
-  let collectionsToDisplay = [];
+  let collectionsToDisplay = [...collections];
 
-  if (Array.isArray(selectedcollections) && selectedcollections.length > 0) {
-    collectionsToDisplay = collections.filter(cat => selectedcollections.includes(cat.slug));
-  } else {
-    collectionsToDisplay = collections; // Show all collections if none are selected
-
-    // Ensure at least 3 collections by duplicating
-    while (collectionsToDisplay.length < 3) {
-      collectionsToDisplay = [...collectionsToDisplay, ...collectionsToDisplay].slice(0, 3);
-    }
+  while (collectionsToDisplay.length < 3) {
+    collectionsToDisplay = [...collectionsToDisplay, ...collectionsToDisplay].slice(0, 3);
   }
 
   return (
     <div {...rest} ref={ref} className="p-2 md:p-6 flex flex-col gap-[25px] bg-[var(--tmp-pri)]">
       {toShowLink && (
         <div className="flex justify-between items-center">
-          <h1 className="mt-2 md:text-[30px] text-[var(--tmp-txt)] font-semibold text-start">{title || 'Collections'}</h1>
+          <h1 className="mt-2 md:text-[30px] text-[var(--tmp-txt)] font-semibold text-start">{heading || 'Collections'}</h1>
           <Link
             href={`${basePath}/collection`}
             className="mt-2 text-[15px] text-[var(--tmp-ltxt)] w-[130px] cursor-pointer flex gap-[10px] hover:gap-[17px] transition-all items-center"

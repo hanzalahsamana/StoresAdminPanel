@@ -64,8 +64,6 @@ const CollectionAddModal = ({
     };
 
     const handleSubmit = async () => {
-        console.log("Validating form data:", formData);
-
         if (!validateForm()) {
             return;
         }

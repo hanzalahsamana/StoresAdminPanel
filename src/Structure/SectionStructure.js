@@ -27,6 +27,8 @@ import { HiOutlineViewGrid } from 'react-icons/hi';
 import TemplateFooter from '@/components/Layout/TemplateFooter';
 import TemplateHeader from '@/components/Layout/TemplateHeader';
 import { CgToolbarBottom, CgToolbarTop } from 'react-icons/cg';
+import CheckoutWidget from '@/components/Widgets/CheckoutWidget';
+import { MdOutlineShoppingCartCheckout } from 'react-icons/md';
 
 export const SectionStructure = {
   banner_slider: {
@@ -73,23 +75,97 @@ export const SectionStructure = {
     name: 'Featured Collection',
     icon: <HiOutlineViewGrid />,
     data: {
-      title: 'Featured Collection',
-      selectedcollections: [],
+      heading: 'Featured Collections',
+      collectionIds: [],
+      style: 'style1',
     },
     fields: [
       {
-        name: 'title',
-        placeholder: 'Title',
+        name: 'heading',
+        label: 'Heading',
+        placeholder: 'e.g. Best Sellers',
         input: 'text',
       },
       {
-        name: 'selectedcollections',
+        name: 'collectionIds',
         placeholder: 'Select Collections',
-        input: 'multiDropdown',
-        options: 'collections',
+        input: 'dataSelectionList',
+        selectorName: 'collections',
+        limit: 3,
+      },
+      {
+        name: 'style',
+        label: 'Style',
+        input: 'pillSelector',
+        options: [
+          { label: 'Style 1', value: 'style1' },
+          { label: 'Style 2', value: 'style2' },
+        ],
       },
     ],
     component: CollectionSection,
+  },
+
+  feature_product: {
+    _id: uuidv4(),
+    name: 'Featured Product',
+    icon: <HiOutlineShoppingBag />,
+    data: {
+      heading: 'Featured Product',
+      productCount: 1,
+      column: 4,
+      productsToShow: 'all',
+      selectedCollections: [],
+      style: 'grid',
+    },
+    fields: [
+      {
+        name: 'heading',
+        label: 'Heading',
+        placeholder: 'e.g. Best Sellers',
+        input: 'text',
+      },
+      {
+        name: 'productCount',
+        label: 'Product Count',
+        placeholder: 'e.g. 6',
+        input: 'range',
+      },
+      {
+        name: 'column',
+        label: 'Product In One Row',
+        placeholder: 'e.g. 4',
+        input: 'range',
+        min: 1,
+        max: 4,
+      },
+      {
+        name: 'productsToShow',
+        label: 'Select Products To Show',
+        input: 'pillSelector',
+        options: [
+          { label: 'All Products', value: 'all' },
+          { label: 'Selected Collections', value: 'collections' },
+        ],
+      },
+      {
+        name: 'selectedCollections',
+        placeholder: 'Select Collections',
+        input: 'dataSelectionList',
+        selectorName: 'collections',
+        dependsOn: { field: 'productsToShow', value: 'collections' },
+      },
+      {
+        name: 'style',
+        label: 'Style',
+        input: 'pillSelector',
+        options: [
+          { label: 'Grid', value: 'grid' },
+          { label: 'Slider', value: 'slider' },
+        ],
+      },
+    ],
+    component: ProductsSection,
   },
 
   promo_section: {
@@ -183,112 +259,48 @@ export const SectionStructure = {
     component: RichText,
   },
 
-  feature_product: {
-    _id: uuidv4(),
-    name: 'Featured Product',
-    icon: <HiOutlineShoppingBag />,
-    data: {
-      heading: 'Featured Product',
-      productCount: 1,
-      column: 4,
-      productsToShow: 'all',
-      selectedCollections: [],
-      selectedProducts: [],
-      style: 'grid',
-    },
-    fields: [
-      {
-        name: 'heading',
-        label: 'Heading',
-        placeholder: 'e.g. Best Sellers',
-        input: 'text',
-      },
-      {
-        name: 'productCount',
-        label: 'Product Count',
-        placeholder: 'e.g. 6',
-        input: 'range',
-      },
-      {
-        name: 'column',
-        label: 'Product In One Row',
-        placeholder: 'e.g. 4',
-        input: 'range',
-      },
-      {
-        name: 'productsToShow',
-        label: 'Select Products To Show',
-        input: 'pillSelector',
-        options: [
-          { label: 'All Products', value: 'all' },
-          { label: 'Selected Collections', value: 'collections' },
-          { label: 'Selected Products', value: 'products' },
-        ],
-      },
-      {
-        name: 'selectedCollections',
-        label: 'Select Collections',
-        input: 'dataSelectorList',
-        options: 'collections',
-        dependsOn: { field: 'productType', value: 'collections' },
-      },
-      {
-        name: 'selectedProducts',
-        label: 'Select Products',
-        input: 'dataSelectorList',
-        options: 'products',
-        dependsOn: { field: 'productType', value: 'products' },
-      },
-      {
-        name: 'style',
-        label: 'Style',
-        input: 'pillSelector',
-        options: 'products',
-        options: [
-          { label: 'Grid', value: 'grid' },
-          { label: 'Slider', value: 'slider' },
-        ],
-      },
-    ],
-    component: ProductsSection,
-  },
-
   header: {
     _id: uuidv4(),
     name: 'Header',
     icon: <CgToolbarTop />,
     isGlobal: true,
     data: {
-      logo: 'https://yourcdn.com/logo.png',
-      navLinks: [
-        { label: 'Home', url: '/' },
-        { label: 'Shop', url: '/shop' },
-        { label: 'About', url: '/about' },
-        { label: 'Contact', url: '/contact' },
-      ],
-      ctaText: 'Sign Up',
-      ctaUrl: '/signup',
+      globalLogo: true,
+      headerLogo: 'https://yourcdn.com/logo.png',
+      navLinks: [],
+      style: 'sticky',
     },
     fields: [
       {
-        name: 'logo',
-        placeholder: 'Logo Image',
-        input: 'imageUploader',
+        name: 'globalLogo',
+        label: 'Logo',
+        placeholder: 'Use Global Site Logo',
+        input: 'checkbox',
+      },
+      {
+        name: 'headerLogo',
+        placeholder: 'Header Logo',
+        input: 'ImageSelector',
+        multiple: false,
+        dependsOn: { field: 'globalLogo', value: false },
       },
       {
         name: 'navLinks',
-        placeholder: 'Navigation Links',
-        input: 'linkListEditor', // assume custom component for managing link list
+        placeholder: 'Menu Links',
+        input: 'dataSelectionList',
+        selectorName: 'menu links',
+        limit: 5,
+        options: null,
       },
       {
-        name: 'ctaText',
-        placeholder: 'CTA Button Text',
-        input: 'text',
-      },
-      {
-        name: 'ctaUrl',
-        placeholder: 'CTA Button URL',
-        input: 'text',
+        name: 'style',
+        label: 'Style',
+        input: 'pillSelector',
+        options: [
+          { label: 'Default', value: 'default' },
+          { label: 'Sticky', value: 'sticky' },
+          { label: 'Swipe', value: 'swipe' },
+        ],
       },
     ],
     component: TemplateHeader,
@@ -300,38 +312,137 @@ export const SectionStructure = {
     icon: <CgToolbarBottom />,
     isGlobal: true,
     data: {
-      logo: 'https://yourcdn.com/logo-footer.png',
-      description: 'Stay connected with us for the latest updates and offers.',
-      socialLinks: [
-        { platform: 'Facebook', url: 'https://facebook.com' },
-        { platform: 'Instagram', url: 'https://instagram.com' },
-        { platform: 'Twitter', url: 'https://twitter.com' },
-      ],
+      globalLogo: true,
+      footerLogo: 'https://yourcdn.com/logo-footer.png',
+      email: 'abcd@example.com',
+      phone: '+92 300 1234567',
+      location: '123 Example Street, A/1, Karachi',
       copyright: '© 2025 YourCompany. All rights reserved.',
+      socialLinks: {
+        facebook: 'https://facebook.com/yourpage',
+        twitter: 'https://twitter.com/yourpage',
+        instagram: 'https://instagram.com/yourpage',
+      },
+      style: 'style1',
     },
     fields: [
       {
-        name: 'logo',
-        placeholder: 'Logo',
-        input: 'imageUploader',
+        name: 'globalLogo',
+        label: 'Logo',
+        placeholder: 'Use Global Site Logo',
+        input: 'checkbox',
       },
       {
-        name: 'description',
-        placeholder: 'Description',
-        input: 'textEditor',
+        name: 'footerLogo',
+        placeholder: 'Footer Logo',
+        input: 'ImageSelector',
+        multiple: false,
+        dependsOn: { field: 'globalLogo', value: false },
       },
       {
-        name: 'socialLinks',
-        placeholder: 'Social Links',
-        input: 'linkListEditor', // again assuming reusable component for link list
+        name: 'email',
+        placeholder: ' Contact Email',
+        input: 'text',
+        type: 'email',
+      },
+      {
+        name: 'phone',
+        placeholder: 'Phone No',
+        input: 'text',
+      },
+      {
+        name: 'location',
+        placeholder: 'Address',
+        input: 'text',
       },
       {
         name: 'copyright',
         placeholder: 'Copyright Text',
         input: 'text',
       },
+      {
+        name: 'socialLinks',
+        placeholder: 'Social Links',
+        input: 'socialLinkSelector', // again assuming reusable component for link list
+      },
+
+      {
+        name: 'style',
+        label: 'Style',
+        input: 'pillSelector',
+        options: [
+          { label: 'Style 1', value: 'style1' },
+          { label: 'Style 2', value: 'style2' },
+          { label: 'Style 3', value: 'style3' },
+        ],
+      },
     ],
     component: TemplateFooter,
+  },
+
+  checkout_form: {
+    _id: uuidv4(),
+    name: 'Checkout Form',
+    icon: <MdOutlineShoppingCartCheckout />,
+    isGlobal: true,
+    data: {
+      globalLogo: true,
+      checkoutLogo: 'https://yourcdn.com/logo-checkout.png',
+      buttonText: 'Place Order',
+      contactFields: 'both', // 'both', 'email', 'phone'
+      couponInput: true,
+      style: 'style1',
+    },
+    fields: [
+      {
+        name: 'globalLogo',
+        label: 'Logo',
+        placeholder: 'Use Global Site Logo',
+        input: 'checkbox',
+      },
+      {
+        name: 'checkoutLogo',
+        placeholder: 'Checkout Logo',
+        input: 'ImageSelector',
+        multiple: false,
+        dependsOn: { field: 'globalLogo', value: false },
+      },
+      {
+        name: 'contactFields',
+        label: 'Contact Fields',
+        placeholder: '',
+        input: 'radioButton',
+        options: [
+          { label: 'Just Email', value: 'email' },
+          { label: 'Just Phone', value: 'phone' },
+          { label: 'Both Email and Phone Required', value: 'bothReq' },
+          { label: 'Email Or Phone Required', value: 'bothOpt' },
+        ],
+      },
+      {
+        placeholder: 'Show / Hide',
+        label: 'Apply Coupon Input',
+        name: 'couponInput',
+        input: 'toggle',
+      },
+      {
+        placeholder: 'e.g. Shop Now',
+        label: 'Button Text',
+        name: 'buttonText',
+        input: 'text',
+      },
+      {
+        name: 'style',
+        label: 'Style',
+        input: 'pillSelector',
+        options: [
+          { label: 'Style 1', value: 'style1' },
+          { label: 'Style 2', value: 'style2' },
+          { label: 'Style 3', value: 'style3' },
+        ],
+      },
+    ],
+    component: CheckoutWidget,
   },
 
   testimonials: {

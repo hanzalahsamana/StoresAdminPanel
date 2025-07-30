@@ -1,109 +1,127 @@
 "use client";
+
 import Link from 'next/link';
-import { useSelector } from 'react-redux';
-import { getContentByName } from '@/Redux/ContentData/ContentDataSlice';
 import { useState } from 'react';
-import OrderTrackModal from '@/components/Modals/OrderTrackModal';
+import { FaFacebook, FaInstagramSquare, FaLinkedin, FaPinterest, FaTwitter, FaWhatsapp, FaYoutube } from 'react-icons/fa';
 import { getBasePath } from '@/Utils/GetBasePath';
-import { FaFacebookF, FaInstagram, FaPinterest, FaTwitter } from 'react-icons/fa';
+import OrderTrackModal from '@/components/Modals/OrderTrackModal';
 import SubscribeForm from '../Forms/SubscribeForm';
 
-const TemplateFooter = () => {
-  const { siteName } = useSelector((state) => state.siteName);
-  const [isOpen, setIsOpen] = useState(false);
+const TemplateFooter = ({ sectionData }) => {
   const path = getBasePath();
+  const [isOpen, setIsOpen] = useState(false);
 
-  const SiteLogo = useSelector((state) =>
-    getContentByName(state, "Site Logo")
-  );
-
-  const ContactDetails = useSelector((state) =>
-    getContentByName(state, "Contact")
-  );
-
-  const { collections } = useSelector((state) => state?.collection);
-  console.log(siteName, "wow");
+  const {
+    footerLogo,
+    email = '',
+    phone = '',
+    location = '',
+    copyright = "",
+    socialLinks = {},
+    style = 'style1',
+  } = sectionData || {};
 
 
   return (
-    <div className='bg-[var(--tmp-sec)] w-full flex justify-center '>
-      <div className=" py-10 px-10 text-[var(--tmp-wtxt)] w-full max-w-[1500px]">
-        <div className="container mx-auto grid items-start grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 text-sm px-4 md:px-0">
+    <footer className={`bg-[var(--tmp-sec)] w-full flex justify-center`}>
+      <div className="py-10 px-10 text-[var(--tmp-wtxt)] w-full max-w-[1500px]">
+        <OrderTrackModal isOpen={isOpen} setIsOpen={setIsOpen} />
 
-          <OrderTrackModal isOpen={isOpen} setIsOpen={setIsOpen} />
+        <div className="container mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 text-sm px-4 md:px-0">
 
           <div>
-            <Link href={`${path}/`}>
-              <img src={SiteLogo?.image} alt={SiteLogo?.type} className="mb-4 max-w-[200px] max-h-[150px] object-contain" />
-            </Link>
-            <p>Call Us at:</p>
-            <a href={`tel:${ContactDetails?.phone}`} className="font-bold">
-              {ContactDetails?.phone}
-            </a>
-            <p className="mt-4">For Business Queries:</p>
-            <a href={`mailto:${ContactDetails?.email}`} className="font-bold ">
-              {ContactDetails?.email}
-            </a>
+            {footerLogo && (
+              <Link href={`${path}/`}>
+                <img
+                  src={footerLogo}
+                  alt="Footer Logo"
+                  className="mb-4 max-w-[200px] max-h-[150px] object-contain"
+                />
+              </Link>
+            )}
+            {(
+              socialLinks.facebook || socialLinks.instagram || socialLinks.pinterest ||
+              socialLinks.twitter || socialLinks.youtube || socialLinks.linkedin || socialLinks.whatsapp
+            ) && (
+                <div className='uppercase'>
+                  <h4 className="font-bold mb-4 text-[16px] text-[var(--tmp-wtxt)]">Follow Us</h4>
+                  <div className="flex gap-4 text-[20px]">
+                    {socialLinks.facebook && (
+                      <a href={socialLinks.facebook} target="_blank" rel="noopener noreferrer"><FaFacebook /></a>
+                    )}
+                    {socialLinks.instagram && (
+                      <a href={socialLinks.instagram} target="_blank" rel="noopener noreferrer"><FaInstagramSquare /></a>
+                    )}
+                    {socialLinks.pinterest && (
+                      <a href={socialLinks.pinterest} target="_blank" rel="noopener noreferrer"><FaPinterest /></a>
+                    )}
+                    {socialLinks.twitter && (
+                      <a href={socialLinks.twitter} target="_blank" rel="noopener noreferrer"><FaTwitter /></a>
+                    )}
+                    {socialLinks.youtube && (
+                      <a href={socialLinks.youtube} target="_blank" rel="noopener noreferrer"><FaYoutube /></a>
+                    )}
+                    {socialLinks.linkedin && (
+                      <a href={socialLinks.linkedin} target="_blank" rel="noopener noreferrer"><FaLinkedin /></a>
+                    )}
+                    {socialLinks.whatsapp && (
+                      <a href={socialLinks.whatsapp} target="_blank" rel="noopener noreferrer"><FaWhatsapp /></a>
+                    )}
+                  </div>
+                </div>
+              )}
           </div>
+          <div>
+
+            {email && (
+              <>
+                <p >Email Us:</p>
+                <a href={`mailto:${email}`} className="font-bold block mt-1">{email}</a>
+              </>
+            )}
+            {phone && (
+              <>
+                <p className="mt-3">Call Us at:</p>
+                <a href={`tel:${phone}`} className="font-bold block mt-1">{phone}</a>
+              </>
+            )}
+            {location && (
+              <p className="mt-3">{location}</p>
+            )}
+          </div>
+
+          {/* Quick Links */}
+          {/* <div className='uppercase'>
+            <h4 className="font-bold mb-4 text-[16px] text-[var(--tmp-wtxt)]">Quick Links</h4>
+            <ul>
+              <li className="mb-2 hover:opacity-[0.7]"><Link href={`${path}/pages/about-us`}>About Us</Link></li>
+              <li className="mb-2 hover:opacity-[0.7]"><Link href={`${path}/contact`}>Contact Us</Link></li>
+              <li className="mb-2 hover:opacity-[0.7]"><Link href={`${path}/products`}>Products</Link></li>
+              <li className="mb-2 hover:opacity-[0.7]"><Link href={`${path}/`}>Home</Link></li>
+            </ul>
+          </div> */}
+
 
           <div className='uppercase'>
-            <h4 className="font-bold mb-4 text-[16px] text-[var(--tmp-wtxt)]">Customer Support</h4>
-            <ul>
-              <li className="mb-2 hover:opacity-[0.7] w-max"><a href={`${path}/pages/return-policy`}> RETURN POLICY</a></li>
-              <li className="mb-2 hover:opacity-[0.7] w-max"><a href={`${path}/pages/privacy-policy`}> PRIVACY POLICY</a></li>
-              <li className="mb-2 hover:opacity-[0.7] w-max"><a href={`${path}/pages/terms-of-service`}> TERMS OF SERVICE</a></li>
-              <li className="mb-2 hover:opacity-[0.7] w-max"><a href={`${path}/pages/shipping-policy`}> SHIPPING POLICY</a></li>
-              <li className="mb-2 hover:opacity-[0.7] w-max"><a href={`${path}/pages/about-us`}> ABOUT US</a></li>
-              <li className="mb-2 hover:opacity-[0.7] w-max"><a href={`${path}/pages/faqs`}> FAQs</a></li>
-              <li className="mb-2 hover:opacity-[0.7] w-max"><a href={`${path}/contact`}>CONTACT US</a></li>
-            </ul>
+            <h4 className="font-bold mb-4 text-[16px] text-[var(--tmp-wtxt)]">Subscribe</h4>
+            <SubscribeForm />
+            <button
+              onClick={() => setIsOpen(true)}
+              className="mt-4 flex justify-center px-[35px] py-[10px] w-max bg-[var(--tmp-pri)] text-[var(--tmp-txt)] text-[16px] transition-all duration-300 hover:scale-105"
+            >
+              Track Your Order
+            </button>
           </div>
-
-          <div className='uppercase'>
-            <h4 className="font-bold mb-4 text-[16px] text-[var(--tmp-wtxt)]">SHOP</h4>
-            <ul>
-              {collections?.map((Collection, i) => (
-                <li key={i} className="mb-2 hover:opacity-[0.7] w-max"><a href={`${path}/collection/${Collection?.slug}`}>{Collection?.name}</a></li>
-              ))}
-              <li className="mb-2 hover:opacity-[0.7] w-max"><a href={`${path}/products`}>ALL PRODUCTS</a></li>
-            </ul>
-          </div>
-
-          <div className='uppercase'>
-            <h4 className="font-bold mb-4 text-[16px] text-[var(--tmp-wtxt)]">Subscribe to our email</h4>
-            {/* <ul className='flex gap-5 text-[20px]'>
-            <li className="mb-2 hover:opacity-[0.7] w-max"><a href={`${path}/pages/return-policy`}><FaFacebookF />
-            </a></li>
-            <li className="mb-2 hover:opacity-[0.7] w-max"><a href={`${path}/pages/privacy-policy`}><FaInstagram />
-            </a></li>
-            <li className="mb-2 hover:opacity-[0.7] w-max"><a href={`${path}/pages/terms-of-service`}> <FaPinterest />
-            </a></li>
-            <li className="mb-2 hover:opacity-[0.7] w-max"><a href={`${path}/pages/shipping-policy`}> <FaTwitter />
-            </a></li>
-          </ul> */}
-            <ul>
-              <SubscribeForm />
-            </ul>
-            <ul className='mt-[20px]'>
-
-              <button
-                onClick={() => setIsOpen(true)}
-                className="flex justify-center px-[35px] py-[10px] w-max bg-[var(--tmp-pri)] text-[var(--tmp-txt)] text-[16px] transition-all duration-300 hover:scale-105"
-              >
-                Track Your Order
-              </button>
-            </ul>
-          </div>
-
         </div>
 
-        <div className="mt-10 text-center text-xs text-gray-400 border-t border-gray-600 pt-4">
-          <p>© 2024, {siteName} · <a href={`${path}/pages/privacy-policy`} className="text-[var(--tmp-wtxt)]">Privacy policy</a></p>
-        </div>
-
+        {/* Copyright */}
+        {copyright && (
+          <div className="mt-10 text-center text-xs text-gray-400 border-t border-gray-600 pt-4">
+            <p>{copyright}</p>
+          </div>
+        )}
       </div>
-    </div>
-
+    </footer>
   );
 };
 

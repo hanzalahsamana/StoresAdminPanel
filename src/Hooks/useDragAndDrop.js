@@ -1,15 +1,19 @@
 import { useEffect, useState } from 'react';
 import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd';
+import { IsArrayEqual } from '@/Utils/IsEqual';
 
-export const useDragAndDrop = ({ initialItems = [], onReorder }) => {
+export const useDragAndDrop = ({ initialItems = [], onReorder, addOrderKey = true }) => {
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    if (initialItems && initialItems.length > 0) {
-      setItems(initialItems);
+useEffect(() => {
+  setItems(prev => {
+    if (!IsArrayEqual(prev, initialItems)) {
+      return initialItems;
     }
-  }, [initialItems]);
+    return prev;
+  });
+}, [initialItems]);
 
   // if (!items || items.length === 0) {
   //   return;
@@ -21,8 +25,11 @@ export const useDragAndDrop = ({ initialItems = [], onReorder }) => {
     const reordered = [...items];
     const [movedItem] = reordered.splice(result.source.index, 1);
     reordered.splice(result.destination.index, 0, movedItem);
-
-    const updatedItems = reordered.map((item, index) => (typeof item === 'object' && item !== null ? { ...item, order: index + 1 } : item));
+    let updatedItems = reordered;
+    if (addOrderKey) {
+      // Add order key to each item if required
+      updatedItems = reordered.map((item, index) => (typeof item === 'object' && item !== null ? { ...item, order: index + 1 } : item));
+    }
 
     setItems(updatedItems);
 
@@ -47,12 +54,13 @@ const DragAndDropWrapper = ({
   getKey = (item) => item._id,
   children, // must be a function: (item, index, dragProps) => JSX
   droppableId = 'droppable-list',
+  className = '',
 }) => {
   return (
     <DragDropContext onDragEnd={handleDragEnd}>
       <Droppable droppableId={droppableId}>
         {(provided) => (
-          <div ref={provided.innerRef} {...provided.droppableProps}>
+          <div ref={provided.innerRef} {...provided.droppableProps} className={className}>
             {items.map((item, index) => (
               <Draggable key={getKey(item)} draggableId={getKey(item)} index={index}>
                 {(provided, snapshot) => children(item, index, { provided, snapshot })}

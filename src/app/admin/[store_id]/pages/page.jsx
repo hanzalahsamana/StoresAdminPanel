@@ -4,22 +4,18 @@ import { getAllPages } from '@/APIs/Pages/Page';
 import Button from '@/components/Actions/Button'
 import IconButton from '@/components/Actions/IconButton';
 import ImgToIcon from '@/components/Actions/ImgToIcon'
-import ToggleSwitch from '@/components/Actions/ToggleSwitch';
 import ActionCard from '@/components/Cards/ActionCard'
 import CustomCard from '@/components/Cards/CustomCard'
-import FormInput from '@/components/Forms/FormInput';
 import BackgroundFrame from '@/components/Layout/BackgroundFrame'
 import Loader from '@/components/Loader/loader';
 import AddPageModal from '@/components/Modals/AddPageModal';
-import Modal from '@/components/Modals/Modal';
+import DynamicDataSelectorModal from '@/components/Modals/DynamicDataSelectorModal';
 import { ScrollShadows, useScrollShadow } from '@/Hooks/useScrollShadow';
 import { ecommercePages } from '@/Structure/DefaultStructures'
 import { formatRelativeTime } from '@/Utils/FormatRelativeTime';
-import { generateSlug } from '@/Utils/GenerateSlug';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react'
 import { AiOutlineDelete } from 'react-icons/ai';
-import { CiFileOn } from 'react-icons/ci';
 import { FaExternalLinkAlt } from 'react-icons/fa'
 import { IoEyeOutline } from 'react-icons/io5';
 import { useSelector } from 'react-redux';
@@ -30,6 +26,7 @@ const page = () => {
   const { store } = useSelector((state) => state.store);
   const { pages, pagesLoading } = useSelector((state) => state.pages);
   const [isOpen, setIsOpen] = useState(false);
+  const [selectedData, setSelectedData] = useState([]);
 
 
 
@@ -37,8 +34,6 @@ const page = () => {
   const router = useRouter()
 
   const fetchData = async () => {
-    console.log('😶‍🌫️😶‍🌫️😶‍🌫️😶‍🌫️');
-    
     await getAllPages(currUser?.token, store?._id);
   };
 
@@ -71,6 +66,7 @@ const page = () => {
           <Button label='Create Page' size='small' variant='black' action={() => { setIsOpen(true) }} />
         </>}
       />
+
       <div className="flex-1 relative min-h-0">
         <div ref={scrollRef} className="overflow-y-auto customScroll h-full space-y-4 pr-2">
 

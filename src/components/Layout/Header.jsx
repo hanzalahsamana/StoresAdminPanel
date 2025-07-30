@@ -15,12 +15,12 @@ export default function Header({ toggleSidebar }) {
         <img src={logo?.src} alt="" className="w-12" />
         Multi Tenant
       </button>
-      <div className="flex items-center ">
+      <div className="flex items-center gap-2 ">
 
-        <a target="_blank" href={`${HTTP}${store?.subDomain}.${Base_Domain}`} className="flex gap-1 text-[20px] items-center cursor-pointer px-[10px] rounded-md py-[7px] hover:opacity-80">
+        <a target="_blank" href={`${HTTP}${store?.subDomain}.${Base_Domain}`} className="flex gap-2 text-[18px] items-center cursor-pointer px-[10px] rounded-md py-[7px] bg-gray-200 font-semibold">
           <IoEyeOutline />
-          <span className="sm:flex hidden text-[14px]" >
-            view store
+          <span className="sm:flex hidden text-[15px]" >
+            view your store
           </span>
         </a>
         <PopupMenu />

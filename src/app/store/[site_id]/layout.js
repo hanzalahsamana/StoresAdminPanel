@@ -30,7 +30,6 @@ export default function SiteLayout({ params, children }) {
   const dispatch = useDispatch();
   const { store, storeLoading } = useSelector((state) => state.store);
   const { productLoading } = useSelector((state) => state.productData);
-  const { contentDataLoading } = useSelector((state) => state.contentData);
   const { sectionsDataLoading } = useSelector((state) => state.sectionsData);
   const { collectionLoading } = useSelector((state) => state.collection);
   const SiteLogo = useSelector((state) => getContentByName(state, "Site Logo"));
@@ -92,14 +91,13 @@ export default function SiteLayout({ params, children }) {
     return <SiteNotFound />;
   }
 
-  if (
-    productLoading ||
-    contentDataLoading ||
-    collectionLoading ||
-    sectionsDataLoading
-  ) {
-    return <Loader />;
-  }
+  // if (
+  //   productLoading ||
+  //   collectionLoading ||
+  //   sectionsDataLoading
+  // ) {
+  //   return <Loader />;
+  // }
 
   return (
     <>
@@ -139,9 +137,9 @@ export default function SiteLayout({ params, children }) {
             expiryDate: "2027-10-09T09:49:00.000+00:00",
           }}
         /> */}
-        {!isCheckoutPage && <TemplateHeader />}
+        {/* {!isCheckoutPage && <TemplateHeader />} */}
         {children}
-        {!isCheckoutPage && <TemplateFooter />}
+        {/* {!isCheckoutPage && <TemplateFooter />} */}
       </div>
     </>
   );

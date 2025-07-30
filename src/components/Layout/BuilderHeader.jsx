@@ -11,7 +11,7 @@ import IconButton from '../Actions/IconButton'
 import { BiRedo, BiUndo } from 'react-icons/bi'
 import StatusCard from '../Cards/StatusCard'
 
-const BuilderHeader = ({ isModified = false, handlePublishPage = () => { }, handleSaveDraftPage = () => { }, loading, currentMode = '' }) => {
+const BuilderHeader = ({ isModified = false, handlePublishPage = () => { }, handleSaveDraftPage = () => { }, handleDiscardDraft = () => { }, loading, currentMode = '' }) => {
     const dispatch = useDispatch()
     const { selectedDevicePreview } = useSelector((state) => state.livePreview);
 
@@ -31,12 +31,11 @@ const BuilderHeader = ({ isModified = false, handlePublishPage = () => { }, hand
                     className={`${currentMode === 'published' ? '!bg-green-200 !text-green-600' : '!bg-orange-200 !text-yellow-700'}`}
                 />
                 {currentMode === 'draft' ? (
-                    <p className='!text-[22px] flex items-center gap-2 bg-gray-100 text-gray-700 p-2 rounded-md cursor-pointer  ' data-tooltip-id={"preview"} data-tooltip-content={'Discard Back To Published Version'}>
+                    <p onClick={handleDiscardDraft} className='!text-[22px] flex items-center gap-2 bg-gray-100 text-gray-700 p-2 rounded-md cursor-pointer  ' data-tooltip-id={"preview"} data-tooltip-content={'Discard Back To Published Version'}>
                         <LuHistory />
                     </p>
-                ):''}
+                ) : ''}
             </div>
-
 
             <div className="flex gap-2 items-center">
                 <div className="flex gap-2 bg-gray-100  border rounded-md py-1 px-2">

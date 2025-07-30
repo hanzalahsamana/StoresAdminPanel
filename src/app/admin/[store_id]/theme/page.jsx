@@ -19,7 +19,8 @@ import { setTheme } from '@/APIs/StoreDetails/theme';
 
 const Theme = () => {
   const { currUser } = useSelector((state) => state.currentUser);
-  const { theme } = useSelector((state) => state?.storeDetail?.storeDetail);
+  // const { theme } = useSelector((state) => state?.storeDetail?.storeDetail);
+  const theme = []
   const [formData, setFormData] = useState(theme || {});
   const [isModified, setIsModified] = useState(false);
   const [loading, setIsLoading] = useState(false);

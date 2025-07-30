@@ -14,7 +14,6 @@ export const getValidGlobalDiscount = (discounts, totalOrderCost) => {
       globalDiscount.amountType === "percent"
       ? (totalOrderCost * globalDiscount.amount) / 100
       : globalDiscount.amount;
-      console.log( discountAmount , "globalDiscount");
       return {
         amountType: globalDiscount.amountType,
         amount: globalDiscount.amount,
@@ -30,7 +29,6 @@ export const getValidGlobalDiscount = (discounts, totalOrderCost) => {
 };
 
 export const formatAmount = (amount) => {
-  console.log("formatAmount", amount);
   return Number(amount).toLocaleString("en-US", {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,

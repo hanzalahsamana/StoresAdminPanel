@@ -23,6 +23,7 @@ const Button = ({
 
     // Define button styles based on variant
     const buttonStyles = {
+        
         primary: "bg-primaryC text-backgroundC border border-primaryC shadow-[inset_0_-3.2px_#02599b]",
         outline: "border-2 border-primaryC text-primaryC bg-transparent  leading-[calc(1em)]",
         danger: "bg-red-600 text-backgroundC border border-red-600 shadow-[inset_0_-3.2px_#991b1b]",

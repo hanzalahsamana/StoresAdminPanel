@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import "../../../../../components/UI/style.css";
 import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
@@ -9,9 +9,11 @@ import { Tooltip } from 'react-tooltip';
 import BuilderHeader from '@/components/Layout/BuilderHeader';
 import BuilderCustomizer from '@/components/Cards/BuilderCustomizer';
 import { IsEqual } from '@/Utils/IsEqual';
-import { getDraftPage, publishPage, saveDraftPage } from '@/APIs/Pages/Page';
+import { discardDraft, getAllPages, getDraftPage, publishPage, saveDraftPage } from '@/APIs/Pages/Page';
 import BuilderLoader from '@/components/Loader/BuilderLoader';
 import { useRouter, useSearchParams } from 'next/navigation';
+import useConfirm from '@/Hooks/useConfirm';
+import DynamicDataSelectorModal from '@/components/Modals/DynamicDataSelectorModal';
 
 
 const ContentEdit = () => {
@@ -21,50 +23,35 @@ const ContentEdit = () => {
 
   const { currUser } = useSelector((state) => state.currentUser);
   const { store } = useSelector((state) => state.store);
-  const { editingPage } = useSelector((state) => state.pages);
+  const { editingPage, editingPageMode } = useSelector((state) => state.pages);
   const [isModified, setIsModified] = useState(false);
   const [fetchLoading, setFetchLoading] = useState(true);
   const [loading, setLoading] = useState(false);
   const [activeSection, setActiveSection] = useState(null);
   const [currentMode, setCurrentMode] = useState(null);
-
   const [customizePageData, setCustomizePageData] = useState(null);
+  const { pages } = useSelector((state) => state.pages);
 
 
-  useEffect(() => {
-    console.log(customizePageData, "☠️☠️☠️☠️☠️☠️");
-  }, [customizePageData]);
+  const { confirm, ConfirmationModal } = useConfirm();
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        setFetchLoading(true);
-        const data = await getDraftPage(currUser?.token, store?._id, pageSlug);
-        setCustomizePageData(data?.data);
-        setCurrentMode(data?.mode)
-      } catch (error) {
-        toast.error(error.response ? error.response.data.message : error.message)
-      } finally {
-        setFetchLoading(false);
-      }
-    };
 
-    store?._id && pageSlug && fetchData();
-  }, [store?._id, pageSlug]);
-
-  useEffect(() => {
-    if (editingPage && customizePageData) {
-      setIsModified(!IsEqual(editingPage, customizePageData));
+  const fetchInitialDraftData = async () => {
+    try {
+      setFetchLoading(true);
+      await getDraftPage(currUser?.token, store?._id, pageSlug);
+    } catch (error) {
+      toast.error(error.response ? error.response.data.message : error.message)
+    } finally {
+      setFetchLoading(false);
     }
-  }, [editingPage, customizePageData]);
-
+  };
 
   const handlePublishPage = async () => {
     try {
       setLoading(true);
       await publishPage(currUser?.token, store?._id, customizePageData);
       toast.success("Page updated successfully!");
-      setCurrentMode('published')
     } catch (error) {
       toast.error(error.response ? error.response.data.message : error.message);
     } finally {
@@ -77,7 +64,6 @@ const ContentEdit = () => {
       setLoading(true);
       await saveDraftPage(currUser?.token, store?._id, customizePageData);
       toast.success("Section updated successfully!");
-      setCurrentMode('draft')
     } catch (error) {
       toast.error(error.response ? error.response.data.message : error.message);
     } finally {
@@ -85,12 +71,103 @@ const ContentEdit = () => {
     }
   };
 
+  const handleDiscardDraft = async () => {
+    try {
+      const ok = await confirm("Switch to Published?", "Are you sure you want to discard this page? This will remove your work of draft version.", "No, remain here", "Yes, Discard it");
+      if (!ok) return;
+      setFetchLoading(true);
+      await discardDraft(currUser?.token, store?._id, pageSlug);
+      toast.success("Page Discard successfully!");
+    } catch (error) {
+      toast.error(error.response ? error.response.data.message : error.message);
+    } finally {
+      setFetchLoading(false);
+    }
+  }
+
+  // useEffect(() => {
+  //   let nextUrl = null;
+
+  //   const originalPush = router.push;
+  //   const patchedPush = async (url) => {
+  //     if (!isModified) {
+  //       originalPush(url);
+  //       return;
+  //     }
+
+  //     const shouldLeave = await confirm();
+  //     if (shouldLeave) {
+  //       originalPush(url);
+  //     } else {
+  //       nextUrl = null;
+  //     }
+  //   };
+
+  //   router.push = patchedPush;
+
+  //   const handleBeforeUnload = (e) => {
+  //     if (isModified) {
+  //       e.preventDefault();
+  //       e.returnValue = "";
+  //     }
+  //   };
+
+  //   const handlePopState = async (e) => {
+  //     if (!isModified) return;
+
+  //     const shouldLeave = await confirm();
+  //     if (!shouldLeave) {
+  //       history.forward();
+  //     }
+  //   };
+
+  //   window.addEventListener("beforeunload", handleBeforeUnload);
+  //   window.addEventListener("popstate", handlePopState);
+
+  //   return () => {
+  //     window.removeEventListener("beforeunload", handleBeforeUnload);
+  //     window.removeEventListener("popstate", handlePopState);
+  //     router.push = originalPush;
+  //   };
+  // }, [isModified, confirm, router]);
+
+  useEffect(() => {
+    if (store?._id && pageSlug) {
+      fetchInitialDraftData();
+    }
+  }, [store?._id, pageSlug]);
+
   useEffect(() => {
     if (!pageSlug) {
       router.push("../pages");
     }
   }, [pageSlug]);
 
+  useEffect(() => {
+    if (editingPage && customizePageData) {
+      setIsModified(!IsEqual(editingPage, customizePageData));
+    }
+  }, [editingPage, customizePageData]);
+
+  useEffect(() => {
+    console.log(customizePageData, "☠️☠️☠️☠️☠️☠️");
+  }, [customizePageData]);
+
+  useEffect(() => {
+    setCustomizePageData(editingPage)
+    setCurrentMode(editingPageMode)
+  }, [editingPage, editingPageMode])
+
+  const fetchData = async () => {
+    await getAllPages(currUser?.token, store?._id);
+  };
+
+  useEffect(() => {
+    const storeId = store?._id;
+    if (!storeId || (pages && pages.length > 0)) return;
+
+    fetchData();
+  }, [store?._id, pages]);
 
   if (fetchLoading) {
     return <BuilderLoader />
@@ -98,7 +175,7 @@ const ContentEdit = () => {
 
   return (
     <div className='flex flex-col w-full'>
-      <BuilderHeader isModified={isModified} handlePublishPage={handlePublishPage} handleSaveDraftPage={handleSaveDraftPage} loading={loading} currentMode={currentMode} />
+      <BuilderHeader isModified={isModified} handlePublishPage={handlePublishPage} handleSaveDraftPage={handleSaveDraftPage} handleDiscardDraft={handleDiscardDraft} loading={loading} currentMode={currentMode} />
       <div className="flex w-full  ">
 
         <BuilderCustomizer customizePageData={customizePageData} setCustomizePageData={setCustomizePageData} activeSection={activeSection} setActiveSection={setActiveSection} />
@@ -114,6 +191,7 @@ const ContentEdit = () => {
         </div>
 
         <Tooltip id='customize' place="top" className="!text-[12px] z-[200] " />
+        {ConfirmationModal}
       </div >
     </div >
   )
