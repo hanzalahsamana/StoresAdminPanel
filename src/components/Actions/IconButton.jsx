@@ -1,3 +1,4 @@
+"use client";   
 import React from 'react'
 import { GrStatusPlaceholder } from 'react-icons/gr'
 import { Tooltip } from 'react-tooltip'

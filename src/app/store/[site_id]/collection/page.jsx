@@ -1,4 +1,4 @@
-import CollectionSection from '@/components/Widgets/collectionSection'
+import CollectionSection from '@/components/Widgets/CollectionSection'
 import React from 'react'
 
 const AllCollections = () => {

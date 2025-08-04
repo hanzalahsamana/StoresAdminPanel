@@ -2,7 +2,7 @@
 
 // pages/live-preview.jsx
 import { useEffect, useState } from "react";
-import "@/styles/globals.css"; // if needed
+import "@/Styles/globals.css"; // if needed
 import HomeLayout from "@/components/Layout/HomeLayout";
 import { SectionStructure } from "@/Structure/SectionStructure";
 import TemplateHeader from "@/components/Layout/TemplateHeader";

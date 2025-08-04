@@ -13,6 +13,7 @@ import ActionCard from "../Cards/ActionCard";
 import Button from "../Actions/Button";
 import MultiSelectDropdown from "../Actions/MultiSelectDropdown";
 import ImageSlector from "../Uploaders/ImageSlector";
+import DataSelectionList from "../Actions/DataSelectionList";
 
 const initialFormData = {
     name: '',
@@ -130,6 +131,18 @@ const CollectionAddModal = ({
                             products: selectedOptions
                         }));
                     }}
+                />
+
+                <DataSelectionList
+                    setSelectedData={formData?.products || []}
+                    selectedData={(selectedOptions) => {
+                        setFormData((prev) => ({
+                            ...prev,
+                            products: selectedOptions
+                        }));
+                    }}
+                    selectorName="products"
+                    label="Select Products"
                 />
 
                 <ImageSlector

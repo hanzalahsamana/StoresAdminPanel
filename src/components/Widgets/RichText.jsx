@@ -5,8 +5,8 @@ import React, { forwardRef } from 'react'
 const RichText = forwardRef(({ sectionData, ...rest }, ref) => {
     const { heading, content, buttonText, style } = sectionData
     return (
-        <div {...rest} ref={ref} className="flex bg-[var(--tmp-pri)] justify-center items-center flex-col gap-[40px] py-[40px] px-[15px]">
-            {heading && (<h1 className="text-[30px] text-[var(--tmp-txt)] font-extrabold text-center">{heading}</h1>)}
+        <div {...rest} ref={ref} className="flex bg-[var(--tmp-pri)] justify-center items-center flex-col gap-[30px] py-[40px] px-[15px]">
+            {heading && (<h1 className="text-[45px] text-[var(--tmp-txt)] font-semibold text-center">{heading}</h1>)}
 
             {content && (<div className="ql-editor text-lg text-center leading-relaxed text-[var(--tmp-ltxt)]" dangerouslySetInnerHTML={{ __html: content }}></div>)}
 

@@ -37,8 +37,8 @@ export default function useConfirm() {
           <Modal setIsOpen={setIsOpen} isOpen={isOpen} extraFuntion={() => resolver(false)} className={'max-w-md'}>
             <div className="p-4 flex  items-center flex-col w-full">
               <IconButton icon={<IoWarningOutline />} className={'text-red-600 text-[50px] mb-4'} />
-              <h1 className="mb-4 font-semibold text-center">{message?.label}</h1>
-              <p className="mb-4 text-center">{message?.text}</p>
+              <h1 className="mb-4 font-bold text-center">{message?.label}</h1>
+              <p className="mb-4 text-sm text-center">{message?.text}</p>
               <div className="flex justify-end gap-3 mt-4 w-full">
                 <Button label={message?.button1} size="small" variant="white" action={handleCancel} />
                 <Button label={message?.button2} size="small" variant="danger" action={handleConfirm} />

@@ -28,7 +28,6 @@ export const productUploadValidate = (formData, setErrors) => {
   if (!name?.trim()) newErrors.name = "Product name is required";
   if (price === undefined || price === null || isNaN(price) || price <= 0)
     newErrors.price = "Price must be a number greater than 0";
-  if (!displayImage) newErrors.displayImage = "Display image is required";
   if (stock === undefined || stock === null || isNaN(stock) || stock < 0)
     newErrors.stock = "Stock must be 0 or more";
 

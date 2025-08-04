@@ -22,9 +22,9 @@ const sizeClasses = {
     close: "text-[10px] p-1",
   },
   xlarge: {
-    wrapper: "w-[200px] h-[200px]",
+    wrapper: "w-[160px] h-[160px]",
     icon: "text-[70px]",
-    close: "text-[18px] p-2",
+    close: "text-[14px] p-1",
   },
 };
 
@@ -88,37 +88,41 @@ const ImageSelector = ({
 
   return (
     <div className={`flex flex-col gap-2 justify-center items-start ${className}`}>
-      {label && <p className="font-medium text-sm text-gray-700">{label}</p>}
+      {label && <label className="text-[15px] font-medium text-textC  mb-1 block">
+        {label}
+      </label>}
 
-      <div className="flex flex-wrap gap-3 items-center">
+      <div className="flex flex-wrap gap-3 items-start">
 
         {multiple && (
 
-          selectedImage.map((img, idx) => (
-            <div
-              key={idx}
-              className={`relative group ${currentSize.wrapper} rounded-md border border-gray-300 bg-white`}
-            >
-              <img
-                src={img}
-                alt={`Uploaded-${idx}`}
-                onError={() => handleImageRemove(img)}
-                className="object-contain w-full h-full rounded-md"
-              />
-              <button
-                data-tooltip-id={`remove-${idx}`}
-                data-tooltip-content="Remove Image"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  handleImageRemove(img);
-                }}
-                className={`absolute z-20 top-[-8px] right-[-8px] rounded-full text-white bg-red-500 ${currentSize.close}`}
+          selectedImage.map((img, idx) => {
+            return (
+              <div
+                key={idx}
+                className={`relative group ${currentSize.wrapper} rounded-md border border-gray-300 bg-white`}
               >
-                <IoMdClose />
-                <Tooltip id={`remove-${idx}`} className="!text-[10px]" />
-              </button>
-            </div>
-          ))
+                <img
+                  src={img}
+                  alt={`Uploaded-${idx}`}
+                  onError={() => handleImageRemove(img)}
+                  className="object-contain w-full h-full rounded-md"
+                />
+                <button
+                  data-tooltip-id={`remove-${idx}`}
+                  data-tooltip-content="Remove Image"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleImageRemove(img);
+                  }}
+                  className={`absolute z-20 top-[-8px] right-[-8px] rounded-full text-white bg-red-500 ${currentSize.close}`}
+                >
+                  <IoMdClose />
+                  <Tooltip id={`remove-${idx}`} className="!text-[10px]" />
+                </button>
+              </div>
+            )
+          })
         )}
 
 

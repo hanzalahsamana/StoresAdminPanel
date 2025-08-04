@@ -42,8 +42,8 @@ const PopupMenu = () => {
           }`}
       >
         <FaRegUser />
-        {currStore?.storeName}
-        <IoIosArrowDown className={`text-[12px] transition-all ${isOpen ? 'rotate-180' : 'rotate-0'}`} />
+        {/* {currStore?.storeName} */}
+        {/* <IoIosArrowDown className={`text-[12px] transition-all ${isOpen ? 'rotate-180' : 'rotate-0'}`} /> */}
       </button>
 
       {isOpen && (

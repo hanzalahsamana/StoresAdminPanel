@@ -31,9 +31,9 @@ const CustomCard = ({ children, title, className, icon, info, actions, subText =
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.25, ease: "easeInOut" }}
-            className="w-full overflow-hidden"
+            className="w-full overflow-hidden mt-3"
           >
-            <div className="flex-grow flex flex-col gap-4 w-full h-full mt-3 pt-[10px] border-t justify-center items-center">
+            <div className="flex-grow flex flex-col gap-4 w-full h-full pt-[12px] p-[2px] border-t justify-center items-center">
               {children}
             </div>
           </motion.div>

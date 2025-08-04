@@ -4,12 +4,9 @@ import React, { useEffect, useState } from "react";
 import StarRating from "../UI/starRating";
 import "./style.css";
 import { addReview, getReview } from "@/APIs/Customer/Review";
-import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
-import FormInput from "../Forms/FormInput";
 import TemplateFormInput from "../Forms/TemplateFormInput";
 import ButtonLoader from "../Loader/ButtonLoader";
-import ReviewsList from "../UI/ReviewList";
 
 const AddReviews = ({ storeId, productId, setReviewInState }) => {
   const [reviewData, setReviewData] = useState({

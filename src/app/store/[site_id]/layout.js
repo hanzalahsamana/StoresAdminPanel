@@ -1,43 +1,40 @@
-"use client";
+'use client';
 
-import { useEffect } from "react";
-import Script from "next/script";
-import { useDispatch, useSelector } from "react-redux";
-import { Assistant } from "next/font/google";
+import { useEffect } from 'react';
+import Script from 'next/script';
+import { useDispatch, useSelector } from 'react-redux';
+import { Assistant } from 'next/font/google';
 
-import TemplateHeader from "@/components/Layout/TemplateHeader";
-import TemplateFooter from "@/components/Layout/TemplateFooter";
-import DiscountCountdownBar from "@/components/UI/DiscountCountdownBar";
-import Loader from "@/components/Loader/TemplateLoader";
+import TemplateHeader from '@/components/Layout/TemplateHeader';
+import TemplateFooter from '@/components/Layout/TemplateFooter';
+import DiscountCountdownBar from '@/components/UI/DiscountCountdownBar';
+import Loader from '@/components/Loader/TemplateLoader';
 
-import { setCartData } from "@/Redux/CartData/cartDataSlice";
-import { getContentByName } from "@/Redux/ContentData/ContentDataSlice";
-import { getStore } from "@/APIs/StoreDetails/getStore";
-import { getProducts } from "@/APIs/Product/getProducts";
-import { getCollections } from "@/APIs/Collection/getCollections";
-import { getSections } from "@/APIs/SectionsData/getSections";
-import { getContents } from "@/APIs/Content/getContents";
-import SiteNotFound from "@/components/404Pages/SiteNotFound";
-import { getPublicStoreConfiguration } from "@/APIs/StoreConfigurations/configuration";
-import { usePathname } from "next/navigation";
+import { setCartData } from '@/Redux/CartData/cartDataSlice';
+import { getContentByName } from '@/Redux/ContentData/ContentDataSlice';
+import { getStore } from '@/APIs/StoreDetails/getStore';
+import { getProducts } from '@/APIs/Product/getProducts';
+import { getCollections } from '@/APIs/Collection/getCollections';
+import { getSections } from '@/APIs/SectionsData/getSections';
+import { getContents } from '@/APIs/Content/getContents';
+import SiteNotFound from '@/components/404Pages/SiteNotFound';
+import { getPublicStoreConfiguration } from '@/APIs/StoreConfigurations/configuration';
+import { usePathname } from 'next/navigation';
+import { setStore, setStoreLoading } from '@/Redux/Store/StoreDetail.slice';
 
 const assistant = Assistant({
-  subsets: ["latin"],
-  weight: ["400", "500", "700"],
+  subsets: ['latin'],
+  weight: ['400', '500', '700'],
 });
 
 export default function SiteLayout({ params, children }) {
   const dispatch = useDispatch();
   const { store, storeLoading } = useSelector((state) => state.store);
-  const { productLoading } = useSelector((state) => state.productData);
-  const { sectionsDataLoading } = useSelector((state) => state.sectionsData);
-  const { collectionLoading } = useSelector((state) => state.collection);
-  const SiteLogo = useSelector((state) => getContentByName(state, "Site Logo"));
-  const pathname = usePathname();
-  const isCheckoutPage = pathname.includes("/checkout");
+  const SiteLogo = useSelector((state) => getContentByName(state, 'Site Logo'));
 
   useEffect(() => {
     if (params?.site_id) {
+      dispatch(setStore({ _id: params.site_id }));
       getStore(params.site_id);
     }
   }, [params?.site_id]);
@@ -50,8 +47,8 @@ export default function SiteLayout({ params, children }) {
     if (SiteLogo?.image) {
       let link = document.querySelector("link[rel='icon']");
       if (!link) {
-        link = document.createElement("link");
-        link.rel = "icon";
+        link = document.createElement('link');
+        link.rel = 'icon';
         document.head.appendChild(link);
       }
       link.href = SiteLogo.image;
@@ -63,41 +60,23 @@ export default function SiteLayout({ params, children }) {
 
     const fetchAllData = async () => {
       try {
-        await Promise.all([
-          getProducts(store._id),
-          getCollections(store._id),
-          getSections(store._id),
-          getContents(store._id),
-          getPublicStoreConfiguration(store?._id),
-        ]);
+        await Promise.all([getPublicStoreConfiguration(store?._id)]);
 
-        if (typeof window !== "undefined") {
+        if (typeof window !== 'undefined') {
           const cartId = localStorage.getItem(`${store._id}_cartId`);
           dispatch(setCartData({ cartId, storeId: store._id }));
         }
       } catch (error) {
-        console.error("Data fetching failed:", error);
+        console.error('Data fetching failed:', error);
       }
     };
 
     fetchAllData();
   }, [store?._id, dispatch]);
 
-  if (storeLoading) {
-    return <Loader />;
-  }
-
-  if (!store?._id) {
+  if (!store?._id && !storeLoading) {
     return <SiteNotFound />;
   }
-
-  // if (
-  //   productLoading ||
-  //   collectionLoading ||
-  //   sectionsDataLoading
-  // ) {
-  //   return <Loader />;
-  // }
 
   return (
     <>
@@ -115,17 +94,10 @@ export default function SiteLayout({ params, children }) {
         }}
       />
       <noscript>
-        <iframe
-          src="https://www.googletagmanager.com/ns.html?id=GTM-5MLLMDZ7"
-          height="0"
-          width="0"
-          style={{ display: "none", visibility: "hidden" }}
-        ></iframe>
+        <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5MLLMDZ7" height="0" width="0" style={{ display: 'none', visibility: 'hidden' }}></iframe>
       </noscript>
 
-      <div
-        className={`flex flex-col items-center ${assistant.className} antialiased`}
-      >
+      <div className={`flex flex-col items-center ${assistant.className} antialiased`}>
         {/* <DiscountCountdownBar
           discount={{
             name: "NEWYEAR2025",

@@ -88,8 +88,8 @@ const CustomRangeSlider = ({ min = 0, max = 1000, step = 10, onChange , label = 
 
                 {/* Display Values */}
                 <div className="flex justify-between text-lg font-medium mt-2">
-                    <span>${minVal}</span>
-                    <span>${maxVal}</span>
+                    <span>Rs: {minVal}</span>
+                    <span>Rs: {maxVal}</span>
                 </div>
             </div>
         </div>

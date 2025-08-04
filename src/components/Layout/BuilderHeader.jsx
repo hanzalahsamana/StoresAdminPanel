@@ -54,7 +54,7 @@ const BuilderHeader = ({ isModified = false, handlePublishPage = () => { }, hand
                 <IconButton icon={<BiUndo />} tooltipLabel={'Undo'} className='!text-[22px] flex flex-col hover:bg-gray-100 text-gray-700 p-2 rounded-md hover:opacity-100 ' ></IconButton>
                 <IconButton icon={<BiRedo />} tooltipLabel={'Redo'} className='!text-[22px] flex flex-col hover:bg-gray-100 text-gray-300 p-2 rounded-md hover:opacity-100 !cursor-not-allowed '> </IconButton>
                 <Button size="small" label="Save As Draft" action={handleSaveDraftPage} loading={loading} variant="black" active={isModified} />
-                <Button size="small" label="Publish To Live" action={handlePublishPage} loading={loading} icon={<VscLiveShare />} active={isModified} />
+                <Button size="small" label="Publish To Live" action={handlePublishPage} loading={loading} icon={<VscLiveShare />} active={isModified || currentMode === 'draft'} />
             </div>
             <Tooltip id='customizer' place="top" className="!text-[12px] font-semibold !px-3 !py-1.5 z-[200] " />
         </div>

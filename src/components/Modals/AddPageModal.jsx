@@ -7,12 +7,13 @@ import Button from '../Actions/Button';
 import FormInput from '../Forms/FormInput';
 import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
+import ToggleSwitch from '../Actions/ToggleSwitch';
 
 const AddPageModal = ({ isOpen, setIsOpen }) => {
     const { currUser } = useSelector((state) => state.currentUser);
     const { store } = useSelector((state) => state.store);
     const [loading, setLoading] = useState(false);
-    const [formData, setFormData] = useState({ name: '', slug: '' });
+    const [formData, setFormData] = useState({ name: '', slug: '', isHeaderFooter: true });
     const [errors, setErrors] = useState({});
 
     const handleAddPage = async () => {
@@ -35,7 +36,7 @@ const AddPageModal = ({ isOpen, setIsOpen }) => {
             const payload = {
                 name: formData?.name.trim(),
                 slug: generateSlug(formData?.slug),
-                isHeaderFooter: false, // or true, based on usage
+                isHeaderFooter: formData?.isHeaderFooter || true,
             };
             await createPage(currUser?.token, store?._id, payload);
             Onclose()
@@ -100,6 +101,11 @@ const AddPageModal = ({ isOpen, setIsOpen }) => {
                     placeholder='e.g. about-us'
                     error={errors?.slug}
                     prefix={'/pages/'}
+                />
+                <ToggleSwitch
+                    label='Does you want Header and footer on this page?'
+                    checked={formData?.isHeaderFooter}
+                    setChecked={(value) => { setFormData({ ...formData, isHeaderFooter: value }) }}
                 />
             </ActionCard>
         </Modal>

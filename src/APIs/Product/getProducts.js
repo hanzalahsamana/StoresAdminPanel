@@ -7,6 +7,7 @@ import { dispatch } from '@/Redux/Store';
 
 export const getProducts = async (storeId, page = 1, limit = 10, filter) => {
   try {
+    dispatch(setProductLoading(true));
     let queryParams = [];
     if (page !== undefined && page !== null) queryParams.push(`page=${page}`);
     if (limit !== undefined && limit !== null) queryParams.push(`limit=${limit}`);
@@ -14,6 +15,7 @@ export const getProducts = async (storeId, page = 1, limit = 10, filter) => {
     const queryString = queryParams.length ? `?${queryParams.join('&')}` : '';
 
     const { data } = await axios.get(`${BASE_URL}/${storeId}/getProducts${queryString}`);
+    dispatch(setProductData(data?.data));
     return data?.data;
   } catch (error) {
     const msg = error?.response?.data?.message || error?.message || 'Something went wrong';

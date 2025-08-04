@@ -4,6 +4,7 @@ import { Base_Domain, HTTP } from "../../../config";
 import PopupMenu from "../Modals/PopupMenu";
 import { IoEyeOutline } from "react-icons/io5";
 import logo from "../../Assets/Images/logo.png";
+import PopupMenu2 from "../Modals/PopupMenu2";
 
 export default function Header({ toggleSidebar }) {
   const { currUser } = useSelector((state) => state.currentUser);
@@ -17,13 +18,14 @@ export default function Header({ toggleSidebar }) {
       </button>
       <div className="flex items-center gap-2 ">
 
-        <a target="_blank" href={`${HTTP}${store?.subDomain}.${Base_Domain}`} className="flex gap-2 text-[18px] items-center cursor-pointer px-[10px] rounded-md py-[7px] bg-gray-200 font-semibold">
+        <a target="_blank" href={`${HTTP}${store?.subDomain}.${Base_Domain}`} className="flex gap-2 text-[18px] items-center cursor-pointer px-[10px] rounded-md py-[7px] bg-gray-200 font-medium">
           <IoEyeOutline />
           <span className="sm:flex hidden text-[15px]" >
             view your store
           </span>
         </a>
         <PopupMenu />
+        <PopupMenu2 />
       </div>
 
     </header>

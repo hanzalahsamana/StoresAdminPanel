@@ -1,11 +1,7 @@
 "use client";
 
-import ProtectedRoute from '@/AuthenticRouting/ProtectedRoutes'
-import ActionCard from '@/components/Cards/ActionCard';
-import ProductDetailCard from '@/components/Cards/productDetailCard';
 import BackgroundFrame from '@/components/Layout/BackgroundFrame';
 import AddEditProductModal from '@/components/Modals/AddEditProductModal';
-import LivePreview from '@/components/UI/LivePreview';
 import React, { useState } from 'react'
 
 const AddProduct = () => {

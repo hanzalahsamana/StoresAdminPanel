@@ -42,7 +42,7 @@ const DataSelectionList = ({
     let result = [];
     try {
       if (selectorName === "products") {
-        const products = await getProducts(store?._id);
+        const products = await getProducts(store?._id , 1 , null);
         result = products.map((p) => ({
           label: p.name,
           value: p._id,

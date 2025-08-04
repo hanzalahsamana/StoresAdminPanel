@@ -1,8 +1,18 @@
 import { BsArrowsFullscreen } from 'react-icons/bs';
 import { IoMdLaptop } from 'react-icons/io';
-import { TbDeviceMobile } from 'react-icons/tb';
+import { TbCreditCardPay, TbDeviceMobile } from 'react-icons/tb';
 import { FaFacebook, FaInstagramSquare, FaLinkedin, FaPinterest, FaTiktok, FaTwitter, FaWhatsapp, FaYoutube } from 'react-icons/fa';
-import { HiOutlineHome, HiOutlineInformationCircle, HiOutlinePhone, HiOutlineShoppingCart, HiOutlineUser, HiOutlineShieldCheck } from 'react-icons/hi';
+import {
+  HiOutlineHome,
+  HiOutlineInformationCircle,
+  HiOutlinePhone,
+  HiOutlineShoppingCart,
+  HiOutlineUser,
+  HiOutlineShieldCheck,
+  HiOutlineTrash,
+  HiOutlineDuplicate,
+} from 'react-icons/hi';
+import { HiOutlineEyeSlash, HiOutlinePaintBrush, HiOutlinePencilSquare } from 'react-icons/hi2';
 
 export const placeholderImageUrl = 'https://res.cloudinary.com/duaxitxph/image/upload/v1736247980/cjzl4ivq2lduxqbtnfj1.webp';
 
@@ -594,6 +604,79 @@ export const ThemeSettingStructure = {
     customJs: "console.log('Theme loaded');",
   },
 };
+
+const Currencies = [
+  { name: 'US Dollar', symbol: '$', code: 'USD' },
+  { name: 'Euro', symbol: '€', code: 'EUR' },
+  { name: 'British Pound', symbol: '£', code: 'GBP' },
+  { name: 'Japanese Yen', symbol: '¥', code: 'JPY' },
+  { name: 'Canadian Dollar', symbol: '$', code: 'CAD' },
+  { name: 'Australian Dollar', symbol: '$', code: 'AUD' },
+  { name: 'Swiss Franc', symbol: 'CHF', code: 'CHF' },
+  { name: 'Chinese Yuan', symbol: '¥', code: 'CNY' },
+  { name: 'Indian Rupee', symbol: '₹', code: 'INR' },
+  { name: 'Pakistani Rupee', symbol: '₨', code: 'PKR' },
+  { name: 'Brazilian Real', symbol: 'R$', code: 'BRL' },
+  { name: 'Mexican Peso', symbol: '$', code: 'MXN' },
+  { name: 'South African Rand', symbol: 'R', code: 'ZAR' },
+  { name: 'Singapore Dollar', symbol: '$', code: 'SGD' },
+  { name: 'New Zealand Dollar', symbol: '$', code: 'NZD' },
+  { name: 'Hong Kong Dollar', symbol: '$', code: 'HKD' },
+  { name: 'Saudi Riyal', symbol: '﷼', code: 'SAR' },
+  { name: 'Turkish Lira', symbol: '₺', code: 'TRY' },
+  { name: 'Russian Ruble', symbol: '₽', code: 'RUB' },
+  { name: 'UAE Dirham', symbol: 'د.إ', code: 'AED' },
+  { name: 'South Korean Won', symbol: '₩', code: 'KRW' },
+];
+
+const Countries = [
+  { name: 'United States', code: 'US', phoneCode: '+1' },
+  { name: 'United Kingdom', code: 'GB', phoneCode: '+44' },
+  { name: 'Canada', code: 'CA', phoneCode: '+1' },
+  { name: 'Australia', code: 'AU', phoneCode: '+61' },
+  { name: 'Germany', code: 'DE', phoneCode: '+49' },
+  { name: 'France', code: 'FR', phoneCode: '+33' },
+  { name: 'India', code: 'IN', phoneCode: '+91' },
+  { name: 'Pakistan', code: 'PK', phoneCode: '+92' },
+  { name: 'China', code: 'CN', phoneCode: '+86' },
+  { name: 'Japan', code: 'JP', phoneCode: '+81' },
+  { name: 'United Arab Emirates', code: 'AE', phoneCode: '+971' },
+  { name: 'Saudi Arabia', code: 'SA', phoneCode: '+966' },
+  { name: 'Brazil', code: 'BR', phoneCode: '+55' },
+  { name: 'South Africa', code: 'ZA', phoneCode: '+27' },
+  { name: 'Mexico', code: 'MX', phoneCode: '+52' },
+  { name: 'Turkey', code: 'TR', phoneCode: '+90' },
+  { name: 'Russia', code: 'RU', phoneCode: '+7' },
+  { name: 'Singapore', code: 'SG', phoneCode: '+65' },
+  { name: 'New Zealand', code: 'NZ', phoneCode: '+64' },
+  { name: 'Bangladesh', code: 'BD', phoneCode: '+880' },
+  { name: 'Indonesia', code: 'ID', phoneCode: '+62' },
+  { name: 'Malaysia', code: 'MY', phoneCode: '+60' },
+];
+
+export const SectionActions = [
+  {
+    name: 'Remove',
+    icon: <HiOutlineTrash />,
+  },
+  {
+    name: 'Hide',
+    icon: <HiOutlineEyeSlash />,
+  },
+  {
+    name: 'Edit',
+    icon: <HiOutlinePencilSquare />,
+  },
+  {
+    name: 'Dublicate',
+    icon: <HiOutlineDuplicate />,
+  },
+];
+
+export const BulderTabs = [
+  { name: 'Editor', icon: <TbCreditCardPay /> },
+  { name: 'Theme Setting', icon: <HiOutlinePaintBrush /> },
+];
 
 export const AllPagesStructure = [
   {

@@ -7,6 +7,8 @@ import { forwardRef } from "react";
 
 const PromoWidget = forwardRef(({ sectionData, ...rest }, ref) => {
     const { style = 'style1', heading, content, image, buttonText } = sectionData;
+    console.log(image, "Image in PromoWidget");
+    
 
     return (
         <div {...rest} ref={ref} className={style === "style1" ? "febric-Collection" : "fabric-container"}>

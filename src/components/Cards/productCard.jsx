@@ -10,14 +10,14 @@ const ProductCard = ({ product }) => {
   const [failedImages, setFailedImages] = useState(new Set());
 
   const handleMouseEnter = () => {
-    const hoverImage = product?.images?.[1];
+    const hoverImage = product?.displayImage;
     if (hoverImage && !failedImages.has(hoverImage)) {
       setCurrentImage(hoverImage);
     }
   };
 
   const handleMouseLeave = () => {
-    const mainImage = product?.images?.[0];
+    const mainImage = product?.displayImage;
     if (mainImage && !failedImages.has(mainImage)) {
       setCurrentImage(mainImage);
     }
@@ -28,8 +28,8 @@ const ProductCard = ({ product }) => {
   };
 
   useEffect(() => {
-    if (product?.images?.[0]) {
-      setCurrentImage(product.images[0]);
+    if (product?.displayImage) {
+      setCurrentImage(product.displayImage);
     }
   }, [product]);
 

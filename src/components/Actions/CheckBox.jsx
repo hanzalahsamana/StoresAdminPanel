@@ -22,7 +22,7 @@ const Checkbox = ({ label = "Checkbox", checked = false, setChecked = () => { },
                     </svg>
                 )}
             </div>
-            <span className={`ml-1 text-[14px] group-hover:opacity-80 ${checked ? 'text-primaryC' : 'text-gray-500'} transition-colors duration-200`}>
+            <span className={`ml-1 text-[14px] select-none group-hover:opacity-80 ${checked ? 'text-primaryC' : 'text-gray-500'} transition-colors duration-200`}>
                 {label}
             </span>
         </div>

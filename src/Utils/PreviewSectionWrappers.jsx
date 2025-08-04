@@ -1,5 +1,5 @@
-import CollectionSection from '@/components/Widgets/collectionSection';
-import ProductsSection from '@/components/Widgets/productsSection';
+import CollectionSection from '@/components/Widgets/CollectionSection';
+import ProductsSection from '@/components/Widgets/ProductsSection';
 import { useSwrFetch } from '@/Hooks/useSwrFetch';
 import BASE_URL from 'config';
 import { forwardRef } from 'react';
@@ -12,16 +12,16 @@ export const FeatureProductSectionWrapper = forwardRef(({ sectionData = {}, ...r
   const query = new URLSearchParams();
   if (productsToShow === 'collections' && selectedCollections.length > 0) {
     const ids = selectedCollections.map((item) => item).join(',');
-    query.append('collections', ids);
+    query.append('collectionIds', ids);
   }
   query.append('limit', productCount);
   query.append('page', 1);
 
   const apiURL = store?._id ? `${BASE_URL}/${store._id}/getProducts?${query.toString()}` : null;
 
-  const { data: products = [], isLoading, error } = useSwrFetch(apiURL, !!store?._id);
+  const { data, isLoading, error } = useSwrFetch(apiURL, !!store?._id);
 
-  return <ProductsSection ref={ref} sectionData={{ ...sectionData, products, isLoading, error }} {...rest} />;
+  return <ProductsSection ref={ref} sectionData={{ ...sectionData, products: data?.data, isLoading, error }} {...rest} />;
 });
 
 export const FeatureCollectionSectionWrapper = forwardRef(({ sectionData = {}, ...rest }, ref) => {
@@ -40,5 +40,5 @@ export const FeatureCollectionSectionWrapper = forwardRef(({ sectionData = {}, .
 
   const { data = [], isLoading, error } = useSwrFetch(apiURL, !!store?._id);
 
-  return <CollectionSection ref={ref} sectionData={{ ...sectionData, collections: data, isLoading, error }} {...rest} />;
+  return <CollectionSection ref={ref} sectionData={{ ...sectionData, collections: data?.data, isLoading, error }} {...rest} />;
 });

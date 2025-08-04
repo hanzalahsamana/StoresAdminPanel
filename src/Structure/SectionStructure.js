@@ -1,8 +1,8 @@
 import BannerSlider from '@/components/Widgets/BannerSlider';
 
-const { default: CollectionSection } = require('@/components/Widgets/collectionSection');
+const { default: CollectionSection } = require('@/components/Widgets/CollectionSection');
 const { default: Hero } = require('@/components/Widgets/Hero');
-const { default: ProductsSection } = require('@/components/Widgets/productsSection');
+const { default: ProductsSection } = require('@/components/Widgets/ProductsSection');
 const { default: PromoWidget } = require('@/components/Widgets/PromoWidget');
 const { default: RichText } = require('@/components/Widgets/RichText');
 import { v4 as uuidv4 } from 'uuid';
@@ -29,6 +29,7 @@ import TemplateHeader from '@/components/Layout/TemplateHeader';
 import { CgToolbarBottom, CgToolbarTop } from 'react-icons/cg';
 import CheckoutWidget from '@/components/Widgets/CheckoutWidget';
 import { MdOutlineShoppingCartCheckout } from 'react-icons/md';
+import { BsReverseLayoutTextWindowReverse } from 'react-icons/bs';
 
 export const SectionStructure = {
   banner_slider: {
@@ -426,7 +427,7 @@ export const SectionStructure = {
         input: 'toggle',
       },
       {
-        placeholder: 'e.g. Shop Now',
+        placeholder: 'Country',
         label: 'Button Text',
         name: 'buttonText',
         input: 'text',
@@ -439,6 +440,56 @@ export const SectionStructure = {
           { label: 'Style 1', value: 'style1' },
           { label: 'Style 2', value: 'style2' },
           { label: 'Style 3', value: 'style3' },
+        ],
+      },
+    ],
+    component: CheckoutWidget,
+  },
+
+  catalog: {
+    _id: uuidv4(),
+    name: 'Catalog',
+    icon: <BsReverseLayoutTextWindowReverse />,
+    isGlobal: true,
+    data: {
+      heading: 'Catalog',
+      description: 'Browse all products in one place. Filter, sort, and discover items tailored to your needs.',
+      standardFilters: true,
+      variantsFilters: true,
+      layout: 'grid',
+    },
+    fields: [
+      {
+        placeholder: 'e.g. Catalog',
+        label: 'Heading',
+        name: 'heading',
+        input: 'text',
+      },
+      {
+        label: 'Description',
+        name: 'description',
+        input: 'textEditor',
+      },
+      {
+        placeholder: 'e.g. Sort , Price Range Enable / Disable ',
+        label: 'Standard Filters',
+        name: 'standardFilters',
+        input: 'toggle',
+      },
+      {
+        placeholder: 'Enable / Disable',
+        label: 'Variants Filters',
+        name: 'variantsFilters',
+        input: 'toggle',
+      },
+      {
+        name: 'layout',
+        label: 'Layout',
+        input: 'pillSelector',
+        options: [
+          { label: 'Grid', value: 'grid' },
+          { label: 'List', value: 'list' },
+          { label: 'Classic', value: 'classic' },
         ],
       },
     ],

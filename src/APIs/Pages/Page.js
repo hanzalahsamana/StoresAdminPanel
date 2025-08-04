@@ -1,7 +1,9 @@
+"use client";
+
 import axios from 'axios';
 import BASE_URL from '../../../config';
 import { dispatch } from '@/Redux/Store';
-import { addPage, setEditingMode, setEditingPage, setPageData, setPageLoading, setPages } from '@/Redux/Pages/PagesSlice';
+import { addPage, setEditingMode, setEditingPage, setPageLoading, setPages } from '@/Redux/Pages/PagesSlice';
 
 // Save Draft Page
 export const saveDraftPage = async (token, storeId, payload) => {
@@ -66,7 +68,6 @@ export const getPublishedPage = async (token, storeId, slug) => {
       },
     });
 
-    dispatch(setPageData({ page: data.data, mode: 'published' }));
   } catch (error) {
     console.error('Get published error:', error);
     throw error;

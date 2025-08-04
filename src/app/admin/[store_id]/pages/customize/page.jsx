@@ -32,9 +32,7 @@ const ContentEdit = () => {
   const [customizePageData, setCustomizePageData] = useState(null);
   const { pages } = useSelector((state) => state.pages);
 
-
   const { confirm, ConfirmationModal } = useConfirm();
-
 
   const fetchInitialDraftData = async () => {
     try {
@@ -49,6 +47,15 @@ const ContentEdit = () => {
 
   const handlePublishPage = async () => {
     try {
+      if (currentMode === 'draft') {
+        const ok = await confirm(
+          "Publish All Draft Work",
+          "Are you sure you want to publish all your draft changes? This action will overwrite the published version and discard any unsaved draft work.",
+          "Cancel",
+          "Yes, Publish"
+        );
+        if (!ok) return;
+      }
       setLoading(true);
       await publishPage(currUser?.token, store?._id, customizePageData);
       toast.success("Page updated successfully!");
@@ -150,10 +157,6 @@ const ContentEdit = () => {
   }, [editingPage, customizePageData]);
 
   useEffect(() => {
-    console.log(customizePageData, "☠️☠️☠️☠️☠️☠️");
-  }, [customizePageData]);
-
-  useEffect(() => {
     setCustomizePageData(editingPage)
     setCurrentMode(editingPageMode)
   }, [editingPage, editingPageMode])
@@ -168,6 +171,11 @@ const ContentEdit = () => {
 
     fetchData();
   }, [store?._id, pages]);
+
+
+  useEffect(() => {
+    console.log(customizePageData, "Customizeeeee");
+  }, [customizePageData]);
 
   if (fetchLoading) {
     return <BuilderLoader />

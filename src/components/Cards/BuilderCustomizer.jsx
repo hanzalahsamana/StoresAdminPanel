@@ -1,43 +1,23 @@
 'use client';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Tooltip } from 'react-tooltip';
 import DragAndDropWrapper, { useDragAndDrop } from '@/Hooks/useDragAndDrop';
 import WidgetsModal from '../Modals/WidgetsModal';
 import { IoIosArrowBack, IoIosArrowDown } from 'react-icons/io';
 import IconButton from '../Actions/IconButton';
-import { TbCreditCardPay, TbSettings } from 'react-icons/tb';
 import Button from '../Actions/Button';
-import { ecommercePages, PageStructure } from '@/Structure/DefaultStructures';
-import FormInput from '@/components/Forms/FormInput';
-import FaqUploader from '@/components/Uploaders/FaqUploader';
-import TextEditor from '@/components/Uploaders/TextEditor';
-import DropDown from '@/components/Actions/DropDown';
-import MultiSelectDropdown from '@/components/Actions/MultiSelectDropdown';
 import { SectionStructure } from '@/Structure/SectionStructure';
 import PopupMenu2 from '../Modals/PopupMenu2';
-import MultiImageUploader from '../Uploaders/MultiImageUploader';
-import { HiOutlineEye, HiOutlineEyeSlash, HiOutlinePaintBrush, HiOutlinePencilSquare, HiOutlineTrash } from 'react-icons/hi2';
-import { HiOutlineDuplicate } from 'react-icons/hi';
 import { MdOutlineAddCircleOutline } from 'react-icons/md';
 import { duplicateSection, insertSection, removeSection, toggleSectionVisibility } from '@/Utils/BuilderUtils/BuilderUtilsFuctions';
 import { BuilderSideBarCard, GlobalSectionCard, SectionAddAnimationLine, SectionItemCard } from '@/Utils/BuilderUtils/BuilderUtilsComponents';
-import PillSelector from '../Actions/PillSelector';
 import { CiFileOn } from 'react-icons/ci';
-import ImageSelector from '../Uploaders/ImageSlector';
-import RangeInput from '../Forms/RangeInput';
 import { useSelector } from 'react-redux';
-import DataSelectionList from '../Actions/DataSelectionList';
-import SocialLinkSelector from '../Uploaders/SocialLinkSelector';
-import Checkbox from '../Actions/CheckBox';
 import ThemeEditModal from '../Modals/ThemeEditModal';
 import { useRouter } from 'next/navigation';
-import RadioButton from '../Actions/RadioButton';
-import ToggleSwitch from '../Actions/ToggleSwitch';
+import { RenderBuilderInputs } from '@/Utils/RenderBuilderInputs';
+import { BulderTabs } from '@/Structure/DefaultStructures';
 
-const bulderTabs = [
-    { name: 'Editor', icon: <TbCreditCardPay /> },
-    { name: 'Theme Setting', icon: <HiOutlinePaintBrush /> },
-]
 
 const BuilderCustomizer = ({ customizePageData, setCustomizePageData, activeSection, setActiveSection }) => {
     const [openMenuId, setOpenMenuId] = useState(null);
@@ -46,72 +26,54 @@ const BuilderCustomizer = ({ customizePageData, setCustomizePageData, activeSect
     const [isOpen, setIsOpen] = useState(false);
     const { pages } = useSelector((state) => state.pages);
     const router = useRouter();
+    const activeSectionRef = useRef(activeSection);
 
-    const sectionActions = [
-        {
-            name: 'Remove',
-            icon: <HiOutlineTrash />,
-            action: (i) => console.log("hello", i),
-        },
-        {
-            name: 'Hide',
-            icon: <HiOutlineEyeSlash />,
-        },
-        {
-            name: 'Edit',
-            icon: <HiOutlinePencilSquare />,
-        },
-        {
-            name: 'Dublicate',
-            icon: <HiOutlineDuplicate />,
-        },
-    ];
-
-
+    useEffect(() => {
+        activeSectionRef.current = activeSection;
+    }, [activeSection]);
+    
     const handleInputChange = (key, value) => {
-
-        if (!activeSection?.type) return;
-
+        
+        if (!activeSectionRef.current?.type) return;
+        
         const updatedSectionData = {
-            ...activeSection.sectionData,
+            ...activeSectionRef.current.sectionData,
             [key]: value,
         };
+        console.log(updatedSectionData,key , value , "iwdchb");
 
         const updatedActiveSection = {
-            ...activeSection,
+            ...activeSectionRef.current,
             sectionData: updatedSectionData,
         };
 
-        setActiveSection(updatedActiveSection);
-
+        // Update customizePageData first
         setCustomizePageData((prev) => {
-
-            if (activeSection.type === "header") {
+            if (updatedActiveSection.type === "header") {
                 return {
                     ...prev,
-                    header: {
-                        ...updatedSectionData,
-                    },
+                    header: { ...updatedSectionData },
                 };
-            } else if (activeSection.type === "footer") {
+            } else if (updatedActiveSection.type === "footer") {
                 return {
                     ...prev,
-                    footer: {
-                        ...updatedSectionData,
-                    },
+                    footer: { ...updatedSectionData },
                 };
             } else {
+                const updatedSections = prev.sections.map((section) =>
+                    section._id === updatedActiveSection._id ? updatedActiveSection : section
+                );
                 return {
                     ...prev,
-                    sections: prev.sections.map((section) =>
-                        section._id === updatedActiveSection._id ? updatedActiveSection : section
-                    ),
+                    sections: updatedSections,
                 };
             }
         });
+
+        // Update activeSection state
+        setActiveSection(updatedActiveSection);
+        activeSectionRef.current = updatedActiveSection;
     };
-
-
 
     const { items, handleDragEnd } = useDragAndDrop({
         initialItems: customizePageData?.sections || [],
@@ -119,20 +81,15 @@ const BuilderCustomizer = ({ customizePageData, setCustomizePageData, activeSect
             setCustomizePageData(prev => {
                 const sections = [...(prev.sections || [])];
 
-                // Find index of dragged item using _id
                 const currentIndex = sections.findIndex(s => s._id === draggedItem._id);
                 if (currentIndex === -1) return prev; // If not found, do nothing
 
-                // Remove dragged item
                 const [movedSection] = sections.splice(currentIndex, 1);
 
-                // Insert at new index
                 sections.splice(newIndex, 0, movedSection);
-
-                // Update `order` values after reordering
                 const updatedSections = sections.map((section, index) => ({
                     ...section,
-                    order: index + 1, // 1-based ordering
+                    order: index + 1,
                 }));
 
                 return {
@@ -147,178 +104,10 @@ const BuilderCustomizer = ({ customizePageData, setCustomizePageData, activeSect
         insertSection(setCustomizePageData, newSection, selectedOrder)
     }
 
-    const renderComponents = ({ name, placeholder, input, options, multiple, min, max, selectorName, limit, formData }) => {
-
-        if (input === "text" || input === "number") {
-            return (
-                <FormInput
-                    type={input}
-                    key={name}
-                    value={formData?.sectionData?.[name] ?? ""}
-                    label={null}
-                    layout='label'
-                    placeholder={placeholder}
-                    size='editor'
-                    required={false}
-                    onChange={(e) => handleInputChange(name, e.target.value)}
-                />
-            );
-        }
-
-        if (input === "textEditor") {
-            return (
-                <TextEditor
-                    key={name}
-                    editorContent={formData?.sectionData?.[name]}
-                    setEditorContent={(value) => handleInputChange(name, value)}
-                />
-            );
-        }
-
-        if (input === "pillSelector") {
-            return (
-                <PillSelector
-                    data={options}
-                    selectedValue={formData?.sectionData?.[name]}
-                    setSelectedValue={(value) => handleInputChange(name, value)}
-                    key={name}
-                />
-            );
-        }
-
-        if (input === "range") {
-            return (
-                <RangeInput
-                    label={`${name}`}
-                    min={min}
-                    max={max}
-                    range={formData?.sectionData?.[name]}
-                    setRange={(value) => handleInputChange(name, value)}
-                />
-            );
-        }
-
-        if (input === "faqs") {
-            return (
-                <FaqUploader
-                    key={name}
-                    initialFaqs={formData?.[name]}
-                    setFaqs={(faqs) => handleInputChange(name, faqs)}
-                />
-            );
-        }
-
-        if (input === "ImageSelector") {
-            return (
-                <ImageSelector
-                    size='large'
-                    label={null}
-                    key={name}
-                    multiple={multiple}
-                    image={formData?.sectionData?.[name]}
-                    setImage={(image) => handleInputChange(name, image)}
-                />
-            );
-        }
-
-        if (input === "multiImageUploader") {
-            return (
-                <MultiImageUploader
-                    key={name}
-                    images={formData?.[name]}
-                    setImages={(images) => handleInputChange(name, images)}
-                />
-            );
-        }
-
-        if (input === "checkbox") {
-            return (
-                <Checkbox
-                    label={placeholder}
-                    checked={formData?.sectionData?.[name]}
-                    setChecked={(value) => handleInputChange(name, value)}
-                />
-            );
-        }
-
-        if (input === "dropdown") {
-            return (
-                <DropDown
-                    defaultOptions={options}
-                    selectedOption={formData?.[name]}
-                    setSelectedOption={(option) => handleInputChange(name, option)}
-                    key={name}
-                    label={placeholder}
-                    layout={'label'}
-                    className='!outline-primaryC !bg-transparent'
-                />
-            );
-        }
-
-        if (input === "multiDropdown") {
-            const optionsData =
-                options === "products"
-                    ? products.map((product) => ({ label: product?.name, value: product?._id }))
-                    : options === "collections"
-                        ? collections.map((Collection) => Collection?.slug)
-                        : [];
-
-            return (
-                <MultiSelectDropdown
-                    key={name}
-                    wantsCustomOption={false}
-                    defaultOptions={optionsData}
-                    selectedOptions={Array.isArray(formData?.[name]) ? formData?.[name] : []}
-                    setSelectedOptions={(options) => handleInputChange(name, options)}
-                    placeholder={placeholder}
-                    className='!outline-primaryC !bg-transparent'
-                />
-            );
-        }
-
-        if (input === 'dataSelectionList') {
-            return (<DataSelectionList
-                selectedData={formData?.sectionData?.[name]}
-                setSelectedData={(value) => handleInputChange(name, value)}
-                selectorName={selectorName}
-                customData={options}
-                label={placeholder}
-                limit={limit}
-
-            />)
-        }
-
-        if (input === 'socialLinkSelector') {
-            return (<SocialLinkSelector
-                setSocialLinks={(value) => handleInputChange(name, value)}
-                socialLinks={formData?.sectionData?.[name]}
-            />)
-        }
-        if (input === 'toggle') {
-            return (<ToggleSwitch
-                checked={formData?.sectionData?.[name] || false}
-                setChecked={(value) => handleInputChange(name, value)}
-                label={placeholder}
-
-            />)
-        }
-        if (input === 'radioButton') {
-            return (<RadioButton
-                options={options}
-                selectedOption={formData?.sectionData?.[name]}
-                setSelectedOption={(option) => handleInputChange(name, option)}
-                label={placeholder}
-            />)
-        }
-
-        return null;
-    }
-
-
     return (
         <div className=' !h-[calc(100vh-60px)] !w-[350px] flex bg-white'>
             <div className=' w-[50px] h-full border-r p-1.5 flex flex-col justify-start gap-2'>
-                {bulderTabs?.map((tab, index) => (
+                {BulderTabs?.map((tab, index) => (
                     <div key={index} onClick={() => setActiveTab(tab?.name)} data-tooltip-id='customize' data-tooltip-content={tab?.name} className={`text-[20px] aspect-square text-gray-700 flex transition-all cursor-pointer rounded-md justify-center items-center p-2 ${activeTab === tab?.name ? 'bg-gray-200' : 'hover:bg-gray-100'}`}>
                         {tab?.icon}
                     </div>
@@ -348,8 +137,7 @@ const BuilderCustomizer = ({ customizePageData, setCustomizePageData, activeSect
                                         globalSection={SectionStructure?.['header']}
                                         openMenuId={openMenuId}
                                         setOpenMenuId={setOpenMenuId}
-                                        onClick={setActiveSection}
-                                        sectionActions={sectionActions}
+                                        sectionActions={[]}
                                         setActiveSection={setActiveSection}
                                         customizePageData={customizePageData}
                                     />
@@ -404,7 +192,7 @@ const BuilderCustomizer = ({ customizePageData, setCustomizePageData, activeSect
                                         openMenuId={openMenuId}
                                         setOpenMenuId={setOpenMenuId}
                                         onClick={setActiveSection}
-                                        sectionActions={sectionActions}
+                                        sectionActions={[]}
                                         setActiveSection={setActiveSection}
                                         customizePageData={customizePageData}
                                     />
@@ -431,7 +219,7 @@ const BuilderCustomizer = ({ customizePageData, setCustomizePageData, activeSect
                                     }
                                     return (
                                         <BuilderSideBarCard key={index} label={label || placeholder}>
-                                            {renderComponents({ name, placeholder, input, multiple, options, selectorName, min, max, limit, formData: activeSection })}
+                                            {RenderBuilderInputs({ name, placeholder, input, multiple, options, selectorName, min, max, limit, formData: activeSection, handleInputChange: handleInputChange, })}
                                         </BuilderSideBarCard>
                                     )
                                 }
@@ -447,6 +235,7 @@ const BuilderCustomizer = ({ customizePageData, setCustomizePageData, activeSect
                     selectedOrder={selectedOrder}
                     setSelectedOrder={setSelectedOrder}
                 />
+
                 <ThemeEditModal
                     isOpen={activeTab === "Theme Setting"}
                     setIsOpen={() => setActiveTab("Editor")}

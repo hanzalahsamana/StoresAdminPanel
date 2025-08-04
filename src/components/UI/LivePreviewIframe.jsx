@@ -1,3 +1,5 @@
+"use client";
+
 // components/LivePreviewIframe.jsx
 import { useEffect, useRef, useState } from "react";
 import { devices } from "@/Structure/DefaultStructures";
@@ -78,7 +80,7 @@ export default function LivePreviewIframe({ previewData }) {
 
                     <iframe
                         ref={iframeRef}
-                        src="/admin/68416a1bd4645140e49c62d8/live-previeww"
+                        src="https://dev.xperiode.com/admin/68416a1bd4645140e49c62d8/live-previeww"
                         className={`${devices?.[selectedDevicePreview]?.render} origin-top-left `}
                     />
 

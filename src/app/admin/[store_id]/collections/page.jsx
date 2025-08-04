@@ -1,6 +1,6 @@
 "use client";
-import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import Button from "@/components/Actions/Button";
 import DynamicTable from "@/components/Tables/Table";
 import BackgroundFrame from "@/components/Layout/BackgroundFrame";
@@ -9,15 +9,19 @@ import { deleteCollectionApi } from "@/APIs/Collection/deleteCollection";
 import CollectionAddModal from "@/components/Modals/CollectionAddModal";
 import ActionCard from "@/components/Cards/ActionCard";
 import ImgToIcon from "@/components/Actions/ImgToIcon";
+import { getCollections } from "@/APIs/Collection/getCollections";
+import { useSwrFetch } from "@/Hooks/useSwrFetch";
+import BASE_URL from "config";
+import { setCollection } from "@/Redux/Collection/CollectionSlice";
 
 const CollectionList = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [updatedCollection, setUpdatedCollection] = useState(null);
-  const { collections, collectionLoading } = useSelector((state) => state.collection);
+  const { collections } = useSelector((state) => state.collection);
   const { currUser } = useSelector((state) => state.currentUser);
   const { store } = useSelector((state) => state.store);
   const { confirm, ConfirmationModal } = useConfirm();
-
+  const dispatch = useDispatch();
 
   const toggleModal = () => {
     setIsOpen((prev) => !prev);
@@ -26,6 +30,7 @@ const CollectionList = () => {
   const columns = [
     { key: "image", label: "Image", type: "image" },
     { key: "name", label: "Title" },
+    { key: "_id", label: "description" },
   ];
 
   const actions = {
@@ -38,6 +43,14 @@ const CollectionList = () => {
     if (!ok) return;
     await deleteCollectionApi(currUser.token, store?._id, collectionId);
   };
+
+  const API_KEY = `${BASE_URL}/${store?._id}/getCollections`;
+  const { data, isLoading, error } = useSwrFetch(API_KEY);
+
+  useEffect(() => {
+    dispatch(setCollection(data?.data));
+  }, [data]);
+
 
   return (
     <BackgroundFrame>
@@ -55,7 +68,7 @@ const CollectionList = () => {
           />
         }
       >
-        <DynamicTable columns={columns} data={collections} actions={actions} loading={collectionLoading} notFoundText="There are no collections to show" />
+        <DynamicTable columns={columns} data={collections} actions={actions} loading={isLoading} notFoundText="There are no collections to show" />
         {ConfirmationModal}
 
         {isOpen && (

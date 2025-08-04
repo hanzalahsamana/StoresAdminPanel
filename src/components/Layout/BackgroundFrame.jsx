@@ -6,4 +6,4 @@ const BackgroundFrame = ({ children, className = '' }) => {
     )
 }
 
-export default BackgroundFrame;
+export default BackgroundFrame; 

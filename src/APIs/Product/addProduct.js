@@ -1,25 +1,17 @@
-"use client";
+'use client';
 
-import axios from "axios";
-import Base_URL from "../../../config";
-import { toast } from "react-toastify";
-import { addProductData } from "@/Redux/Product/ProductSlice";
+import axios from 'axios';
+import Base_URL from '../../../config';
 
-export const addProducts = async (data, type, dispatch) => {
+export const addProducts = async (token, storeId, data) => {
   try {
-    const apiUrl = `${Base_URL}/${type}/addProduct`;
-    const response = await axios.post(apiUrl, data, {});
-    toast.success("product added successfully");
-    dispatch(addProductData(response.data));
+    const response = await axios.post(`${Base_URL}/${storeId}/addProduct`, data, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     return response.data;
   } catch (error) {
-    toast.error(
-      "Product added failed" || error.response
-        ? error.response.data.message
-        : error.message
-    );
-    throw "Product added failed" || error.response
-      ? error.response.data.message
-      : error.message;
+    throw error;
   }
 };

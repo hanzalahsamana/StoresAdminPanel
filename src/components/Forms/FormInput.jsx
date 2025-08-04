@@ -36,14 +36,15 @@ const FormInput = ({
       text: 'text-gray-600',
       lightBg: 'bg-white',
       bg: 'bg-gray-200',
-      border: 'border-gray-300',
-      outline: 'focus-within:border-2 focus-within:border-primaryC'
+      border: 'border-[#dedede]',
+      outline: 'focus-within:ring-2 focus-within:ring-black'
     },
     primary: {
       text: 'text-blue-600',
       lightBg: 'bg-blue-50',
       bg: 'bg-blue-200',
-      border: 'border-blue-300'
+      border: 'border-blue-300',
+      outline: 'focus-within:ring-2 focus-within:ring-primaryC'
     },
     error: {
       text: 'text-red-600',
@@ -72,7 +73,7 @@ const FormInput = ({
   return (
     <div className="relative w-full ">
       {label && (
-        <label className="text-[15px] font-medium text-textC mb-1 block">
+        <label className="text-[15px] font-medium text-textC  mb-1 block">
           {label}
           {required && <span className="text-red-500"> *</span>}
         </label>
@@ -93,7 +94,7 @@ const FormInput = ({
           disabled={disabled}
           autoComplete={autocomplete}
           placeholder={placeholder}
-          className={`placeholder:text-sm !outline-none bg-transparent w-full placeholder:text-[#b9b9b9] shadow-[inset_0_0px_6px_0_rgb(0_0_0_/_0.02)] px-3 text-textTC h-full`}
+          className={`placeholder:text-sm !outline-none bg-transparent w-full placeholder:text-[#797979]  px-3 text-textC h-full`}
         />
         {suffix && (
           <PrefSuffBox data={suffix} className={'rounded-r-md'} variantClass={variantClass} />
@@ -107,7 +108,7 @@ const FormInput = ({
 
 const PrefSuffBox = ({ data, className, variantClass }) => {
   return (
-    <div className={` font-semibold h-full px-2 flex justify-center gap-3 items-center ${variantClass?.bg} ${variantClass?.text} ${className}`}>
+    <div className={` font-medium h-full px-2 flex justify-center gap-3 items-center ${variantClass?.bg} ${variantClass?.text} ${className}`}>
       {data}
     </div>
   )

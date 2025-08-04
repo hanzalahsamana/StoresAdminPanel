@@ -65,9 +65,9 @@ export async function middleware(request) {
 
     const data = await response.json();
 
-    if (data?.storeId) {
+    if (data?.store) {
       return NextResponse.rewrite(
-        new URL(`/store/${data.storeId}${pathname}${url.search}`, request.url)
+        new URL(`/store/${data?.store?._id}${pathname}${url.search}`, request.url)
       );
     }
   } catch (error) {

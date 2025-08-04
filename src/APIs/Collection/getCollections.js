@@ -7,8 +7,8 @@ import { dispatch } from '@/Redux/Store';
 
 export const getCollections = async (storeId) => {
   try {
+    dispatch(setCollectionLoading(true));
     const { data } = await axios.get(`${BASE_URL}/${storeId}/getCollections`);
-    dispatch(setCollection(data?.data));
     return data?.data;
   } catch (error) {
     toast.error(error.response ? error.response.data.message : error.message);

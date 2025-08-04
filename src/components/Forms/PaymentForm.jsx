@@ -54,7 +54,7 @@ const PaymentForm = ({ selectedMethod = '', setSelectedMethod = () => { }, error
   }
 
   return (
-    <div className="w-full flex flex-col items-end max-[750px]:items-center ">
+    <div className="w-full flex flex-col items-end max-[750px]:items-center mt-4 ">
       <form className="flex flex-wrap">
 
         <div className="w-full ">
@@ -76,7 +76,7 @@ const PaymentForm = ({ selectedMethod = '', setSelectedMethod = () => { }, error
         </div>
         <div className="w-full space-y-[18px]">
           <h2 className="text-[24px] font-semibold my-4 text-[var(--tmp-txt)]">Contact</h2>
-          {(requiredContactFields === 'both' || requiredContactFields === 'email') && (
+          {(requiredContactFields === 'bothOpt' || requiredContactFields === 'email') && (
             <FormInput
               size="large"
               type="email"
@@ -88,7 +88,7 @@ const PaymentForm = ({ selectedMethod = '', setSelectedMethod = () => { }, error
               labelClassname={'bg-transparent'}
             />
           )}
-          {(requiredContactFields === 'both' || requiredContactFields === 'phone') && (
+          {(requiredContactFields === 'bothOpt' || requiredContactFields === 'phone') && (
             <FormInput
               size="large"
               type="tel"

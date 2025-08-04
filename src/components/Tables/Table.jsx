@@ -17,7 +17,7 @@ const DynamicTable = ({ columns = [], data = [], actions = {}, loading = false, 
                         {columns.map((col) => (
                             <th key={col.key} className="p-3 text-left">{col.label}</th>
                         ))}
-                        {Object.keys(actions).length > 0 && <th className="p-3 text-left">Actions</th>}
+                        {Object.keys(actions).length > 0 && <th className="p-3 text-end">Actions</th>}
                     </tr>
                 </thead>
                 <tbody className="w-full">
@@ -32,7 +32,7 @@ const DynamicTable = ({ columns = [], data = [], actions = {}, loading = false, 
                     ) : !data || data?.length === 0 ? (
                         <tr>
                             <td colSpan={columns?.length + (Object.keys(actions)?.length > 0 ? 1 : 0)} className="text-center p-5 w-full">
-                                <div className="flex flex-col gap-[20px] justify-center items-center min-h-[250px] w-full">
+                                <div className="flex flex-col gap-[20px] justify-center items-end min-h-[250px] w-full">
                                     <MdOutlineSentimentDissatisfied className="text-borderC text-[40px]" />
                                     <p className="text-borderC text-[12px] font-extralight">{notFoundText}</p>
                                 </div>
@@ -48,7 +48,7 @@ const DynamicTable = ({ columns = [], data = [], actions = {}, loading = false, 
                                     const value = row[col.key];
 
                                     return (
-                                        <td key={col.key} className="p-2 text-[14px] text-textTC">
+                                        <td key={col.key} className="p-2 text-[14px] text-textC">
                                             {col.type === "image" ? (
                                                 <img
                                                     src={Array.isArray(value) ? value[0] : value || "https://via.placeholder.com/50"}
@@ -91,7 +91,7 @@ const DynamicTable = ({ columns = [], data = [], actions = {}, loading = false, 
                                 })}
 
                                 {!!Object.keys(actions)?.length && (
-                                    <td className="p-3 space-x-2 flex">
+                                    <td className="p-3 space-x-2 flex justify-end">
                                         {actions.edit && (
                                             <IconButton
                                                 icon={<MdOutlineEdit />}

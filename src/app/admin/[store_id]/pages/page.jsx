@@ -52,8 +52,6 @@ const page = () => {
   const customPages = pages.filter(page => page.type === 'custom');
 
 
-
-
   return (
     <BackgroundFrame className="h-full">
       <ActionCard

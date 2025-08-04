@@ -15,6 +15,13 @@ import Sidebar from '@/components/Layout/Sidebar';
 import Header from '@/components/Layout/Header';
 import { getAdminStoreConfiguration } from '@/APIs/StoreConfigurations/configuration';
 import { setIsSidebarOpen } from '@/Redux/LivePreview/livePreviewSlice';
+import { Assistant } from 'next/font/google';
+
+const assistant = Assistant({
+  subsets: ['latin'],
+  weight: ['400', '500', '700'],
+});
+
 
 export default function adminLayout({ children, params }) {
   const dispatch = useDispatch();
@@ -67,7 +74,7 @@ export default function adminLayout({ children, params }) {
   }
 
   return (
-    <div className="flex h-[calc(100vh-60px)]">
+    <div className={`flex h-[calc(100vh-60px)]  ${assistant.className} antialiased`}>
       <Sidebar isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen} />
       <div className="w-full flex justify-end">
         <Header toggleSidebar={toggleSidebar} />

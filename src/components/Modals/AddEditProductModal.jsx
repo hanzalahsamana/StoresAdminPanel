@@ -5,36 +5,56 @@
 
 import React, { useEffect, useState } from "react";
 import FormInput from "../Forms/FormInput";
-import MultiImageUploader from "../Uploaders/MultiImageUploader";
 import ActionCard from "../Cards/ActionCard";
 import Button from "../Actions/Button";
 import CustomCard from "../Cards/CustomCard";
 import BackButton from "../Actions/BackButton";
-import MultiSelectDropdown from "../Actions/MultiSelectDropdown";
 import { toast } from "react-toastify";
 import { addProducts } from "@/APIs/Product/addProduct";
 import { editProductData } from "@/APIs/Product/editProduct";
 import { useDispatch, useSelector } from "react-redux";
 import { calculateDiscountedPrice } from "@/Utils/CalculateDiscountedPrice";
-import { uploadImagesToS3, uploadSingleImageToS3 } from "@/APIs/uploadImageS3";
 import { productUploadValidate } from "@/Utils/FormsValidator";
 import VariantsSelector from "../Uploaders/VariantsSelector";
-import { MdMiscellaneousServices, MdOutlineCollection, MdOutlineProductionQuantityLimits } from "react-icons/md";
+import { MdMiscellaneousServices, MdOutlineCollections, MdOutlineProductionQuantityLimits } from "react-icons/md";
 import { IoPricetagsOutline } from "react-icons/io5";
 import { CgDetailsMore } from "react-icons/cg";
 import { LuGalleryVerticalEnd } from "react-icons/lu";
 import ImgToIcon from "../Actions/ImgToIcon";
-import ImageUploader from "../Uploaders/ImageUploader";
 import DropDown from "../Actions/DropDown";
 import { popularVendors } from "@/Structure/DefaultStructures";
 import Checkbox from "../Actions/CheckBox";
 import { FaSearchengin } from "react-icons/fa6";
+import DataSelectionList from "../Actions/DataSelectionList";
+import ImageSelector from "../Uploaders/ImageSlector";
 
-const AddEditProductModal = ({ isOpen, setIsOpen, updatedData = null }) => {
+
+const initialProductData = {
+  name: "qwerrty",
+  pronounce: "piece",
+  vendor: "",
+  price: 1230,
+  comparedAtPrice: 0,
+  displayImage: "",
+  gallery: [],
+  trackInventory: true,
+  stock: 0,
+  continueSelling: false,
+  status: "active",
+  description: "",
+  note: "",
+  metaTitle: "",
+  metaDescription: "",
+  wantsCustomerReview: true,
+  collections: [],
+  ratings: { average: 0, count: 0 },
+  variations: [],
+}
+
+const AddEditProductModal = ({ isOpen, updatedData = null }) => {
   const dispatch = useDispatch();
   const { currUser } = useSelector((state) => state.currentUser);
   const { store } = useSelector((state) => state.store);
-  const { collections, collectionLoading } = useSelector((state) => state.collection);
 
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
@@ -49,39 +69,15 @@ const AddEditProductModal = ({ isOpen, setIsOpen, updatedData = null }) => {
         discountedPrice: calculateDiscountedPrice(updatedData.originalPrice, updatedData.discount),
       });
     } else {
-      setFormData({
-        name: "",
-        vendor: currUser?.brandName || "",
-        price: 0,
-        comparedAtPrice: 0,
-        displayImage: "",
-        gallery: [],
-        stock: 0,
-        showStock: true,
-        pronounce: "piece",
-        status: "active",
-        description: "",
-        metaTitle: "",
-        metaDescription: "",
-        wantsCustomerReview: true,
-        trackInventory: true,
-        continueSelling: false,
-        note: "",
-        collections: [],
-        ratings: { average: 0, count: 0 },
-        variations: [],
-        variantRules: [],
-        images: [],
-        discount: 0,
-        originalPrice: 0,
-        discountedPrice: 0,
-      });
+      setFormData(initialProductData);
       setSelectedVariationNames([]);
       setSelectedOptionsMap({});
     }
+    console.log('✨');
+    
   }, [updatedData]);
-
-
+  
+  
   useEffect(() => {
     if (!isOpen) {
       setTimeout(() => {
@@ -93,7 +89,8 @@ const AddEditProductModal = ({ isOpen, setIsOpen, updatedData = null }) => {
       }, 0);
     }
   }, [isOpen]);
-
+  
+  console.log('✨✨');
 
   const handleChange = (key, value) => {
     setErrors((prev) => ({ ...prev, [key]: "" }));
@@ -114,73 +111,23 @@ const AddEditProductModal = ({ isOpen, setIsOpen, updatedData = null }) => {
     try {
       setLoading(true);
 
-      // Upload tasks array
-      const uploadTasks = [];
-
-      // Upload display image if it's a File
-      let displayImageUploadTask = Promise.resolve(finalData.displayImage);
-      if (finalData.displayImage && finalData.displayImage instanceof File) {
-        displayImageUploadTask = uploadSingleImageToS3(currUser?.brandName, finalData.displayImage);
-      }
-
-      // Gallery images: split and upload files only
-      const galleryFiles = finalData.gallery?.filter((img) => img instanceof File) || [];
-      const existingGallery = finalData.gallery?.filter((img) => typeof img === 'string') || [];
-      const galleryUploadTask = Promise.all(
-        galleryFiles.map((file) => uploadToS3(file))
-      );
-
-      // Upload variant images efficiently (reusing duplicates)
-      const uploadedMap = new Map();
-      const variantUploadTask = Promise.all(
-        variantData.map(async (variant) => {
-          let imageUrl = variant.imageUrl;
-
-          if (imageUrl && typeof imageUrl !== 'string') {
-            return { ...variant, imageUrl }; // Already a string, no upload needed
-          }
-
-          if (uploadedMap.has(imageUrl)) {
-            imageUrl = uploadedMap.get(imageUrl); // Reuse if already uploaded
-          } else {
-            const uploaded = await uploadSingleImageToS3(imageUrl);
-            uploadedMap.set(imageUrl, uploaded);
-            imageUrl = uploaded;
-          }
-
-          return {
-            ...variant,
-            imageUrl,
-          };
-        })
-      );
-
-      // Run all uploads in parallel
-      const [displayImageUrl, uploadedGalleryImages, finalVariants] = await Promise.all([
-        displayImageUploadTask,
-        galleryUploadTask,
-        variantUploadTask,
-      ]);
-
-      // Prepare final product data
       const productData = {
         ...finalData,
-        displayImage: displayImageUrl,
-        gallery: [...existingGallery, ...uploadedGalleryImages],
         price: Number(finalData.price),
         comparedAtPrice: Number(finalData.comparedAtPrice),
-        stock: Number(finalData.stock),
+        stock: Number(finalData?.stock),
       };
 
       // Submit
       if (updatedData) {
         await editProductData(productData, currUser?.brandName, updatedData._id, dispatch);
+        toast.success('Changes Saved');
       } else {
-        await addProducts(productData, currUser?.brandName, dispatch);
+        await addProducts(currUser?.token, store?._id, productData);
+        toast.success('Successfully Created');
       }
-
-    } catch (err) {
-      toast.error(err?.message || "Something went wrong during product submission.");
+    } catch (error) {
+      toast.error(error.response ? error.response.data.message : error.message);
     } finally {
       setLoading(false);
     }
@@ -208,9 +155,17 @@ const AddEditProductModal = ({ isOpen, setIsOpen, updatedData = null }) => {
         actions={<>
           <Button
             action={handleSubmit}
-            label={updatedData ? "Edit Product" : "Add Product"}
+            label={'Cancel'}
             loading={loading}
             size="small"
+            variant="white"
+          />
+          <Button
+            action={handleSubmit}
+            label={'Save Product'}
+            loading={loading}
+            size="small"
+            variant="black"
           />
           <BackButton link="/products" />
         </>}
@@ -225,36 +180,38 @@ const AddEditProductModal = ({ isOpen, setIsOpen, updatedData = null }) => {
             <DropDown wantsCustomOption={true} label="Vendor" placeholder="e.g. Nike , Kenwood" layout="label" defaultOptions={[store.storeName, ...popularVendors]} selectedOption={formData.vendor || ""} setSelectedOption={(value) => handleChange("vendor", value)} error={errors.vendor} />
           </CustomCard>
 
-          <CustomCard icon={<LuGalleryVerticalEnd />} title="Gallery" className="break-inside-avoid flex-none !p-4 pt-3">
-            <label className="text-[14px] font-medium text-textC w-full -mb-2">Display Image</label>
-            <ImageUploader size="large" images={formData.displayImage || []} setImages={(images) => handleChange("displayImage", images)} error={errors.displayImage} className={'w-full h-full'} />
-
-            <label className="text-[14px] font-medium text-textC w-full -mb-2">Gallery Images</label>
-            <MultiImageUploader images={formData.galleryImages || []} setImages={(images) => handleChange("galleryImages", images)} error={errors.galleryImages} />
+          <CustomCard icon={<LuGalleryVerticalEnd />} title="Gallery" className="break-inside-avoid flex-none flex flex-nowrap !p-4 pt-3">
+            <div className="flex flex-col items-start gap-4 justify-start w-full">
+              <ImageSelector size="xlarge" label="Display Image" image={formData.displayImage || ''} setImage={(image) => handleChange("displayImage", image)} multiple={false} />
+              <ImageSelector size="large" label="Gallery Images" image={formData.gallery || []} setImage={(images) => handleChange("gallery", images)} multiple={true} />
+            </div>
           </CustomCard>
 
-          <CustomCard icon={<MdOutlineCollection />} title="Variation" info={'Variation is Optional thing Which allow you to devide the product in differnt varieties like Size, Color, etc'} className="break-inside-avoid flex-none !p-4 pt-3">
+          <CustomCard icon={<MdOutlineCollections />} title="Variation" info={'Variation is Optional thing Which allow you to devide the product in differnt varieties like Size, Color, etc'} className="break-inside-avoid flex-none !p-4 pt-3">
             <VariantsSelector />
           </CustomCard>
         </div>
 
         <div className="w-full md:w-2/5 space-y-5 md:pl-[10px]">
           <CustomCard icon={<IoPricetagsOutline />} title="Pricing" className="break-inside-avoid flex-none !p-4 pt-3">
-            <FormInput type="number" name="price" label="Price" placeholder="e.g. 1000" layout="label" value={formData.price || 0} onChange={(e) => handleChange(e.target.name, e.target.value)} error={errors.price} />
-            <FormInput type="number" name="comparedAtPrice" label="Compared At Price" placeholder="e.g. 1200" layout="label" value={formData.comparedAtPrice || 0} onChange={(e) => handleChange(e.target.name, e.target.value)} error={errors.comparedAtPrice} />
+            <FormInput type="number" name="price" label="Price" placeholder="e.g. 1000" layout="label" value={formData.price || 0} onChange={(e) => handleChange(e.target.name, e.target.value)} error={errors.price} prefix={'Rs'} suffix={'PKR'} />
+            <FormInput type="number" name="comparedAtPrice" label="Compared At Price" placeholder="e.g. 1200" layout="label" value={formData.comparedAtPrice || 0} onChange={(e) => handleChange(e.target.name, e.target.value)} error={errors.comparedAtPrice} prefix={'Rs'} suffix={'PKR'} />
           </CustomCard>
 
           <CustomCard icon={<MdOutlineProductionQuantityLimits />} title="Stock" className="break-inside-avoid flex-none !p-4 pt-3">
             <Checkbox checked={formData.trackInventory} setChecked={(val) => handleChange("trackInventory", val)} label="Track Inventory" className={'w-full'} />
             {formData.trackInventory === true && (<>
               <FormInput type="number" name="stock" label="Stock" layout="label" placeholder="e.g. 100" value={formData.stock || 0} onChange={(e) => handleChange(e.target.name, e.target.value)} error={errors.stock} />
-              <Checkbox checked={formData.showStock} setChecked={(val) => handleChange("showStock", val)} label="Show Stock Number" className={'w-full'} />
               <Checkbox checked={formData.continueSelling} setChecked={(val) => handleChange("continueSelling", val)} label="Continue selling when out of stock" className={'w-full'} />
             </>)}
           </CustomCard>
 
-          <CustomCard icon={<MdMiscellaneousServices />} title="Extras" className="break-inside-avoid flex-none !p-4 pt-3">
-            <MultiSelectDropdown wantsCustomOption={false} label="Associate with collections" placeholder="e.g. Shoes , Shirts" defaultOptions={collections?.map((cat) => (cat.name))} selectedOption={formData.collections || []} setSelectedOption={(value) => handleChange("collections", value)} error={errors.collections} />
+          <CustomCard icon={<MdMiscellaneousServices />} title="General" className="break-inside-avoid flex-none !p-4 pt-3">
+            <DataSelectionList
+              selectorName="collections"
+              selectedData={formData.collections || []}
+              setSelectedData={(value) => handleChange("collections", value)}
+            />
             <FormInput name="note" label="Note" layout="label" placeholder="e.g. Wash Seperately" value={formData.note || ""} onChange={(e) => handleChange(e.target.name, e.target.value)} error={errors.note} />
             <Checkbox checked={formData.enableReview} setChecked={(val) => handleChange("enableReview", val)} label="Enable Customer Review" className={'w-full'} />
           </CustomCard>

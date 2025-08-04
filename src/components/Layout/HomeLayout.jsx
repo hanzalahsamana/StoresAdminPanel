@@ -9,8 +9,8 @@ import TemplateFooter from "./TemplateFooter";
 import TemplateHeader from "./TemplateHeader";
 import { FeatureCollectionSectionWrapper, FeatureProductSectionWrapper } from "@/Utils/PreviewSectionWrappers";
 import CheckoutWidget from "../Widgets/CheckoutWidget";
-import AddReviews from "../Widgets/addReviews";
-import ReviewsList from "../UI/ReviewList";
+import AddReviews from "../Widgets/AddReviews";
+import Catalog from "../Widgets/Catalog";
 
 export default function HomeLayout({ PageData = [], activeSectionId = null, }) {
   const sectionRefs = useRef({});
@@ -82,6 +82,9 @@ export default function HomeLayout({ PageData = [], activeSectionId = null, }) {
     else if (section.type === "checkout_form") {
       return <AddReviews {...props} key={section._id} />;
     }
+    else if (section.type === "catalog") {
+      return <Catalog {...props} key={section._id} />;
+    }
     else {
       console.warn(`Unknown section type: ${section.type}`);
       return null;
@@ -93,8 +96,8 @@ export default function HomeLayout({ PageData = [], activeSectionId = null, }) {
       {PageData?.isHeaderFooter && <TemplateHeader sectionData={PageData?.header} />}
       {PageData?.sections?.map((section) => renderSection(section))}
       {PageData?.isHeaderFooter && <TemplateFooter sectionData={PageData?.footer} />}
-      <ReviewsList />
-      <AddReviews />
+      {/* <ReviewsList /> */}
+      {/* <AddReviews /> */}
     </div>
   );
 }
