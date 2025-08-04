@@ -1,10 +1,5 @@
 import BannerSlider from '@/components/Widgets/BannerSlider';
 
-const { default: CollectionSection } = require('@/components/Widgets/CollectionSection');
-const { default: Hero } = require('@/components/Widgets/Hero');
-const { default: ProductsSection } = require('@/components/Widgets/ProductsSection');
-const { default: PromoWidget } = require('@/components/Widgets/PromoWidget');
-const { default: RichText } = require('@/components/Widgets/RichText');
 import { v4 as uuidv4 } from 'uuid';
 import {
   HiOutlinePhoto,
@@ -30,6 +25,11 @@ import { CgToolbarBottom, CgToolbarTop } from 'react-icons/cg';
 import CheckoutWidget from '@/components/Widgets/CheckoutWidget';
 import { MdOutlineShoppingCartCheckout } from 'react-icons/md';
 import { BsReverseLayoutTextWindowReverse } from 'react-icons/bs';
+import Hero from '@/components/Widgets/Hero';
+import CollectionSection from '@/components/Widgets/CollectionSection';
+import ProductsSection from '@/components/Widgets/ProductsSection';
+import PromoWidget from '@/components/Widgets/PromoWidget';
+import RichText from '@/components/Widgets/RichText';
 
 export const SectionStructure = {
   banner_slider: {
