@@ -4,9 +4,6 @@
 import { useEffect, useState } from "react";
 import "@/Styles/globals.css"; // if needed
 import HomeLayout from "@/components/Layout/HomeLayout";
-import { SectionStructure } from "@/Structure/SectionStructure";
-import TemplateHeader from "@/components/Layout/TemplateHeader";
-import TemplateFooter from "@/components/Layout/TemplateFooter";
 import ProductDetailCard from "@/components/Cards/productDetailCard";
 
 export default function LivePrevieww() {

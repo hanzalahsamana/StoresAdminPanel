@@ -1,3 +1,5 @@
+"use client";
+
 import CollectionSection from '@/components/Widgets/CollectionSection';
 import ProductsSection from '@/components/Widgets/ProductsSection';
 import { useSwrFetch } from '@/Hooks/useSwrFetch';
