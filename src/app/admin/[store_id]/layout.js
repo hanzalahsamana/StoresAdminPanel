@@ -16,12 +16,12 @@ import Header from '@/components/Layout/Header';
 import { getAdminStoreConfiguration } from '@/APIs/StoreConfigurations/configuration';
 import { setIsSidebarOpen } from '@/Redux/LivePreview/livePreviewSlice';
 import { Assistant } from 'next/font/google';
+import { AdminPanelSideBarData } from '@/Structure/DefaultStructures';
 
 const assistant = Assistant({
   subsets: ['latin'],
   weight: ['400', '500', '700'],
 });
-
 
 export default function adminLayout({ children, params }) {
   const dispatch = useDispatch();
@@ -32,7 +32,7 @@ export default function adminLayout({ children, params }) {
   const { isSidebarOpen } = useSelector((state) => state.livePreview);
 
   // ❌ Exclude layout on these pages
-  const excludedPaths = ['/profile', '/live-previeww' , '/customize'];
+  const excludedPaths = ['/profile', '/live-previeww', '/customize'];
   const shouldExcludeLayout = excludedPaths.some((path) => pathname?.includes(path));
 
   // Load store
@@ -67,7 +67,7 @@ export default function adminLayout({ children, params }) {
     return <>{children}</>; // ✅ Skip layout
   }
 
-  if (storeLoading ) return <Loader />;
+  if (storeLoading) return <Loader />;
 
   if (!store?._id || store?.userRef !== currUser?._id) {
     return <NotFound />;
@@ -75,7 +75,7 @@ export default function adminLayout({ children, params }) {
 
   return (
     <div className={`flex h-[calc(100vh-60px)]  ${assistant.className} antialiased`}>
-      <Sidebar isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen} />
+      <Sidebar isOpen={isSidebarOpen} setIsOpen={(state) => dispatch(setIsSidebarOpen(state))} sideBarData={AdminPanelSideBarData} />
       <div className="w-full flex justify-end">
         <Header toggleSidebar={toggleSidebar} />
         <div

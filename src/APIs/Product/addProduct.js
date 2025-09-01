@@ -2,6 +2,8 @@
 
 import axios from 'axios';
 import Base_URL from '../../../config';
+import { addProductData } from '@/Redux/Product/ProductSlice';
+import { dispatch } from '@/Redux/Store';
 
 export const addProducts = async (token, storeId, data) => {
   try {
@@ -10,6 +12,8 @@ export const addProducts = async (token, storeId, data) => {
         Authorization: `Bearer ${token}`,
       },
     });
+    dispatch(addProductData(response.data));
+
     return response.data;
   } catch (error) {
     throw error;

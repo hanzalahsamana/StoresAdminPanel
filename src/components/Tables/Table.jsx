@@ -7,6 +7,17 @@ import TableSkeletonLoader from "../Loader/TableSkeletonLoader";
 import { VscArrowRight } from "react-icons/vsc";
 import { IoCopyOutline } from "react-icons/io5";
 import { copyToClipboard } from "@/Utils/CopyText";
+import { motion } from 'framer-motion';
+
+const fadeUpVariant = {
+    hidden: { opacity: 0, y: 10 },
+    visible: {
+        opacity: 1,
+        y: 0,
+        transition: { duration: 0.3, ease: "easeInOut" }
+    }
+};
+
 
 const DynamicTable = ({ columns = [], data = [], actions = {}, loading = false, notFoundText = 'Not Found' }) => {
     return (
@@ -40,7 +51,8 @@ const DynamicTable = ({ columns = [], data = [], actions = {}, loading = false, 
                         </tr>
                     ) : (
                         data.map((row, rowIndex) => (
-                            <tr
+                            <motion.tr
+                                variants={fadeUpVariant} initial="hidden" animate="visible"
                                 key={rowIndex}
                                 className="border-b-[2px] min-h-[50px] border-secondaryC hover:bg-lbgC transition duration-200"
                             >
@@ -117,7 +129,8 @@ const DynamicTable = ({ columns = [], data = [], actions = {}, loading = false, 
                                         )}
                                     </td>
                                 )}
-                            </tr>
+                            </motion.tr>
+
                         ))
                     )}
                 </tbody>

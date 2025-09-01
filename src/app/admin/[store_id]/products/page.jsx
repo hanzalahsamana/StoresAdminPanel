@@ -10,7 +10,7 @@ import useConfirm from "@/Hooks/useConfirm";
 import ImgToIcon from "@/components/Actions/ImgToIcon";
 import { useEffect } from "react";
 import { getProducts } from "@/APIs/Product/getProducts";
-import { setProductData } from "@/Redux/Product/ProductSlice";
+import { setProductData, setProductLoading } from "@/Redux/Product/ProductSlice";
 import { useSwrFetch } from "@/Hooks/useSwrFetch";
 import BASE_URL from "config";
 import PillSelector from "@/components/Actions/PillSelector";
@@ -38,6 +38,18 @@ const Products = () => {
     delete: (row) => { handleProductDelete(row?._id) },
   };
 
+  const handleGetProducts = async () => {
+    try {
+      dispatch(setProductLoading(true));
+      const products = await getProducts(store?._id)
+      dispatch(setProductData(products));
+    } catch (error) {
+      console.error(error);
+    } finally {
+      dispatch(setProductLoading(false));
+    }
+  }
+
   const handleProductDelete = async (productId) => {
     const ok = await confirm("Delete Product", "Are you sure you want to delete this product?");
     if (!ok) return;
@@ -45,12 +57,9 @@ const Products = () => {
     await deleteProduct(currUser.token, store?._id, productId);
   };
 
-  const API_KEY = `${BASE_URL}/${store?._id}/getProducts?sortBy=newest`;
-  const { data, isLoading, error } = useSwrFetch(API_KEY);
-
   useEffect(() => {
-    dispatch(setProductData(data?.data))
-  }, [data]);
+    handleGetProducts()
+  }, []);
 
   return (
     <BackgroundFrame>
@@ -81,7 +90,7 @@ const Products = () => {
           />
         </div> */}
 
-        <DynamicTable columns={columns} data={products} actions={actions} loading={isLoading} notFoundText="There are no products to show" />
+        <DynamicTable columns={columns} data={products} actions={actions} loading={productLoading} notFoundText="There are no products to show" />
         {ConfirmationModal}
         {/* <AddGlobalVariationModal setIsOpen={setIsOpen} isOpen={isOpen} /> */}
       </ActionCard>

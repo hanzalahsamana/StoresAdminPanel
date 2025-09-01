@@ -108,7 +108,7 @@ const FormInput = ({
 
 const PrefSuffBox = ({ data, className, variantClass }) => {
   return (
-    <div className={` font-medium h-full px-2 flex justify-center gap-3 items-center ${variantClass?.bg} ${variantClass?.text} ${className}`}>
+    <div className={` font-medium h-full ${typeof data === "string" ? 'px-2':''} flex justify-center gap-3 items-center ${variantClass?.bg} ${variantClass?.text} ${className}`}>
       {data}
     </div>
   )

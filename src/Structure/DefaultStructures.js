@@ -1,17 +1,8 @@
 import { BsArrowsFullscreen } from 'react-icons/bs';
 import { IoMdLaptop } from 'react-icons/io';
 import { TbCreditCardPay, TbDeviceMobile } from 'react-icons/tb';
-import { FaFacebook, FaInstagramSquare, FaLinkedin, FaPinterest, FaTiktok, FaTwitter, FaWhatsapp, FaYoutube } from 'react-icons/fa';
-import {
-  HiOutlineHome,
-  HiOutlineInformationCircle,
-  HiOutlinePhone,
-  HiOutlineShoppingCart,
-  HiOutlineUser,
-  HiOutlineShieldCheck,
-  HiOutlineTrash,
-  HiOutlineDuplicate,
-} from 'react-icons/hi';
+import { FaFacebook, FaInstagramSquare, FaLinkedin, FaPinterest, FaTwitter, FaWhatsapp, FaYoutube } from 'react-icons/fa';
+import { HiOutlineTrash, HiOutlineDuplicate } from 'react-icons/hi';
 import { HiOutlineEyeSlash, HiOutlinePaintBrush, HiOutlinePencilSquare } from 'react-icons/hi2';
 
 export const placeholderImageUrl = 'https://res.cloudinary.com/duaxitxph/image/upload/v1736247980/cjzl4ivq2lduxqbtnfj1.webp';
@@ -347,39 +338,6 @@ export const popularVendors = [
   'Forever 21',
 ];
 
-export const headerLinks = [
-  {
-    label: 'Home',
-    value: '/',
-    icon: HiOutlineHome,
-  },
-  {
-    label: 'About Us',
-    value: '/about',
-    icon: HiOutlineInformationCircle,
-  },
-  {
-    label: 'Contact Us',
-    value: '/contact',
-    icon: HiOutlinePhone,
-  },
-  {
-    label: 'Shop',
-    value: '/shop',
-    icon: HiOutlineShoppingCart,
-  },
-  {
-    label: 'My Account',
-    value: '/account',
-    icon: HiOutlineUser,
-  },
-  {
-    label: 'Privacy Policy',
-    value: '/privacy-policy',
-    icon: HiOutlineShieldCheck,
-  },
-];
-
 export const socialPlatforms = [
   { name: 'Facebook', icon: <FaFacebook />, key: 'facebook' },
   { name: 'LinkedIn', icon: <FaLinkedin />, key: 'linkedin' },
@@ -516,7 +474,7 @@ export const ecommercePages = [
   },
 ];
 
-export const SideBarData = [
+export const AdminPanelSideBarData = [
   { name: 'Dashboard', icon: 'https://img.icons8.com/fluency/48/home.png', path: '' },
   { name: 'Analytics', icon: 'https://img.icons8.com/doodle/48/analytics.png', path: '/analytics' },
   { name: 'Products', icon: 'https://img.icons8.com/doodle/48/t-shirt--v1.png', path: '/products' },
@@ -540,34 +498,6 @@ export const SideBarData = [
       { name: 'Offers Announcement', path: '/discounts/popups' },
     ],
   },
-  // {
-  //   name: 'Contents',
-  //   icon: 'https://img.icons8.com/fluency/48/pricing-structure.png',
-  //   path: '/content',
-  //   subLinks: [
-  //     { name: 'Over View', path: '/content' },
-  //     ...(Array.isArray(contentData)
-  //       ? contentData.map((item) => ({
-  //           name: item.type,
-  //           path: `/content/${item._id}`,
-  //         }))
-  //       : []),
-  //   ],
-  // },
-  // {
-  //   name: 'Design / Layout',
-  //   icon: 'https://img.icons8.com/color/48/design--v1.png',
-  //   path: '/design',
-  //   subLinks: [
-  //     { name: 'Over View', path: '/design' },
-  //     ...(Array.isArray(sectionsData)
-  //       ? sectionsData.map((item) => ({
-  //           name: item?.name,
-  //           path: `/design/${item._id}`,
-  //         }))
-  //       : []),
-  //   ],
-  // },
   { name: 'Migration', icon: 'https://img.icons8.com/dusk/64/back-sorting.png', path: '/migration' },
   {
     name: 'Configurations',
@@ -583,6 +513,13 @@ export const SideBarData = [
   },
   { name: 'Documentation', icon: 'https://img.icons8.com/external-flaticons-flat-flat-icons/64/external-documentation-agile-flaticons-flat-flat-icons.png', path: '/migrkation' },
 ];
+
+export const ProfileSideBarData = [
+  { name: 'Analytics', icon: 'https://img.icons8.com/fluency/96/guest-male.png', path: '/analytics' },
+  { name: 'Analytics', icon: 'https://img.icons8.com/fluency/96/shopping-bag.png', path: '/analytics' },
+  { name: 'Analytics', icon: 'https://img.icons8.com/fluency/96/keyhole-shield.png', path: '/analytics' },
+
+]
 
 export const ThemeSettingStructure = {
   storeId: '64f2a7632e3a6d28a1c8b456',
@@ -605,7 +542,7 @@ export const ThemeSettingStructure = {
   },
 };
 
-const Currencies = [
+export const Currencies = [
   { name: 'US Dollar', symbol: '$', code: 'USD' },
   { name: 'Euro', symbol: '€', code: 'EUR' },
   { name: 'British Pound', symbol: '£', code: 'GBP' },
@@ -629,7 +566,7 @@ const Currencies = [
   { name: 'South Korean Won', symbol: '₩', code: 'KRW' },
 ];
 
-const Countries = [
+export const Countries = [
   { name: 'United States', code: 'US', phoneCode: '+1' },
   { name: 'United Kingdom', code: 'GB', phoneCode: '+44' },
   { name: 'Canada', code: 'CA', phoneCode: '+1' },

@@ -4,12 +4,10 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState, useRef } from "react";
 import { IoChevronForward } from "react-icons/io5";
-import { useDispatch, useSelector } from "react-redux";
-import { SideBarData } from "@/Structure/DefaultStructures";
+import { useSelector } from "react-redux";
 
-function Sidebar({ isOpen, setIsOpen }) {
+function Sidebar({ isOpen = true, setIsOpen = () => { }, sideBarData }) {
   const pathname = usePathname();
-  const dispatch = useDispatch();
   const subNavRefs = useRef({});
 
   const { store } = useSelector((state) => state.store);
@@ -18,14 +16,14 @@ function Sidebar({ isOpen, setIsOpen }) {
 
 
   useEffect(() => {
-    const handleResize = () => dispatch(setIsOpen(window.innerWidth > 1024));
+    const handleResize = () => setIsOpen(window.innerWidth > 1024);
     handleResize();
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, [setIsOpen]);
 
   useEffect(() => {
-    SideBarData.forEach((link, index) => {
+    sideBarData.forEach((link, index) => {
       if (link.subLinks && pathname.startsWith(link.path) && link.path !== "/") {
         setOpenDropdown(index);
       }
@@ -40,7 +38,7 @@ function Sidebar({ isOpen, setIsOpen }) {
         ${isOpen ? "translate-x-0" : "-translate-x-full"}`}
     >
       <nav className="px-4 space-y-1">
-        {SideBarData?.map(({ name, path, icon, subLinks }, index) => (
+        {sideBarData?.map(({ name, path, icon, subLinks }, index) => (
           <div key={path}>
             <Link
               href={subLinks ? "#" : `/admin/${store?._id}${path}`}
