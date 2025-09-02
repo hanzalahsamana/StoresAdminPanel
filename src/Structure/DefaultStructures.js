@@ -506,7 +506,7 @@ export const AdminPanelSideBarData = [
     subLinks: [
       { name: 'Over View', path: '/configurations' },
       { name: 'Shipping', path: '/configurations/shipping' },
-      { name: 'Payment', path: '/configurations/payment' },
+      { name: 'Subscription', path: '/configurations/subscription' },
       { name: 'Tax', path: '/configurations/tax' },
       { name: 'Currency', path: '/configurations/currency' },
     ],
