@@ -507,6 +507,7 @@ export const AdminPanelSideBarData = [
       { name: 'Over View', path: '/configurations' },
       { name: 'Shipping', path: '/configurations/shipping' },
       { name: 'Subscription', path: '/configurations/subscription' },
+      { name: 'Invoices', path: '/configurations/invoices' },
       { name: 'Tax', path: '/configurations/tax' },
       { name: 'Currency', path: '/configurations/currency' },
     ],
@@ -518,8 +519,7 @@ export const ProfileSideBarData = [
   { name: 'Analytics', icon: 'https://img.icons8.com/fluency/96/guest-male.png', path: '/analytics' },
   { name: 'Analytics', icon: 'https://img.icons8.com/fluency/96/shopping-bag.png', path: '/analytics' },
   { name: 'Analytics', icon: 'https://img.icons8.com/fluency/96/keyhole-shield.png', path: '/analytics' },
-
-]
+];
 
 export const ThemeSettingStructure = {
   storeId: '64f2a7632e3a6d28a1c8b456',
