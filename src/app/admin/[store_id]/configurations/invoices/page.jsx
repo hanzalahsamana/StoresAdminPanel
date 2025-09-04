@@ -26,7 +26,7 @@ const Invoices = () => {
   }, [dispatch, store_id, token, currentPage]);
 
   const columns = [
-    { key: 'serial', label: 'Invoice no' },
+    { key: 'serial', label: 'No' },
     { key: '_id', label: 'Invoice ID', type: 'id' },
     { key: 'email', label: 'Email' },
     { key: 'amount', label: 'Amount' },
