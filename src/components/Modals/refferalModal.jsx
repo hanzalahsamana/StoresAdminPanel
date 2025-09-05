@@ -1,28 +1,34 @@
 'use client';
 import { useEffect, useState } from 'react';
 import Modal from './Modal';
-import Button from '../Actions/Button';
 import { toast } from 'react-toastify';
 import IconButton from '../Actions/IconButton';
 import { IoCopyOutline } from 'react-icons/io5';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { updateReferralModal } from '@/APIs/ReferralModal/updateReferralModalShown';
+import { useParams } from 'next/navigation';
 
-const ReferralModal = () => {
-  const [isOpen, setIsOpen] = useState(false);
+const ReferralModal = ({ isOpen, setIsOpen }) => {
   const promoCode = "You don't have promo code";
   const { store } = useSelector((state) => state.store);
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsOpen(true);
-    }, 300);
-    return () => clearTimeout(timer);
-  }, []);
+  const { currUser } = useSelector((state) => state.currentUser);
+  const { store_id } = useParams();
+  const dispatch = useDispatch();
 
   const copyToClipboard = () => {
     navigator.clipboard.writeText(store?.promoCode);
     toast.success('Promo Code copied!');
   };
+
+  useEffect(() => {
+    const updateReferralModalShown = async () => {
+      await updateReferralModal(store_id, store?.subscriptionId?._id, dispatch, currUser?.token);
+    };
+    if (store?.subscriptionId?.referralModalShown) {
+      setIsOpen(true);
+      updateReferralModalShown();
+    }
+  }, []);
 
   return (
     <Modal isOpen={isOpen} setIsOpen={setIsOpen}>

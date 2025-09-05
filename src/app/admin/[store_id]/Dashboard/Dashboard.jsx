@@ -12,6 +12,7 @@ import IconButton from '@/components/Actions/IconButton';
 import { IoCopyOutline } from 'react-icons/io5';
 import { copyToClipboard } from '@/Utils/CopyText';
 import ReferralModal from '@/components/Modals/refferalModal';
+import { useState } from 'react';
 
 const Dashboard = () => {
   const router = useRouter();
@@ -70,7 +71,6 @@ const Dashboard = () => {
           </div>
         </div>
       </div>
-      {store?.subscriptionId?.status === 'active' && <ReferralModal />}
     </div>
   );
 };
