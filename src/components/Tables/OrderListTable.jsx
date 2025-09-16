@@ -14,7 +14,6 @@ const OrderListTable = ({ limit = "all" }) => {
         cancelled: { bgColor: "#fee2e2", color: "#b91c1c" }, // red-700
     };
 
-
     const getStatusStyles = (status) => statusOptions[status] || statusOptions["pending"];
 
     const extractedOrders = orders

@@ -416,8 +416,7 @@ export const SectionStructure = {
         options: [
           { label: 'Just Email', value: 'email' },
           { label: 'Just Phone', value: 'phone' },
-          { label: 'Both Email and Phone Required', value: 'bothReq' },
-          { label: 'Email Or Phone Required', value: 'bothOpt' },
+          { label: 'Both Email and Phone', value: 'both' },
         ],
       },
       {

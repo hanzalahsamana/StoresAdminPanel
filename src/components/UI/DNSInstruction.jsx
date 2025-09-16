@@ -2,6 +2,8 @@ import { PiSealWarningFill } from "react-icons/pi";
 
 
 export default function DnsInstructions({ instructions, currentIps = null }) {
+    console.log(instructions);
+
     return (
         <div className=''>
             {currentIps?.length > 0 && (
@@ -9,22 +11,24 @@ export default function DnsInstructions({ instructions, currentIps = null }) {
             )}
             <p className="text-[16px] text-textTC mb-4">Please add these records to your hosting provider then verify again.</p>
             <div className="overflow-x-auto">
-                <table className="w-[500px] rounded-lg">
+                <table className=" rounded-lg">
                     <thead className="">
                         <tr>
-                            <th className="py-2 px-4 font-normal text-primaryC">Type</th>
-                            <th className="py-2 px-4 font-normal text-primaryC">Name</th>
-                            <th className="py-2 px-4 font-normal text-primaryC">Points To</th>
-                            <th className="py-2 px-4 font-normal text-primaryC">TTL</th>
+                            <th className="py-2 px-6 font-normal text-primaryC text-left">Type</th>
+                            <th className="py-2 px-6 font-normal text-primaryC text-left">Name</th>
+                            <th className="py-2 px-6 font-normal text-primaryC text-left">Points To</th>
+                            <th className="py-2 px-6 font-normal text-primaryC text-left">TTL</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr className="bg-backgroundC text-center">
-                            <td className="py-2 px-4 text-textTC">{instructions.type}</td>
-                            <td className="py-2 px-4 text-textTC">{instructions.name}</td>
-                            <td className="py-2 px-4 text-textTC">{instructions.pointsTo}</td>
-                            <td className="py-2 px-4 text-textTC">{instructions.TTL}</td>
-                        </tr>
+                        {instructions?.map((config, i) => (
+                            <tr className="bg-backgroundC text-center">
+                                <td className="py-2 px-6 text-textTC text-left">{config?.type}</td>
+                                <td className="py-2 px-6 text-textTC text-left">{config?.name || config.domain}</td>
+                                <td className="py-2 px-6 text-textTC text-left">{config?.value }</td>
+                                <td className="py-2 px-6 text-textTC text-left">{config.TTL || 14400}</td>
+                            </tr>
+                        ))}
                     </tbody>
                 </table>
 

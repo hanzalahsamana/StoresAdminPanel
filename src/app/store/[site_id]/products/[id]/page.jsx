@@ -11,11 +11,41 @@ import { getReview } from "@/APIs/Customer/Review";
 import ReviewsList from "@/components/UI/ReviewList";
 import TabNavigation from "@/components/Widgets/TabNavigation";
 import ProductDescription from "@/components/Sections/ProductDescription";
+import { getProducts } from "@/APIs/Product/getProducts";
 
 const ProductDetail = ({ params }) => {
-  const { products, loading, error } = useSelector((state) => state.productData);
+  // const { products, loading, error } = useSelector((state) => state.productData);
   const [allReviews, setAllReviews] = useState([])
   const { store } = useSelector((state) => state.store);
+  const [product, setProduct] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  // fetch product
+  useEffect(() => {
+    if (!store._id || !params?.id) return;
+
+    const fetchData = async () => {
+      setLoading(true);
+      setError(null);
+
+      try {
+        const productPromise = getProducts(store._id, 1, 1, { productIds: params.id });
+        const reviewsPromise = getReview(store._id, params.id);
+
+        const [productData, reviews] = await Promise.all([productPromise, reviewsPromise]);
+
+        setProduct(productData[0] || {});
+        setAllReviews(reviews);
+      } catch (err) {
+        setError(err.message || 'Something went wrong');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [store._id, params?.id]);
 
 
   if (loading) {
@@ -29,16 +59,16 @@ const ProductDetail = ({ params }) => {
       </div>
     );
   }
-  const product = products?.find(item => item?._id === params?.id);
+  // const product = products?.find(item => item?._id === params?.id);
 
-  useEffect(() => {
-    const fetchReviews = async () => {
-      const allReviews = await getReview(store?._id, params?.id);
-      setAllReviews(allReviews)
-    };
+  // useEffect(() => {
+  //   const fetchReviews = async () => {
+  //     const allReviews = await getReview(store?._id, params?.id);
+  //     setAllReviews(allReviews)
+  //   };
 
-    fetchReviews();
-  }, [store?._id, params?.id]);
+  //   fetchReviews();
+  // }, [store?._id, params?.id]);
 
 
   return (
@@ -46,7 +76,7 @@ const ProductDetail = ({ params }) => {
       {product ? (
         <>
           <ProductDetailCard product={product} />
-          <ProductDescription/>
+          <ProductDescription />
           <ProductsSection content={{
             title: "You may also like,",
             maxLength: 4,

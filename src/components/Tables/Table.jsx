@@ -34,7 +34,7 @@ const DynamicTable = ({ columns = [], data = [], actions = {}, loading = false, 
                 <tbody className="w-full">
                     {loading ? (
                         <tr>
-                            <td colSpan={columns.length + (Object.keys(actions).length > 0 ? 1 : 0)} className="text-center p-5 w-full">
+                            <td colSpan={columns.length + (Object.keys(actions).length > 0 ? 1 : 0)} className="text-center  w-full">
                                 <div className="flex justify-center items-center min-h-[250px] w-full">
                                     <TableSkeletonLoader />
                                 </div>
