@@ -31,12 +31,12 @@ export default function RootLayout({ children }) {
         <meta property="og:title" content="Designsli" />
         <meta property="og:description" content="Designsli lets you create your online store in minutes with a drag-and-drop editor and secure checkout." />
         <meta property="og:url" content="https://designsli.com" />
-        <meta property="og:image" content="/favicon.ico" />
+        <meta property="og:image" content="https://designsli.com/Assets/Images/404.png" />
         <meta property="og:type" content="website" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="Designsli" />
         <meta name="twitter:description" content="Designsli lets you create your online store in minutes with a drag-and-drop editor and secure checkout." />
-        <meta name="twitter:image" content="https://designsli.com/default-og-image.png" />
+        <meta name="twitter:image" content="https://designsli.com/Assets/Images/404.png" />
       </head>
       <body className={`${assistant.className} antialiased customScroll`} suppressHydrationWarning>
         <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_AUTH_CLIENT_ID}>
