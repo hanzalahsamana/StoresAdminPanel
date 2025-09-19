@@ -21,22 +21,27 @@ const assistant = Assistant({
   weight: ['400', '500', '600', '700'],
 });
 
-export default function RootLayout({ children }) {
+export default function RootLayout({ children, seo }) {
+  const {
+    title = 'Designsli: The All-in-One Platform to Create Your Online Store',
+    description = 'Start your ecommerce journey with Designsli. Easily build and manage your branded online store, showcase products, and grow your business.',
+    url = 'https://designsli.com',
+    ogImage = '/favicon.ico',
+  } = seo || {};
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        <title>Designsli</title>
-        <meta name="description" content="Designsli lets you create your online store in minutes with a drag-and-drop editor and secure checkout." />
-        <meta property="og:title" content="Designsli" />
-        <meta property="og:description" content="Designsli lets you create your online store in minutes with a drag-and-drop editor and secure checkout." />
-        <meta property="og:url" content="https://designsli.com" />
-        <meta property="og:image" content="https://designsli.com/404.png" />
+        <title>{title}</title>
+        <meta name="description" content={description} />
+        <meta property="og:title" content={title} />
+        <meta property="og:description" content={description} />
+        <meta property="og:url" content={url} />
+        <meta property="og:image" content={ogImage} />
         <meta property="og:type" content="website" />
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="Designsli" />
-        <meta name="twitter:description" content="Designsli lets you create your online store in minutes with a drag-and-drop editor and secure checkout." />
-        <meta name="twitter:image" content="https://designsli.com/Assets/Images/404.png" />
-        <link rel="icon" href="/favicon.ico" />
+        <meta name="twitter:title" content={title} />
+        <meta name="twitter:description" content={description} />
+        <meta name="twitter:image" content={ogImage} />
       </head>
       <body className={`${assistant.className} antialiased customScroll`} suppressHydrationWarning>
         <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_AUTH_CLIENT_ID}>

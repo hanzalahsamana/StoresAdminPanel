@@ -1,13 +1,13 @@
 'use client';
 import { authWithGoogle } from '@/APIs/Auth/authWithGoogle';
 import { loginUser } from '@/APIs/Auth/loginUser';
+import RootLayout from '@/app/layout';
 import UnProtectedRoute from '@/AuthenticRouting/UnProtectedRoutes';
 import CustomLink from '@/components/Actions/CustomLink';
 import IconButton from '@/components/Actions/IconButton';
 import Form from '@/components/Forms/Form';
 import FormInput from '@/components/Forms/FormInput';
 import GoogleSignInUp from '@/components/Forms/GoogleSignInUp';
-import SEO from '@/components/SEO/SEO';
 import LineDevider from '@/components/UI/LineDevider';
 import { setCurrentUser } from '@/Redux/Authentication/AuthSlice';
 import { userLoginValidate } from '@/Utils/FormsValidator';
@@ -59,14 +59,15 @@ const Login = () => {
   //   document.title = 'Login - Designsli';
   // }, []);
 
+  const SEO = {
+    title: 'Login',
+    description: 'Securely log in to Designsli to access your design dashboard, manage stores, and create stunning designs effortlessly.',
+    url: 'https://designsli.com/authentication/login',
+    ogImage: '/favicon.ico',
+  };
+
   return (
-    <>
-      <SEO
-        title="Login"
-        description="Securely log in to Designsli to access your design dashboard, manage stores, and create stunning designs effortlessly."
-        url="https://designsli.com/authentication/login"
-        ogImage="/favicon.ico"
-      />
+    <RootLayout seo={SEO}>
       <div className="min-h-screen flex items-center justify-center bg-lbgC px-3">
         <Form
           handleSubmit={handleSubmit}
@@ -106,7 +107,7 @@ const Login = () => {
           />
         </Form>
       </div>
-    </>
+    </RootLayout>
   );
 };
 export default UnProtectedRoute(Login);
