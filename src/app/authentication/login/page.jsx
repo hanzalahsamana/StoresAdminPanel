@@ -61,7 +61,12 @@ const Login = () => {
 
   return (
     <>
-      <SEO title="Login" description="Login to Designsli to access your design dashboard and tools." url="https://designsli.com/authentication/login" ogImage="/favicon.ico" />
+      <SEO
+        title="Login"
+        description="Securely log in to Designsli to access your design dashboard, manage stores, and create stunning designs effortlessly."
+        url="https://designsli.com/authentication/login"
+        ogImage="/favicon.ico"
+      />
       <div className="min-h-screen flex items-center justify-center bg-lbgC px-3">
         <Form
           handleSubmit={handleSubmit}
