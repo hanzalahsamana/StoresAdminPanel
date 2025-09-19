@@ -25,7 +25,6 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        {/* Default SEO for entire site */}
         <title>Designsli</title>
         <meta name="description" content="Designsli lets you create your online store in minutes with a drag-and-drop editor and secure checkout." />
         <meta property="og:title" content="Designsli" />
