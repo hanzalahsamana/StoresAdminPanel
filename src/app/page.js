@@ -1,6 +1,7 @@
 'use client';
 
 import Button from '@/components/Actions/Button';
+import SEO from '@/components/SEO/SEO';
 import { useRouter } from 'next/navigation';
 
 const Home = () => {
