@@ -2,11 +2,12 @@
 'use client'; // CSR support for private pages
 import { useEffect } from 'react';
 import { NextSeo } from 'next-seo';
+import defaultIcon from '../../Assets/Images/404.png';
 
 const defaultSEO = {
   siteName: 'Designsli',
   defaultDescription: 'Designsli lets you create your online store in minutes with a drag-and-drop editor and secure checkout.',
-  defaultOGImage: '/favicon.ico', // Ideally 1200x630 px PNG
+  defaultOGImage: defaultIcon,
 };
 
 export default function SEO({ title, description, ogImage, url }) {
