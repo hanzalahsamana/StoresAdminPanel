@@ -31,7 +31,7 @@ export default function RootLayout({ children }) {
         <meta property="og:title" content="Designsli" />
         <meta property="og:description" content="Designsli lets you create your online store in minutes with a drag-and-drop editor and secure checkout." />
         <meta property="og:url" content="https://designsli.com" />
-        <meta property="og:image" content="https://designsli.com/default-og-image.png" />
+        <meta property="og:image" content="/favicon.ico" />
         <meta property="og:type" content="website" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="Designsli" />
