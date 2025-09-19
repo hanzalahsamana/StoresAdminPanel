@@ -37,6 +37,7 @@ export default function RootLayout({ children }) {
         <meta name="twitter:title" content="Designsli" />
         <meta name="twitter:description" content="Designsli lets you create your online store in minutes with a drag-and-drop editor and secure checkout." />
         <meta name="twitter:image" content="https://designsli.com/Assets/Images/404.png" />
+        <link rel="icon" href="/favicon.ico" />
       </head>
       <body className={`${assistant.className} antialiased customScroll`} suppressHydrationWarning>
         <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_AUTH_CLIENT_ID}>
