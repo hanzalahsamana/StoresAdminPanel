@@ -63,35 +63,37 @@ const RegisterClient = () => {
   };
 
   return (
-    <div className="min-h-screen p-4 flex flex-col items-center justify-center bg-lbgC px-3">
-      <Form
-        handleSubmit={ManualSignup}
-        loading={loading}
-        label={'Create Your Store'}
-        buttonLabel={'Register'}
-        extra={
-          <>
-            <LineDevider label={'OR'} />
-            <GoogleSignInUp onGoogleSuccess={signupWithGoogle} label="Sign up with Google" />
-            <CustomLink text="Already Have an Account" link="/authentication/login" linkText="Login" />
-          </>
-        }
-        className="max-w-md"
-      >
-        <FormInput type="email" name="email" value={formData.email} onChange={handleChange} placeholder="Email" error={errors.email} size="large" />
+    <UnProtectedRoute>
+      <div className="min-h-screen p-4 flex flex-col items-center justify-center bg-lbgC px-3">
+        <Form
+          handleSubmit={ManualSignup}
+          loading={loading}
+          label={'Create Your Store'}
+          buttonLabel={'Register'}
+          extra={
+            <>
+              <LineDevider label={'OR'} />
+              <GoogleSignInUp onGoogleSuccess={signupWithGoogle} label="Sign up with Google" />
+              <CustomLink text="Already Have an Account" link="/authentication/login" linkText="Login" />
+            </>
+          }
+          className="max-w-md"
+        >
+          <FormInput type="email" name="email" value={formData.email} onChange={handleChange} placeholder="Email" error={errors.email} size="large" />
 
-        <FormInput
-          type={showPassword ? 'text' : 'password'}
-          name="password"
-          value={formData.password}
-          onChange={handleChange}
-          placeholder="Password"
-          error={errors.password}
-          size="large"
-          suffix={<IconButton action={() => setShowPassword(!showPassword)} icon={showPassword ? <FaEye /> : <FaEyeSlash />} className={'text-[#7f7b7b] h-full w-full'} />}
-        />
-      </Form>
-    </div>
+          <FormInput
+            type={showPassword ? 'text' : 'password'}
+            name="password"
+            value={formData.password}
+            onChange={handleChange}
+            placeholder="Password"
+            error={errors.password}
+            size="large"
+            suffix={<IconButton action={() => setShowPassword(!showPassword)} icon={showPassword ? <FaEye /> : <FaEyeSlash />} className={'text-[#7f7b7b] h-full w-full'} />}
+          />
+        </Form>
+      </div>
+    </UnProtectedRoute>
   );
 };
 

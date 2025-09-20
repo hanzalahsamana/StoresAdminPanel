@@ -1,4 +1,3 @@
-import UnProtectedRoute from '@/AuthenticRouting/UnProtectedRoutes';
 import RegisterClient from '@/components/Auth/RegisterClient';
 
 export async function generateMetadata() {
@@ -15,9 +14,5 @@ export async function generateMetadata() {
 }
 
 export default function RegisterPage() {
-  return (
-    <UnProtectedRoute>
-      <RegisterClient />
-    </UnProtectedRoute>
-  );
+  return <RegisterClient />;
 }

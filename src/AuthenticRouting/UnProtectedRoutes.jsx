@@ -7,19 +7,12 @@ import { useEffect } from 'react';
 export default function UnProtectedRoute({ children }) {
   const router = useRouter();
   const { currUser, loading } = useSelector((state) => state.currentUser);
-
-  useEffect(() => {
-    if (!loading && currUser && currUser?.verified !== false) {
-      const redirectUrl = currUser?.lastOpenedStore ? `/admin/${currUser.lastOpenedStore}` : '/admin/stores';
-      router.push(redirectUrl);
-    }
-  }, [currUser, loading, router]);
-
-  if (loading) return <Loader />;
-
+  if (loading) {
+    return <Loader />;
+  }
   if (!currUser || currUser?.verified === false) {
-    return children; // ✅ yahan page ka content render hoga
+    return children;
   }
 
-  return <Loader />;
+  return currUser?.lastOpenedStore ? router.push(`/admin/${currUser.lastOpenedStore}`) : router.push('/admin/stores');
 }
