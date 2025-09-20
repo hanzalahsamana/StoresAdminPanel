@@ -14,20 +14,19 @@ import { Assistant } from 'next/font/google';
 import NoInternetBar from '@/components/404Pages/NoInternetBar';
 import ReduxProviderWrap from '@/components/Layout/ProviderWrap';
 import { IoMdClose } from 'react-icons/io';
-import Head from 'next/head';
 
 const assistant = Assistant({
   subsets: ['latin'],
   weight: ['400', '500', '600', '700'],
 });
 
-export default function RootLayout({ children, seo }) {
+export default function RootLayout({ children }) {
   const {
     title = 'Designsli: The All-in-One Platform to Create Your Online Store',
     description = 'Start your ecommerce journey with Designsli. Easily build and manage your branded online store, showcase products, and grow your business.',
     url = 'https://designsli.com',
     ogImage = '/favicon.ico',
-  } = seo || {};
+  } = {};
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
