@@ -25,7 +25,7 @@ export default function RootLayout({ children }) {
     title = 'Designsli: The All-in-One Platform to Create Your Online Store',
     description = 'Start your ecommerce journey with Designsli. Easily build and manage your branded online store, showcase products, and grow your business.',
     url = 'https://designsli.com',
-    ogImage = '/favicon.ico',
+    ogImage = 'https://designsli.com/favicon.ico',
   } = {};
   return (
     <html lang="en" suppressHydrationWarning>
