@@ -41,6 +41,20 @@ export default function RootLayout({ children }) {
         <meta name="twitter:title" content={title} />
         <meta name="twitter:description" content={description} />
         <meta name="twitter:image" content={ogImage} />
+        <link rel="canonical" href={url} />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              '@context': 'https://schema.org',
+              '@type': 'Organization',
+              name: 'Designsli',
+              url: 'https://designsli.com',
+              logo: 'https://designsli.com/favicon.ico',
+              sameAs: [],
+            }),
+          }}
+        />
       </head>
       <body className={`${assistant.className} antialiased customScroll`} suppressHydrationWarning>
         <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_AUTH_CLIENT_ID}>
