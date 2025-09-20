@@ -1,6 +1,6 @@
 // app/authentication/login/page.js
 import UnProtectedRoute from '@/AuthenticRouting/UnProtectedRoutes';
-import LoginClient from '@/components/login/login';
+import LoginClient from '@/components/Auth/login/LoginClient';
 
 export async function generateMetadata() {
   return {
