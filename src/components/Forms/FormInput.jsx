@@ -1,9 +1,9 @@
 
 "use client";
 
-import React from "react";
+import React, { forwardRef } from "react";
 
-const FormInput = ({
+const FormInput = forwardRef(({
   type = "text",
   name,
   value,
@@ -23,7 +23,7 @@ const FormInput = ({
   onFocus = null,
   onBlur = null,
   className = "",
-}) => {
+},ref) => {
 
   const sizeClasses = {
     short: 'w-max text-sm rounded-md !h-8 ',
@@ -69,7 +69,6 @@ const FormInput = ({
   const inputSizeClass = sizeClasses?.[size] || sizeClasses.small;
   const variantClass = error ? variantClasses?.error : variantClasses?.[variant] || variantClasses.default;
 
-
   return (
     <div className="relative w-full ">
       {label && (
@@ -78,7 +77,7 @@ const FormInput = ({
           {required && <span className="text-red-500"> *</span>}
         </label>
       )}
-      <div className={`flex border ${inputSizeClass} ${variantClass?.border} ${variantClass?.lightBg} ${variantClass?.outline} ${className} `}>
+      <div ref={ref} className={`flex border ${inputSizeClass} ${variantClass?.border} ${variantClass?.lightBg} ${variantClass?.outline} ${className} `}>
         {prefix && (
           <PrefSuffBox data={prefix} className={'rounded-l-md'} variantClass={variantClass} />
         )}
@@ -104,7 +103,7 @@ const FormInput = ({
       {error && <p className="text-red-500 text-xs mt-1">{error}</p>}
     </div >
   );
-};
+});
 
 const PrefSuffBox = ({ data, className, variantClass }) => {
   return (

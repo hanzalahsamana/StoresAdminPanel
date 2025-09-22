@@ -9,8 +9,6 @@ import { useSelector } from 'react-redux';
 const WebPrevFrame = () => {
     const { store } = useSelector((state) => state.store);
 
-
-
     return (
         <div className='w-full overflow-x-auto customScroll'>
 

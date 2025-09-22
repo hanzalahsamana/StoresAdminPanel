@@ -24,7 +24,7 @@ const NotFound = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 text-center p-6">
+    <div className="flex flex-col w-full items-center justify-center min-h-screen bg-gray-100 text-center p-6">
       <div className="max-w-md bg-transparent rounded-2xl p-8">
         <div>
           <img

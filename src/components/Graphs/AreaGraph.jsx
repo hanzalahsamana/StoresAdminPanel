@@ -1,9 +1,16 @@
 "use client";
 
+import { GraphColors } from '@/Structure/DefaultStructures';
 import React from 'react';
 import Chart from 'react-apexcharts';
+import BarLoader from '../Loader/BarLoader';
 
-const AreaGraph = ({ data = {} }) => {
+const AreaGraph = ({ data = {} , analyticsLoading }) => {
+
+  if (analyticsLoading || typeof window === "undefined") {
+    return <BarLoader />;
+  }
+
   const collections = Object.keys(data);
   const views = Object.values(data);
 
@@ -17,7 +24,7 @@ const AreaGraph = ({ data = {} }) => {
     },
     dataLabels: { enabled: false },
     stroke: { curve: 'smooth', width: 1 },
-    colors: ['#06989a'],
+    colors: [GraphColors?.pri],
     legend: { show: false },
     markers: { size: 3 },
     xaxis: {
@@ -39,7 +46,7 @@ const AreaGraph = ({ data = {} }) => {
     },
     tooltip: { theme: 'dark' },
   };
-  
+
 
   const seriesRevenue = [
     {
