@@ -35,8 +35,8 @@ const Button = ({
     };
 
     const buttonSizes = {
-        large: "text-[16px] h-[42px] px-[10px] min-w-[150px] ",
-        small: "text-[14px] py-[8px] px-[20px] h-max w-max"
+        large: "text-[16px]/[16px] h-[42px] px-[10px] min-w-[150px] ",
+        small: "text-[14px]/[14px] py-[10px] px-[20px] h-max w-max"
     };
 
     return (

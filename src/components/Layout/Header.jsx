@@ -1,14 +1,41 @@
 "use client";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Base_Domain, HTTP } from "../../../config";
-import PopupMenu from "../Modals/PopupMenu";
-import { IoEyeOutline } from "react-icons/io5";
+import { IoBagAddOutline, IoEyeOutline, IoStorefrontOutline } from "react-icons/io5";
 import logo from "../../Assets/Images/logo.png";
 import PopupMenu2 from "../Modals/PopupMenu2";
+import { FaRegUser } from "react-icons/fa";
+import { TbLogout2 } from "react-icons/tb";
+import { setLoading, setLogout } from "@/Redux/Authentication/AuthSlice";
 
 export default function Header({ toggleSidebar }) {
-  const { currUser } = useSelector((state) => state.currentUser);
-  const { store } = useSelector((state) => state.store);
+  const currStore = useSelector((state) => state.store?.store);
+  const { allStores } = useSelector((state) => state.allStores);
+  const dispatch = useDispatch();
+
+
+  const data = [
+    ...allStores
+      ?.filter((store) => store._id !== currStore._id)
+      .slice(0, 3)
+      .map((store) => ({
+        icon: <IoStorefrontOutline />,
+        name: store?.storeName,
+        action: () => router.push(`/admin/${store._id}`),
+      })),
+
+    {
+      icon: <IoBagAddOutline />,
+      name: "Create Store",
+      action: () => router.push("/admin/stores"),
+    },
+
+    {
+      icon: <TbLogout2 />,
+      name: "Logout",
+      action: ()=>dispatch(setLogout()),
+    },
+  ];
 
   return (
     <header className="bg-backgroundC border-b border-gray-300 px-3 md:px-10 text-textC flex justify-between items-center fixed w-full z-[110] top-0 left-0 h-[60px]">
@@ -17,15 +44,24 @@ export default function Header({ toggleSidebar }) {
         Multi Tenant
       </button>
       <div className="flex items-center gap-2 ">
-
-        <a target="_blank" href={`${HTTP}${store?.subDomain}.${Base_Domain}`} className="flex gap-2 text-[18px] items-center cursor-pointer px-[10px] rounded-md py-[7px] bg-gray-200 font-medium">
+        <a target="_blank" href={`${HTTP}${currStore?.subDomain}.${Base_Domain}`} className="flex gap-2 text-[18px] items-center cursor-pointer px-[10px] rounded-md py-[7px] bg-gray-200 font-medium">
           <IoEyeOutline />
           <span className="sm:flex hidden text-[15px]" >
             view your store
           </span>
         </a>
-        <PopupMenu />
-        <PopupMenu2 />
+        <div className="relative inline-block text-gray-700">
+          <PopupMenu2
+            trigger={<>
+              <button className={`flex gap-2 items-center text-primaryC bg-secondaryC px-[18px] rounded-md py-[7px] hover:opacity-80 cursor-pointer transition-all ease-in-out duration-300`}
+              >
+                <FaRegUser />
+              </button>
+            </>}
+            data={data}
+            label="Switch Stores"
+          />
+        </div>
       </div>
 
     </header>

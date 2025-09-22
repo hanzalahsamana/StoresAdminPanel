@@ -2,7 +2,7 @@
 
 // pages/live-preview.jsx
 import { useEffect, useState } from "react";
-import "@/Styles/globals.css"; // if needed
+import "@/Styles/Globals.css"; // if needed
 import HomeLayout from "@/components/Layout/HomeLayout";
 import ProductDetailCard from "@/components/Cards/productDetailCard";
 

@@ -18,6 +18,7 @@ import { FiArrowUpRight } from "react-icons/fi";
 import { generateStore } from "@/APIs/StoreDetails/generateStore";
 import ProtectedRoute from "@/AuthenticRouting/ProtectedRoutes";
 import Loader from "@/components/Loader/loader";
+import { AiOutlineDelete } from "react-icons/ai";
 
 const StoreDetails = ({ onClose, onComplete }) => {
     const { allStores, allStoresLoading } = useSelector((state) => state.allStores);
@@ -57,6 +58,7 @@ const StoreDetails = ({ onClose, onComplete }) => {
         const payload = {
             storeName: formData.storeName,
             storeType: formData.storeType,
+            subDomain: generateSlug(formData.storeName),
         };
         await generateStore(currUser?.token, payload);
         setShowModal(false);
@@ -70,17 +72,17 @@ const StoreDetails = ({ onClose, onComplete }) => {
     }
 
     return (
-        <BackgroundFrame>
+        <BackgroundFrame className="flex items-center justify-center min-h-screen">
             <ActionCard
                 label="Your Stores"
                 subText="Select a store to proceed or create a new one."
-                className="p-[30px]"
+                className="p-[20px] max-w-[450px]"
                 actions={
                     <Button
-                        label="Generate Another"
+                        label="Create Store"
                         action={() => setShowModal(true)}
                         size="small"
-                        variant=""
+                        variant="black"
                         icon={<FaArrowRightLong />}
                         iconPosition="right"
                         iconOnHover={true}
@@ -88,34 +90,41 @@ const StoreDetails = ({ onClose, onComplete }) => {
                 }
                 actionPosition="top"
             >
-                {allStores.length > 0 &&
-                    allStores.map((store, index) => (
-                        <Link
-                            key={index}
-                            href={`/admin/${store?._id}`}
-                            className="flex items-center gap-3 p-4 rounded-md hover:bg-gray-100 transition cursor-pointer group"
-                        >
-                            <div className="text-[30px]">#{index + 1}</div>
-                            <div className="flex items-start flex-col">
-                                <p className="text-xl font-semibold">{store?.storeName}</p>
-                                <a
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="flex gap-1 items-center text-blue-400 text-sm hover:underline"
-                                    href={`${HTTP}${store?.subDomain || store?.storeName}.${Base_Domain}`}
-                                    onClick={(e) => e.stopPropagation()}
-                                >
-                                    {store?.subDomain || store?.storeName}.{Base_Domain} <FiArrowUpRight />
-                                </a>
-                            </div>
-                        </Link>
-                    ))}
+                <div className="max-h-[300px] pr-2 overflow-y-auto customScroll flex flex-col gap-4">
+
+                    {allStores.length > 0 &&
+                        allStores.map((store, index) => (
+                            <Link
+                                key={index}
+                                href={`/admin/${store?._id}`}
+                                className="flex items-center justify-between gap-3 p-3 rounded-md bg-gray-50 hover:bg-gray-100 transition cursor-pointer group"
+                            >
+                                {/* <div className="text-[30px]">#{index + 1}</div> */}
+                                <div className="flex items-start flex-col">
+                                    <p className="text-lg font-semibold capitalize">{store?.storeName}</p>
+                                    <a
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="flex gap-1 items-center text-blue-400 text-sm hover:underline"
+                                        href={`${HTTP}${store?.subDomain || store?.storeName}.${Base_Domain}`}
+                                        onClick={(e) => e.stopPropagation()}
+                                    >
+                                        {store?.subDomain || store?.storeName}.{Base_Domain} <FiArrowUpRight />
+                                    </a>
+                                </div>
+                                <div className="flex flex-col gap-2 items-end">
+                                    <AiOutlineDelete className="text-textC hover:text-red-500 text-[20px]" />
+                                    <p className="text-textTC text-sm" title="last visited">21 Feb, 24</p>
+                                </div>
+                            </Link>
+                        ))}
+                </div>
             </ActionCard>
 
             {/* Modal */}
             <Modal
                 isOpen={showModal}
-                onClose={() => setShowModal(false)}
+                setIsOpen={setShowModal}
                 position="fixed bg-opacity-30"
                 className="!max-w-[550px]"
             >
@@ -177,6 +186,7 @@ const StoreDetails = ({ onClose, onComplete }) => {
                         wantsCustomOption={true}
                         layout="label"
                         placeholder="eg: clothing store"
+                        error={errors?.storeType}
                     />
                 </ActionCard>
             </Modal>

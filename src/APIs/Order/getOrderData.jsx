@@ -4,8 +4,9 @@ import BASE_URL from "../../../config";
 import { orderLoading, setOrderData } from "@/Redux/Order/OrderSlice";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
+import { dispatch } from "@/Redux/Store";
 
-export const fetchOrderData = async (dispatch, type) => {
+export const fetchOrderData = async (token, storeId) => {
   try {
     const response = await axios.get(`${BASE_URL}/${type}/getOrders`);
     dispatch(setOrderData(response.data));
@@ -15,8 +16,8 @@ export const fetchOrderData = async (dispatch, type) => {
     dispatch(orderLoading(false));
     toast.error(
       error?.response?.data?.message ||
-        error?.message ||
-        "Something went wrong while updating theme."
+      error?.message ||
+      "Something went wrong while updating theme."
     );
   }
 };

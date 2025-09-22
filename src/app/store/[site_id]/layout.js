@@ -24,7 +24,7 @@ import { setStore, setStoreLoading } from '@/Redux/Store/StoreDetail.slice';
 
 const assistant = Assistant({
   subsets: ['latin'],
-  weight: ['400', '500', '700'],
+  weight: ['400', '500','600', '700','800'],
 });
 
 export default function SiteLayout({ params, children }) {

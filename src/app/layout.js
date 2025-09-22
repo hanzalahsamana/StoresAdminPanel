@@ -1,6 +1,7 @@
 'use client';
 
-import '../Styles/globals.css';
+import '../Styles/Globals.css';
+import '../Styles/Font.css';
 import 'quill/dist/quill.snow.css';
 import 'react-toastify/dist/ReactToastify.css';
 import 'leaflet/dist/leaflet.css';
@@ -10,14 +11,14 @@ import { store } from '@/Redux/Store';
 import { Provider } from 'react-redux';
 import { ToastContainer } from 'react-toastify';
 import { Tooltip } from 'react-tooltip';
-import { Assistant } from 'next/font/google';
 import NoInternetBar from '@/components/404Pages/NoInternetBar';
 import ReduxProviderWrap from '@/components/Layout/ProviderWrap';
 import { IoMdClose } from 'react-icons/io';
+import { Assistant } from 'next/font/google';
 
 const assistant = Assistant({
   subsets: ['latin'],
-  weight: ['400', '500', '600', '700'],
+  weight: ['400', '500', '600', '700' , '800'],
 });
 
 export default function RootLayout({ children }) {

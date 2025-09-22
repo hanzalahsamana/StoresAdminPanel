@@ -113,7 +113,7 @@ const ProductDetailCard = ({ product }) => {
 
         <div className={`flex-1 flex flex-col items-start`}>
           {/* <p className={`text-[14px] text-[var(--tmp-ltxt)]`}>{product.brand}</p> */}
-          <h1 className="text-[18px]/[24px] max-w-[450px] font-medium">{product?.name || 'No Name Found'}</h1>
+          <h1 className="text-[24px]/[28px] max-w-[450px] font-semibold">{product?.name || 'No Name Found'}</h1>
           {product?.wantsCustomerReview && (
             <div className="flex items-center mt-[10px] gap-2 text-[15px]/[15px]  text-[#6c6c6c]">
               <StarRating rating={product?.ratings?.average} disable={true} className={'!text-[15px]'} />
@@ -143,7 +143,7 @@ const ProductDetailCard = ({ product }) => {
           <div>
             {product?.variations.map(({ name, options }, index) => (
               <div key={index} className="pt-[20px]">
-                <p className="text-gray-400 text-[14px] mb-1">Select {name}</p>
+                <p className="text-gray-600 text-[14px] mb-1">Select {name}</p>
                 <div className="flex flex-wrap gap-2">
                   {options.map((option, idx) => {
                     const isColor = name.toLowerCase() === "color";
@@ -164,8 +164,8 @@ const ProductDetailCard = ({ product }) => {
                             className="w-[24px] h-[24px] rounded-full"
                             style={{ backgroundColor: option }}
                           ></span>
-                        ) : null}
-                        {!isColor && option}
+                        ) : <span className="px-1">{option}</span>}
+                        {/* {!isColor && } */}
                       </div>
                     );
                   })}
