@@ -1,18 +1,35 @@
-// app/Admin/layout.js
-"use client";
+import { AdminProviderWrap } from '@/components/Layout/ProviderWrap';
 
-import { useEffect } from "react";
-import { useSelector } from "react-redux";
-import { getAllStores } from "@/APIs/StoreDetails/getAllStores";
-import ProtectedRoute from "@/AuthenticRouting/ProtectedRoutes";
+export async function generateMetadata() {
+  const {
+    title = 'Designsli: The All-in-One Platform to Create Your Online Store',
+    description = 'Start your ecommerce journey with Designsli. Easily build and manage your branded online store, showcase products, and grow your business.',
+    url = 'https://designsli.com',
+    ogImage = 'https://designsli.com/favicon.ico',
+  } = {};
+
+  return {
+    title,
+    description,
+    alternates: {
+      canonical: url,
+    },
+    openGraph: {
+      title,
+      description,
+      url,
+      images: [
+        {
+          url: ogImage,
+          width: 1200,
+          height: 630,
+          alt: title,
+        },
+      ],
+    },
+  };
+}
 
 export default function AdminLayout({ children }) {
-  const { currUser } = useSelector((state) => state.currentUser);
-
-  useEffect(() => {
-    if (!currUser?.token) return;
-    getAllStores(currUser?.token);
-  }, [currUser?.token]);
-
-  return <ProtectedRoute>{children}</ProtectedRoute>;
+  return <AdminProviderWrap>{children}</AdminProviderWrap>;
 }

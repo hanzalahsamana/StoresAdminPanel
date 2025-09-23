@@ -31,7 +31,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        <title>{title}</title>
+        {/* <title>{title}</title>
         <meta name="description" content={description} />
         <meta property="og:title" content={title} />
         <meta property="og:description" content={description} />
@@ -42,7 +42,7 @@ export default function RootLayout({ children }) {
         <meta name="twitter:title" content={title} />
         <meta name="twitter:description" content={description} />
         <meta name="twitter:image" content={ogImage} />
-        <link rel="canonical" href={url} />
+        <link rel="canonical" href={url} /> */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
