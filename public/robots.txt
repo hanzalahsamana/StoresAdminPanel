@@ -11,5 +11,5 @@ Disallow: /admin/
 Disallow: /store/
 Disallow: /error/
 
-Sitemap: https://yourdomain.com/sitemap.xml
+Sitemap: https://designsli.com/sitemap.xml
 
