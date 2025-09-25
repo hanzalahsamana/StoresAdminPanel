@@ -6,7 +6,7 @@ import orderDataReducer from './Order/OrderSlice';
 import productDataReducer from './Product/ProductSlice';
 import analyticDataReducer from './Analytics/analytic.slice';
 import cartDataReducer from './CartData/cartDataSlice';
-import allStoresReducer from './AllStores/StoreDetail.slice';
+import allStoresReducer from './AllStores/AllStoreSlice';
 import storeReducer from './Store/StoreDetail.slice';
 import storeConfgurationReducer from './StoreConfiguration/StoreConfigurationSlice';
 import { sectionsDataReducer } from './SectionsData/SectionsDataSlice';

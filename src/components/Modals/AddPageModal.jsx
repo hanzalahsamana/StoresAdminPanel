@@ -55,7 +55,7 @@ const AddPageModal = ({ isOpen, setIsOpen }) => {
     }
 
     return (
-        <Modal isOpen={isOpen} setIsOpen={setIsOpen} extraFuntion={Onclose} className='max-w-md'>
+        <Modal isOpen={isOpen} setIsOpen={setIsOpen} extraFuntion={Onclose} className='!max-w-[600px]'>
             <ActionCard
                 label='Create Page'
                 actionPosition='bottom'

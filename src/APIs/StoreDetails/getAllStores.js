@@ -6,7 +6,7 @@ import { dispatch } from "@/Redux/Store";
 import {
   setAllStores,
   setAllStoresLoading,
-} from "@/Redux/AllStores/StoreDetail.slice";
+} from "@/Redux/AllStores/AllStoreSlice";
 
 export const getAllStores = async (token) => {
   dispatch(setAllStoresLoading(true));

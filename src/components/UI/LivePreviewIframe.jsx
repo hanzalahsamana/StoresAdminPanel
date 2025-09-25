@@ -83,7 +83,7 @@ export default function LivePreviewIframe({ previewData }) {
 
                     <iframe
                         ref={iframeRef}
-                        src={`${HTTP}${Base_Domain}/admin/${store?.id}/live-previeww"`}
+                        src={`${HTTP}${Base_Domain}/admin/${store?._id}/live-previeww`}
                         className={`${devices?.[selectedDevicePreview]?.render} origin-top-left `}
                     />
 

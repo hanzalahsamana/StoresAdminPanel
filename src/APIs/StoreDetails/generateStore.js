@@ -3,7 +3,7 @@ import axios from "axios";
 import BASE_URL from "../../../config";
 import { toast } from "react-toastify";
 import { dispatch } from "@/Redux/Store";
-import { setGenratedStore } from "@/Redux/AllStores/StoreDetail.slice";
+import { setGenratedStore } from "@/Redux/AllStores/AllStoreSlice";
 
 export const generateStore = async (token, payload) => {
   try {

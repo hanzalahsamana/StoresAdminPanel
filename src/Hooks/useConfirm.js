@@ -36,7 +36,6 @@ export default function useConfirm() {
         <>
           <Modal setIsOpen={setIsOpen} isOpen={isOpen} extraFuntion={() => resolver(false)} className={'max-w-md'}>
             <div className="p-4 flex  items-center flex-col w-full">
-              <IconButton icon={<IoWarningOutline />} className={'text-red-600 text-[50px] mb-4'} />
               <h1 className="mb-4 font-bold text-center">{message?.label}</h1>
               <p className="mb-4 text-sm text-center">{message?.text}</p>
               <div className="flex justify-end gap-3 mt-4 w-full">

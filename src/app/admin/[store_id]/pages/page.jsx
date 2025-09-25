@@ -19,6 +19,7 @@ import { AiOutlineDelete } from 'react-icons/ai';
 import { FaExternalLinkAlt } from 'react-icons/fa'
 import { IoEyeOutline } from 'react-icons/io5';
 import { useSelector } from 'react-redux';
+import { Base_Domain, HTTP } from './../../../../../config';
 
 const page = () => {
   const { scrollRef, showTopShadow, showBottomShadow } = useScrollShadow([ecommercePages]);
@@ -84,13 +85,13 @@ const page = () => {
                         variant="text"
                         icon={<FaExternalLinkAlt />}
                         iconPosition="right"
-                        onClick={() => window.open(page.slug, '_blank')}
+                        action={() => window.open(`${HTTP}${store?.subDomain}.${Base_Domain}${page.slug}`, '_blank')}
                       />
-                      <IconButton
+                      {/* <IconButton
                         icon={<IoEyeOutline />}
                         tooltipLabel={'Hide Page'}
                         className={'text-textTC !text-[22px] hover:opacity-60'}
-                      />
+                      /> */}
                       <Button
                         label="Customize"
                         size="small"
@@ -119,13 +120,13 @@ const page = () => {
                         variant="text"
                         icon={<FaExternalLinkAlt />}
                         iconPosition="right"
-                        onClick={() => window.open(page.slug, '_blank')}
+                        action={() => window.open(`${HTTP}${store?.subDomain}.${Base_Domain}${page?.slug}`, '_blank')}
                       />
-                      <IconButton
+                      {/* <IconButton
                         icon={<IoEyeOutline />}
                         tooltipLabel={'Hide Page'}
                         className={'text-textTC !text-[22px] hover:opacity-60'}
-                      />
+                      /> */}
                       <IconButton
                         icon={<AiOutlineDelete />}
                         tooltipLabel={'Delete Page'}

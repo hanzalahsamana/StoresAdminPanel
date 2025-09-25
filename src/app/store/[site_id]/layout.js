@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import Script from 'next/script';
 import { useDispatch, useSelector } from 'react-redux';
 import { Assistant } from 'next/font/google';
@@ -21,16 +21,17 @@ import SiteNotFound from '@/components/404Pages/SiteNotFound';
 import { getPublicStoreConfiguration } from '@/APIs/StoreConfigurations/configuration';
 import { usePathname } from 'next/navigation';
 import { setStore, setStoreLoading } from '@/Redux/Store/StoreDetail.slice';
+import { applyTheme, getFontClass } from '@/Utils/ApplyTheme';
 
 const assistant = Assistant({
   subsets: ['latin'],
-  weight: ['400', '500','600', '700','800'],
+  weight: ['400', '500', '600', '700', '800'],
 });
 
 export default function SiteLayout({ params, children }) {
   const dispatch = useDispatch();
   const { store, storeLoading } = useSelector((state) => state.store);
-  const SiteLogo = useSelector((state) => getContentByName(state, 'Site Logo'));
+  const [fontClass, setFontClass] = useState('');
 
   useEffect(() => {
     if (params?.site_id) {
@@ -40,20 +41,33 @@ export default function SiteLayout({ params, children }) {
   }, [params?.site_id]);
 
   useEffect(() => {
-    if (store?.storeName) {
-      document.title = decodeURIComponent(store.storeName);
-    }
+    if (!store?.branding) return;
+    
+    const { theme, font, favicon } = store.branding;
+    const { storeName } = store;
+    
+    
 
-    if (SiteLogo?.image) {
+    // Theme colors
+    applyTheme(theme);
+    
+    // Font
+    setFontClass(getFontClass(font));
+    
+    // Favicon
+    if (favicon) {
       let link = document.querySelector("link[rel='icon']");
       if (!link) {
         link = document.createElement('link');
         link.rel = 'icon';
         document.head.appendChild(link);
       }
-      link.href = SiteLogo.image;
+      link.href = favicon;
     }
-  }, [store?.storeName, SiteLogo]);
+
+    // Document title
+    if (storeName) document.title = decodeURIComponent(storeName);
+  }, [store?.branding, store?.storeName]);
 
   useEffect(() => {
     if (!store?._id) return;
@@ -97,7 +111,7 @@ export default function SiteLayout({ params, children }) {
         <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5MLLMDZ7" height="0" width="0" style={{ display: 'none', visibility: 'hidden' }}></iframe>
       </noscript>
 
-      <div className={`flex flex-col items-center ${assistant.className} antialiased`}>
+      <div className={`flex flex-col items-center ${fontClass} antialiased`}>
         {/* <DiscountCountdownBar
           discount={{
             name: "NEWYEAR2025",

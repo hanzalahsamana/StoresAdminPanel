@@ -13,12 +13,17 @@ export const storeSlice = createSlice({
     setStore: (state, action) => {
       state.store = action.payload;
     },
+    setStoreBranding:(state, action)=>{
+      if(state.store){
+        state.store.branding = action.payload;
+      }
+    },
     setStoreLoading: (state, action) => {
       state.storeLoading = action.payload;
     },
   },
 });
 
-export const { setStore, setStoreLoading } = storeSlice.actions;
+export const { setStore, setStoreLoading , setStoreBranding } = storeSlice.actions;
 const storeReducer = storeSlice.reducer;
 export default storeReducer;
