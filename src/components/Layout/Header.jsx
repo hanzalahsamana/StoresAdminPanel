@@ -7,11 +7,13 @@ import PopupMenu2 from "../Modals/PopupMenu2";
 import { FaRegUser } from "react-icons/fa";
 import { TbLogout2 } from "react-icons/tb";
 import { setLoading, setLogout } from "@/Redux/Authentication/AuthSlice";
+import { useRouter } from "next/navigation";
 
 export default function Header({ toggleSidebar }) {
   const currStore = useSelector((state) => state.store?.store);
   const { allStores } = useSelector((state) => state.allStores);
   const dispatch = useDispatch();
+  const router = useRouter();
 
 
   const data = [

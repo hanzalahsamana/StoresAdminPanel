@@ -1,0 +1,24 @@
+"use client"
+import { useRouter } from 'next/navigation';
+import Button from '../Actions/Button';
+
+const ClientLandingPage = () => {
+  const router = useRouter();
+
+  return (
+    <>
+      <div className="flex justify-between p-5 bg-gray-100 border-b">
+        <h1 className="text-[30px] font-semibold">Our Logo</h1>
+        <div className="flex gap-2">
+          <Button size="small" label="Login" variant="black" action={() => router.push('/authentication/login')} />
+          <Button size="small" label="Admin Panel" action={() => router.push('/admin/stores')} />
+        </div>
+      </div>
+      <div className="flex justify-center items-center p-5 mt-[150px]">
+        <h1>This will be our home page website</h1>
+      </div>
+    </>
+  );
+};
+
+export default ClientLandingPage;

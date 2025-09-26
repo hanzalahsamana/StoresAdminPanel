@@ -1,21 +1,23 @@
-"use client";
+'use client';
 
-import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import { MdSignalWifiConnectedNoInternet2 } from "react-icons/md";
-import Loader from "@/components/Loader/TemplateLoader";
-import ProductDetailCard from "@/components/Cards/productDetailCard";
-import ProductsSection from "@/components/Widgets/ProductsSection";
-import AddReviews from "@/components/Widgets/AddReviews";
-import { getReview } from "@/APIs/Customer/Review";
-import ReviewsList from "@/components/UI/ReviewList";
-import TabNavigation from "@/components/Widgets/TabNavigation";
-import ProductDescription from "@/components/Sections/ProductDescription";
-import { getProducts } from "@/APIs/Product/getProducts";
+import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { MdSignalWifiConnectedNoInternet2 } from 'react-icons/md';
+import Loader from '@/components/Loader/TemplateLoader';
+import ProductDetailCard from '@/components/Cards/productDetailCard';
+import ProductsSection from '@/components/Widgets/ProductsSection';
+import AddReviews from '@/components/Widgets/AddReviews';
+import { getReview } from '@/APIs/Customer/Review';
+import ReviewsList from '@/components/UI/ReviewList';
+import TabNavigation from '@/components/Widgets/TabNavigation';
+import ProductDescription from '@/components/Sections/ProductDescription';
+import { getProducts } from '@/APIs/Product/getProducts';
+import { getSingleProduct } from '@/APIs/Product/getSingleProduct';
 
 const ProductDetail = ({ params }) => {
   // const { products, loading, error } = useSelector((state) => state.productData);
-  const [allReviews, setAllReviews] = useState([])
+  const [allReviews, setAllReviews] = useState([]);
+  const [relatedProducts, setRelatedProducts] = useState([]);
   const { store } = useSelector((state) => state.store);
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -30,13 +32,14 @@ const ProductDetail = ({ params }) => {
       setError(null);
 
       try {
-        const productPromise = getProducts(store._id, 1, 1, { productIds: params.id });
-        const reviewsPromise = getReview(store._id, params.id);
+        const { product, reviews, relatedProducts } = await getSingleProduct(store._id, params.id);
+        // const reviewsPromise = getReview(store._id, params.id);
 
-        const [productData, reviews] = await Promise.all([productPromise, reviewsPromise]);
+        // const [productData, reviews] = await Promise.all([productPromise, reviewsPromise]);
 
-        setProduct(productData[0] || {});
+        setProduct(product || {});
         setAllReviews(reviews);
+        setRelatedProducts(relatedProducts);
       } catch (err) {
         setError(err.message || 'Something went wrong');
       } finally {
@@ -47,14 +50,13 @@ const ProductDetail = ({ params }) => {
     fetchData();
   }, [store._id, params?.id]);
 
-
   if (loading) {
     return <Loader />;
   }
 
   if (error) {
     return (
-      <div className='flex gap-2 text-[25px] justify-center py-[40px] items-center '>
+      <div className="flex gap-2 text-[25px] justify-center py-[40px] items-center ">
         {error} <MdSignalWifiConnectedNoInternet2 />
       </div>
     );
@@ -70,6 +72,7 @@ const ProductDetail = ({ params }) => {
   //   fetchReviews();
   // }, [store?._id, params?.id]);
 
+  console.log('relatedProducts', relatedProducts);
 
   return (
     <>
@@ -77,17 +80,18 @@ const ProductDetail = ({ params }) => {
         <>
           <ProductDetailCard product={product} />
           <ProductDescription />
-          <ProductsSection content={{
-            title: "You may also like,",
-            maxLength: 4,
-            productType: "Selected collections",
-            selectedcollections: [product?.collectionName]
-          }} />
+          <ProductsSection
+            sectionData={{
+              heading: 'You may also like,',
+              products: relatedProducts,
+            }}
+          />
           <ReviewsList allReviews={allReviews} />
-          <AddReviews storeId={store?._id} productId={params?.id} setReviewInState={setAllReviews} />
+          <AddReviews storeId={store?._id} productSlug={params?.id} setReviewInState={setAllReviews} />
         </>
-
-      ) : <p className="w-full text-center py-[100px] text-[24px] text-[#3a3a3a] ">No product Found</p>}
+      ) : (
+        <p className="w-full text-center py-[100px] text-[24px] text-[#3a3a3a] ">No product Found</p>
+      )}
     </>
   );
 };

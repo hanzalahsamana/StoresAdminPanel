@@ -1,5 +1,5 @@
-"use client";
-import { createSlice } from "@reduxjs/toolkit";
+'use client';
+import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   store: {},
@@ -7,11 +7,14 @@ const initialState = {
 };
 
 export const storeSlice = createSlice({
-  name: "store",
+  name: 'store',
   initialState,
   reducers: {
     setStore: (state, action) => {
       state.store = action.payload;
+    },
+    updateSubscriptionStatus: (state, action) => {
+      state.store = { ...state.store, subscriptionId: action.payload };
     },
     setStoreBranding:(state, action)=>{
       if(state.store){
@@ -24,6 +27,6 @@ export const storeSlice = createSlice({
   },
 });
 
-export const { setStore, setStoreLoading , setStoreBranding } = storeSlice.actions;
+export const { setStore, setStoreLoading, updateSubscriptionStatus ,  setStoreBranding} = storeSlice.actions;
 const storeReducer = storeSlice.reducer;
 export default storeReducer;

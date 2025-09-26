@@ -16,6 +16,7 @@ import { siteNameReducer } from './SiteName/SiteNameSlice';
 import { networkReducer } from './Network/networkSlice';
 import { galleryReducer } from './Gallery/GallerySlice';
 import { pagesReducer } from './Pages/PagesSlice';
+import invoiceReducer from './Invoices/invoicesSlice';
 
 const rootReducer = combineReducers({
   orderData: orderDataReducer,
@@ -33,6 +34,7 @@ const rootReducer = combineReducers({
   store: storeReducer,
   storeConfiguration: storeConfgurationReducer,
   gallery: galleryReducer,
+  invoices: invoiceReducer,
 });
 
 export default rootReducer;

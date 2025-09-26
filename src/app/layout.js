@@ -22,10 +22,40 @@ const assistant = Assistant({
 });
 
 export default function RootLayout({ children }) {
+  const {
+    title = 'Designsli: The All-in-One Platform to Create Your Online Store',
+    description = 'Start your ecommerce journey with Designsli. Easily build and manage your branded online store, showcase products, and grow your business.',
+    url = 'https://designsli.com',
+    ogImage = 'https://designsli.com/favicon.ico',
+  } = {};
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        <title>Web Nest</title>
+        {/* <title>{title}</title>
+        <meta name="description" content={description} />
+        <meta property="og:title" content={title} />
+        <meta property="og:description" content={description} />
+        <meta property="og:url" content={url} />
+        <meta property="og:image" content={ogImage} />
+        <meta property="og:type" content="website" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={title} />
+        <meta name="twitter:description" content={description} />
+        <meta name="twitter:image" content={ogImage} />
+        <link rel="canonical" href={url} /> */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              '@context': 'https://schema.org',
+              '@type': 'Organization',
+              name: 'Designsli',
+              url: 'https://designsli.com',
+              logo: 'https://designsli.com/favicon.ico',
+              sameAs: [],
+            }),
+          }}
+        />
       </head>
       <body className={`${assistant.className} antialiased customScroll`} suppressHydrationWarning>
         <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_AUTH_CLIENT_ID}>
@@ -35,7 +65,7 @@ export default function RootLayout({ children }) {
               position="top-right"
               autoClose={2200}
               className={'toastifyCustomClass'}
-              closeButton={<IoMdClose className='text-[16px]'/> }
+              closeButton={<IoMdClose className="text-[16px]" />}
               limit={5}
               theme="light"
               hideProgressBar={true}

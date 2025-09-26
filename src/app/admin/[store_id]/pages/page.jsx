@@ -9,7 +9,6 @@ import CustomCard from '@/components/Cards/CustomCard'
 import BackgroundFrame from '@/components/Layout/BackgroundFrame'
 import Loader from '@/components/Loader/loader';
 import AddPageModal from '@/components/Modals/AddPageModal';
-import DynamicDataSelectorModal from '@/components/Modals/DynamicDataSelectorModal';
 import { ScrollShadows, useScrollShadow } from '@/Hooks/useScrollShadow';
 import { ecommercePages } from '@/Structure/DefaultStructures'
 import { formatRelativeTime } from '@/Utils/FormatRelativeTime';

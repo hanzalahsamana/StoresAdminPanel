@@ -1,132 +1,61 @@
-'use client';
+STORE > LAYOUT.JS
 
-import { useEffect, useState } from 'react';
-import Script from 'next/script';
-import { useDispatch, useSelector } from 'react-redux';
+import { StoreProviderWrap } from '@/components/Layout/ProviderWrap';
+import { placeholderImageUrl } from '@/Structure/DefaultStructures';
+import axios from 'axios';
+import BASE_URL from 'config';
 import { Assistant } from 'next/font/google';
-
-import TemplateHeader from '@/components/Layout/TemplateHeader';
-import TemplateFooter from '@/components/Layout/TemplateFooter';
-import DiscountCountdownBar from '@/components/UI/DiscountCountdownBar';
-import Loader from '@/components/Loader/TemplateLoader';
-
-import { setCartData } from '@/Redux/CartData/cartDataSlice';
-import { getContentByName } from '@/Redux/ContentData/ContentDataSlice';
-import { getStore } from '@/APIs/StoreDetails/getStore';
-import { getProducts } from '@/APIs/Product/getProducts';
-import { getCollections } from '@/APIs/Collection/getCollections';
-import { getSections } from '@/APIs/SectionsData/getSections';
-import { getContents } from '@/APIs/Content/getContents';
-import SiteNotFound from '@/components/404Pages/SiteNotFound';
-import { getPublicStoreConfiguration } from '@/APIs/StoreConfigurations/configuration';
-import { usePathname } from 'next/navigation';
-import { setStore, setStoreLoading } from '@/Redux/Store/StoreDetail.slice';
-import { applyTheme, getFontClass } from '@/Utils/ApplyTheme';
 
 const assistant = Assistant({
   subsets: ['latin'],
   weight: ['400', '500', '600', '700', '800'],
 });
 
-export default function SiteLayout({ params, children }) {
-  const dispatch = useDispatch();
-  const { store, storeLoading } = useSelector((state) => state.store);
-  const [fontClass, setFontClass] = useState('');
-
-  useEffect(() => {
-    if (params?.site_id) {
-      dispatch(setStore({ _id: params.site_id }));
-      getStore(params.site_id);
+export async function generateMetadata({ params }) {
+  try {
+    const { data } = await axios.get(${BASE_URL}/${params.site_id}/getStore);
+    const store = data?.data;
+    if (!store) {
+      return {
+        title: 'Store Not Found - Designsli',
+        description: 'The store you are trying to access does not exist.',
+      };
     }
-  }, [params?.site_id]);
+    const finalUrl = store?.customDomain && store?.isDomainVerified ? https://${store?.customDomain} : https://${store?.subDomain}.designsli.com;
 
-  useEffect(() => {
-    if (!store?.branding) return;
-    
-    const { theme, font, favicon } = store.branding;
-    const { storeName } = store;
-    
-    
-
-    // Theme colors
-    applyTheme(theme);
-    
-    // Font
-    setFontClass(getFontClass(font));
-    
-    // Favicon
-    if (favicon) {
-      let link = document.querySelector("link[rel='icon']");
-      if (!link) {
-        link = document.createElement('link');
-        link.rel = 'icon';
-        document.head.appendChild(link);
-      }
-      link.href = favicon;
-    }
-
-    // Document title
-    if (storeName) document.title = decodeURIComponent(storeName);
-  }, [store?.branding, store?.storeName]);
-
-  useEffect(() => {
-    if (!store?._id) return;
-
-    const fetchAllData = async () => {
-      try {
-        await Promise.all([getPublicStoreConfiguration(store?._id)]);
-
-        if (typeof window !== 'undefined') {
-          const cartId = localStorage.getItem(`${store._id}_cartId`);
-          dispatch(setCartData({ cartId, storeId: store._id }));
-        }
-      } catch (error) {
-        console.error('Data fetching failed:', error);
-      }
+    return {
+      title: decodeURIComponent(store?.storeName || 'Designsli'),
+      description: store?.description || Welcome to ${store?.storeName},
+      alternates: {
+        canonical: finalUrl,
+      },
+      openGraph: {
+        title: decodeURIComponent(store?.storeName || 'Designsli'),
+        description: store?.description || Welcome to ${store?.storeName},
+        url: finalUrl,
+        images: [
+          {
+            url: store?.logo || placeholderImageUrl,
+            width: 1200,
+            height: 630,
+            alt: store?.storeName,
+          },
+        ],
+      },
     };
-
-    fetchAllData();
-  }, [store?._id, dispatch]);
-
-  if (!store?._id && !storeLoading) {
-    return <SiteNotFound />;
+  } catch (error) {
+    console.error('Metadata fetch failed:', error?.response?.data || error.message);
+    return {
+      title: 'My Store',
+      description: 'Welcome to My Store',
+    };
   }
+}
 
+export default function SiteLayout({ params, children }) {
   return (
-    <>
-      <Script
-        id="gtm-script"
-        strategy="afterInteractive"
-        dangerouslySetInnerHTML={{
-          __html: `
-            (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-            new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-            j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-            'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-            })(window,document,'script','dataLayer','GTM-5MLLMDZ7');
-          `,
-        }}
-      />
-      <noscript>
-        <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5MLLMDZ7" height="0" width="0" style={{ display: 'none', visibility: 'hidden' }}></iframe>
-      </noscript>
-
-      <div className={`flex flex-col items-center ${fontClass} antialiased`}>
-        {/* <DiscountCountdownBar
-          discount={{
-            name: "NEWYEAR2025",
-            discountType: "global",
-            access: "all",
-            amountType: "percent",
-            amount: 25,
-            isActive: true,
-            expiryDate: "2027-10-09T09:49:00.000+00:00",
-          }}
-        /> */}
-        {/* {!isCheckoutPage && <TemplateHeader />} */}
-        {children}
-        {/* {!isCheckoutPage && <TemplateFooter />} */}
-      </div>
-    </>
+    <StoreProviderWrap params={params} fontClass={assistant.className}>
+      {children}
+    </StoreProviderWrap>
   );
 }

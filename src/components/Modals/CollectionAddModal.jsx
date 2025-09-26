@@ -6,9 +6,7 @@ import FormInput from "@/components/Forms/FormInput";
 import { toast } from "react-toastify";
 import { addCollectionApi } from "@/APIs/Collection/addCollection";
 import { editCollectionApi } from "@/APIs/Collection/editCollection";
-import ImageUploader from "../Uploaders/ImageUploader";
 import Modal from "./Modal";
-import { uploadSingleImageToS3 } from "@/APIs/uploadImageS3";
 import ActionCard from "../Cards/ActionCard";
 import Button from "../Actions/Button";
 import MultiSelectDropdown from "../Actions/MultiSelectDropdown";
@@ -71,10 +69,6 @@ const CollectionAddModal = ({
 
         try {
             setLoading(true);
-            if (formData?.image && formData?.image instanceof File) {
-                const uploadedImageUrl = await uploadSingleImageToS3(currUser?.token, store?._id, formData.image);
-                formData.image = uploadedImageUrl;
-            }
             if (!updatedData) {
                 await addCollectionApi(
                     currUser?.token,
@@ -147,11 +141,14 @@ const CollectionAddModal = ({
 
                 <ImageSlector
                     key={"image"}
-                    image={formData["image"]}
+                    image={formData?.image}
                     size="large"
                     setImage={(image) => setFormData((prev) => ({ ...prev, image }))}
                     error={errors?.image}
+                    multiple={false}
                 />
+
+
             </ActionCard>
 
         </Modal>

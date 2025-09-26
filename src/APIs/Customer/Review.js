@@ -1,10 +1,10 @@
-import axios from "axios";
-import BASE_URL from "../../../config";
+import axios from 'axios';
+import BASE_URL from '../../../config';
 
-export const addReview = async (storeId, productId, payload) => {
+export const addReview = async (storeId, productSlug, payload) => {
   try {
-    let url = `${BASE_URL}/${storeId}/addReview?productId=${productId}`;
-    const {data} = await axios.post(url, payload);
+    let url = `${BASE_URL}/${storeId}/addReview?productSlug=${productSlug}`;
+    const { data } = await axios.post(url, payload);
     return data.data;
   } catch (error) {
     console.error(error);

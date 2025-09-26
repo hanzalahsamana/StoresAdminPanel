@@ -13,7 +13,6 @@ import { discardDraft, getAllPages, getDraftPage, publishPage, saveDraftPage } f
 import BuilderLoader from '@/components/Loader/BuilderLoader';
 import { useRouter, useSearchParams } from 'next/navigation';
 import useConfirm from '@/Hooks/useConfirm';
-import DynamicDataSelectorModal from '@/components/Modals/DynamicDataSelectorModal';
 
 
 const ContentEdit = () => {

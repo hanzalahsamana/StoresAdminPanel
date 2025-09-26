@@ -43,7 +43,7 @@ const DynamicTable = ({ columns = [], data = [], actions = {}, loading = false, 
                     ) : !data || data?.length === 0 ? (
                         <tr>
                             <td colSpan={columns?.length + (Object.keys(actions)?.length > 0 ? 1 : 0)} className="text-center p-5 w-full">
-                                <div className="flex flex-col gap-[20px] justify-center items-end min-h-[250px] w-full">
+                                <div className="flex flex-col gap-[20px] justify-center items-center min-h-[250px] w-full">
                                     <MdOutlineSentimentDissatisfied className="text-borderC text-[40px]" />
                                     <p className="text-borderC text-[12px] font-extralight">{notFoundText}</p>
                                 </div>
