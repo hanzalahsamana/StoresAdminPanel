@@ -12,6 +12,7 @@ import { setStore } from '@/Redux/Store/StoreDetail.slice';
 import SiteNotFound from '@/components/404Pages/SiteNotFound';
 import ProtectedRoute from '@/AuthenticRouting/ProtectedRoutes';
 import { getAllStores } from '@/APIs/StoreDetails/getAllStores';
+import { applyTheme, getFontClass } from '@/Utils/ApplyTheme';
 
 // This is for Only Redux Access
 const ReduxProviderWrap = ({ children }) => {
@@ -27,6 +28,7 @@ export const StoreProviderWrap = ({ params, children, fontClass }) => {
   const dispatch = useDispatch();
   const { store, storeLoading } = useSelector((state) => state.store);
   const SiteLogo = useSelector((state) => getContentByName(state, 'Site Logo'));
+  const [fontClass, setFontClass] = useState('');
 
   useEffect(() => {
     if (params?.site_id) {
@@ -50,6 +52,16 @@ export const StoreProviderWrap = ({ params, children, fontClass }) => {
   //     link.href = SiteLogo.image;
   //   }
   // }, [store?.storeName, SiteLogo]);
+
+  useEffect(() => {
+    if (!store?.branding) return;
+
+    const { theme, font, favicon } = store.branding;
+    const { storeName } = store;
+
+    applyTheme(theme);
+    setFontClass(getFontClass(font));
+  }, [store?.branding]);
 
   useEffect(() => {
     if (!store?._id) return;
@@ -97,7 +109,7 @@ export const StoreProviderWrap = ({ params, children, fontClass }) => {
   );
 };
 
-export const AdminProviderWrap = ({children}) => {
+export const AdminProviderWrap = ({ children }) => {
   const { currUser } = useSelector((state) => state.currentUser);
   useEffect(() => {
     if (!currUser?.token) return;

@@ -2,9 +2,6 @@
 
 import axios from "axios";
 import Base_URL from "../../../config";
-// import { setStore } from "@/Redux/AllStores/StoreDetail.slice";
-
-// ADD ANNOUNCEMENT
 export const addAnnouncement = async (announcement, token, dispatch) => {
   try {
     const response = await axios.post(

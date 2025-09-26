@@ -193,7 +193,7 @@ const ContentEdit = () => {
             previewData={{
               previewComponent: { ...customizePageData },
               activeSectionId: activeSection?._id,
-              checked: false,
+              branding: store?.branding || null
             }}
           />
         </div>

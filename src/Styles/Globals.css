@@ -348,9 +348,7 @@ input:-webkit-autofill {
   animation: spinAngle 4s linear infinite;
 }
 
-/* Force Tailwind to behave like >= md inside preview */
 .preview-frame {
-  /* Trick Tailwind by scaling up the preview */
   width: 1280px !important;
 }
 
