@@ -63,9 +63,12 @@ const StoreDetails = ({ onClose, onComplete }) => {
       storeName: formData.storeName,
       storeType: formData.storeType,
       subDomain: generateSlug(formData.storeName),
-      referralCode: formData.referralCode,
+      // referralCode: formData.referralCode,
     };
-    await generateStore(currUser?.token, payload);
+    await generateStore(currUser?.token, {
+      ...payload,
+      referralCode: formData?.referralCode ? referralCode : formData?.referralCode,
+    });
     setShowModal(false);
     setFormData({ storeName: '', storeType: '' }); // Reset form
     onComplete?.();

@@ -13,7 +13,6 @@ export async function generateMetadata({ params }) {
   try {
     const { data } = await axios.get(`${BASE_URL}/${params.site_id}/getStore`);
     const store = data?.data;
-    console.log('store==>', store);
     if (!store) {
       return {
         title: 'Store Not Found - Designsli',

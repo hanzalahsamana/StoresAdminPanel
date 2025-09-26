@@ -39,7 +39,7 @@ const ProductCard = ({ product }) => {
     <Link
       className="cursor-pointer"
       key={product._id}
-      href={`${getBasePath()}/products/${product._id}`}
+      href={`${getBasePath()}/products/${product.slug}`}
     >
       <motion.div
         className={`bg-[var(--tmp-pri)] overflow-hidden ${styles.ProductCardContainer}`}
