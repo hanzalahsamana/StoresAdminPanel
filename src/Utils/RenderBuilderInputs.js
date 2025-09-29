@@ -97,7 +97,7 @@ export const RenderBuilderInputs = ({ name, placeholder, input, options, multipl
       <DataSelectionList
         selectedData={formData?.sectionData?.[name]}
         setSelectedData={(value) => handleInputChange(name, value)}
-        selectorName={selectorName}
+        dataName={selectorName}
         customData={options}
         label={placeholder}
         limit={limit}

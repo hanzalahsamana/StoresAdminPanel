@@ -12,8 +12,7 @@ export const addProducts = async (token, storeId, data) => {
         Authorization: `Bearer ${token}`,
       },
     });
-    dispatch(addProductData(response.data));
-
+    dispatch(addProductData(response?.data?.data));
     return response.data;
   } catch (error) {
     throw error;
