@@ -4,6 +4,7 @@
 import { useEffect, useRef, useState } from "react";
 import { devices } from "@/Structure/DefaultStructures";
 import { useSelector } from "react-redux";
+import { Base_Domain, HTTP } from "../../../config";
 
 export default function LivePreviewIframe({ previewData }) {
     const iframeRef = useRef(null);
@@ -11,6 +12,8 @@ export default function LivePreviewIframe({ previewData }) {
     const [iframeLoaded, setIframeLoaded] = useState(false);
     const [scale, setScale] = useState(1);
     const { selectedDevicePreview } = useSelector((state) => state.livePreview);
+    const { store } = useSelector((state) => state.store);
+
 
     useEffect(() => {
         if (!resizeRef.current) repointerturn;
@@ -80,7 +83,7 @@ export default function LivePreviewIframe({ previewData }) {
 
                     <iframe
                         ref={iframeRef}
-                        src="https://dev.xperiode.com/admin/68416a1bd4645140e49c62d8/live-previeww"
+                        src={`${HTTP}${Base_Domain}/admin/${store?._id}/live-previeww`}
                         className={`${devices?.[selectedDevicePreview]?.render} origin-top-left `}
                     />
 

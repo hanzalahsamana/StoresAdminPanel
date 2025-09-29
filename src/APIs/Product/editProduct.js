@@ -1,12 +1,16 @@
 'use client';
 import axios from 'axios';
 import BASE_URL from '../../../config';
-import { toast } from 'react-toastify';
 import { setProductLoading, updateProductData } from '@/Redux/Product/ProductSlice';
+import { dispatch } from '@/Redux/Store';
 
-export const editProductData = async (data, type, id, dispatch) => {
+export const editProductData = async (data, storeId, id, token) => {
   try {
-    const response = await axios.put(`${BASE_URL}/${type}/editProduct?id=${id}`, data, {});
+    const response = await axios.put(`${BASE_URL}/${storeId}/editProduct?id=${id}`, data, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     dispatch(updateProductData(response.data));
     return response.data;
   } catch (error) {

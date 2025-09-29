@@ -3,7 +3,7 @@ import axios from "axios";
 import BASE_URL from "../../../config";
 // import { setStore } from "@/Redux/AllStores/StoreDetail.slice";
 
-export const setTheme = async (theme, token, dispatch) => {
+export const setTheme = async (theme, token,) => {
   try {
     console.log(theme, "Sending to backend");
 

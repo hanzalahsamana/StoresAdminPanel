@@ -16,12 +16,17 @@ export const storeSlice = createSlice({
     updateSubscriptionStatus: (state, action) => {
       state.store = { ...state.store, subscriptionId: action.payload };
     },
+    setStoreBranding:(state, action)=>{
+      if(state.store){
+        state.store.branding = action.payload;
+      }
+    },
     setStoreLoading: (state, action) => {
       state.storeLoading = action.payload;
     },
   },
 });
 
-export const { setStore, setStoreLoading, updateSubscriptionStatus } = storeSlice.actions;
+export const { setStore, setStoreLoading, updateSubscriptionStatus ,  setStoreBranding} = storeSlice.actions;
 const storeReducer = storeSlice.reducer;
 export default storeReducer;

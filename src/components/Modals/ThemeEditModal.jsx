@@ -1,20 +1,53 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import Modal from "./Modal";
 import CustomCard from "../Cards/CustomCard";
 import ImageSelector from "../Uploaders/ImageSlector";
 import ThemeSelector from "../Uploaders/ThemeSeletctor";
 import PillSelector from "../Actions/PillSelector";
 import Button from "../Actions/Button";
-
 import { PiImageThin, PiPaintBucketLight } from "react-icons/pi";
 import { TfiThemifyFavicon } from "react-icons/tfi";
-import { HiOutlinePaintBrush } from "react-icons/hi2";
 import { RxFontFamily } from "react-icons/rx";
+import { editStoreAppearance } from "@/APIs/StoreDetails/editStoreAppearance";
+import { toast } from "react-toastify";
 
-const ThemeEditModal = ({ isOpen = true, setIsOpen = () => {} }) => {
+const ThemeEditModal = ({ isOpen = true, setIsOpen = () => { } }) => {
+  const { currUser } = useSelector((state) => state.currentUser);
+  const { store } = useSelector((state) => state.store);
+  const [loading, setLoading] = useState(false)
+
+  // Initial branding state
+  const [branding, setBranding] = useState({
+    logo: null,
+    favicon: null,
+    description: "",
+    font: "Assistant",
+    theme: "Light",
+  });
+
+  const handleSubmit = async () => {
+    try {
+      setLoading(true)
+      await editStoreAppearance(currUser?.token, store?._id, branding);
+      toast.success("Theme updated successfully");
+      setIsOpen(false);
+    } catch (error) {
+      console.error("Failed to update store appearance:", error);
+      const message = error?.response?.data?.message || 'Something went wrong while updating theme.';
+      toast.error(message);
+    } finally {
+      setLoading(false)
+    }
+  };
+
+  useEffect(() => {
+    setBranding(store?.branding || {});
+  }, [store?.branding])
+
   return (
     <Modal isOpen={isOpen} setIsOpen={setIsOpen}>
-      <div className="flex flex-col p-4 max-h-[450px] h-[450px]">
+      <div className="flex flex-col p-4 max-h-[500px] h-[500px]">
         <div className="flex items-center justify-between mb-2">
           <p className="font-bold text-[24px] text-textC capitalize">
             Theme Setting
@@ -23,27 +56,57 @@ const ThemeEditModal = ({ isOpen = true, setIsOpen = () => {} }) => {
 
         <div className="flex-1 overflow-y-auto customScroll space-y-4 w-full px-1 py-3 mb-2">
           <div className="grid grid-cols-2 gap-4">
-            <CustomCard icon={<PiImageThin />} title="Logo">
-              <ImageSelector size="large" label={null} />
+            <CustomCard icon={<PiImageThin />} title="Global Logo">
+              <ImageSelector
+                size="large"
+                multiple={false}
+                label={null}
+                image={branding.logo}
+                setImage={(img) => setBranding({ ...branding, logo: img })}
+              />
             </CustomCard>
 
-            <CustomCard icon={<TfiThemifyFavicon />} title="Favicon">
-              <ImageSelector size="large" label={null} />
+            <CustomCard icon={<TfiThemifyFavicon />} title="Global Favicon">
+              <ImageSelector
+                size="large"
+                multiple={false}
+                label={null}
+                image={branding.favicon}
+                setImage={(img) => setBranding({ ...branding, favicon: img })}
+              />
             </CustomCard>
           </div>
 
           <CustomCard icon={<PiPaintBucketLight />} title="Theme Color">
-            <ThemeSelector />
+            <ThemeSelector
+              theme={branding.theme}
+              setTheme={(theme) => setBranding({ ...branding, theme })}
+            />
           </CustomCard>
 
           <CustomCard icon={<RxFontFamily />} title="Theme Font">
             <PillSelector
               label={null}
               data={[
-                { label: "Inter", value: "inter" },
-                { label: "Roboto", value: "roboto" },
-                { label: "Poppins", value: "poppins" },
+                { label: "Assistant", value: "Assistant" },
+                { label: "Inter", value: "Inter" },
+                { label: "Roboto", value: "Roboto" },
+                { label: "Poppins", value: "Poppins" },
               ]}
+              selectedValue={branding.font}
+              setSelectedValue={(font) => setBranding({ ...branding, font })}
+            />
+          </CustomCard>
+
+          <CustomCard icon={<RxFontFamily />} title="Store Description">
+            <textarea
+              className="w-full border p-2 rounded "
+              cols={3}
+              value={branding.description}
+              onChange={(e) =>
+                setBranding({ ...branding, description: e.target.value })
+              }
+              placeholder="Add store description..."
             />
           </CustomCard>
         </div>
@@ -59,7 +122,8 @@ const ThemeEditModal = ({ isOpen = true, setIsOpen = () => {} }) => {
             label="Done"
             variant="black"
             size="small"
-            action={() => setIsOpen(false)}
+            loading={loading}
+            action={handleSubmit}
           />
         </div>
       </div>

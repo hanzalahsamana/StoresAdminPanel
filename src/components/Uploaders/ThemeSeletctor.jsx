@@ -1,32 +1,24 @@
 "use client";
 import { colorPalettes } from "@/Structure/DefaultStructures";
 import { applyTheme } from "@/Utils/ApplyTheme";
-import { IoCheckmarkOutline } from "react-icons/io5";
 import RadioButton from "../Actions/RadioButton";
 
-
-
-// Utility to compare theme objects
-const isThemeEqual = (a, b) => {
-  return Object.keys(a).every((key) => a[key]?.toLowerCase() === b[key]?.toLowerCase());
-};
-
-export default function ThemeSelector({ theme = {}, setTheme = () => { } }) {
-  const handleChange = (e) => {
-    const updatedTheme = { ...theme, [e.target.name]: e.target.value };
-    setTheme(updatedTheme);
-    applyTheme(updatedTheme);
-  };
+export default function ThemeSelector({ theme = '', setTheme = () => { } }) {
+  // const handleChange = (e) => {
+  //   const updatedTheme = { ...theme, [e.target.name]: e.target.value };
+  //   setTheme(updatedTheme);
+  //   applyTheme(updatedTheme);
+  // };
 
   return (
     <div className="w-full flex flex-col gap-3  origin-top-left ">
       <div className="grid grid-cols-4 gap-4 ">
         {Object.entries(colorPalettes).map(([name, palette]) => {
-          const isSelected = isThemeEqual(theme, palette);
+          const isSelected = theme === name;
           return (
             <div
               onClick={() => {
-                setTheme(palette);
+                setTheme(name);
                 applyTheme(palette);
               }}
               key={name} className=" flex flex-col-reverse items-start gap-4 border rounded-md bg-gray-100 p-2">
@@ -46,6 +38,7 @@ export default function ThemeSelector({ theme = {}, setTheme = () => { } }) {
                 label={null}
                 options={[name]}
                 selectedOption={isSelected ? name : false}
+                setSelectedOption={()=>{}}
                 // className="!scale"
               />
               {/* <p className="text-[12px] text-textC">{name}</p> */}
@@ -69,26 +62,26 @@ export default function ThemeSelector({ theme = {}, setTheme = () => { } }) {
   );
 }
 
-function ColorPicker({ label, name, value, onChange }) {
-  return (
-    <div className="flex flex-col items-center justify-between gap-3 p-2 bg-backgroundC">
-      <div className="relative flex w-full">
-        <label
-          style={{ backgroundColor: value }}
-          className="w-12 h-12 border rounded-full border-[#d1cece8e] cursor-pointer"
-          onClick={() => document.getElementById(name)?.click()}
-        ></label>
+// function ColorPicker({ label, name, value, onChange }) {
+//   return (
+//     <div className="flex flex-col items-center justify-between gap-3 p-2 bg-backgroundC">
+//       <div className="relative flex w-full">
+//         <label
+//           style={{ backgroundColor: value }}
+//           className="w-12 h-12 border rounded-full border-[#d1cece8e] cursor-pointer"
+//           onClick={() => document.getElementById(name)?.click()}
+//         ></label>
 
-        <input
-          id={name}
-          type="color"
-          name={name}
-          value={value}
-          onChange={onChange}
-          className="absolute bottom-0 right-0 opacity-0 w-0 h-0"
-        />
-      </div>
-      <label className="text-textC text-[11px]">{label}</label>
-    </div>
-  );
-}
+//         <input
+//           id={name}
+//           type="color"
+//           name={name}
+//           value={value}
+//           onChange={onChange}
+//           className="absolute bottom-0 right-0 opacity-0 w-0 h-0"
+//         />
+//       </div>
+//       <label className="text-textC text-[11px]">{label}</label>
+//     </div>
+//   );
+// }

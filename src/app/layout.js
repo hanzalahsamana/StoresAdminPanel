@@ -1,6 +1,7 @@
 'use client';
 
-import '../Styles/globals.css';
+import '../Styles/Globals.css';
+import '../Styles/Font.css';
 import 'quill/dist/quill.snow.css';
 import 'react-toastify/dist/ReactToastify.css';
 import 'leaflet/dist/leaflet.css';
@@ -10,20 +11,52 @@ import { store } from '@/Redux/Store';
 import { Provider } from 'react-redux';
 import { ToastContainer } from 'react-toastify';
 import { Tooltip } from 'react-tooltip';
-import { Assistant } from 'next/font/google';
 import NoInternetBar from '@/components/404Pages/NoInternetBar';
 import ReduxProviderWrap from '@/components/Layout/ProviderWrap';
 import { IoMdClose } from 'react-icons/io';
-import Seo from '@/components/SEO/SEO';
+import { Assistant } from 'next/font/google';
 
 const assistant = Assistant({
   subsets: ['latin'],
-  weight: ['400', '500', '600', '700'],
+  weight: ['400', '500', '600', '700' , '800'],
 });
 
 export default function RootLayout({ children }) {
+  const {
+    title = 'Designsli: The All-in-One Platform to Create Your Online Store',
+    description = 'Start your ecommerce journey with Designsli. Easily build and manage your branded online store, showcase products, and grow your business.',
+    url = 'https://designsli.com',
+    ogImage = 'https://designsli.com/favicon.ico',
+  } = {};
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        {/* <title>{title}</title>
+        <meta name="description" content={description} />
+        <meta property="og:title" content={title} />
+        <meta property="og:description" content={description} />
+        <meta property="og:url" content={url} />
+        <meta property="og:image" content={ogImage} />
+        <meta property="og:type" content="website" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={title} />
+        <meta name="twitter:description" content={description} />
+        <meta name="twitter:image" content={ogImage} />
+        <link rel="canonical" href={url} /> */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              '@context': 'https://schema.org',
+              '@type': 'Organization',
+              name: 'Designsli',
+              url: 'https://designsli.com',
+              logo: 'https://designsli.com/favicon.ico',
+              sameAs: [],
+            }),
+          }}
+        />
+      </head>
       <body className={`${assistant.className} antialiased customScroll`} suppressHydrationWarning>
         <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_AUTH_CLIENT_ID}>
           <Provider store={store}>

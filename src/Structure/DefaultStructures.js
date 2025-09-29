@@ -1,13 +1,29 @@
 import { BsArrowsFullscreen } from 'react-icons/bs';
-import { IoMdLaptop } from 'react-icons/io';
+import { IoIosDesktop, IoMdLaptop, IoMdTabletLandscape } from 'react-icons/io';
 import { TbCreditCardPay, TbDeviceMobile } from 'react-icons/tb';
 import { FaFacebook, FaInstagramSquare, FaLinkedin, FaPinterest, FaTwitter, FaWhatsapp, FaYoutube } from 'react-icons/fa';
 import { HiOutlineTrash, HiOutlineDuplicate } from 'react-icons/hi';
 import { HiOutlineEyeSlash, HiOutlinePaintBrush, HiOutlinePencilSquare } from 'react-icons/hi2';
+import { CiMobile1 } from 'react-icons/ci';
+import { IoTabletLandscapeOutline } from 'react-icons/io5';
 
 export const placeholderImageUrl = 'https://res.cloudinary.com/duaxitxph/image/upload/v1736247980/cjzl4ivq2lduxqbtnfj1.webp';
 
 export const MigrationDefaultKeys = ['products', 'collections', 'contents', 'sections', 'orders'];
+
+export const Analytics_Time_Ranges = ['Yesterday', 'This Week', 'Last 7 Days', 'This Month', 'Last 30 Days', 'Last Year'];
+export const CURRENCY = 'Rs';
+export const Currency_Code = 'PKR';
+
+export const Analytics_Devices = {
+  mobile: { name: 'Mobile', icon: CiMobile1 },
+  tablet: { name: 'Tablet', icon: IoTabletLandscapeOutline },
+  desktop: { name: 'Desktop', icon: IoIosDesktop },
+};
+
+export const GraphColors = {
+  pri: '#0078D4',
+};
 
 export const colorPalettes = {
   Light: {

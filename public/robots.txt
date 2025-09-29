@@ -1,0 +1,15 @@
+User-agent: *
+# Allow homepage
+Allow: /
+
+# Allow authentication pages
+Allow: /authentication/login
+Allow: /authentication/register
+
+# Disallow private folders
+Disallow: /admin/
+Disallow: /store/
+Disallow: /error/
+
+Sitemap: https://designsli.com/sitemap.xml
+

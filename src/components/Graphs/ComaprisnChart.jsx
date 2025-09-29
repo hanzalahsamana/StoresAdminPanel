@@ -1,15 +1,22 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import ReactApexChart from "react-apexcharts";
 import BarLoader from "../Loader/BarLoader";
+import { GraphColors } from "@/Structure/DefaultStructures";
 
-const ComparisonChart = ({ data , analyticsLoading }) => {
+const ComparisonChart = ({ data, analyticsLoading }) => {
 
-    if (analyticsLoading || typeof window === "undefined") {
-        return (
-            <BarLoader />
-        )
-    }
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted || analyticsLoading || typeof window === "undefined") {
+    return (
+      <BarLoader />
+    )
+  }
   const entries = Object.entries(data);
   if (entries.length < 2) return <p>Provide at least two values.</p>;
 
@@ -31,13 +38,14 @@ const ComparisonChart = ({ data , analyticsLoading }) => {
     tooltip: { enabled: true, y: { formatter: (val) => val } },
   };
 
+
   return (
     <div className="flex justify-center items-center gap-6">
       {/* First Pie Chart */}
       <div className="flex flex-col items-center">
         <div className="relative w-[80px] h-[80px] sm:w-[150px] sm:h-[150px]">
           <ReactApexChart
-            options={{ ...commonOptions, labels: [firstKey, "Remaining"], colors: ["#06A89A", "#E0E0E0"] }}
+            options={{ ...commonOptions, labels: [firstKey, "Remaining"], colors: [GraphColors?.pri, "#E0E0E0"] }}
             series={[firstValue, total - firstValue]}
             type="donut"
             width="100%"
@@ -56,7 +64,7 @@ const ComparisonChart = ({ data , analyticsLoading }) => {
       <div className="flex flex-col items-center">
         <div className="relative w-[80px] h-[80px] sm:w-[150px] sm:h-[150px]">
           <ReactApexChart
-            options={{ ...commonOptions, labels: [secondKey, "Remaining"], colors: ["#06A89A", "#E0E0E0"] }}
+            options={{ ...commonOptions, labels: [secondKey, "Remaining"], colors: [GraphColors?.pri, "#E0E0E0"] }}
             series={[secondValue, total - secondValue]}
             type="donut"
             width="100%"

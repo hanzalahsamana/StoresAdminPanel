@@ -2,7 +2,7 @@
 "use client";
 
 import React from "react";
-import "../../Styles/globals.css";
+import "../../Styles/Globals.css";
 
 const TemplateFormInput = ({
   name,
