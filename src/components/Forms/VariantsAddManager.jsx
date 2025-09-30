@@ -101,6 +101,7 @@ const VariantsAddManager = ({ variations = [], variantData = [], setVariantData 
           defaultOptions={[{ label: 'Bulk Edit', value: 0 }, ...[...variations, { name: 'None' }].map((v, i) => ({ label: v.name, value: i + 1 }))]}
           setSelectedOption={(val) => setGroupByIndex(Number(val))}
           className="w-max"
+          required={false}
         />
       </div>
       <div className="border rounded-md overflow-hidden">

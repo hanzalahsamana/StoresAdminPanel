@@ -1,5 +1,5 @@
-"use client";
-import { createSlice } from "@reduxjs/toolkit";
+'use client';
+import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   products: [],
@@ -7,7 +7,7 @@ const initialState = {
 };
 
 export const productDataSlice = createSlice({
-  name: "productData",
+  name: 'productData',
   initialState,
   reducers: {
     setProductData: (state, action) => {
@@ -19,19 +19,15 @@ export const productDataSlice = createSlice({
       return state;
     },
     updateProductData: (state, action) => {
-      const index = state.products.findIndex(
-        (product) => product._id === action.payload._id
-      );
+      const index = state.products.findIndex((product) => product._id === action.payload._id);
       if (index !== -1) {
-        state.products[index] = { ...state.products[index], ...action.payload };
+        state.products[index] = { ...action.payload };
       }
       return state;
     },
 
     deleteProductData: (state, action) => {
-      state.products = state.products.filter(
-        (product) => product._id !== action.payload
-      );
+      state.products = state.products.filter((product) => product._id !== action.payload);
       return state;
     },
     setProductLoading: (state, action) => {
@@ -41,12 +37,6 @@ export const productDataSlice = createSlice({
   },
 });
 
-export const {
-  setProductData,
-  addProductData,
-  updateProductData,
-  deleteProductData,
-  setProductLoading,
-} = productDataSlice.actions;
+export const { setProductData, addProductData, updateProductData, deleteProductData, setProductLoading } = productDataSlice.actions;
 
 export default productDataSlice.reducer;

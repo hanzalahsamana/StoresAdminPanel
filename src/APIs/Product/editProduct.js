@@ -11,7 +11,8 @@ export const editProductData = async (data, storeId, id, token) => {
         Authorization: `Bearer ${token}`,
       },
     });
-    dispatch(updateProductData(response.data));
+    console.log('response.data===>', response.data);
+    dispatch(updateProductData(response.data.data));
     return response.data;
   } catch (error) {
     throw error;
