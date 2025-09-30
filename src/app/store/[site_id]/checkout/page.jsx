@@ -1,28 +1,19 @@
 'use client';
 
 import React, { useEffect, useMemo, useState } from 'react';
-import { FaChevronUp, FaChevronDown } from "react-icons/fa";
-import { getBasePath } from '@/Utils/GetBasePath';
 import { useRouter } from 'next/navigation';
 import { useSelector } from 'react-redux';
 import PaymentSummary from '@/components/UI/PaymentSummary';
-import ProductsRecipt from '@/components/UI/productsRecipt';
 import PaymentForm from '@/components/Forms/PaymentForm';
 import ApplyCoupon from '@/components/Forms/ApplyCoupon';
 import Button from '@/components/Actions/Button';
 import { FaArrowRightLong } from 'react-icons/fa6';
-import Link from 'next/link';
 import { jazzCashPayment } from '@/Utils/PaymentMethodUtils/JazzcashPayment';
 import { getHashedPaymentCredential } from '@/APIs/StoreConfigurations/paymentMethodApi';
 import { toast } from 'react-toastify';
-import { getContentByName } from '@/Redux/ContentData/ContentDataSlice';
-import { HiOutlineShoppingBag } from 'react-icons/hi';
-import { totalCalculate } from '@/Utils/TotalCalculator';
-import { SlHandbag } from 'react-icons/sl';
 import ProductsReciept from '@/components/UI/productsRecipt';
 import CheckoutHeader from '@/components/Layout/CheckoutHeader';
-import { paymentFormValidate, placeOrderValidate } from '@/Utils/FormsValidator';
-import { getValidGlobalDiscount } from '@/Utils/CheckoutHelpers';
+import { getValidGlobalDiscount } from '@/Helpers/CheckoutHelpers';
 import { alfalahPayment } from '@/Utils/PaymentMethodUtils/AlfalahPayment';
 
 

@@ -13,7 +13,7 @@ import { getHashedPaymentCredential } from '@/APIs/StoreConfigurations/paymentMe
 import { toast } from 'react-toastify';
 import ProductsReciept from '@/components/UI/productsRecipt';
 import CheckoutHeader from '@/components/Layout/CheckoutHeader';
-import { getValidGlobalDiscount } from '@/Utils/CheckoutHelpers';
+import { getValidGlobalDiscount } from '@/Helpers/CheckoutHelpers';
 import { alfalahPayment } from '@/Utils/PaymentMethodUtils/AlfalahPayment';
 
 export const initialOrderFormData = {

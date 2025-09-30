@@ -1,4 +1,3 @@
-import { FormatSize } from '@/Utils/FormatSize';
 import React from 'react'
 import { GoDash } from 'react-icons/go';
 import Checkbox from '../Actions/CheckBox';
@@ -24,13 +23,6 @@ const GalleryImageCard = ({ image, className, isChecked, toggleImageSelect }) =>
                     alt=""
                 />
             </div>
-            {/* <p className="text-sm font-medium text-center flex items-center gap-1 justify-center pt-2 text-gray-900">
-                {image.format !== "unknown"
-                    ? image.format
-                    : image.url?.split(".").pop()}
-                <GoDash />
-                {FormatSize(image?.size)}
-            </p> */}
         </div>
     )
 }

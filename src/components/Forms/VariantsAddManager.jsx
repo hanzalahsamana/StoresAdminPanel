@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import FormInput from './FormInput';
-import ImageUploader from '../Uploaders/ImageUploader';
 import DropDown from '../Actions/DropDown';
 import ImageSelector from '../Uploaders/ImageSlector';
 

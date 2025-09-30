@@ -1,7 +1,7 @@
 'use client';
 
 import { getUserFromToken } from '@/APIs/Auth/getUserFromToken';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import Script from 'next/script';
 import { useDispatch, useSelector } from 'react-redux';
 import { setCartData } from '@/Redux/CartData/cartDataSlice';
@@ -24,7 +24,7 @@ const ReduxProviderWrap = ({ children }) => {
   return children;
 };
 
-export const StoreProviderWrap = ({ params, children, fontClass }) => {
+export const StoreProviderWrap = ({ params, children }) => {
   const dispatch = useDispatch();
   const { store, storeLoading } = useSelector((state) => state.store);
   const SiteLogo = useSelector((state) => getContentByName(state, 'Site Logo'));

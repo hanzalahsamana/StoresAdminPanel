@@ -6,7 +6,7 @@ import { AiOutlineClose } from 'react-icons/ai';
 import { FaBars } from 'react-icons/fa';
 import { SlHandbag } from 'react-icons/sl';
 import { useSelector } from "react-redux";
-import { totalCalculate } from '@/Utils/TotalCalculator';
+import { totalCalculate } from '@/Utils/Calculators';
 import { getBasePath } from '@/Utils/GetBasePath';
 import { usePathname } from "next/navigation";
 

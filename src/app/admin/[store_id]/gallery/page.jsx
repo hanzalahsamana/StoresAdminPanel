@@ -2,22 +2,15 @@
 
 import { deleteGalleryImagesApi, getGalleryImages, uploadImage } from "@/APIs/Gallery/gallery";
 import Button from "@/components/Actions/Button";
-import Checkbox from "@/components/Actions/CheckBox";
-import DropDown from "@/components/Actions/DropDown";
 import ImgToIcon from "@/components/Actions/ImgToIcon";
 import ActionCard from "@/components/Cards/ActionCard";
 import GalleryImageCard from "@/components/Cards/GalleryImageCard";
-import FormInput from "@/components/Forms/FormInput";
 import BackgroundFrame from "@/components/Layout/BackgroundFrame";
 import ImageCardLoader from "@/components/Loader/ImageCardLoader";
-import Loader from "@/components/Loader/loader";
+import { ImageUploadInQueue } from "@/Helpers/ImageUploadInQueue";
 import useConfirm from "@/Hooks/useConfirm";
-import { addGalleryImage } from "@/Redux/Gallery/GallerySlice";
-import { FormatSize } from "@/Utils/FormatSize";
-import { handleImageUpload } from "@/Utils/GalleryUtils";
 import React, { useEffect, useState } from "react";
 import { FiUploadCloud } from "react-icons/fi";
-import { GoDash } from "react-icons/go";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 
@@ -112,7 +105,7 @@ const Page = () => {
                     type="file"
                     accept={accept.join(",")}
                     multiple
-                    onChange={(e) => handleImageUpload(e, setPendingUploads)}
+                    onChange={(e) => ImageUploadInQueue(e, setPendingUploads)}
                     className="hidden"
                 />
             </ActionCard>

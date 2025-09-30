@@ -11,9 +11,8 @@ import { getAllPages } from "@/APIs/Pages/Page";
 import { getMenuLinks } from "@/APIs/SearchSuggestions/menuLinks";
 import ImgToIcon from "./ImgToIcon";
 import { CiFileOn } from "react-icons/ci";
-import { IsEqual } from "@/Utils/IsEqual";
 import { AiOutlineDelete } from "react-icons/ai";
-import { v4 as uuidv4 } from 'uuid';
+import { isEqual } from "lodash";
 
 const DataSelectionList = ({
   customData = null,
@@ -88,7 +87,7 @@ const DataSelectionList = ({
   }, [selectorName])
 
   const handleDelete = (itemToDelete) => {
-    const newData = selectedData.filter(item => !IsEqual(item, itemToDelete));
+    const newData = selectedData.filter(item => !isEqual(item, itemToDelete));
     setSelectedData(newData);
   };
 
@@ -116,7 +115,7 @@ const DataSelectionList = ({
         >
           {(item, index, { provided }) => {
             console.log(loadedData, "Enriched Item", item, "Item");
-            const enrichedItem = loadedData.find(d => IsEqual(d.value, item));
+            const enrichedItem = loadedData.find(d => isEqual(d.value, item));
 
             return (
               <div

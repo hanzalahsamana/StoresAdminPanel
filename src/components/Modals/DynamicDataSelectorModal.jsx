@@ -11,7 +11,7 @@ import Checkbox from "../Actions/CheckBox";
 import Button from "../Actions/Button";
 import { CiFileOn } from "react-icons/ci";
 import { getMenuLinks } from "@/APIs/SearchSuggestions/menuLinks";
-import { IsEqual } from "@/Utils/IsEqual";
+import { isEqual } from "lodash";
 
 const DynamicDataSelectorModal = ({
     selectorName = "products", //custom , products , collections , 
@@ -39,10 +39,10 @@ const DynamicDataSelectorModal = ({
     const handleSelect = (item) => {
 
         setTempSelectedData((prev) => {
-            const exists = prev.find((d) => IsEqual(d, item.value));
+            const exists = prev.find((d) => isEqual(d, item.value));
 
             if (exists) {
-                return prev.filter((d) => !IsEqual(d, item.value));
+                return prev.filter((d) => !isEqual(d, item.value));
             } else {
                 if (limit && prev.length >= limit) {
                     return prev;
@@ -100,9 +100,9 @@ const DynamicDataSelectorModal = ({
                                 key={item.value}
                                 onClick={() => handleSelect(item)}
                                 className={`cursor-pointer p-2 border rounded flex items-center justify-between space-x-2 
-                                    ${limit && tempSelectedData.length >= limit && !tempSelectedData.some((d) => IsEqual(d, item.value))
+                                    ${limit && tempSelectedData.length >= limit && !tempSelectedData.some((d) => isEqual(d, item.value))
                                         ? 'opacity-70 !cursor-not-allowed'
-                                        : tempSelectedData.some((d) => IsEqual(d, item.value))
+                                        : tempSelectedData.some((d) => isEqual(d, item.value))
                                             ? '!bg-gray-100'
                                             : 'hover:bg-gray-50'}`}
                             >
@@ -115,7 +115,7 @@ const DynamicDataSelectorModal = ({
                                         )}
                                     </div>
                                 </div>
-                                <Checkbox checked={tempSelectedData.some((d) => IsEqual(d, item.value))} label={null} />
+                                <Checkbox checked={tempSelectedData.some((d) => isEqual(d, item.value))} label={null} />
                             </div>
                         ))
                     )}

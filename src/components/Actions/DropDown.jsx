@@ -4,7 +4,7 @@ import { createPortal } from "react-dom";
 import { CgInsertAfter } from "react-icons/cg";
 import FormInput from "../Forms/FormInput";
 import { IoMdArrowDropup } from "react-icons/io";
-import { IsArrayEqual } from "@/Utils/IsEqual";
+import { isEqual } from "lodash";
 
 const DropDown = ({
     defaultOptions = [],
@@ -33,7 +33,7 @@ const DropDown = ({
             typeof opt === "string" ? { value: opt, label: opt } : opt
         );
         setOptions((prev) => {
-            if (!IsArrayEqual(prev, normalized)) {
+            if (!isEqual(prev, normalized)) {
                 return normalized;
             }
             return prev;

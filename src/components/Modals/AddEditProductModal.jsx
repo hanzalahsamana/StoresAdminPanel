@@ -1,4 +1,3 @@
-// Optimized AddEditProductModal with improved form state management, consistent naming, and accurate validations.
 
 'use client';
 
@@ -12,7 +11,6 @@ import { toast } from 'react-toastify';
 import { addProducts } from '@/APIs/Product/addProduct';
 import { editProductData } from '@/APIs/Product/editProduct';
 import { useDispatch, useSelector } from 'react-redux';
-import { calculateDiscountedPrice } from '@/Utils/CalculateDiscountedPrice';
 import { productUploadValidate } from '@/Utils/FormsValidator';
 import VariantsSelector from '../Uploaders/VariantsSelector';
 import { MdMiscellaneousServices, MdOutlineCollections, MdOutlineProductionQuantityLimits } from 'react-icons/md';
@@ -26,8 +24,7 @@ import Checkbox from '../Actions/CheckBox';
 import { FaSearchengin } from 'react-icons/fa6';
 import DataSelectionList from '../Actions/DataSelectionList';
 import ImageSelector from '../Uploaders/ImageSlector';
-import { cleanObjectFields } from '@/Utils/cleanObjectFields';
-import { getEditFields } from '@/Utils/getEditFields';
+import { cleanObjectFields } from '@/Utils/MiniUtils';
 
 const initialProductData = {
   name: 'qwerrty',
@@ -69,9 +66,9 @@ const AddEditProductModal = ({ isOpen, updatedData = null }) => {
   useEffect(() => {
     setVariationData(updatedData?.variations);
     setVariantsData(updatedData?.variants);
-  }, [updatedData]);  
+  }, [updatedData]);
   console.log("Testing infinite Loop==>")
-  
+
   useEffect(() => {
     if (updatedData) {
       setFormData({

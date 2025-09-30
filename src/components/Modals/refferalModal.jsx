@@ -7,6 +7,7 @@ import { IoCopyOutline } from 'react-icons/io5';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateReferralModal } from '@/APIs/ReferralModal/updateReferralModalShown';
 import { useParams } from 'next/navigation';
+import { copyToClipboard } from '@/Utils/MiniUtils';
 
 const ReferralModal = ({ isOpen, setIsOpen }) => {
   const promoCode = "You don't have promo code";
@@ -14,11 +15,6 @@ const ReferralModal = ({ isOpen, setIsOpen }) => {
   const { currUser } = useSelector((state) => state.currentUser);
   const { store_id } = useParams();
   const dispatch = useDispatch();
-
-  const copyToClipboard = () => {
-    navigator.clipboard.writeText(store?.promoCode);
-    toast.success('Promo Code copied!');
-  };
 
   useEffect(() => {
     const updateReferralModalShown = async () => {
@@ -79,7 +75,7 @@ const ReferralModal = ({ isOpen, setIsOpen }) => {
             <p className="text-gray-500">Copy Your Promo Code:</p>
             <div className="flex justify-center items-center gap-2">
               {store?.promoCode}
-              <IconButton icon={<IoCopyOutline />} className="text-primaryC !text-[16px]" action={() => copyToClipboard()} />
+              <IconButton icon={<IoCopyOutline />} className="text-primaryC !text-[16px]" action={() => copyToClipboard(store?.promoCode)} />
             </div>
           </div>
         ) : (

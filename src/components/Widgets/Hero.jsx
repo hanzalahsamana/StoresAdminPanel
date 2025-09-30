@@ -23,17 +23,17 @@ const Hero = forwardRef(({ sectionData, ...rest }, ref) => {
   }, []);
 
   return (
-    <div {...rest} ref={ref} className="h-[100vh] max-h-[900px]">
+    <div {...rest} ref={ref} className="">
       {!isImageBroken && image ? (
         <img
-          className="w-full h-full bg-cover object-cover"
+          className="w-full h-full max-h-[100vh] bg-cover object-cover"
           src={image}
           alt={"Hero Banner"}
           onError={() => setIsImageBroken(true)}
         />
       ) : (
         <img
-          className="w-full h-full bg-cover object-cover"
+          className="w-full h-full max-h-[100vh] bg-cover object-cover"
           src={placeholderImageUrl}
           alt={"Hero Banner"}
         />

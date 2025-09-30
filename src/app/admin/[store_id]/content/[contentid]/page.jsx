@@ -7,7 +7,6 @@ import ActionCard from '@/components/Cards/ActionCard';
 import FormInput from '@/components/Forms/FormInput';
 import BackgroundFrame from '@/components/Layout/BackgroundFrame';
 import FaqUploader from '@/components/Uploaders/FaqUploader';
-import ImageUploader from '@/components/Uploaders/ImageUploader';
 import TextEditor from '@/components/Uploaders/TextEditor';
 import { getContentByID } from '@/Redux/ContentData/ContentDataSlice';
 import { useParams } from 'next/navigation';
@@ -19,8 +18,8 @@ import IconButton from '@/components/Actions/IconButton';
 import { uploadSingleImageToS3 } from '@/APIs/uploadImageS3';
 import { pageDataValidate } from '@/Utils/FormsValidator';
 import BackButton from '@/components/Actions/BackButton';
-import { IsEqual } from '@/Utils/IsEqual';
-import { cleanObjectFields } from '@/Utils/cleanObjectFields';
+import { cleanObjectFields } from '@/Utils/MiniUtils';
+import { isEqual } from 'lodash';
 
 
 const componentMapping = {
@@ -123,16 +122,6 @@ const ContentEdit = () => {
           />
         );
       }
-      if (field === "image") {
-        return (
-          <ImageUploader
-            key={index}
-            size='Xlarge'
-            image={formData[field]}
-            setImage={(image) => handleInputChange(field, image)}
-          />
-        );
-      }
       return null;
     });
   };
@@ -173,7 +162,7 @@ const ContentEdit = () => {
   useEffect(() => {
     if (page) {
       const cleaned = cleanObjectFields(page);
-      setIsModified(!IsEqual(cleaned, formData));
+      setIsModified(!isEqual(cleaned, formData));
     }
   }, [page, formData]);
 

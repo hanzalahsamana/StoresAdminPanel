@@ -537,7 +537,7 @@ export const SectionStructure = {
         placeholder: 'Add Trust Badges',
         input: 'repeater',
         fields: [
-          { name: 'icon', placeholder: 'Badge Icon URL', input: 'imageUploader' },
+          { name: 'icon', placeholder: 'Badge Icon URL', input: 'ImageSelector' },
           { name: 'label', placeholder: 'Label', input: 'text' },
         ],
       },
@@ -631,7 +631,7 @@ export const SectionStructure = {
         placeholder: 'Add USP Items',
         input: 'repeater',
         fields: [
-          { name: 'icon', placeholder: 'Icon URL', input: 'imageUploader' },
+          { name: 'icon', placeholder: 'Icon URL', input: 'ImageSelector' },
           { name: 'text', placeholder: 'USP Text', input: 'text' },
         ],
       },

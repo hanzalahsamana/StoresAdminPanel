@@ -8,12 +8,12 @@ import LivePreviewIframe from '@/components/UI/LivePreviewIframe';
 import { Tooltip } from 'react-tooltip';
 import BuilderHeader from '@/components/Layout/BuilderHeader';
 import BuilderCustomizer from '@/components/Cards/BuilderCustomizer';
-import { IsEqual } from '@/Utils/IsEqual';
 import { discardDraft, getAllPages, getDraftPage, publishPage, saveDraftPage } from '@/APIs/Pages/Page';
 import BuilderLoader from '@/components/Loader/BuilderLoader';
 import { useRouter, useSearchParams } from 'next/navigation';
 import useConfirm from '@/Hooks/useConfirm';
 import DynamicDataSelectorModal from '@/components/Modals/DynamicDataSelectorModal';
+import { isEqual } from 'lodash';
 
 
 const ContentEdit = () => {
@@ -152,7 +152,7 @@ const ContentEdit = () => {
 
   useEffect(() => {
     if (editingPage && customizePageData) {
-      setIsModified(!IsEqual(editingPage, customizePageData));
+      setIsModified(!isEqual(editingPage, customizePageData));
     }
   }, [editingPage, customizePageData]);
 

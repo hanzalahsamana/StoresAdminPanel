@@ -92,7 +92,6 @@ const Products = () => {
 
         <DynamicTable columns={columns} data={products} actions={actions} loading={productLoading} notFoundText="There are no products to show" />
         {ConfirmationModal}
-        {/* <AddGlobalVariationModal setIsOpen={setIsOpen} isOpen={isOpen} /> */}
       </ActionCard>
     </BackgroundFrame>
 

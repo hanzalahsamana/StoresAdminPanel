@@ -9,7 +9,6 @@ import FormInput from '@/components/Forms/FormInput';
 import RangeInput from '@/components/Forms/RangeInput';
 import FaqUploader from '@/components/Uploaders/FaqUploader';
 import ImageSelector from '@/components/Uploaders/ImageSlector';
-import MultiImageUploader from '@/components/Uploaders/MultiImageUploader';
 import SocialLinkSelector from '@/components/Uploaders/SocialLinkSelector';
 import TextEditor from '@/components/Uploaders/TextEditor';
 
@@ -47,10 +46,6 @@ export const RenderBuilderInputs = ({ name, placeholder, input, options, multipl
 
   if (input === 'ImageSelector') {
     return <ImageSelector size="large" label={null} key={name} multiple={multiple} image={formData?.sectionData?.[name]} setImage={(image) => handleInputChange(name, image)} />;
-  }
-
-  if (input === 'multiImageUploader') {
-    return <MultiImageUploader key={name} images={formData?.[name]} setImages={(images) => handleInputChange(name, images)} />;
   }
 
   if (input === 'checkbox') {

@@ -1,4 +1,4 @@
-import { formatAmount } from '@/Utils/CheckoutHelpers';
+import { formatAmount } from '@/Utils/Formaters';
 import { IoPricetags } from 'react-icons/io5';
 
 function DiscountRow({ discount }) {

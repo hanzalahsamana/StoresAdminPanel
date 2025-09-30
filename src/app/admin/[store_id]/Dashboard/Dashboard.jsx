@@ -10,7 +10,7 @@ import { useRouter } from 'next/navigation';
 import { useSelector } from 'react-redux';
 import IconButton from '@/components/Actions/IconButton';
 import { IoCopyOutline } from 'react-icons/io5';
-import { copyToClipboard } from '@/Utils/CopyText';
+import { copyToClipboard } from '@/Utils/MiniUtils';
 import ReferralModal from '@/components/Modals/refferalModal';
 import { useState } from 'react';
 
