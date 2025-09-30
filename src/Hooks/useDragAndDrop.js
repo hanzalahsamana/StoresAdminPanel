@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd';
-import { IsArrayEqual } from '@/Utils/IsEqual';
+import { isEqual } from 'lodash';
 
 export const useDragAndDrop = ({ initialItems = [], onReorder, addOrderKey = true }) => {
   const [items, setItems] = useState([]);
@@ -8,7 +8,7 @@ export const useDragAndDrop = ({ initialItems = [], onReorder, addOrderKey = tru
 
 useEffect(() => {
   setItems(prev => {
-    if (!IsArrayEqual(prev, initialItems)) {
+    if (!isEqual(prev, initialItems)) {
       return initialItems;
     }
     return prev;

@@ -27,10 +27,3 @@ export const getValidGlobalDiscount = (discounts, totalOrderCost) => {
     return null;
   }
 };
-
-export const formatAmount = (amount) => {
-  return Number(amount).toLocaleString("en-US", {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  });
-};

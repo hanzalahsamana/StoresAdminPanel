@@ -9,8 +9,8 @@ import { useSelector } from 'react-redux';
 import ImageCardLoader from '../Loader/ImageCardLoader';
 import ActionCard from '../Cards/ActionCard';
 import ImgToIcon from '../Actions/ImgToIcon';
-import { handleImageUpload } from '@/Utils/GalleryUtils';
-import { IsArrayEqual } from '@/Utils/IsEqual';
+import { isEqual } from 'lodash';
+import { ImageUploadInQueue } from '@/Helpers/ImageUploadInQueue';
 
 const ImageSelectorModal = ({ isOpen, setIsOpen, selectedImage = [], setSelectedImage = () => {}, multiple = false }) => {
   const { currUser } = useSelector((state) => state.currentUser);
@@ -26,7 +26,7 @@ const ImageSelectorModal = ({ isOpen, setIsOpen, selectedImage = [], setSelected
     const handleKeyDown = (e) => {
       if (e.key === 'Enter') {
         e.preventDefault();
-        if (multiple && !IsArrayEqual(selectedImageUrls, selectedImage)) {
+        if (multiple && !isEqual(selectedImageUrls, selectedImage)) {
           handleConfirm();
         } else if (!multiple && selectedImageUrls !== selectedImage) {
           handleConfirm();
@@ -104,7 +104,7 @@ const ImageSelectorModal = ({ isOpen, setIsOpen, selectedImage = [], setSelected
         label={'Select Image'}
         className={'overflow-hidden !h-full !max-h-[600px] '}
       >
-        <input id="fileInput" type="file" accept={accept.join(',')} multiple onChange={(e) => handleImageUpload(e, setPendingUploads)} className="hidden" />
+        <input id="fileInput" type="file" accept={accept.join(',')} multiple onChange={(e) => ImageUploadInQueue(e, setPendingUploads)} className="hidden" />
 
         <div className="p-4 space-y-4  min-h-0 flex-1 overflow-y-scroll customScroll border-y">
           <div className="grid grid-cols-2 sm:grid-cols-4  md:grid-cols-5 lg:grid-cols-7 gap-3">
@@ -137,7 +137,7 @@ const ImageSelectorModal = ({ isOpen, setIsOpen, selectedImage = [], setSelected
             }}
             size="small"
           />
-          <Button label={`Done`} variant="black" className="ml-2" action={handleConfirm} active={!IsArrayEqual(selectedImageUrls, selectedImage)} size="small" />
+          <Button label={`Done`} variant="black" className="ml-2" action={handleConfirm} active={!isEqual(selectedImageUrls, selectedImage)} size="small" />
         </div>
       </ActionCard>
     </Modal>

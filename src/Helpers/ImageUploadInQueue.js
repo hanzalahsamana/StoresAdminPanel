@@ -1,4 +1,4 @@
-export const handleImageUpload = (event, setPendingUploads) => {
+export const ImageUploadInQueue = (event, setPendingUploads) => {
   const files = Array.from(event.target.files);
 
   const MAX_SIZE = 20 * 1024 * 1024; // 5 MB
@@ -18,4 +18,3 @@ export const handleImageUpload = (event, setPendingUploads) => {
 
   setPendingUploads((prev) => [...newUploads, ...prev]);
 };
-

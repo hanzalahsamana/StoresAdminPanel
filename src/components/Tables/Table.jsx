@@ -6,7 +6,7 @@ import { GoDotFill } from "react-icons/go";
 import TableSkeletonLoader from "../Loader/TableSkeletonLoader";
 import { VscArrowRight } from "react-icons/vsc";
 import { IoCopyOutline } from "react-icons/io5";
-import { copyToClipboard } from "@/Utils/CopyText";
+import { copyToClipboard } from "@/Utils/MiniUtils";
 import { motion } from 'framer-motion';
 
 const fadeUpVariant = {

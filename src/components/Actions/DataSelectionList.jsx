@@ -1,3 +1,20 @@
+<<<<<<< HEAD
+import DragAndDropWrapper, { useDragAndDrop } from "@/Hooks/useDragAndDrop";
+import React, { useEffect, useState } from "react";
+import { BsDatabaseGear } from "react-icons/bs";
+import { MdDragIndicator } from "react-icons/md";
+import { RiDraggable } from "react-icons/ri";
+import DynamicDataSelectorModal from "../Modals/DynamicDataSelectorModal";
+import { getProducts } from "@/APIs/Product/getProducts";
+import { useSelector } from "react-redux";
+import { getCollections } from "@/APIs/Collection/getCollections";
+import { getAllPages } from "@/APIs/Pages/Page";
+import { getMenuLinks } from "@/APIs/SearchSuggestions/menuLinks";
+import ImgToIcon from "./ImgToIcon";
+import { CiFileOn } from "react-icons/ci";
+import { AiOutlineDelete } from "react-icons/ai";
+import { isEqual } from "lodash";
+=======
 import DragAndDropWrapper, { useDragAndDrop } from '@/Hooks/useDragAndDrop';
 import React, { useEffect, useState } from 'react';
 import { BsDatabaseGear } from 'react-icons/bs';
@@ -14,6 +31,7 @@ import { CiFileOn } from 'react-icons/ci';
 import { IsEqual } from '@/Utils/IsEqual';
 import { AiOutlineDelete } from 'react-icons/ai';
 import { v4 as uuidv4 } from 'uuid';
+>>>>>>> 182939004d7149049ffc193026c3288eaccc1549
 
 const DataSelectionList = ({ customData = null, selectedData = [], setSelectedData, dataName = 'menu links', label = '', limit = null, selectorName = '' }) => {
   const { items, setItems, handleDragEnd } = useDragAndDrop({
@@ -79,7 +97,11 @@ const DataSelectionList = ({ customData = null, selectedData = [], setSelectedDa
   }, [dataName]);
 
   const handleDelete = (itemToDelete) => {
+<<<<<<< HEAD
+    const newData = selectedData.filter(item => !isEqual(item, itemToDelete));
+=======
     const newData = selectedData.filter((item) => !IsEqual(item, itemToDelete));
+>>>>>>> 182939004d7149049ffc193026c3288eaccc1549
     setSelectedData(newData);
   };
 
@@ -103,8 +125,13 @@ const DataSelectionList = ({ customData = null, selectedData = [], setSelectedDa
           className="space-y-2"
         >
           {(item, index, { provided }) => {
+<<<<<<< HEAD
+            console.log(loadedData, "Enriched Item", item, "Item");
+            const enrichedItem = loadedData.find(d => isEqual(d.value, item));
+=======
             console.log(loadedData, 'Enriched Item', item, 'Item');
             const enrichedItem = loadedData.find((d) => IsEqual(d.value, item));
+>>>>>>> 182939004d7149049ffc193026c3288eaccc1549
 
             return (
               <div key={enrichedItem?.value} ref={provided.innerRef} {...provided.draggableProps} className={`flex items-center justify-between rounded-lg p-2 border `}>

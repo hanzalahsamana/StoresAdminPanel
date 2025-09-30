@@ -7,10 +7,10 @@ import RichText from "../Widgets/RichText";
 import BannerSlider from "../Widgets/BannerSlider";
 import TemplateFooter from "./TemplateFooter";
 import TemplateHeader from "./TemplateHeader";
-import { FeatureCollectionSectionWrapper, FeatureProductSectionWrapper } from "@/Utils/PreviewSectionWrappers";
 import CheckoutWidget from "../Widgets/CheckoutWidget";
 import AddReviews from "../Widgets/AddReviews";
 import Catalog from "../Widgets/Catalog";
+import { FeatureCollectionSectionWrapper, FeatureProductSectionWrapper } from "./PreviewSectionWrappers";
 
 export default function HomeLayout({ PageData = [], activeSectionId = null, }) {
   const sectionRefs = useRef({});

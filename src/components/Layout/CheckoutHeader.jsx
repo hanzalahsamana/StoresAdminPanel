@@ -1,7 +1,7 @@
 "use client";
 import { getContentByName } from '@/Redux/ContentData/ContentDataSlice';
 import { getBasePath } from '@/Utils/GetBasePath';
-import { totalCalculate } from '@/Utils/TotalCalculator';
+import { totalCalculate } from '@/Utils/Calculators';
 import Link from 'next/link';
 import { SlHandbag } from 'react-icons/sl';
 import { useSelector } from 'react-redux';

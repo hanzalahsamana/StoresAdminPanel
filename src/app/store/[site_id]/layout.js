@@ -2,12 +2,6 @@ import { StoreProviderWrap } from '@/components/Layout/ProviderWrap';
 import { placeholderImageUrl } from '@/Structure/DefaultStructures';
 import axios from 'axios';
 import BASE_URL from 'config';
-import { Assistant } from 'next/font/google';
-
-const assistant = Assistant({
-  subsets: ['latin'],
-  weight: ['400', '500', '600', '700', '800'],
-});
 
 export async function generateMetadata({ params }) {
   try {
@@ -52,7 +46,7 @@ export async function generateMetadata({ params }) {
 
 export default function SiteLayout({ params, children }) {
   return (
-    <StoreProviderWrap params={params} fontClass={assistant.className}>
+    <StoreProviderWrap params={params}>
       {children}
     </StoreProviderWrap>
   );

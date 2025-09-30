@@ -1,4 +1,3 @@
-// Optimized AddEditProductModal with improved form state management, consistent naming, and accurate validations.
 
 'use client';
 
@@ -10,6 +9,7 @@ import CustomCard from '../Cards/CustomCard';
 import { toast } from 'react-toastify';
 import { addProducts } from '@/APIs/Product/addProduct';
 import { editProductData } from '@/APIs/Product/editProduct';
+import { useDispatch, useSelector } from 'react-redux';
 import { useSelector } from 'react-redux';
 import { productUploadValidate } from '@/Utils/FormsValidator';
 import VariantsSelector from '../Uploaders/VariantsSelector';
@@ -24,7 +24,7 @@ import Checkbox from '../Actions/CheckBox';
 import { FaSearchengin } from 'react-icons/fa6';
 import DataSelectionList from '../Actions/DataSelectionList';
 import ImageSelector from '../Uploaders/ImageSlector';
-import { cleanObjectFields } from '@/Utils/cleanObjectFields';
+import { cleanObjectFields } from '@/Utils/MiniUtils';
 import Loader from '../Loader/loader';
 import { useRouter } from 'next/navigation';
 import { ScrollShadows, useScrollShadow } from '@/Hooks/useScrollShadow';

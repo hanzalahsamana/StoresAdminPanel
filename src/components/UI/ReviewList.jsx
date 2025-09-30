@@ -1,4 +1,4 @@
-import { formatRelativeTime } from "@/Utils/FormatRelativeTime";
+import { formatRelativeTime } from "@/Utils/Formaters";
 import React, { useState } from "react";
 import StarRating from "./starRating";
 import RatingBreakdown from "./RatingBreakdown";

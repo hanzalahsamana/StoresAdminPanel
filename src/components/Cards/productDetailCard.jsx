@@ -5,7 +5,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 import { addCartData } from "@/Redux/CartData/cartDataSlice";
-import { ConvertArray } from "@/Utils/CovertArray";
+import { ConvertArray } from "@/Utils/MiniUtils";
 import { getBasePath } from "@/Utils/GetBasePath";
 import QuantityControl from "../Actions/quantityControl";
 import ButtonLoader from "../Loader/ButtonLoader";
@@ -16,6 +16,11 @@ import { GoDotFill } from "react-icons/go";
 import { toast } from "react-toastify";
 import pluralize from "pluralize";
 import { getValidVariant } from "@/Utils/getValidVariant";
+import { poppins } from "@/Utils/ApplyTheme";
+import { formatNumberWithCommas } from "@/Utils/Formaters";
+import { FaArrowRightLong } from "react-icons/fa6";
+import Button from "../Actions/Button";
+import { createCheckoutSession } from "@/APIs/Checkout/Checkout";
 
 const ProductDetailCard = ({ product }) => {
 
@@ -55,6 +60,23 @@ const ProductDetailCard = ({ product }) => {
     dispatch(addCartData({ addedProduct: { productId: product?._id, quantity, selectedVariant: selectedOptions || {} }, storeId: store?._id }));
     setQuantity(1)
   };
+  const handleBuyNow = async () => {
+    try {
+      const responce = await createCheckoutSession(store?._id, {
+        cartItems: [
+          {
+            productId: product?._id,
+            quantity,
+            selectedVariant: selectedOptions || {}
+          }
+        ]
+      });
+
+      router.push(`/checkout/${responce.token}`);
+    } catch (error) {
+      toast.error(error.response ? error.response.data.message : error.message);
+    }
+  };
 
   useEffect(() => {
     if (!product) return;
@@ -84,9 +106,9 @@ const ProductDetailCard = ({ product }) => {
 
   return (
     <div className={`flex justify-center py-[25px] px-[30px] bg-white w-full`}>
-      <div className={`flex justify-center gap-6 w-full`}>
-        <div className={`flex flex-col gap-2.5  w-[344px]`}>
-          <div className="bg-[#f4f4f4] border border-[#dcdcdc] rounded-[4px] h-max">
+      <div className={`grid grid-cols-1 md:grid-cols-2 gap-[50px] w-full max-w-[1200px]`}>
+        <div className={`flex flex-col gap-2.5 w-full`}>
+          <div className="bg-[#f4f4f4] border border-[#f0f0f0] rounded-[4px] h-max overflow-hidden">
             <img src={productDataAccToVariant?.image || product?.displayImage} alt="" className="w-full brightness-[1.3]" />
           </div>
 
@@ -113,7 +135,7 @@ const ProductDetailCard = ({ product }) => {
 
         <div className={`flex-1 flex flex-col items-start`}>
           {/* <p className={`text-[14px] text-[var(--tmp-ltxt)]`}>{product.brand}</p> */}
-          <h1 className="text-[24px]/[28px] max-w-[450px] font-semibold">{product?.name || 'No Name Found'}</h1>
+          <h1 className={`text-[36px]/[40px] tracking-wider text-gray-900 font-black font-[inter]`}>{product?.name || 'Unknown Product'}</h1>
           {product?.wantsCustomerReview && (
             <div className="flex items-center mt-[10px] gap-2 text-[15px]/[15px]  text-[#6c6c6c]">
               <StarRating rating={product?.ratings?.average} disable={true} className={'!text-[15px]'} />
@@ -125,6 +147,11 @@ const ProductDetailCard = ({ product }) => {
               </p>
             </div>
           )}
+
+          <div className="flex items-end gap-3 pt-3">
+            <p className="font-bold text-[28px]/[28px]">{formatNumberWithCommas(productDataAccToVariant?.price, 0)}</p>
+            <p className="font-normal text-[20px]/[20px] line-through text-[#a5a5a5]">{formatNumberWithCommas(product?.comparedAtPrice, 0)}</p>
+          </div>
 
           <StatusCard
             status={productDataAccToVariant?.stock >= 1}
@@ -138,11 +165,26 @@ const ProductDetailCard = ({ product }) => {
                   : 'In Stock'
                 : 'Out Of Stock'
             }
-            className="mt-[15px]"
+            className="mt-3"
           />
+
+          <div className="flex gap-2 items-end pt-3">
+            <QuantityControl
+              quantity={quantity}
+              increaseQuantity={increaseQuantity}
+              decreaseQuantity={decreaseQuantity}
+            />
+            <p className="text-[18px]/[18px] capitalize">
+              pieces
+            </p>
+          </div>
+
+
+
+
           <div>
             {product?.variations.map(({ name, options }, index) => (
-              <div key={index} className="pt-[20px]">
+              <div key={index} className="pt-3">
                 <p className="text-gray-600 text-[14px] mb-1">Select {name}</p>
                 <div className="flex flex-wrap gap-2">
                   {options.map((option, idx) => {
@@ -173,6 +215,22 @@ const ProductDetailCard = ({ product }) => {
               </div>
             ))}
           </div>
+          <button
+            disabled={!product?.stock ? true : false || loading}
+            onClick={handleAddToCart}
+            className={`py-3 w-full mt-4 bg-[black] border-none text-[#ffffff] text-[18px] font-bold   transition-all duration-300 hover:scale-105 disabled:cursor-not-allowed`}
+          >
+            {loading ? <ButtonLoader /> : 'Add To Cart'}
+          </button>
+          <button
+            disabled={!product?.stock ? true : false}
+            onClick={handleBuyNow}
+            className={`py-3 w-full mt-2 bg-transparent  border-[black] border-[1px] text-[#000000] text-[18px] font-bold  transition-all duration-300 hover:scale-105 ${!product?.stock ? 'cursor-not-allowed' : ''}`}
+          >
+            {loading ? <ButtonLoader /> : 'Buy It Now'}
+          </button>
+
+          <p className="p-3 text-[var(--tmp-txt)] text-lg">{product?.description}</p>
 
           {product?.note && (
 
@@ -180,25 +238,6 @@ const ProductDetailCard = ({ product }) => {
               {product?.note}
             </p>
           )}
-        </div>
-
-        <div className="w-[280px] flex flex-col p-[20px] bg-white border-[1.3px] border-[#e1dfdf] rounded-[4px] customShadow h-[400px]">
-          <div className="flex items-end gap-3">
-            <p className="font-bold text-[28px]/[28px]">{productDataAccToVariant?.price} Rs</p>
-            <p className="font-medium text-[18px]/[18px] line-through text-[#a5a5a5]">{product?.comparedAtPrice} Rs</p>
-          </div>
-
-          <div className="flex gap-2 items-end">
-            <QuantityControl
-              quantity={quantity}
-              increaseQuantity={increaseQuantity}
-              decreaseQuantity={decreaseQuantity}
-              className={'mt-[30px]'}
-            />
-            <p className="text-[18px]">
-              pieces
-            </p>
-          </div>
 
           <ul className="w-full text-[15px] font-medium border-b text-[#9e9b9b] font-se my-[20px] py-[10px] ">
             <li className="before:content-['•'] before:pr-1 mb-[2px]">Vendor: {product?.vendor}</li>
@@ -206,24 +245,12 @@ const ProductDetailCard = ({ product }) => {
             <li className="before:content-['•'] before:pr-1 mb-[2px]">Color: Purple</li>
             <li className="before:content-['•'] before:pr-1 mb-[2px]">Size: Large</li>
           </ul>
-          <button
-            disabled={!product?.stock ? true : false || loading}
-            onClick={handleAddToCart}
-            className={`py-[7px] w-full mt-2 bg-[#0D6FFD] border-none text-[#ffffff] text-[16px] font-bold rounded-md  transition-all duration-300 hover:scale-105 disabled:cursor-not-allowed`}
-          >
-            {loading ? <ButtonLoader /> : 'Add To Cart'}
-          </button>
-          <button
-            disabled={!product?.stock ? true : false}
-            onClick={() => {
-              handleAddToCart();
-              router.push(`${getBasePath()}/checkout`);
-            }}
-            className={`py-[7px] w-full mt-2 bg-[#d6e6ff8e] border-none text-[#0D6FFD] text-[16px] font-bold rounded-md  transition-all duration-300 hover:scale-105 ${!product?.stock ? 'cursor-not-allowed' : ''}`}
-          >
-            {loading ? <ButtonLoader /> : 'Buy It Now'}
-          </button>
         </div>
+
+        {/* <div className="w-[280px] flex flex-col p-[20px] bg-white border-[1.3px] border-[#e1dfdf] rounded-[4px] customShadow h-[400px]">
+          
+      
+        </div> */}
       </div >
     </div >
   );

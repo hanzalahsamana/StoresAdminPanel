@@ -12,7 +12,7 @@ import AddPageModal from '@/components/Modals/AddPageModal';
 import DynamicDataSelectorModal from '@/components/Modals/DynamicDataSelectorModal';
 import { ScrollShadows, useScrollShadow } from '@/Hooks/useScrollShadow';
 import { ecommercePages } from '@/Structure/DefaultStructures'
-import { formatRelativeTime } from '@/Utils/FormatRelativeTime';
+import { formatRelativeTime } from '@/Utils/Formaters';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react'
 import { AiOutlineDelete } from 'react-icons/ai';

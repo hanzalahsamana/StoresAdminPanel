@@ -1,10 +1,10 @@
-'use client';
-import React, { useState, useEffect, useRef } from 'react';
-import { createPortal } from 'react-dom';
-import { CgInsertAfter } from 'react-icons/cg';
-import FormInput from '../Forms/FormInput';
-import { IoMdArrowDropup } from 'react-icons/io';
-import { IsArrayEqual } from '@/Utils/IsEqual';
+"use client";
+import React, { useState, useEffect, useRef } from "react";
+import { createPortal } from "react-dom";
+import { CgInsertAfter } from "react-icons/cg";
+import FormInput from "../Forms/FormInput";
+import { IoMdArrowDropup } from "react-icons/io";
+import { isEqual } from "lodash";
 
 const DropDown = ({
   defaultOptions = [],
@@ -37,6 +37,17 @@ const DropDown = ({
     });
   }, [defaultOptions]);
 
+    useEffect(() => {
+        const normalized = defaultOptions.map((opt) =>
+            typeof opt === "string" ? { value: opt, label: opt } : opt
+        );
+        setOptions((prev) => {
+            if (!isEqual(prev, normalized)) {
+                return normalized;
+            }
+            return prev;
+        });
+    }, [defaultOptions]);
   useEffect(() => {
     const selectedObj = options.find((opt) => opt.value === selectedOption);
     setSearchTerm(selectedObj?.label || '');

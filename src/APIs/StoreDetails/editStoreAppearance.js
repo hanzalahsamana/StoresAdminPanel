@@ -6,7 +6,7 @@ import { setStoreBranding } from '@/Redux/Store/StoreDetail.slice';
 
 export const editStoreAppearance = async (token, storeId, branding) => {
   try {
-    const { data } = await axios.post(
+    const { data } = await axios.put(
       `${BASE_URL}/${storeId}/editStoreAppearance`,
       { branding },
       {

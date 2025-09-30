@@ -13,6 +13,7 @@ import TabNavigation from '@/components/Widgets/TabNavigation';
 import ProductDescription from '@/components/Sections/ProductDescription';
 import { getProducts } from '@/APIs/Product/getProducts';
 import { getSingleProduct } from '@/APIs/Product/getSingleProduct';
+import TemplateHeader from '@/components/Layout/TemplateHeader';
 
 const ProductDetail = ({ params }) => {
   // const { products, loading, error } = useSelector((state) => state.productData);
