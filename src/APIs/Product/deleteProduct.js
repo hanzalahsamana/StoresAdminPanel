@@ -12,7 +12,7 @@ export const deleteProduct = async (token, storeId, productId) => {
         Authorization: `Bearer ${token}`,
       },
     });
-    dispatch(deleteProductData(productId));
+    dispatch(deleteProductData(!Array.isArray(productId) ? [productId] : productId));
     toast.success(response.data.message);
     return response.data.message;
   } catch (error) {
