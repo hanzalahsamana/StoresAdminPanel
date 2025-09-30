@@ -27,9 +27,11 @@ export const productDataSlice = createSlice({
     },
 
     deleteProductData: (state, action) => {
-      state.products = state.products.filter((product) => product._id !== action.payload);
+      const idsToDelete = Array.isArray(action.payload) ? action.payload : [action.payload];
+      state.products = state.products.filter((product) => !idsToDelete.includes(product._id));
       return state;
     },
+
     setProductLoading: (state, action) => {
       state.productLoading = action.payload;
       return state;
