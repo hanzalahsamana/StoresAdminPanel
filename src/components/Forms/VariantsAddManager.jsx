@@ -39,8 +39,13 @@ const VariantsAddManager = ({ variations = [], variantData = [], setVariantData 
         }
       );
     });
-    setGroupByIndex(variations?.length + 1);
     setVariantData(updated);
+  }, [variations]);
+
+  useEffect(() => {
+    if (variations?.length) {
+      setGroupByIndex(variations?.length + 1);
+    }
   }, [variations]);
 
   useEffect(() => {
