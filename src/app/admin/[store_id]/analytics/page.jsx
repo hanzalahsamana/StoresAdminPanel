@@ -42,7 +42,7 @@ const Analytics = () => {
     <div className='p-[20px]'>
       <div className="flex items-center justify-between mb-6 ">
         <h1 className="text-3xl font-bold text-gray-900">Analytics</h1>
-        <DropDown placeholder='Duration' selectedOption={timeRange} setSelectedOption={setTimeRange} defaultOptions={Analytics_Time_Ranges} />
+        <DropDown className='w-max' placeholder='Duration' selectedOption={timeRange} setSelectedOption={setTimeRange} defaultOptions={Analytics_Time_Ranges} />
       </div>
 
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-5 w-full mb-5 text-[25px] text-primaryC font-medium">

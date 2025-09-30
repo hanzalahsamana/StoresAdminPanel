@@ -1,4 +1,3 @@
-
 'use client';
 
 import React, { useEffect, useMemo, useState } from 'react';
@@ -9,7 +8,6 @@ import CustomCard from '../Cards/CustomCard';
 import { toast } from 'react-toastify';
 import { addProducts } from '@/APIs/Product/addProduct';
 import { editProductData } from '@/APIs/Product/editProduct';
-import { useDispatch, useSelector } from 'react-redux';
 import { useSelector } from 'react-redux';
 import { productUploadValidate } from '@/Utils/FormsValidator';
 import VariantsSelector from '../Uploaders/VariantsSelector';
@@ -89,8 +87,11 @@ const AddEditProductModal = ({ isOpen, updatedData = null }) => {
       setSelectedVariationNames([]);
       setSelectedOptionsMap({});
     }
-    console.log('✨');
   }, [updatedData]);
+
+  useEffect(() => {
+    setFormData((prev) => ({ ...prev, variations: variationData, variants: variantsData }));
+  }, [variantsData, variationData]);
 
   useEffect(() => {
     if (!isOpen) {
@@ -125,8 +126,6 @@ const AddEditProductModal = ({ isOpen, updatedData = null }) => {
 
       const productData = {
         ...finalData,
-        variants: variantsData,
-        variations: variationData,
       };
       const editPayload = cleanObjectFields(productData, ['_id', '__v', 'storeRef', 'productId', 'updatedAt', 'createdAt', 'totalSold', 'slug']);
       // Submit
@@ -150,10 +149,6 @@ const AddEditProductModal = ({ isOpen, updatedData = null }) => {
   // if (collectionLoading || !collections) {
   //   return
   // }
-
-  useEffect(() => {}, [isModified]);
-  console.log('formData===>', formData);
-  console.log('updated===>', updatedData);
   return (
     <BackgroundFrame className="h-full">
       <ActionCard
@@ -174,7 +169,7 @@ const AddEditProductModal = ({ isOpen, updatedData = null }) => {
         actions={
           <>
             <Button action={() => router.push(updatedData ? '../../products' : '../products')} label={'Cancel'} size="small" variant="white" active={!productLoading} />
-            <Button action={handleSubmit} label={'Save Product'} loading={loading} size="small" variant="black" active={isModified} />
+            <Button action={handleSubmit} label={'Save Product'} loading={loading} size="small" variant="black" active={updatedData ? isModified : true} />
           </>
         }
         actionPosition="top"
@@ -286,12 +281,12 @@ const AddEditProductModal = ({ isOpen, updatedData = null }) => {
                         onChange={(e) => handleChange(e.target.name, e.target.value)}
                         error={errors.stock}
                       />
-                      <Checkbox
+                      {/* <Checkbox
                         checked={formData.continueSelling}
                         setChecked={(val) => handleChange('continueSelling', val)}
                         label="Continue selling when out of stock"
                         className={'w-full'}
-                      />
+                      /> */}
                     </>
                   )}
                 </CustomCard>
@@ -310,7 +305,12 @@ const AddEditProductModal = ({ isOpen, updatedData = null }) => {
                     limit={4}
                     selectorName="related products"
                   />
-                  <TextEditor label={'Description'} className={"!w-full"} setEditorContent={(content) => handleChange('description', content)} editorContent={formData?.description} />
+                  <TextEditor
+                    label={'Description'}
+                    className={'!w-full'}
+                    setEditorContent={(content) => handleChange('description', content)}
+                    editorContent={updatedData ? updatedData?.description : formData?.description}
+                  />
                   <FormInput
                     name="note"
                     label="Note"
@@ -321,7 +321,12 @@ const AddEditProductModal = ({ isOpen, updatedData = null }) => {
                     error={errors.note}
                     required={false}
                   />
-                  <Checkbox checked={formData.enableReview} setChecked={(val) => handleChange('enableReview', val)} label="Enable Customer Review" className={'w-full'} />
+                  <Checkbox
+                    checked={formData.wantsCustomerReview}
+                    setChecked={(val) => handleChange('wantsCustomerReview', val)}
+                    label="Enable Customer Review"
+                    className={'w-full'}
+                  />
                 </CustomCard>
 
                 <CustomCard

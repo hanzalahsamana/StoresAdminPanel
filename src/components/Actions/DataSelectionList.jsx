@@ -1,20 +1,3 @@
-<<<<<<< HEAD
-import DragAndDropWrapper, { useDragAndDrop } from "@/Hooks/useDragAndDrop";
-import React, { useEffect, useState } from "react";
-import { BsDatabaseGear } from "react-icons/bs";
-import { MdDragIndicator } from "react-icons/md";
-import { RiDraggable } from "react-icons/ri";
-import DynamicDataSelectorModal from "../Modals/DynamicDataSelectorModal";
-import { getProducts } from "@/APIs/Product/getProducts";
-import { useSelector } from "react-redux";
-import { getCollections } from "@/APIs/Collection/getCollections";
-import { getAllPages } from "@/APIs/Pages/Page";
-import { getMenuLinks } from "@/APIs/SearchSuggestions/menuLinks";
-import ImgToIcon from "./ImgToIcon";
-import { CiFileOn } from "react-icons/ci";
-import { AiOutlineDelete } from "react-icons/ai";
-import { isEqual } from "lodash";
-=======
 import DragAndDropWrapper, { useDragAndDrop } from '@/Hooks/useDragAndDrop';
 import React, { useEffect, useState } from 'react';
 import { BsDatabaseGear } from 'react-icons/bs';
@@ -28,11 +11,9 @@ import { getAllPages } from '@/APIs/Pages/Page';
 import { getMenuLinks } from '@/APIs/SearchSuggestions/menuLinks';
 import ImgToIcon from './ImgToIcon';
 import { CiFileOn } from 'react-icons/ci';
-import { IsEqual } from '@/Utils/IsEqual';
 import { AiOutlineDelete } from 'react-icons/ai';
+import { isEqual } from 'lodash';
 import { v4 as uuidv4 } from 'uuid';
->>>>>>> 182939004d7149049ffc193026c3288eaccc1549
-
 const DataSelectionList = ({ customData = null, selectedData = [], setSelectedData, dataName = 'menu links', label = '', limit = null, selectorName = '' }) => {
   const { items, setItems, handleDragEnd } = useDragAndDrop({
     initialItems: selectedData,
@@ -97,16 +78,12 @@ const DataSelectionList = ({ customData = null, selectedData = [], setSelectedDa
   }, [dataName]);
 
   const handleDelete = (itemToDelete) => {
-<<<<<<< HEAD
-    const newData = selectedData.filter(item => !isEqual(item, itemToDelete));
-=======
-    const newData = selectedData.filter((item) => !IsEqual(item, itemToDelete));
->>>>>>> 182939004d7149049ffc193026c3288eaccc1549
+    const newData = selectedData.filter((item) => !isEqual(item, itemToDelete));
     setSelectedData(newData);
   };
 
   return (
-    <div className="md:w-full md:max-w-full max-w-sm rounded-xl border p-2 space-y-2 bg-white">
+    <div className={`md:w-full md:max-w-full max-w-sm rounded-xl border p-2 bg-white ${items?.length && 'space-y-2'}`}>
       <div onClick={() => setIsOpen(true)} className="flex justify-center items-center gap-3 p-2 w-full bg-gray-100 text-gray-600 hover:bg-gray-200 rounded-md cursor-pointer">
         <BsDatabaseGear />
         Select {selectorName || dataName}
@@ -125,13 +102,8 @@ const DataSelectionList = ({ customData = null, selectedData = [], setSelectedDa
           className="space-y-2"
         >
           {(item, index, { provided }) => {
-<<<<<<< HEAD
-            console.log(loadedData, "Enriched Item", item, "Item");
-            const enrichedItem = loadedData.find(d => isEqual(d.value, item));
-=======
             console.log(loadedData, 'Enriched Item', item, 'Item');
-            const enrichedItem = loadedData.find((d) => IsEqual(d.value, item));
->>>>>>> 182939004d7149049ffc193026c3288eaccc1549
+            const enrichedItem = loadedData.find((d) => isEqual(d.value, item));
 
             return (
               <div key={enrichedItem?.value} ref={provided.innerRef} {...provided.draggableProps} className={`flex items-center justify-between rounded-lg p-2 border `}>
