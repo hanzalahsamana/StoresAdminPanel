@@ -6,7 +6,6 @@ import FormInput from '@/components/Forms/FormInput';
 import { toast } from 'react-toastify';
 import { addCollectionApi } from '@/APIs/Collection/addCollection';
 import { editCollectionApi } from '@/APIs/Collection/editCollection';
-import ImageUploader from '../Uploaders/ImageUploader';
 import Modal from './Modal';
 import { uploadSingleImageToS3 } from '@/APIs/uploadImageS3';
 import ActionCard from '../Cards/ActionCard';

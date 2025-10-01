@@ -226,7 +226,7 @@ const Checkout = () => {
 
       <div className="h-screen bg-[var(--tmp-acc)] w-full px-8 py-2 flex justify-start sticky top-0">
         <div className="max-w-[500px] w-full flex flex-col h-full">
-          <h2 className="text-[24px] font-semibold mb-1 text-[var(--tmp-txt)]">Reciept</h2>
+          {/* <h2 className="text-[24px] font-semibold mb-1 text-[var(--tmp-txt)]">Reciept</h2> */}
 
           <ProductsReciept products={cartData} />
 

@@ -16,7 +16,7 @@ body {
   --text-color: #333333e8;
   --border-color: #dadce0;
   --light-text-color: #5f6571bc;
-  --light-background-color: #4285f40a;
+  --light-background-color: #4285f40a; 
 }
 
 :root {
@@ -31,6 +31,8 @@ body {
   --tmp-ltxt: #515357;
   /* Light Text Color */
   --tmp-wtxt: #e6e6e6;
+  /* Light Text Color */
+  --tmp-lBor: #0000001a;
   /* Light Text Color */
 }
 

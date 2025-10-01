@@ -1,40 +1,38 @@
-"use client";
+'use client';
 
-import React, { useEffect } from "react";
-import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { useDispatch, useSelector } from "react-redux";
-import { addCartData } from "@/Redux/CartData/cartDataSlice";
-import { ConvertArray } from "@/Utils/MiniUtils";
-import { getBasePath } from "@/Utils/GetBasePath";
-import QuantityControl from "../Actions/quantityControl";
-import ButtonLoader from "../Loader/ButtonLoader";
-import StatusCard from "./StatusCard";
-import StarRating from "../UI/starRating";
-import { BiSolidCommentDetail } from "react-icons/bi";
-import { GoDotFill } from "react-icons/go";
-import { toast } from "react-toastify";
-import pluralize from "pluralize";
-import { getValidVariant } from "@/Utils/getValidVariant";
-import { poppins } from "@/Utils/ApplyTheme";
-import { formatNumberWithCommas } from "@/Utils/Formaters";
-import { FaArrowRightLong } from "react-icons/fa6";
-import Button from "../Actions/Button";
-import { createCheckoutSession } from "@/APIs/Checkout/Checkout";
+import React, { useEffect } from 'react';
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { useDispatch, useSelector } from 'react-redux';
+import { addCartData } from '@/Redux/CartData/cartDataSlice';
+import { ConvertArray } from '@/Utils/MiniUtils';
+import { getBasePath } from '@/Utils/GetBasePath';
+import QuantityControl from '../Actions/quantityControl';
+import ButtonLoader from '../Loader/ButtonLoader';
+import StatusCard from './StatusCard';
+import StarRating from '../UI/starRating';
+import { BiSolidCommentDetail } from 'react-icons/bi';
+import { GoDotFill } from 'react-icons/go';
+import { toast } from 'react-toastify';
+import pluralize from 'pluralize';
+import { getValidVariant } from '@/Utils/getValidVariant';
+import { poppins } from '@/Utils/ApplyTheme';
+import { formatNumberWithCommas } from '@/Utils/Formaters';
+import { FaArrowRightLong } from 'react-icons/fa6';
+import Button from '../Actions/Button';
+import { createCheckoutSession } from '@/APIs/Checkout/Checkout';
 
 const ProductDetailCard = ({ product }) => {
-
   const router = useRouter();
   const dispatch = useDispatch();
   const [quantity, setQuantity] = useState(1);
   const [mainImage, setmainImage] = useState(0);
-  const sizes = ConvertArray(product?.size || [])
-  const [selectedSize, setSelectedSize] = useState(sizes?.[0] || '')
+  const sizes = ConvertArray(product?.size || []);
+  const [selectedSize, setSelectedSize] = useState(sizes?.[0] || '');
   const { loading } = useSelector((state) => state?.cartData || []);
   const { store } = useSelector((state) => state.store);
 
-  console.log(product, "⚱️⚱️⚱️");
-
+  console.log(product, '⚱️⚱️⚱️');
 
   const [selectedOptions, setSelectedOptions] = useState({});
   const [displayImage, setDisplayImage] = useState(product?.displayImage);
@@ -42,12 +40,11 @@ const ProductDetailCard = ({ product }) => {
     image: '',
     price: '',
     stock: '',
-
   });
 
   const increaseQuantity = () => {
     if (productDataAccToVariant?.stock && quantity >= productDataAccToVariant?.stock) {
-      return toast.error("this product is limited stock")
+      return toast.error('this product is limited stock');
     }
     setQuantity((prevQuantity) => prevQuantity + 1);
   };
@@ -58,7 +55,7 @@ const ProductDetailCard = ({ product }) => {
 
   const handleAddToCart = () => {
     dispatch(addCartData({ addedProduct: { productId: product?._id, quantity, selectedVariant: selectedOptions || {} }, storeId: store?._id }));
-    setQuantity(1)
+    setQuantity(1);
   };
   const handleBuyNow = async () => {
     try {
@@ -67,9 +64,9 @@ const ProductDetailCard = ({ product }) => {
           {
             productId: product?._id,
             quantity,
-            selectedVariant: selectedOptions || {}
-          }
-        ]
+            selectedVariant: selectedOptions || {},
+          },
+        ],
       });
 
       router.push(`/checkout/${responce.token}`);
@@ -80,16 +77,15 @@ const ProductDetailCard = ({ product }) => {
 
   useEffect(() => {
     if (!product) return;
-    const mergedData = getValidVariant(product, selectedOptions)
+    const mergedData = getValidVariant(product, selectedOptions);
     setProductDataAccToVariant(mergedData);
   }, [selectedOptions, product]);
-
 
   useEffect(() => {
     if (product?.variations?.length > 0) {
       const defaultSelections = {};
 
-      product.variations.forEach(variation => {
+      product.variations.forEach((variation) => {
         if (variation.options.length > 0) {
           defaultSelections[variation.name] = variation.options[0];
         }
@@ -100,44 +96,42 @@ const ProductDetailCard = ({ product }) => {
   }, [product]);
 
   useEffect(() => {
-    console.log(selectedOptions, "🏷️🏷️🏷️");
-
-  }, [selectedOptions])
+    console.log(selectedOptions, '🏷️🏷️🏷️');
+  }, [selectedOptions]);
 
   return (
-    <div className={`flex justify-center py-[25px] px-[30px] bg-white w-full`}>
+    <div className={`flex justify-center py-[25px] px-[30px] bg-[var(--tmp-pri)] w-full`}>
       <div className={`grid grid-cols-1 md:grid-cols-2 gap-[50px] w-full max-w-[1200px]`}>
-        <div className={`flex flex-col gap-2.5 w-full`}>
-          <div className="bg-[#f4f4f4] border border-[#f0f0f0] rounded-[4px] h-max overflow-hidden">
+        <div className={`flex flex-col gap-2.5 w-full space-y-6`}>
+          <div className="bg-[var(--tmp-pri)] border border-[var(--tmp-lBor)] rounded-[4px] h-max overflow-hidden">
             <img src={productDataAccToVariant?.image || product?.displayImage} alt="" className="w-full brightness-[1.3]" />
           </div>
 
-          <div className="grid grid-cols-4 gap-2 flex-wrap">
-            {[...(product?.gallery || []), ...(product?.variantRules?.map(v => v.image).filter(Boolean) || [])].map((image, index) => (
+          <div className="grid grid-cols-6 gap-4 flex-wrap">
+            {[...(product?.gallery || []), ...(product?.variantRules?.map((v) => v.image).filter(Boolean) || [])].map((image, index) => (
               <div
                 key={index}
                 onClick={() => {
                   setProductDataAccToVariant({
                     ...productDataAccToVariant,
                     image,
-                  })
+                  });
                 }}
-                className={`bg-[#ffffff] rounded-[4px]  w-[80px] h-[80px] flex justify-center p-1 items-center border cursor-pointer ${productDataAccToVariant?.image === image ? 'border-[1.5px] border-primaryC' : 'hover:border-gray-400'
-                  }`}
+                className={`rounded-[4px]  w-[80px] h-[80px] flex justify-center items-center border border-[var(--tmp-lBor)] cursor-pointer ${
+                  productDataAccToVariant?.image === image ? 'border-[1.5px] border-primaryC' : 'hover:border-gray-400'
+                }`}
               >
                 <img src={image} alt="" className="w-full object-cover h-full brightness-[1.3]" />
               </div>
             ))}
           </div>
-
-
         </div>
 
-        <div className={`flex-1 flex flex-col items-start`}>
+        <div className={`flex-1 flex flex-col items-start space-y-6`}>
           {/* <p className={`text-[14px] text-[var(--tmp-ltxt)]`}>{product.brand}</p> */}
-          <h1 className={`text-[36px]/[40px] tracking-wider text-gray-900 font-black font-[inter]`}>{product?.name || 'Unknown Product'}</h1>
+          <h1 className={`text-[36px]/[40px] tracking-wider text-[var(--tmp-txt)] font-black font-[inter]`}>{product?.name || 'Unknown Product'}</h1>
           {product?.wantsCustomerReview && (
-            <div className="flex items-center mt-[10px] gap-2 text-[15px]/[15px]  text-[#6c6c6c]">
+            <div className="flex items-center gap-2 text-[15px]/[15px]  text-[#6c6c6c]">
               <StarRating rating={product?.ratings?.average} disable={true} className={'!text-[15px]'} />
               {product?.ratings?.average}
               <GoDotFill className="text-[#e0e0e0]" />
@@ -148,9 +142,9 @@ const ProductDetailCard = ({ product }) => {
             </div>
           )}
 
-          <div className="flex items-end gap-3 pt-3">
-            <p className="font-bold text-[28px]/[28px]">{formatNumberWithCommas(productDataAccToVariant?.price, 0)}</p>
-            <p className="font-normal text-[20px]/[20px] line-through text-[#a5a5a5]">{formatNumberWithCommas(product?.comparedAtPrice, 0)}</p>
+          <div className="flex items-end gap-3">
+            <p className="font-bold text-[28px]/[28px] text-[var(--tmp-txt)]">{formatNumberWithCommas(productDataAccToVariant?.price, 0)}</p>
+            <p className="font-normal text-[20px]/[20px] line-through text-[var(--tmp-txt)]">{formatNumberWithCommas(product?.comparedAtPrice, 0)}</p>
           </div>
 
           <StatusCard
@@ -158,88 +152,69 @@ const ProductDetailCard = ({ product }) => {
             label={
               productDataAccToVariant?.stock >= 1
                 ? product?.showStock
-                  ? `${productDataAccToVariant.stock} ${productDataAccToVariant?.stock === 1
-                    ? product?.pronounce || 'piece'
-                    : pluralize(product?.pronounce || 'piece')
-                  } left`
+                  ? `${productDataAccToVariant.stock} ${productDataAccToVariant?.stock === 1 ? product?.pronounce || 'piece' : pluralize(product?.pronounce || 'piece')} left`
                   : 'In Stock'
                 : 'Out Of Stock'
             }
             className="mt-3"
           />
 
-          <div className="flex gap-2 items-end pt-3">
-            <QuantityControl
-              quantity={quantity}
-              increaseQuantity={increaseQuantity}
-              decreaseQuantity={decreaseQuantity}
-            />
-            <p className="text-[18px]/[18px] capitalize">
-              pieces
-            </p>
+          <div className="flex gap-2 items-end">
+            <QuantityControl quantity={quantity} increaseQuantity={increaseQuantity} decreaseQuantity={decreaseQuantity} />
+            {/* <p className="text-[18px]/[18px] capitalize text-[var(--tmp-wtxt)]">pieces</p> */}
           </div>
 
-
-
-
-          <div>
-            {product?.variations.map(({ name, options }, index) => (
-              <div key={index} className="pt-3">
-                <p className="text-gray-600 text-[14px] mb-1">Select {name}</p>
-                <div className="flex flex-wrap gap-2">
-                  {options.map((option, idx) => {
-                    const isColor = name.toLowerCase() === "color";
-                    return (
-                      <div
-                        onClick={() =>
-                          setSelectedOptions((prev) => ({
-                            ...prev,
-                            [name]: option,
-                          }))
-                        }
-                        key={idx}
-                        className={`bg-[#f4f4f4] cursor-pointer border-[1.5px] ${selectedOptions?.[name] === option ? "border-primaryC text-black" : "border-[#dcdcdcad] hover:border-[#c9c9c9ad] text-gray-500"
-                          } font-medium px-2 py-2 text-[15px]/[15px] rounded-[5px] flex items-center gap-2`}
-                      >
-                        {isColor ? (
-                          <span
-                            className="w-[24px] h-[24px] rounded-full"
-                            style={{ backgroundColor: option }}
-                          ></span>
-                        ) : <span className="px-1">{option}</span>}
-                        {/* {!isColor && } */}
-                      </div>
-                    );
-                  })}
-                </div>
+          {product?.variations.map(({ name, options }, index) => (
+            <div key={index} className="">
+              <p className="text-gray-600 text-[14px] mb-1">Select {name}</p>
+              <div className="flex flex-wrap gap-2">
+                {options.map((option, idx) => {
+                  const isColor = name.toLowerCase() === 'color';
+                  return (
+                    <div
+                      onClick={() =>
+                        setSelectedOptions((prev) => ({
+                          ...prev,
+                          [name]: option,
+                        }))
+                      }
+                      key={idx}
+                      className={`bg-[#f4f4f4] cursor-pointer border-[1.5px] ${
+                        selectedOptions?.[name] === option ? 'border-primaryC text-black' : 'border-[#dcdcdcad] hover:border-[#c9c9c9ad] text-gray-500'
+                      } font-medium px-2 py-2 text-[15px]/[15px] rounded-[5px] flex items-center gap-2`}
+                    >
+                      {isColor ? <span className="w-[24px] h-[24px] rounded-full" style={{ backgroundColor: option }}></span> : <span className="px-1">{option}</span>}
+                      {/* {!isColor && } */}
+                    </div>
+                  );
+                })}
               </div>
-            ))}
-          </div>
-          <button
+            </div>
+          ))}
+          <Button
             disabled={!product?.stock ? true : false || loading}
-            onClick={handleAddToCart}
-            className={`py-3 w-full mt-4 bg-[black] border-none text-[#ffffff] text-[18px] font-bold   transition-all duration-300 hover:scale-105 disabled:cursor-not-allowed`}
-          >
-            {loading ? <ButtonLoader /> : 'Add To Cart'}
-          </button>
-          <button
-            disabled={!product?.stock ? true : false}
-            onClick={handleBuyNow}
-            className={`py-3 w-full mt-2 bg-transparent  border-[black] border-[1px] text-[#000000] text-[18px] font-bold  transition-all duration-300 hover:scale-105 ${!product?.stock ? 'cursor-not-allowed' : ''}`}
-          >
-            {loading ? <ButtonLoader /> : 'Buy It Now'}
-          </button>
+            action={handleAddToCart}
+            loading={loading}
+            variant="store"
+            label="Add To Cart"
+            className="font-bold  transition-all duration-300 hover:scale-105 !h-[50px]"
+            size=""
+          />
+          <Button
+            disabled={!product?.stock ? true : false || loading}
+            action={handleAddToCart}
+            loading={loading}
+            variant="store"
+            label="Buy It Now "
+            className="!text-[var(--tmp-ltxt)] !bg-transparent border border-[var(--tmp-lBor)] font-bold  transition-all duration-300 hover:scale-105 !h-[50px]"
+            size=""
+          />
 
-          <p className="p-3 text-[var(--tmp-txt)] text-lg">{product?.description}</p>
+          <p className="text-[var(--tmp-txt)] text-lg" dangerouslySetInnerHTML={{ __html: product?.description }}></p>
 
-          {product?.note && (
+          {product?.note && <p className={'text-[.85rem] text-red-600 mt-[30px] w-full bg-red-100 p-2 '}>{product?.note}</p>}
 
-            <p className={'text-[.85rem] text-red-600 mt-[30px] w-full bg-red-100 p-2 '}>
-              {product?.note}
-            </p>
-          )}
-
-          <ul className="w-full text-[15px] font-medium border-b text-[#9e9b9b] font-se my-[20px] py-[10px] ">
+          <ul className="w-full text-[15px] font-medium border-b border-[var(--tmp-lBor)] text-[#9e9b9b] font-se">
             <li className="before:content-['•'] before:pr-1 mb-[2px]">Vendor: {product?.vendor}</li>
             <li className="before:content-['•'] before:pr-1 mb-[2px]">Material: Leather</li>
             <li className="before:content-['•'] before:pr-1 mb-[2px]">Color: Purple</li>
@@ -251,8 +226,8 @@ const ProductDetailCard = ({ product }) => {
           
       
         </div> */}
-      </div >
-    </div >
+      </div>
+    </div>
   );
 };
 
