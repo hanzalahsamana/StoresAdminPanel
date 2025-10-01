@@ -13,7 +13,7 @@
 
 .starEmpty {
     font-size: 30px;
-    color: #e5e7eb;
+    color: var(--tmp-lBor);
 }
 
 .starFilled {

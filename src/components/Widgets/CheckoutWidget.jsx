@@ -230,7 +230,7 @@ const CheckoutWidget = forwardRef(({ sectionData = {}, ...rest }, ref) => {
                 <div className="max-w-[500px] w-full flex flex-col h-full">
                     <h2 className="text-[24px] font-semibold mb-1 text-[var(--tmp-txt)]">Reciept</h2>
 
-                    <ProductsReciept products={cartData} />
+                    <ProductsReciept products={cartData} /> 
 
                     <PaymentSummary className="bottom-0"
                         totalProductCost={totalProductCost}

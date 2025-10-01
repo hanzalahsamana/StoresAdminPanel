@@ -48,8 +48,7 @@ const SubscribeForm = () => {
       onSubmit={handleSubmit}
       className="w-full space-y-3 max-w-[400px] mt-4"
     >
-      <TemplateFormInput
-        label="Email"
+      <FormInput
         value={email}
         size="large"
         onChange={(e) => {
@@ -57,15 +56,13 @@ const SubscribeForm = () => {
           setEmail(e.target.value);
         }}
         placeholder="Enter your email"
-        className="!outline-black !bg-[var(--tmp-sec)] !border-[1.5px] text-[var(--tmp-wtxt)]"
-        labelClassname="!bg-[var(--tmp-sec)]"
         error={error}
         autocomplete="off"
-        actionIcon={
+        suffix={
           <button
             type="submit"
             disabled={loading}
-            className="absolute right-0 top-[-3px] text-[#5c5a5a] hover:text-[#7f7b7b] disabled:opacity-50"
+            className="pr-2 text-[#5c5a5a] hover:text-[#7f7b7b] disabled:opacity-50"
           >
             {loading ? (
               <CgSpinner className="text-[24px] animate-spin" />
@@ -74,6 +71,7 @@ const SubscribeForm = () => {
             )}
           </button>
         }
+        isStore={true}
       />
 
     </form>

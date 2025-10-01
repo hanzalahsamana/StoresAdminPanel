@@ -7,6 +7,8 @@ import { addReview, getReview } from '@/APIs/Customer/Review';
 import { toast } from 'react-toastify';
 import TemplateFormInput from '../Forms/TemplateFormInput';
 import ButtonLoader from '../Loader/ButtonLoader';
+import FormInput from '../Forms/FormInput';
+import Button from '../Actions/Button';
 
 const AddReviews = ({ storeId, productSlug, setReviewInState }) => {
   const [reviewData, setReviewData] = useState({
@@ -67,7 +69,7 @@ const AddReviews = ({ storeId, productSlug, setReviewInState }) => {
   return (
     <div className="w-full flex justify-center bg-[var(--tmp-pri)]">
       <div className="max-w-3xl p-5 w-full">
-        <h2 className="text-3xl font-semibold text-center text-[var(--tmp-sec)]">Your Feedback Matters!</h2>
+        <h2 className="text-3xl font-semibold text-center text-[var(--tmp-txt)]">Your Feedback Matters!</h2>
         <div className="flex justify-center sm:justify-between items-center my-[20px]">
           <h2 className="hidden sm:flex text-lg text-center text-[var(--tmp-ltxt)]">Write a review for this product</h2>
           <StarRating rating={reviewData.rating} setRating={(star) => handleChange('rating', star)} />
@@ -77,7 +79,7 @@ const AddReviews = ({ storeId, productSlug, setReviewInState }) => {
           <div className="grid grid-cols-2 gap-4">
             {/* Name */}
             <div className="">
-              <TemplateFormInput
+              <FormInput
                 placeholder="Jhon Doe"
                 onChange={(e) => handleChange('name', e.target.value)}
                 value={reviewData.name}
@@ -86,13 +88,13 @@ const AddReviews = ({ storeId, productSlug, setReviewInState }) => {
                 error={errors.name}
                 layout="label"
                 label="Name"
-                className="outline-0 text-[#000000a9] bg-[#ffffff] border-[1px] border-[#c1c1c1]"
+                isStore={true}
               />
             </div>
 
             {/* Email */}
             <div className="">
-              <TemplateFormInput
+              <FormInput
                 placeholder="abc@example.com"
                 onChange={(e) => handleChange('email', e.target.value)}
                 value={reviewData.email}
@@ -101,14 +103,14 @@ const AddReviews = ({ storeId, productSlug, setReviewInState }) => {
                 layout="label"
                 label="Email"
                 error={errors.email}
-                className="outline-0 text-[#000000a9] bg-[#ffffff] border-[1px] border-[#c1c1c1]"
+                isStore={true}
               />
             </div>
           </div>
 
           {/* Review Title (optional) */}
           <div className="my-4">
-            <TemplateFormInput
+            <FormInput
               placeholder="On Time Delivery"
               required={false}
               onChange={(e) => handleChange('reviewTitle', e.target.value)}
@@ -117,7 +119,7 @@ const AddReviews = ({ storeId, productSlug, setReviewInState }) => {
               size="large"
               layout="label"
               label="Review Title"
-              className="outline-0 text-[#000000a9] bg-[#ffffff] border-[1px] border-[#c1c1c1]"
+              isStore={true}
             />
           </div>
 
@@ -129,18 +131,20 @@ const AddReviews = ({ storeId, productSlug, setReviewInState }) => {
               placeholder="Write your review"
               value={reviewData.message}
               onChange={(e) => handleChange('message', e.target.value)}
-              className="reviewInput w-full h-32 px-4 py-2 rounded-[5px] text-[#000000a9] bg-[#f7f7f7a8] border-[1.5px] border-[#c1c1c1] focus:outline-none"
+              className="reviewInput w-full h-32 px-4 py-2 rounded-[5px] text-[var(--tmp-ltxt)] bg-[var(--tmp-pri)] border-[1.5px] border-[var(--tmp-lBor)] placeholder:text-[var(--tmp-ltxt)] focus:outline-none"
             />
             {errors?.message && <p className="text-red-500 text-xs mt-1">{errors?.message}</p>}
           </div>
 
-          <button
+          <Button
             disabled={loading}
             type="submit"
-            className={`flex justify-center py-[15px] w-full mt-6 bg-black text-[#e6e6e6] text-[16px] transition-all duration-300 hover:scale-105 disabled:cursor-not-allowed`}
-          >
-            {loading ? <ButtonLoader /> : 'Share your Review'}
-          </button>
+            loading={loading}
+            variant="store"
+            label="Share Your Review"
+            className="font-bold transition-all duration-300 hover:scale-105 !h-[50px]"
+            size=""
+          />
         </form>
       </div>
     </div>

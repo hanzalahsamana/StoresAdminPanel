@@ -33,6 +33,7 @@ export const colorPalettes = {
     txt: '#000000',
     ltxt: '#4b4949',
     wtxt: '#ffffff',
+    lBor: '#0000001a',
   },
   'Modern Dark': {
     pri: '#121212',
@@ -41,6 +42,7 @@ export const colorPalettes = {
     txt: '#FFFFFF',
     ltxt: '#A8A8A8',
     wtxt: '#ffffff',
+    lBor: '#ffffff36',
   },
   'Milt Blue': {
     pri: '#ffffff',
