@@ -1,34 +1,22 @@
-"use client";
+'use client';
 
-import axios from "axios";
-import BASE_URL from "../../../config";
+import axios from 'axios';
+import BASE_URL from '../../../config';
 
-export const addDomainDns = async (domain , sitename) => {
-    try {
-        console.log(BASE_URL, domain, "♀️♀️");
-
-        const response = await axios.post(`${BASE_URL}/${sitename}/addDomainDns`, { domain });
-        console.log(response, "♀️♀️♀️");
-
-        return response.data;
-    } catch (error) {
-        console.log(error, "♀️♀️♀️♀️");
-
-        throw error
-    }
+export const addDomainDns = async (domain, sitename) => {
+  try {
+    const response = await axios.post(`${BASE_URL}/${sitename}/addDomainDns`, { domain });
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
 };
 
-
 export const genrateSSl = async (domain) => {
-    try {
-        console.log(BASE_URL, domain, "♀️♀️");
-        const response = await axios.post(`${BASE_URL}/${'abc'}/genrateSSl`, { userDomain:domain });
-        console.log(response, "♀️♀️♀️");
-
-        return response.data;
-    } catch (error) {
-        console.log(error, "♀️♀️♀️♀️");
-
-        throw error
-    }
+  try {
+    const response = await axios.post(`${BASE_URL}/${'abc'}/genrateSSl`, { userDomain: domain });
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
 };

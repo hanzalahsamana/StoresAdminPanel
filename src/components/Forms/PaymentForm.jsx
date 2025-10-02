@@ -28,10 +28,6 @@ const initialFormData = {
 const PaymentForm = ({ selectedMethod = '', setSelectedMethod = () => {}, errors = {}, requiredContactFields = '' }) => {
   // todo send email in the coupon code
 
-  useEffect(() => {
-    console.log('PaymentForm errors: ', errors);
-  }, [errors]);
-
   const dispatch = useDispatch();
   const { paymentMethods } = useSelector((state) => state?.storeConfiguration?.storeConfiguration);
   const [loading, setLoading] = useState(false);

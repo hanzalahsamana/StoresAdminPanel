@@ -13,8 +13,6 @@ import TemplateFooter from './TemplateFooter';
 import Catalog from '../Widgets/Catalog';
 
 export default function PageStructureGenrator({ PageData = [] }) {
-  console.log(PageData, '⚔️⚔️');
-
   const renderSection = (section) => {
     if (!section || !section.type) return null;
 

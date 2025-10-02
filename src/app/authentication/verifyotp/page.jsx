@@ -105,8 +105,6 @@ const OtpVerification = () => {
       dispatch(setCurrentUser({ token, ...user }));
     } catch (error) {
       setLoading(false);
-      console.log(error);
-
       toast.error(error.response?.data?.message || error.message);
       if (error.response?.data?.errorCode === 'OTP_EXPIRED') setCooldown(0);
     }

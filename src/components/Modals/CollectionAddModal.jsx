@@ -16,7 +16,7 @@ import DataSelectionList from '../Actions/DataSelectionList';
 
 const initialFormData = {
   name: '',
-  image: '',
+  image: [],
   products: [],
 };
 const CollectionAddModal = ({ isOpen, setIsOpen, updatedData = null, setUpdatedData = () => {} }) => {
@@ -32,7 +32,7 @@ const CollectionAddModal = ({ isOpen, setIsOpen, updatedData = null, setUpdatedD
       setFormData({
         name: updatedData.name,
         image: updatedData.image,
-        products: updatedData.products || [],
+        products: updatedData.products.map((i) => i?._id) || [],
       });
     }
   }, [updatedData]);
@@ -89,39 +89,49 @@ const CollectionAddModal = ({ isOpen, setIsOpen, updatedData = null, setUpdatedD
         actionPosition="top"
         label={!updatedData ? 'Add Collection' : 'Update Collection'}
         actions={<Button loading={loading} label={!updatedData ? 'Add Collection' : 'Update Collection'} size="small" action={handleSubmit} />}
+        className={'pt-6 w-full'}
       >
-        <FormInput label="Collection Name" placeholder="e.g. Summer Collection" onChange={handleChange} name={'name'} value={formData?.name} error={errors?.name} layout="label" />
-
-        <MultiSelectDropdown
-          label="Associate Products with Collection"
-          defaultOptions={products?.map((product) => ({
-            label: product.name,
-            value: product._id,
-          }))}
-          placeholder="Select Products"
-          name="products"
-          selectedOptions={formData?.products || []}
-          setSelectedOptions={(selectedOptions) => {
-            setFormData((prev) => ({
-              ...prev,
-              products: selectedOptions,
-            }));
-          }}
-        />
-
-        <DataSelectionList
-          setSelectedData={formData?.products || []}
-          selectedData={(selectedOptions) => {
-            setFormData((prev) => ({
-              ...prev,
-              products: selectedOptions,
-            }));
-          }}
-          dataName="products"
-          label="Select Products"
-        />
-
-        <ImageSlector key={'image'} image={formData['image']} size="large" setImage={(image) => setFormData((prev) => ({ ...prev, image }))} error={errors?.image} />
+        <div className="grid grid-cols-2 w-full gap-4 border-y py-4">
+          <div className='flex flex-col space-y-6'>
+            <FormInput
+              label="Collection Name"
+              placeholder="e.g. Summer Collection"
+              onChange={handleChange}
+              name={'name'}
+              value={formData?.name}
+              error={errors?.name}
+              layout="label"
+            />
+            {/* <DataSelectionList
+          dataName="collections"
+          selectorName="collections"
+          selectedData={formData.collections || []}
+          setSelectedData={(value) => handleChange('collections', value)}
+          /> */}
+            <DataSelectionList
+              setSelectedData={(selectedOptions) => {
+                setFormData((prev) => ({
+                  ...prev,
+                  products: selectedOptions,
+                }));
+              }}
+              selectedData={formData?.products || []}
+              dataName="products"
+              label="Select Products"
+              selectorName="products"
+            />
+          </div>
+          <div className='flex justify-center'>
+            <ImageSlector
+              key={'image'}
+              image={formData['image']}
+              size="xlarge"
+              setImage={(image) => setFormData((prev) => ({ ...prev, image }))}
+              error={errors?.image}
+              multiple={false}
+            />
+          </div>
+        </div>
       </ActionCard>
     </Modal>
   );

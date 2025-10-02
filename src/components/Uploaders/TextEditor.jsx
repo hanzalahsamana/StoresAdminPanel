@@ -40,7 +40,6 @@ const TextEditor = ({ editorContent, setEditorContent, label, className }) => {
       const quill = quillRef.current;
 
       if (editorContent) {
-        console.log('call ho rha hai!');
         quill.root.innerHTML = editorContent;
       }
 
@@ -68,7 +67,6 @@ const TextEditor = ({ editorContent, setEditorContent, label, className }) => {
 
   useEffect(() => {
     if (quillRef.current && editorContent !== quillRef.current.root.innerHTML) {
-      console.log('editorContent', editorContent);
       quillRef.current.root.innerHTML = editorContent;
     }
   }, [editorContent]);

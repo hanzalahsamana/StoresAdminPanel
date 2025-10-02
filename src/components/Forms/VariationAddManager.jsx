@@ -10,10 +10,6 @@ const VariationAddManager = ({ variationData = [], setVariationData, variationSu
   const [errors, setErrors] = useState({});
   const [doneStates, setDoneStates] = useState({}); // Track which variation is in read-only state
 
-  useEffect(() => {
-    console.log(variationData, '🦽🦽🦽');
-  }, [variationData]);
-
   const validateVariation = (variation, allVariations, validate) => {
     const currentErrors = {};
     const trimmedName = variation.name.trim();

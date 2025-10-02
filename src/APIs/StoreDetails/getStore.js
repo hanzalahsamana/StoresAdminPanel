@@ -9,7 +9,7 @@ export const getStore = async (storeId) => {
 
   try {
     const { data } = await axios.get(`${BASE_URL}/${storeId}/getStore`);
-    dispatch(setStore(data?.data));
+    dispatch(setStore({ ...data?.data, header: data?.header, footer: data?.footer }));
     return data?.data;
   } catch (error) {
     dispatch(setStore({}));

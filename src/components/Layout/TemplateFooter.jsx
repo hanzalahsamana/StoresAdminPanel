@@ -7,19 +7,20 @@ import { getBasePath } from '@/Utils/GetBasePath';
 import OrderTrackModal from '@/components/Modals/OrderTrackModal';
 import SubscribeForm from '../Forms/SubscribeForm';
 import Button from '../Actions/Button';
+import { usePathname } from 'next/navigation';
 
 const TemplateFooter = ({ sectionData }) => {
   const path = getBasePath();
+  const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
 
-  const { footerLogo, email = '', phone = '', location = '', copyright = '', socialLinks = {}, style = 'style1' } = sectionData || {};
-
+  const { footerLogo, email = '', phone = '', location = '', copyright = '', socialLinks = {}, style = 'style1', navLinks = [] } = sectionData || {};
   return (
     <footer className={`bg-[var(--tmp-sec)] w-full border-t flex flex-col items-center border-[var(--tmp-lBor)]`}>
       <div className="pt-10 text-[var(--tmp-wtxt)] w-full max-w-[1200px] px-[40px]">
         <OrderTrackModal isOpen={isOpen} setIsOpen={setIsOpen} />
 
-        <div className="container mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 text-sm md:px-0">
+        <div className="container mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 text-sm md:px-0">
           <div>
             {footerLogo && (
               <Link href={`${path}/`}>
@@ -75,10 +76,10 @@ const TemplateFooter = ({ sectionData }) => {
               </div>
             )}
           </div>
-          <div className="flex flex-col space-y-4">
+          <div className="flex flex-col space-y-4 w-txt">
             {email && (
               <div>
-                <p className="inline mr-2">Email Us:</p>
+                <p className="inline mr-2 ">Email Us:</p>
                 <a href={`mailto:${email}`} className="font-bold inline mt-1">
                   {email}
                 </a>
@@ -100,6 +101,20 @@ const TemplateFooter = ({ sectionData }) => {
                 </a>
               </div>
             )}
+          </div>
+          <div className="flex flex-col gap-4">
+            {navLinks.map(({ slug, name }, i) => (
+              <Link
+                key={i}
+                href={`${path}${slug}`}
+                className={`text-[18px] text-[var(--tmp-wtxt)] cursor-pointer hover:opacity-[0.6] ${
+                  pathname === `${path}${slug}` || (pathname === path && slug === '/') ? 'underline font-semibold' : ''
+                }`}
+                prefetch={true}
+              >
+                {name}
+              </Link>
+            ))}
           </div>
 
           {/* Quick Links */}

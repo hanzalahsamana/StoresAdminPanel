@@ -1,23 +1,20 @@
-"use client";
+'use client';
 
-import Link from "next/link";
-import { FaArrowRightLong } from "react-icons/fa6";
-import { useSelector } from "react-redux";
-import CollectionCard from "../Cards/collectionCard";
-import { getBasePath } from "@/Utils/GetBasePath";
-import { forwardRef } from "react";
+import Link from 'next/link';
+import { FaArrowRightLong } from 'react-icons/fa6';
+import { useSelector } from 'react-redux';
+import CollectionCard from '../Cards/collectionCard';
+import { getBasePath } from '@/Utils/GetBasePath';
+import { forwardRef } from 'react';
 
 const CollectionSection = forwardRef(({ sectionData = {}, toShowLink = true, ...rest }, ref) => {
-  const { heading = "Featured Collections", collectionIds = [], collections } = sectionData
+  const { heading = 'Featured Collections', collectionIds = [], collections } = sectionData;
 
   const basePath = getBasePath();
 
-  console.log("CollectionSection content:", collectionIds);
-
-
   if (!collections || collections.length === 0) {
     return (
-      <div className="text-center p-6 bg-[var(--tmp-pri)] text-[--tmp-txt] ">
+      <div className="bg-[var(--tmp-pri)] text-[--tmp-txt]">
         <p className="text-[30px] font-normal text-center">No collections available...</p>
       </div>
     );

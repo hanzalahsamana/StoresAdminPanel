@@ -1,5 +1,5 @@
-import axios from "axios";
-import BASE_URL from "../../../config";
+import axios from 'axios';
+import BASE_URL from '../../../config';
 
 export const postContact = async (siteName, contactData) => {
   try {
@@ -7,7 +7,6 @@ export const postContact = async (siteName, contactData) => {
     const response = await axios.post(url, contactData);
     return response.message;
   } catch (error) {
-    console.log(error);
     throw new Error(error);
   }
 };

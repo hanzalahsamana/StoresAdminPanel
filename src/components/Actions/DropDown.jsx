@@ -38,7 +38,6 @@ const DropDown = ({
     });
   }, [defaultOptions]);
   useEffect(() => {
-    console.log('use effect chal rha hai!');
     const selectedObj = options.find((opt) => opt.value === selectedOption);
     setSearchTerm(selectedObj?.label || '');
   }, [selectedOption, options]);
@@ -88,9 +87,6 @@ const DropDown = ({
     if (button && menu) {
       const buttonRect = button.getBoundingClientRect();
       const menuRect = menu.getBoundingClientRect();
-
-      console.log(menuRect.height);
-      console.log(buttonRect?.bottom);
 
       let left = 0;
       let top = 0;
