@@ -44,7 +44,6 @@ const RegisterClient = () => {
       localStorage.setItem('emailForVerify', formData.email);
       router.push('/authentication/verifyotp');
     } catch (err) {
-      console.log('Signup failed', err);
       toast.error(err?.response?.data?.message || 'Signup failed');
     } finally {
       setLoading(false);

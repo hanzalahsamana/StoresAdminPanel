@@ -16,8 +16,6 @@ const fontsMap = {
 
 export const applyTheme = (themeName = 'Light') => {
   const theme = colorPalettes?.[themeName] || colorPalettes?.Light;
-  console.log(theme, 'ojwdojno');
-
   Object.entries(theme).forEach(([key, value]) => {
     document.documentElement.style.setProperty(`--tmp-${key}`, value);
   });

@@ -2,6 +2,7 @@
 
 import React, { useEffect, useRef, useState } from 'react';
 import dynamic from 'next/dynamic';
+import { useSelector } from 'react-redux';
 
 const Quill = dynamic(() => import('quill'), { ssr: false, loading: () => <p>Loading editor...</p> });
 
@@ -9,9 +10,12 @@ const TextEditor = ({ editorContent, setEditorContent, label, className }) => {
   const editorRef = useRef(null);
   const quillRef = useRef(null);
   const [isClient, setIsClient] = useState(false);
+  const { productLoading } = useSelector((state) => state.productData);
 
   useEffect(() => {
-    setIsClient(true); // Ensures we're on the client
+    if (!productLoading) {
+      setIsClient(true); // Ensures we're on the client
+    }
   }, []);
 
   useEffect(() => {
@@ -62,8 +66,7 @@ const TextEditor = ({ editorContent, setEditorContent, label, className }) => {
   }, [isClient]);
 
   useEffect(() => {
-    if (quillRef.current) {
-      console.log('editorContent', editorContent);
+    if (quillRef.current && editorContent !== quillRef.current.root.innerHTML) {
       quillRef.current.root.innerHTML = editorContent;
     }
   }, [editorContent]);

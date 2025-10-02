@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import React, { useEffect, useState } from 'react'
-import "../../../../../components/UI/style.css";
+import React, { useEffect, useState } from 'react';
+import '../../../../../components/UI/style.css';
 import Button from '@/components/Actions/Button';
 import ActionCard from '@/components/Cards/ActionCard';
 import FormInput from '@/components/Forms/FormInput';
@@ -21,60 +21,57 @@ import BackButton from '@/components/Actions/BackButton';
 import { cleanObjectFields } from '@/Utils/MiniUtils';
 import { isEqual } from 'lodash';
 
-
 const componentMapping = {
-  "About Us": {
-    fields: ["title", "text"]
+  'About Us': {
+    fields: ['title', 'text'],
   },
-  "Hero Banner": {
-    fields: ["image"],
+  'Hero Banner': {
+    fields: ['image'],
   },
-  "FAQ": {
-    fields: ["title", "faqs"],
+  FAQ: {
+    fields: ['title', 'faqs'],
   },
-  "Contact": {
-    fields: ["title", "email", "phone", "address"],
+  Contact: {
+    fields: ['title', 'email', 'phone', 'address'],
   },
-  "Terms and Conditions": {
-    fields: ["title", "text"],
+  'Terms and Conditions': {
+    fields: ['title', 'text'],
   },
-  "Our Quality": {
-    fields: ["title", "buttonText", "text", "image"],
+  'Our Quality': {
+    fields: ['title', 'buttonText', 'text', 'image'],
   },
-  "Manufacture Process": {
-    fields: ["title", "text", "image"],
+  'Manufacture Process': {
+    fields: ['title', 'text', 'image'],
   },
-  "Privacy Policy": {
-    fields: ["title", "text"],
+  'Privacy Policy': {
+    fields: ['title', 'text'],
   },
-  "Return Policy": {
-    fields: ["title", "text"],
+  'Return Policy': {
+    fields: ['title', 'text'],
   },
-  "Shipping Policy": {
-    fields: ["title", "text"],
+  'Shipping Policy': {
+    fields: ['title', 'text'],
   },
-  "Site Logo": {
-    fields: ["image"],
+  'Site Logo': {
+    fields: ['image'],
   },
-  "Fabric Remants": {
-    fields: ["title", "buttonText", "text", "image"],
+  'Fabric Remants': {
+    fields: ['title', 'buttonText', 'text', 'image'],
   },
 };
 
-
 const initialFormData = {
-  title: "",
-  type: "",
-  text: "",
-  image: "",
-  faqs: [{ Q: "", A: "" }],
-  email: "",
-  phone: "",
-  address: "",
-}
+  title: '',
+  type: '',
+  text: '',
+  image: '',
+  faqs: [{ Q: '', A: '' }],
+  email: '',
+  phone: '',
+  address: '',
+};
 const ContentEdit = () => {
-
-  const params = useParams()
+  const params = useParams();
 
   const { currUser } = useSelector((state) => state.currentUser);
   const { store } = useSelector((state) => state.store);
@@ -88,39 +85,25 @@ const ContentEdit = () => {
     setFormData((prev) => ({ ...prev, [key]: value }));
   };
 
-
   const renderComponents = () => {
     const fields = componentMapping[formData.type]?.fields || [];
     return fields.map((field, index) => {
-      if (["title", "email", "phone", "address", "buttonText"].includes(field)) {
+      if (['title', 'email', 'phone', 'address', 'buttonText'].includes(field)) {
         return (
           <FormInput
             key={index}
             value={formData[field]}
             placeholder={field.charAt(0).toUpperCase() + field.slice(1)}
             onChange={(e) => handleInputChange(field, e.target.value)}
-            className='!outline-primaryC !bg-transparent'
-
+            className="!outline-primaryC !bg-transparent"
           />
         );
       }
-      if (field === "text") {
-        return (
-          <TextEditor
-            key={index}
-            editorContent={formData[field]}
-            setEditorContent={(value) => handleInputChange(field, value)}
-          />
-        );
+      if (field === 'text') {
+        return <TextEditor key={index} editorContent={formData[field]} setEditorContent={(value) => handleInputChange(field, value)} />;
       }
-      if (field === "faqs") {
-        return (
-          <FaqUploader
-            key={index}
-            initialFaqs={formData[field]}
-            setFaqs={(faqs) => handleInputChange(field, faqs)}
-          />
-        );
+      if (field === 'faqs') {
+        return <FaqUploader key={index} initialFaqs={formData[field]} setFaqs={(faqs) => handleInputChange(field, faqs)} />;
       }
       return null;
     });
@@ -133,24 +116,22 @@ const ContentEdit = () => {
         toast.error(validationErrors[0]);
         return;
       }
-      setLoading(true)
+      setLoading(true);
 
       let updatedData = { ...formData };
 
       if (formData?.image && formData?.image instanceof File) {
-        const uploadedImageUrl = await uploadSingleImageToS3(currUser?.token , store?._id, formData.image);
+        const uploadedImageUrl = await uploadSingleImageToS3(currUser?.token, store?._id, formData.image);
         updatedData.image = uploadedImageUrl;
       }
       await editContentData(currUser?.token, store?._id, page?._id, updatedData);
-      toast.success("Form submitted successfully!");
+      toast.success('Form submitted successfully!');
     } catch (error) {
-      console.log(error);
-      toast.error(error.response ? error.response.data.message : error.message)
+      toast.error(error.response ? error.response.data.message : error.message);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
   };
-
 
   useEffect(() => {
     if (page) {
@@ -171,50 +152,43 @@ const ContentEdit = () => {
       const cleaned = cleanObjectFields(page);
       setFormData(cleaned);
     }
-  }
+  };
 
   if (!page) {
     return (
-      <div className='flex w-full justify-center py-[75px] text-center text-textTC text-[18px]'>
+      <div className="flex w-full justify-center py-[75px] text-center text-textTC text-[18px]">
         <p>There is no any Content At this page .</p>
       </div>
-    )
+    );
   }
 
   return (
     <div className="flex justify-center items-start flex-col md:flex-row">
-
       <BackgroundFrame>
-
         <ActionCard
           actions={
             <>
-              <Button size='small' active={isModified} label="Save" loading={loading} variant='black' className="w-max" action={handleSubmit} />
+              <Button size="small" active={isModified} label="Save" loading={loading} variant="black" className="w-max" action={handleSubmit} />
               <IconButton
                 icon={<CiUndo />}
                 tooltipLabel={'discard'}
                 className={` !text-[22px] ${isModified ? 'text-black' : 'text-[#4f4c4c89] !cursor-not-allowed'}`}
                 action={discardData}
               />
-              <BackButton link={"/content"} />
-
-            </>}
-          actionPosition='top'
+              <BackButton link={'/content'} />
+            </>
+          }
+          actionPosition="top"
           label={page.type}
           className={'h-[calc(100vh-92px)]'}
         >
-          <div
-            className={` border-[#c9c9c98f] border-t px-[8px] py-[20px] h-full overflow-y-auto customScroll flex flex-col`}
-          >
-            <div className='flex flex-col gap-3'>
-              {renderComponents()}
-            </div>
+          <div className={` border-[#c9c9c98f] border-t px-[8px] py-[20px] h-full overflow-y-auto customScroll flex flex-col`}>
+            <div className="flex flex-col gap-3">{renderComponents()}</div>
           </div>
         </ActionCard>
-
       </BackgroundFrame>
     </div>
-  )
-}
+  );
+};
 
 export default ContentEdit;

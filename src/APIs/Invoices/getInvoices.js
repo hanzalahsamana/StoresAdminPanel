@@ -14,7 +14,6 @@ export const getInvoices = async (token, dispatch, storeId, query) => {
         'Content-Type': 'application/json',
       },
     });
-    console.log('response?.data?.invoices', response?.data);
     dispatch(setInvoices(response?.data));
     return response.data;
   } catch (error) {

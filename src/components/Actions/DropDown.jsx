@@ -1,14 +1,15 @@
-"use client";
-import React, { useState, useEffect, useRef } from "react";
-import { createPortal } from "react-dom";
-import { CgInsertAfter } from "react-icons/cg";
-import FormInput from "../Forms/FormInput";
-import { IoMdArrowDropup } from "react-icons/io";
-import { isEqual } from "lodash";
+'use client';
+import React, { useState, useEffect, useRef } from 'react';
+import { createPortal } from 'react-dom';
+import { CgInsertAfter } from 'react-icons/cg';
+import FormInput from '../Forms/FormInput';
+import { IoMdArrowDropup } from 'react-icons/io';
+import { isEqual } from 'lodash';
+import { toast } from 'react-toastify';
 
 const DropDown = ({
   defaultOptions = [],
-  selectedOption = '', 
+  selectedOption = '',
   setSelectedOption = () => {},
   placeholder = 'Select',
   required = true,
@@ -30,24 +31,12 @@ const DropDown = ({
   useEffect(() => {
     const normalized = defaultOptions.map((opt) => (typeof opt === 'string' ? { value: opt, label: opt } : opt));
     setOptions((prev) => {
-      if (!IsArrayEqual(prev, normalized)) {
+      if (!isEqual(prev, normalized)) {
         return normalized;
       }
       return prev;
     });
   }, [defaultOptions]);
-
-    useEffect(() => {
-        const normalized = defaultOptions.map((opt) =>
-            typeof opt === "string" ? { value: opt, label: opt } : opt
-        );
-        setOptions((prev) => {
-            if (!isEqual(prev, normalized)) {
-                return normalized;
-            }
-            return prev;
-        });
-    }, [defaultOptions]);
   useEffect(() => {
     const selectedObj = options.find((opt) => opt.value === selectedOption);
     setSearchTerm(selectedObj?.label || '');
@@ -72,7 +61,6 @@ const DropDown = ({
   const handleSelect = (option) => {
     setVisible(false);
     setSelectedOption(option.value);
-    setSearchTerm(option.label);
   };
 
   const handleCustomOptionSelect = () => {
@@ -99,9 +87,6 @@ const DropDown = ({
     if (button && menu) {
       const buttonRect = button.getBoundingClientRect();
       const menuRect = menu.getBoundingClientRect();
-
-      console.log(menuRect.height);
-      console.log(buttonRect?.bottom);
 
       let left = 0;
       let top = 0;
@@ -157,7 +142,7 @@ const DropDown = ({
   );
 
   return (
-    <div className={`flex w-max min-w-[200px] ${className}`}>
+    <div className={`flex w-full min-w-[200px] ${className}`}>
       <FormInput
         error={error}
         value={searchTerm}

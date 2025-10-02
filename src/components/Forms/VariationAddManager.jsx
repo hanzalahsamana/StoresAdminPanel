@@ -10,11 +10,7 @@ const VariationAddManager = ({ variationData = [], setVariationData, variationSu
   const [errors, setErrors] = useState({});
   const [doneStates, setDoneStates] = useState({}); // Track which variation is in read-only state
 
-  useEffect(() => {
-    console.log(variationData, '🦽🦽🦽');
-  }, [variationData]);
-
-  const validateVariation = (variation, allVariations) => {
+  const validateVariation = (variation, allVariations, validate) => {
     const currentErrors = {};
     const trimmedName = variation.name.trim();
 
@@ -23,19 +19,18 @@ const VariationAddManager = ({ variationData = [], setVariationData, variationSu
     }
 
     const nameCount = allVariations.filter((v) => v.name.trim() === trimmedName).length;
-    if (trimmedName && nameCount > 1) {
+    if (trimmedName && nameCount > 1 && validate === 'option name') {
       currentErrors.name = 'Name must be unique.';
     }
 
-    if (trimmedName && variation.options.length === 0) {
+    if (trimmedName && variation.options.length === 0 && validate === 'option value') {
       currentErrors.options = 'At least one option is required.';
     }
 
     const uniqueOptions = new Set(variation.options.map((opt) => opt.trim().toLowerCase()));
-    if (uniqueOptions.size !== variation.options.length) {
+    if (uniqueOptions.size !== variation.options.length && validate === 'option value') {
       currentErrors.options = 'Duplicate options are not allowed.';
     }
-
     return currentErrors;
   };
 
@@ -55,12 +50,17 @@ const VariationAddManager = ({ variationData = [], setVariationData, variationSu
 
   const handleUpdateVariationName = (id, name) => {
     const updated = variationData.map((variation) => (variation.id === id ? { ...variation, name } : variation));
-    setVariationData(updated);
     const validation = validateVariation(
       updated.find((v) => v.id === id),
-      updated
+      updated,
+      'option name'
     );
-    setErrors((prev) => ({ ...prev, [id]: validation }));
+    if (Object.keys(validation).length > 0) {
+      setErrors((prev) => ({ ...prev, [id]: validation }));
+      return;
+    }
+    setErrors({});
+    setVariationData(updated);
   };
 
   const handleUpdateVariationOptions = (id, options) => {
@@ -68,7 +68,8 @@ const VariationAddManager = ({ variationData = [], setVariationData, variationSu
     setVariationData(updated);
     const validation = validateVariation(
       updated.find((v) => v.id === id),
-      updated
+      updated,
+      'option value'
     );
     setErrors((prev) => ({ ...prev, [id]: validation }));
   };

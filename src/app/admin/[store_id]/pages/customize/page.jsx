@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import React, { useCallback, useEffect, useState } from 'react'
-import "../../../../../components/UI/style.css";
+import React, { useCallback, useEffect, useState } from 'react';
+import '../../../../../components/UI/style.css';
 import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import LivePreviewIframe from '@/components/UI/LivePreviewIframe';
@@ -15,11 +15,10 @@ import useConfirm from '@/Hooks/useConfirm';
 import DynamicDataSelectorModal from '@/components/Modals/DynamicDataSelectorModal';
 import { isEqual } from 'lodash';
 
-
 const ContentEdit = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const pageSlug = searchParams.get("page");
+  const pageSlug = searchParams.get('page');
 
   const { currUser } = useSelector((state) => state.currentUser);
   const { store } = useSelector((state) => state.store);
@@ -39,7 +38,7 @@ const ContentEdit = () => {
       setFetchLoading(true);
       await getDraftPage(currUser?.token, store?._id, pageSlug);
     } catch (error) {
-      toast.error(error.response ? error.response.data.message : error.message)
+      toast.error(error.response ? error.response.data.message : error.message);
     } finally {
       setFetchLoading(false);
     }
@@ -49,16 +48,16 @@ const ContentEdit = () => {
     try {
       if (currentMode === 'draft') {
         const ok = await confirm(
-          "Publish All Draft Work",
-          "Are you sure you want to publish all your draft changes? This action will overwrite the published version and discard any unsaved draft work.",
-          "Cancel",
-          "Yes, Publish"
+          'Publish All Draft Work',
+          'Are you sure you want to publish all your draft changes? This action will overwrite the published version and discard any unsaved draft work.',
+          'Cancel',
+          'Yes, Publish'
         );
         if (!ok) return;
       }
       setLoading(true);
       await publishPage(currUser?.token, store?._id, customizePageData);
-      toast.success("Page updated successfully!");
+      toast.success('Page updated successfully!');
     } catch (error) {
       toast.error(error.response ? error.response.data.message : error.message);
     } finally {
@@ -70,7 +69,7 @@ const ContentEdit = () => {
     try {
       setLoading(true);
       await saveDraftPage(currUser?.token, store?._id, customizePageData);
-      toast.success("Section updated successfully!");
+      toast.success('Section updated successfully!');
     } catch (error) {
       toast.error(error.response ? error.response.data.message : error.message);
     } finally {
@@ -80,17 +79,22 @@ const ContentEdit = () => {
 
   const handleDiscardDraft = async () => {
     try {
-      const ok = await confirm("Switch to Published?", "Are you sure you want to discard this page? This will remove your work of draft version.", "No, remain here", "Yes, Discard it");
+      const ok = await confirm(
+        'Switch to Published?',
+        'Are you sure you want to discard this page? This will remove your work of draft version.',
+        'No, remain here',
+        'Yes, Discard it'
+      );
       if (!ok) return;
       setFetchLoading(true);
       await discardDraft(currUser?.token, store?._id, pageSlug);
-      toast.success("Page Discard successfully!");
+      toast.success('Page Discard successfully!');
     } catch (error) {
       toast.error(error.response ? error.response.data.message : error.message);
     } finally {
       setFetchLoading(false);
     }
-  }
+  };
 
   // useEffect(() => {
   //   let nextUrl = null;
@@ -146,7 +150,7 @@ const ContentEdit = () => {
 
   useEffect(() => {
     if (!pageSlug) {
-      router.push("../pages");
+      router.push('../pages');
     }
   }, [pageSlug]);
 
@@ -157,9 +161,9 @@ const ContentEdit = () => {
   }, [editingPage, customizePageData]);
 
   useEffect(() => {
-    setCustomizePageData(editingPage)
-    setCurrentMode(editingPageMode)
-  }, [editingPage, editingPageMode])
+    setCustomizePageData(editingPage);
+    setCurrentMode(editingPageMode);
+  }, [editingPage, editingPageMode]);
 
   const fetchData = async () => {
     await getAllPages(currUser?.token, store?._id);
@@ -172,37 +176,38 @@ const ContentEdit = () => {
     fetchData();
   }, [store?._id, pages]);
 
-
-  useEffect(() => {
-    console.log(customizePageData, "Customizeeeee");
-  }, [customizePageData]);
-
   if (fetchLoading) {
-    return <BuilderLoader />
+    return <BuilderLoader />;
   }
 
   return (
-    <div className='flex flex-col w-full'>
-      <BuilderHeader isModified={isModified} handlePublishPage={handlePublishPage} handleSaveDraftPage={handleSaveDraftPage} handleDiscardDraft={handleDiscardDraft} loading={loading} currentMode={currentMode} />
+    <div className="flex flex-col w-full">
+      <BuilderHeader
+        isModified={isModified}
+        handlePublishPage={handlePublishPage}
+        handleSaveDraftPage={handleSaveDraftPage}
+        handleDiscardDraft={handleDiscardDraft}
+        loading={loading}
+        currentMode={currentMode}
+      />
       <div className="flex w-full  ">
-
         <BuilderCustomizer customizePageData={customizePageData} setCustomizePageData={setCustomizePageData} activeSection={activeSection} setActiveSection={setActiveSection} />
 
-        <div className=' flex-1 overflow-hidden w-full min-h-full bg-lbgC'>
+        <div className=" flex-1 overflow-hidden w-full min-h-full bg-lbgC">
           <LivePreviewIframe
             previewData={{
               previewComponent: { ...customizePageData },
               activeSectionId: activeSection?._id,
-              branding: store?.branding || null
+              branding: store?.branding || null,
             }}
           />
         </div>
 
-        <Tooltip id='customize' place="top" className="!text-[12px] z-[200] " />
+        <Tooltip id="customize" place="top" className="!text-[12px] z-[200] " />
         {ConfirmationModal}
-      </div >
-    </div >
-  )
-}
+      </div>
+    </div>
+  );
+};
 
 export default ContentEdit;

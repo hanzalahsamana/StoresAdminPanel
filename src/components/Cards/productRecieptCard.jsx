@@ -2,7 +2,7 @@ import React from 'react'
 
 const ProductRecieptCard = ({ product }) => {
     return (
-        <div className='flex items-center justify-between border-b py-[12px]'>
+        <div className='flex items-center justify-between border-b border-[var(--tmp-lBor)] py-[12px]'>
             <div className='flex gap-2 '>
                 <div className='relative'>
                     <img className='w-[40px] h-[40px] max-w-[unset] rounded-md' src={product?.image} alt={product?.alt} />
@@ -19,7 +19,7 @@ const ProductRecieptCard = ({ product }) => {
                 </div>
             </div>
             <div className='flex items-center'>
-                <div className='flex items-center justify-center rounded-full  bg-[var(--tmp-sec)] text-[var(--tmp-pri)] text-[10px]/[10px] h-max px-2 py-1 mr-[5px] '>{product.quantity}x</div>
+                <div className='flex items-center justify-center rounded-full  bg-[var(--tmp-sec)] text-[var(--tmp-txt)] text-[10px]/[10px] h-max px-2 py-1 mr-[5px] '>{product.quantity}x</div>
                 <p className='text-[14px] text-[var(--tmp-txt)]'>Rs {(product?.price * product.quantity)?.toFixed(2)}</p>
             </div>
         </div>

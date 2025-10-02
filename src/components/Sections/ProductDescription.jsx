@@ -3,7 +3,7 @@ import TabNavigation from '../Widgets/TabNavigation'
 
 const ProductDescription = () => {
     return (
-        <div className='bg-[var(--tmp-acc)] border-y w-full py-8 px-12'>
+        <div className='bg-[var(--tmp-acc)] border-y border-[var(--tmp-lBor)] w-full py-8 px-12'>
 
             <TabNavigation
                 tabs={[
