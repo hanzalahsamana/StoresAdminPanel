@@ -1,35 +1,27 @@
-"use client";
+'use client';
 
-import { useEffect, useRef } from "react";
-import Hero from "../Widgets/Hero";
-import PromoWidget from "../Widgets/PromoWidget";
-import RichText from "../Widgets/RichText";
-import BannerSlider from "../Widgets/BannerSlider";
-import TemplateFooter from "./TemplateFooter";
-import TemplateHeader from "./TemplateHeader";
-import CheckoutWidget from "../Widgets/CheckoutWidget";
-import AddReviews from "../Widgets/AddReviews";
-import Catalog from "../Widgets/Catalog";
-import { FeatureCollectionSectionWrapper, FeatureProductSectionWrapper } from "./PreviewSectionWrappers";
+import { useEffect, useRef } from 'react';
+import Hero from '../Widgets/Hero';
+import PromoWidget from '../Widgets/PromoWidget';
+import RichText from '../Widgets/RichText';
+import BannerSlider from '../Widgets/BannerSlider';
+import TemplateFooter from './TemplateFooter';
+import TemplateHeader from './TemplateHeader';
+import CheckoutWidget from '../Widgets/CheckoutWidget';
+import AddReviews from '../Widgets/AddReviews';
+import Catalog from '../Widgets/Catalog';
+import { FeatureCollectionSectionWrapper, FeatureProductSectionWrapper } from './PreviewSectionWrappers';
 
-export default function HomeLayout({ PageData = [], activeSectionId = null, }) {
+export default function HomeLayout({ PageData = [], activeSectionId = null }) {
   const sectionRefs = useRef({});
   const lastScrolledTo = useRef(null);
 
-
-  console.log(PageData, "⚔️⚔️");
-
-
   useEffect(() => {
-    if (
-      activeSectionId &&
-      activeSectionId !== lastScrolledTo.current &&
-      sectionRefs.current[activeSectionId]
-    ) {
+    if (activeSectionId && activeSectionId !== lastScrolledTo.current && sectionRefs.current[activeSectionId]) {
       requestAnimationFrame(() => {
         sectionRefs.current[activeSectionId].scrollIntoView({
-          behavior: "smooth",
-          block: "center",
+          behavior: 'smooth',
+          block: 'center',
         });
         lastScrolledTo.current = activeSectionId;
       });
@@ -45,9 +37,9 @@ export default function HomeLayout({ PageData = [], activeSectionId = null, }) {
 
         // Add or remove class dynamically
         if (activeSectionId === section._id) {
-          el.classList.add("builderSelectedSection");
+          el.classList.add('builderSelectedSection');
         } else {
-          el.classList.remove("builderSelectedSection");
+          el.classList.remove('builderSelectedSection');
         }
       }
     };
@@ -58,34 +50,25 @@ export default function HomeLayout({ PageData = [], activeSectionId = null, }) {
       'data-section-id': section._id,
     };
 
-    if (section.type === "feature_product") {
-      return <FeatureProductSectionWrapper {...props} key={section._id} />
-    }
-    else if (section.type === "banner_slider") {
+    if (section.type === 'feature_product') {
+      return <FeatureProductSectionWrapper {...props} key={section._id} />;
+    } else if (section.type === 'banner_slider') {
       return <BannerSlider {...props} key={section._id} />;
-    }
-    else if (section.type === "hero_banner") {
+    } else if (section.type === 'hero_banner') {
       return <Hero {...props} key={section._id} />;
-    }
-    else if (section.type === "feature_collection") {
+    } else if (section.type === 'feature_collection') {
       return <FeatureCollectionSectionWrapper {...props} key={section._id} />;
-    }
-    else if (section.type === "promo_section") {
+    } else if (section.type === 'promo_section') {
       return <PromoWidget {...props} key={section._id} />;
-    }
-    else if (section.type === "rich_text") {
+    } else if (section.type === 'rich_text') {
       return <RichText {...props} key={section._id} />;
-    }
-    else if (section.type === "checkout_form") {
+    } else if (section.type === 'checkout_form') {
       return <CheckoutWidget {...props} key={section._id} />;
-    }
-    else if (section.type === "checkout_form") {
+    } else if (section.type === 'checkout_form') {
       return <AddReviews {...props} key={section._id} />;
-    }
-    else if (section.type === "catalog") {
+    } else if (section.type === 'catalog') {
       return <Catalog {...props} key={section._id} />;
-    }
-    else {
+    } else {
       console.warn(`Unknown section type: ${section.type}`);
       return null;
     }

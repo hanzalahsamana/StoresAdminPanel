@@ -12,7 +12,6 @@ const GoogleSignInUp = ({ onGoogleSuccess , label="Sign up with Google" }) => {
         toast.error("Failed to retrieve Google token. Please try again.");
         return;
       }
-      console.log("Google Access Token:", tokenResponse);
       onGoogleSuccess(tokenResponse.access_token);
     },
     onError: () => {

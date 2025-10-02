@@ -9,7 +9,6 @@ export const setCartDataApi = async (cartId, storeId) => {
     return data;
   } catch (error) {
     localStorage.removeItem(`${storeId}_cartId`);
-    console.log(error);
   }
 };
 
@@ -21,7 +20,6 @@ export const addCartDataApi = async (storeId, cartId, addedProduct) => {
     }
 
     const { data } = await axios.post(url, addedProduct);
-    console.log(cartId, data, '🪙🪙');
     localStorage.setItem(`${data.storeRef}_cartId`, data._id);
     return data;
   } catch (error) {

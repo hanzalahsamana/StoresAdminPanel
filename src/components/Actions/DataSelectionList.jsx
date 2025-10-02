@@ -102,18 +102,19 @@ const DataSelectionList = ({ customData = null, selectedData = [], setSelectedDa
           className="space-y-2"
         >
           {(item, index, { provided }) => {
-            console.log(loadedData, 'Enriched Item', item, 'Item');
             const enrichedItem = loadedData.find((d) => isEqual(d.value, item));
 
             return (
               <div key={enrichedItem?.value} ref={provided.innerRef} {...provided.draggableProps} className={`flex items-center justify-between rounded-lg p-2 border `}>
-                <div className="flex items-center gap-3">
-                  <div {...provided.dragHandleProps} className="py-2 px-2 hover:bg-gray-200 rounded-md  cursor-move">
-                    <RiDraggable />
-                  </div>
-                  <div className="flex-1">
-                    <p className="font-semibold text-gray-800">{enrichedItem?.label}</p>
-                    {enrichedItem?.subtext && <p className="text-sm text-gray-500">{enrichedItem?.subtext}</p>}
+                <div className="flex items-center justify-between w-full gap-3">
+                  <div className='flex gap-3'>
+                    <div {...provided.dragHandleProps} className="py-2 px-2 hover:bg-gray-200 rounded-md  cursor-move">
+                      <RiDraggable />
+                    </div>
+                    <div className="flex-1">
+                      <p className="font-semibold text-gray-800">{enrichedItem?.label}</p>
+                      {enrichedItem?.subtext && <p className="text-xs text-gray-500">{enrichedItem?.subtext}</p>}
+                    </div>
                   </div>
                   <div onClick={() => handleDelete(item)} className="cursor-pointer hover:text-red-500">
                     <AiOutlineDelete />

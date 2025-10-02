@@ -1,38 +1,37 @@
-"use client";
+'use client';
 import ProductsSection from '@/components/Widgets/ProductsSection';
 import Loader from '@/components/Loader/TemplateLoader';
-import React from 'react'
-import { MdSignalWifiConnectedNoInternet2 } from 'react-icons/md';
-import { useSelector } from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import StoreLayoutWrap from '@/components/Layout/StoreLayoutWrap';
+import { getSingleCollection } from '@/APIs/Collection/getSingleCollection';
 
 const Collection = ({ params }) => {
-  const { loading, error } = useSelector((state) => state.productData);
-
-  if (loading) {
-    return <Loader />;
-  }
-
-  if (error) {
-    return (
-      <div className='flex gap-2 text-[25px] justify-center py-[40px] items-center '>
-        {error} <MdSignalWifiConnectedNoInternet2 />
-      </div>
-    );
-  }
+  const { site_id, collection } = params;
+  const [loading, setLoading] = useState(true);
+  const [collectionData, setCollectionData] = useState({});
 
   function capitalizeFirstLetter(word) {
     return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
   }
 
-  return (
-    <ProductsSection content={{
-      title: capitalizeFirstLetter(params?.collection),
-      maxLength: Infinity,
-      productType: "Selected collections",
-      selectedProducts: [],
-      selectedcollections: [params?.collection]
-    }} />
-  )
-}
+  const fetchSingleCollection = async () => {
+    const singleCollection = await getSingleCollection(site_id, { collectionSlug: collection });
+    setCollectionData(singleCollection);
+    setLoading(false);
+  };
+  useEffect(() => {
+    fetchSingleCollection();
+  }, []);
 
-export default Collection
+  if (loading) {
+    return <Loader />;
+  }
+
+  return (
+    <StoreLayoutWrap>
+      <ProductsSection sectionData={{ products: collectionData?.products, heading: collectionData?.name || '' }} />
+    </StoreLayoutWrap>
+  );
+};
+
+export default Collection;

@@ -2,8 +2,6 @@ import { PiSealWarningFill } from "react-icons/pi";
 
 
 export default function DnsInstructions({ instructions, currentIps = null }) {
-    console.log(instructions);
-
     return (
         <div className=''>
             {currentIps?.length > 0 && (

@@ -1,9 +1,9 @@
-"use client";
-import axios from "axios";
-import BASE_URL from "../../../config";
-import { toast } from "react-toastify";
-import { dispatch } from "@/Redux/Store";
-import { setGenratedStore } from "@/Redux/AllStores/AllStoreSlice";
+'use client';
+import axios from 'axios';
+import BASE_URL from '../../../config';
+import { toast } from 'react-toastify';
+import { dispatch } from '@/Redux/Store';
+import { setGenratedStore } from '@/Redux/AllStores/AllStoreSlice';
 
 export const generateStore = async (token, payload) => {
   try {
@@ -12,17 +12,12 @@ export const generateStore = async (token, payload) => {
         Authorization: `Bearer ${token}`,
       },
     });
-    console.log("All stores data:🧲🧲", data);
-
     dispatch(setGenratedStore(data?.data));
-    toast.success("Store generated successfully!");
+    toast.success('Store generated successfully!');
 
     return data.data;
   } catch (error) {
-    const msg =
-      error?.response?.data?.message ||
-      error?.message ||
-      "something went wrong";
+    const msg = error?.response?.data?.message || error?.message || 'something went wrong';
     toast.error(msg);
   }
 };

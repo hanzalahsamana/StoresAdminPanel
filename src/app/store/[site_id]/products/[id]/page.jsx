@@ -14,6 +14,8 @@ import ProductDescription from '@/components/Sections/ProductDescription';
 import { getProducts } from '@/APIs/Product/getProducts';
 import { getSingleProduct } from '@/APIs/Product/getSingleProduct';
 import TemplateHeader from '@/components/Layout/TemplateHeader';
+import TemplateFooter from '@/components/Layout/TemplateFooter';
+import StoreLayoutWrap from '@/components/Layout/StoreLayoutWrap';
 
 const ProductDetail = ({ params }) => {
   // const { products, loading, error } = useSelector((state) => state.productData);
@@ -34,10 +36,6 @@ const ProductDetail = ({ params }) => {
 
       try {
         const { product, reviews, relatedProducts } = await getSingleProduct(store._id, params.id);
-        // const reviewsPromise = getReview(store._id, params.id);
-
-        // const [productData, reviews] = await Promise.all([productPromise, reviewsPromise]);
-
         setProduct(product || {});
         setAllReviews(reviews);
         setRelatedProducts(relatedProducts);
@@ -73,10 +71,8 @@ const ProductDetail = ({ params }) => {
   //   fetchReviews();
   // }, [store?._id, params?.id]);
 
-  console.log('relatedProducts', relatedProducts);
-
   return (
-    <>
+    <StoreLayoutWrap>
       {product ? (
         <>
           <ProductDetailCard product={product} />
@@ -93,7 +89,7 @@ const ProductDetail = ({ params }) => {
       ) : (
         <p className="w-full text-center py-[100px] text-[24px] text-[#3a3a3a] ">No product Found</p>
       )}
-    </>
+    </StoreLayoutWrap>
   );
 };
 

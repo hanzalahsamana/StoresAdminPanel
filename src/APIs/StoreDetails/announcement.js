@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import axios from "axios";
-import Base_URL from "../../../config";
+import axios from 'axios';
+import Base_URL from '../../../config';
 export const addAnnouncement = async (announcement, token, dispatch) => {
   try {
     const response = await axios.post(
@@ -13,8 +13,6 @@ export const addAnnouncement = async (announcement, token, dispatch) => {
         },
       }
     );
-    console.log("addAnnouncement", response.data);
-
     // dispatch(setStore({ announcements: response.data?.data }));
     return response.data;
   } catch (error) {
@@ -25,16 +23,11 @@ export const addAnnouncement = async (announcement, token, dispatch) => {
 // DELETE ANNOUNCEMENT
 export const deleteAnnouncement = async (announcementId, token, dispatch) => {
   try {
-    const response = await axios.delete(
-      `${Base_URL}/deleteAnnouncement?announcementId=${announcementId}`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
-    console.log("deleteAnnouncement", response.data);
-
+    const response = await axios.delete(`${Base_URL}/deleteAnnouncement?announcementId=${announcementId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     // dispatch(setStore({ announcements: response.data?.data }));
     return response.data;
   } catch (error) {

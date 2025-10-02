@@ -64,7 +64,6 @@ const Products = () => {
 
   // ✅ Select/Deselect Single Checkbox
   const handleCheckbox = (productId) => {
-    console.log('productId', productId);
     setSelectedProducts((prev) => (prev.includes(productId) ? prev.filter((id) => id !== productId) : [...prev, productId]));
   };
 

@@ -32,8 +32,6 @@ const ProductDetailCard = ({ product }) => {
   const { loading } = useSelector((state) => state?.cartData || []);
   const { store } = useSelector((state) => state.store);
 
-  console.log(product, '⚱️⚱️⚱️');
-
   const [selectedOptions, setSelectedOptions] = useState({});
   const [displayImage, setDisplayImage] = useState(product?.displayImage);
   const [productDataAccToVariant, setProductDataAccToVariant] = useState({
@@ -94,10 +92,6 @@ const ProductDetailCard = ({ product }) => {
       setSelectedOptions(defaultSelections);
     }
   }, [product]);
-
-  useEffect(() => {
-    console.log(selectedOptions, '🏷️🏷️🏷️');
-  }, [selectedOptions]);
 
   return (
     <div className={`flex justify-center py-[25px] px-[30px] bg-[var(--tmp-pri)] w-full`}>
@@ -166,7 +160,7 @@ const ProductDetailCard = ({ product }) => {
 
           {product?.variations.map(({ name, options }, index) => (
             <div key={index} className="">
-              <p className="text-gray-600 text-[14px] mb-1">Select {name}</p>
+              <p className="text-[var(--tmp-txt)] text-[16px] mb-2">Select {name}</p>
               <div className="flex flex-wrap gap-2">
                 {options.map((option, idx) => {
                   const isColor = name.toLowerCase() === 'color';
@@ -179,9 +173,9 @@ const ProductDetailCard = ({ product }) => {
                         }))
                       }
                       key={idx}
-                      className={`bg-[#f4f4f4] cursor-pointer border-[1.5px] ${
-                        selectedOptions?.[name] === option ? 'border-primaryC text-black' : 'border-[#dcdcdcad] hover:border-[#c9c9c9ad] text-gray-500'
-                      } font-medium px-2 py-2 text-[15px]/[15px] rounded-[5px] flex items-center gap-2`}
+                      className={`bg-[var(--tmp-acc)] cursor-pointer border-[1.5px] ${
+                        selectedOptions?.[name] === option ? 'border-primaryC text-[var(--tmp-txt)]' : 'border-[var(--tmp-lBor)] hover:border-[#c9c9c9ad] text-[var(--tmp-ltxt)]'
+                      } font-medium px-2 py-2 text-[13px]/[13px] rounded-[5px] flex items-center gap-2`}
                     >
                       {isColor ? <span className="w-[24px] h-[24px] rounded-full" style={{ backgroundColor: option }}></span> : <span className="px-1">{option}</span>}
                       {/* {!isColor && } */}
@@ -191,41 +185,35 @@ const ProductDetailCard = ({ product }) => {
               </div>
             </div>
           ))}
-          <Button
-            disabled={!product?.stock ? true : false || loading}
-            action={handleAddToCart}
-            loading={loading}
-            variant="store"
-            label="Add To Cart"
-            className="font-bold  transition-all duration-300 hover:scale-105 !h-[50px]"
-            size=""
-          />
-          <Button
-            disabled={!product?.stock ? true : false || loading}
-            action={handleAddToCart}
-            loading={loading}
-            variant="store"
-            label="Buy It Now "
-            className="!text-[var(--tmp-ltxt)] !bg-transparent border border-[var(--tmp-lBor)] font-bold  transition-all duration-300 hover:scale-105 !h-[50px]"
-            size=""
-          />
+          <div className="w-full flex flex-col gap-4">
+            <Button
+              disabled={!product?.stock ? true : false || loading}
+              action={handleAddToCart}
+              loading={loading}
+              variant="store"
+              label="Add To Cart"
+              className="font-bold  transition-all duration-300 hover:scale-105 !h-[50px]"
+              size=""
+            />
+            <Button
+              disabled={!product?.stock ? true : false || loading}
+              action={handleAddToCart}
+              loading={loading}
+              variant="store"
+              label="Buy It Now "
+              className="!text-[var(--tmp-ltxt)] !bg-transparent border border-[var(--tmp-lBor)] font-bold  transition-all duration-300 hover:scale-105 !h-[50px]"
+              size=""
+            />
+          </div>
 
           <p className="text-[var(--tmp-txt)] text-lg" dangerouslySetInnerHTML={{ __html: product?.description }}></p>
 
-          {product?.note && <p className={'text-[.85rem] text-red-600 mt-[30px] w-full bg-red-100 p-2 '}>{product?.note}</p>}
-
-          <ul className="w-full text-[15px] font-medium border-b border-[var(--tmp-lBor)] text-[#9e9b9b] font-se">
-            <li className="before:content-['•'] before:pr-1 mb-[2px]">Vendor: {product?.vendor}</li>
-            <li className="before:content-['•'] before:pr-1 mb-[2px]">Material: Leather</li>
-            <li className="before:content-['•'] before:pr-1 mb-[2px]">Color: Purple</li>
-            <li className="before:content-['•'] before:pr-1 mb-[2px]">Size: Large</li>
-          </ul>
+          {product?.note && (
+            <p className={'text-[.85rem] text-[var(--tmp-txt)] mt-[30px] w-full border border-red-500/60 bg-red-500/10 text-red-500  p-2 '}>
+              <span className="mr-2 font-semibold">Note:</span> {product?.note}
+            </p>
+          )}
         </div>
-
-        {/* <div className="w-[280px] flex flex-col p-[20px] bg-white border-[1.3px] border-[#e1dfdf] rounded-[4px] customShadow h-[400px]">
-          
-      
-        </div> */}
       </div>
     </div>
   );

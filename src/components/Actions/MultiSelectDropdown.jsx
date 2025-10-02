@@ -30,7 +30,6 @@ const MultiSelectDropdown = ({
 
   // Decide which options to use: default or dynamic
   const availableOptions = loadOptionsFromAPI ? dynamicOptions : stableDefaultOptions;
-  console.log('availableOptions', availableOptions);
 
   // Resolve selectedOptions into full {label, value} objects
   const resolvedSelectedOptions = useMemo(() => {
@@ -84,7 +83,6 @@ const MultiSelectDropdown = ({
   }, [searchTerm, loadOptionsFromAPI]);
 
   const handleSelect = (option) => {
-    console.log('option', option);
     if (!selectedOptions.includes(option.value)) {
       setSelectedOptions([...selectedOptions, option.value]);
     }

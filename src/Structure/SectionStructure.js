@@ -324,9 +324,18 @@ export const SectionStructure = {
         twitter: 'https://twitter.com/yourpage',
         instagram: 'https://instagram.com/yourpage',
       },
+      navLinks: [],
       style: 'style1',
     },
     fields: [
+      {
+        name: 'navLinks',
+        placeholder: 'Menu Links',
+        input: 'dataSelectionList',
+        selectorName: 'menu links',
+        limit: 5,
+        options: null,
+      },
       {
         name: 'globalLogo',
         label: 'Logo',
