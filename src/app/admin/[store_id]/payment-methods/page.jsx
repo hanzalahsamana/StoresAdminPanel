@@ -23,31 +23,40 @@ const initialData = {
     isEnabled: false,
     credentials: {},
   },
-  jazzcash: {
+  account: {
     isEnabled: false,
-    displayName: 'Online Payment (provider jazzcash)',
     credentials: {
-      merchantId: '',
-      pp_Password: '',
-      integritySalt: '',
+      Account_No: '',
+      Account_Name: '',
+      Bank_Name: '',
+      IBAN: '',
     },
   },
+  // jazzcash: {
+  //   isEnabled: false,
+  //   displayName: 'Online Payment (provider jazzcash)',
+  //   credentials: {
+  //     merchantId: '',
+  //     pp_Password: '',
+  //     integritySalt: '',
+  //   },
+  // },
 
-  easypaisa: {
-    isEnabled: false,
-    credentials: {
-      merchantId: '',
-      apiKey: '',
-    },
-  },
-  konnect: {
-    isEnabled: false,
-    credentials: {},
-  },
-  alfalah: {
-    isEnabled: false,
-    credentials: {},
-  },
+  // easypaisa: {
+  //   isEnabled: false,
+  //   credentials: {
+  //     merchantId: '',
+  //     apiKey: '',
+  //   },
+  // },
+  // konnect: {
+  //   isEnabled: false,
+  //   credentials: {},
+  // },
+  // alfalah: {
+  //   isEnabled: false,
+  //   credentials: {},
+  // },
 };
 
 const PaymentMethods = () => {
@@ -95,12 +104,13 @@ const PaymentMethods = () => {
   const callUpdateAPI = async (key) => {
     try {
       setLoading(true);
-      const { isEnabled, ...credentials } = paymentState[key];
+      const { isEnabled, credentials, ...rest } = paymentState[key];
+      console.log('paymentState', paymentState);
       await updatePaymentMethod(currUser?.token, store?._id, {
         method: key,
         data: {
           isEnabled,
-          credentials,
+          credentials: { ...rest },
         },
       });
       toast.success('Payment method updated.');
@@ -134,9 +144,11 @@ const PaymentMethods = () => {
 
   const handleSave = async (key) => {
     const isValid = updatePaymentMethodValidate(key, paymentState[key], setValidationErrors);
+    console.log('isValid===>', isValid);
     if (!isValid) {
       return;
     }
+    console.log('key===>', key);
     await callUpdateAPI(key);
     setEditVisibleKey(null);
   };
@@ -188,7 +200,7 @@ const PaymentMethods = () => {
                 )
               }
             >
-              {editVisibleKey === method.key && (
+              {editVisibleKey === method.key && editVisibleKey !== 'cod' && (
                 <div className="grid gap-4 pt-4 w-full" onClick={(e) => e.stopPropagation()}>
                   <div className="grid grid-cols-2 gap-4 pt-4 w-full" onClick={(e) => e.stopPropagation()}>
                     {method.fields
@@ -204,6 +216,7 @@ const PaymentMethods = () => {
                           onChange={(e) => handleFieldChange(method.key, field.name, e.target.value)}
                           value={paymentState[method.key][field.name] || ''}
                           error={validationErrors?.[method.key]?.[`${field.name}`]}
+                          required={field?.required || true}
                         />
                       ))}
                   </div>

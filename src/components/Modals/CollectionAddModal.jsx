@@ -16,7 +16,7 @@ import DataSelectionList from '../Actions/DataSelectionList';
 
 const initialFormData = {
   name: '',
-  image: [],
+  image: '',
   products: [],
 };
 const CollectionAddModal = ({ isOpen, setIsOpen, updatedData = null, setUpdatedData = () => {} }) => {
@@ -33,31 +33,33 @@ const CollectionAddModal = ({ isOpen, setIsOpen, updatedData = null, setUpdatedD
         name: updatedData.name,
         image: updatedData.image,
         products: updatedData.products.map((i) => i?._id) || [],
+        metaDescription: updatedData?.metaDescription || '',
+        metaTitle: updatedData?.metaTitle || '',
       });
     }
   }, [updatedData]);
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prevData) => ({ ...prevData, [name]: value }));
-  };
-
-  const validateForm = () => {
+  const validateForm = (newFormData = {}, validationName = '') => {
     const newErrors = {};
-    const { name, image } = formData;
-
-    if (!name) {
+    const { name, image } = newFormData || formData;
+    if (!name && (validationName === 'name' || !validationName)) {
       newErrors.name = 'Collection Name is required';
     }
 
-    if (!image) newErrors.image = 'Collection Image is required';
+    if (!image && (validationName === 'image' || !validationName)) newErrors.image = 'Collection Image is required';
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
+  const handleChange = (value, name) => {
+    const newFormData = { ...formData, [name]: value };
+    setFormData(newFormData);
+    validateForm(newFormData, name);
+  };
+
   const handleSubmit = async () => {
-    if (!validateForm()) {
+    if (!validateForm(formData)) {
       return;
     }
 
@@ -83,31 +85,48 @@ const CollectionAddModal = ({ isOpen, setIsOpen, updatedData = null, setUpdatedD
     }
   };
 
+  // useEffect(() => {
+  //   validateForm();
+  // }, [formData]);
   return (
     <Modal isOpen={isOpen} setIsOpen={setIsOpen} extraFuntion={() => setUpdatedData(null)} closeOnEsc={false}>
       <ActionCard
         actionPosition="top"
         label={!updatedData ? 'Add Collection' : 'Update Collection'}
         actions={<Button loading={loading} label={!updatedData ? 'Add Collection' : 'Update Collection'} size="small" action={handleSubmit} />}
-        className={'pt-6 w-full'}
+        className={'pt-8 w-full !gap-[10px]'}
       >
         <div className="grid grid-cols-2 w-full gap-4 border-y py-4">
-          <div className='flex flex-col space-y-6'>
+          <div className="flex flex-col space-y-6">
             <FormInput
               label="Collection Name"
               placeholder="e.g. Summer Collection"
-              onChange={handleChange}
+              onChange={(e) => {
+                handleChange(e.target.value, 'name');
+              }}
               name={'name'}
               value={formData?.name}
               error={errors?.name}
-              layout="label"
             />
-            {/* <DataSelectionList
-          dataName="collections"
-          selectorName="collections"
-          selectedData={formData.collections || []}
-          setSelectedData={(value) => handleChange('collections', value)}
-          /> */}
+
+            <FormInput
+              label="Meta Description"
+              placeholder="Enter meta description"
+              onChange={(e) => handleChange(e.target.value, 'metaDescription')}
+              name={'metaDescription'}
+              value={formData?.metaDescription}
+              error={errors?.metaDescription}
+              required={false}
+            />
+            <FormInput
+              label="Meta Title"
+              placeholder="Enter meta title"
+              onChange={(e) => handleChange(e.target.value, 'metaTitle')}
+              name={'metaTitle'}
+              value={formData?.metaTitle}
+              error={errors?.metaTitle}
+              required={false}
+            />
             <DataSelectionList
               setSelectedData={(selectedOptions) => {
                 setFormData((prev) => ({
@@ -121,12 +140,14 @@ const CollectionAddModal = ({ isOpen, setIsOpen, updatedData = null, setUpdatedD
               selectorName="products"
             />
           </div>
-          <div className='flex justify-center'>
+          <div className="flex flex-col px-2 justify-start items-center gap-4">
             <ImageSlector
               key={'image'}
               image={formData['image']}
               size="xlarge"
-              setImage={(image) => setFormData((prev) => ({ ...prev, image }))}
+              setImage={(image) => {
+                handleChange(image, 'image');
+              }}
               error={errors?.image}
               multiple={false}
             />
