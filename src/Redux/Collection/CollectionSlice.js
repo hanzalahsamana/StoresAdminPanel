@@ -2,7 +2,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  collections: null,
+  collections: [],
   collectionLoading: true,
 };
 
@@ -23,8 +23,10 @@ export const collectionSlice = createSlice({
       }
     },
     deleteCollection: (state, action) => {
-      state.collections = state.collections.filter((collection) => collection._id !== action.payload);
+      const idsToDelete = action.payload;
+      state.collections = state.collections.filter((collection) => !idsToDelete.includes(collection._id));
     },
+
     setCollectionLoading: (state, action) => {
       state.collectionLoading = action.payload;
     },

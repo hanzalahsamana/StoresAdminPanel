@@ -28,7 +28,7 @@ const sizeClasses = {
   },
 };
 
-const ImageSelector = ({ image = '', setImage = () => {}, label = 'Upload Image', size = 'small', className = '', multiple = true }) => {
+const ImageSelector = ({ image = '', setImage = () => {}, label = 'Upload Image', size = 'small', className = '', multiple = true, error = '' }) => {
   const [isOpen, setIsOpen] = useState(false);
   const currentSize = sizeClasses[size] || sizeClasses.small;
 
@@ -99,6 +99,7 @@ const ImageSelector = ({ image = '', setImage = () => {}, label = 'Upload Image'
           )}
         </div>
       </div>
+      {error && <p className="text-sm text-red-600">{error}</p>}
 
       <ImageSelectorModal isOpen={isOpen} setIsOpen={setIsOpen} multiple={multiple} selectedImage={image} setSelectedImage={setImage} />
     </div>

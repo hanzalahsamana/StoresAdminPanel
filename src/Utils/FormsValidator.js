@@ -170,6 +170,37 @@ export const updatePaymentMethodValidate = (methodKey, data, setErrors) => {
         newErrors['apiKey'] = 'API Key is required';
       }
       break;
+    case 'account':
+      // IBAN
+      if (!data?.IBAN?.trim()) {
+        newErrors['IBAN'] = 'IBAN is required';
+      } else if (!/^PK\d{2}[A-Z0-9]{20}$/.test(data.IBAN.trim())) {
+        newErrors['IBAN'] = 'Invalid IBAN format (PK + 22 alphanumeric)';
+      }
+
+      // Account Name
+      if (!data?.Account_Name?.trim()) {
+        newErrors['Account_Name'] = 'Account Name is required';
+      } else if (!/^[A-Za-z\s]{3,50}$/.test(data.Account_Name.trim())) {
+        newErrors['Account_Name'] = 'Invalid Account Name (only letters & spaces, min 3 chars)';
+      }
+
+      // Account Number
+      if (!data?.Account_No?.trim()) {
+        newErrors['Account_No'] = 'Account No is required';
+      } else if (!/^\d{10,16}$/.test(data.Account_No.trim())) {
+        newErrors['Account_No'] = 'Invalid Account No (10–16 digits required)';
+      }
+
+      // Bank Name
+      if (!data?.Bank_Name?.trim()) {
+        newErrors['Bank_Name'] = 'Bank Name is required';
+      } else if (!/^[A-Za-z\s]{2,50}$/.test(data.Bank_Name.trim())) {
+        newErrors['Bank_Name'] = 'Invalid Bank Name (only letters & spaces)';
+      }
+      break;
+
+      break;
 
     default:
       newErrors.general = 'Unsupported payment method';
