@@ -1,14 +1,14 @@
-"use client";
+'use client';
 
 import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
-import Link from "next/link";
+import Link from 'next/link';
 import { AiOutlineClose } from 'react-icons/ai';
 import { FaBars } from 'react-icons/fa';
 import { SlHandbag } from 'react-icons/sl';
-import { useSelector } from "react-redux";
+import { useSelector } from 'react-redux';
 import { totalCalculate } from '@/Utils/Calculators';
 import { getBasePath } from '@/Utils/GetBasePath';
-import { usePathname } from "next/navigation";
+import { usePathname } from 'next/navigation';
 
 /**
  * @param {{
@@ -17,7 +17,7 @@ import { usePathname } from "next/navigation";
  *     navLinks: { name: string, slug: string }[],
  *     style?: 'default' | 'swipedown' | 'sticky'
  *   }
- * }} props 
+ * }} props
  */
 const TemplateHeader = ({ sectionData }) => {
   const pathname = usePathname();
@@ -32,8 +32,9 @@ const TemplateHeader = ({ sectionData }) => {
   const [hasShownOnce, setHasShownOnce] = useState(false);
   const toggleMenu = () => setIsOpen(!isOpen);
 
-  const { headerLogo, navLinks = [], style = 'sticky' } = sectionData || {};
-
+  const { headerLogo, globalLogo, navLinks = [], style = 'sticky' } = sectionData || {};
+  const { store } = useSelector((state) => state?.store);
+  console.log('sectionData==>', store);
 
   const [headerHeight, setHeaderHeight] = useState(0);
 
@@ -63,7 +64,7 @@ const TemplateHeader = ({ sectionData }) => {
     const handleScroll = () => {
       const scrollTop = window.scrollY;
 
-      if (style === "sticky") {
+      if (style === 'sticky') {
         if (scrollTop > 200) {
           setShowStickyHeader(true);
         } else {
@@ -71,7 +72,7 @@ const TemplateHeader = ({ sectionData }) => {
         }
       }
 
-      if (style === "swipe") {
+      if (style === 'swipe') {
         if (scrollTop <= 200) {
           setShowSwipeHeader(false);
           setHasShownOnce(false);
@@ -84,51 +85,39 @@ const TemplateHeader = ({ sectionData }) => {
       setLastScrollTop(scrollTop <= 0 ? 0 : scrollTop);
     };
 
-
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
   }, [style, lastScrollTop]);
 
-  const headerStyleClass = {
+  const headerStyleClass =
+    {
+      default: 'relative z-10',
 
-    default: 'relative z-10',
+      sticky: `${lastScrollTop > 200 ? 'fixed top-0 w-full z-50 headerSlideIn' : 'relative z-10'}`,
 
-    sticky: `${lastScrollTop > 200 ? 'fixed top-0 w-full z-50 headerSlideIn' : 'relative z-10'}`,
-
-    swipe: `w-full z-50 ${lastScrollTop > 200 && hasShownOnce ? showSwipeHeader ? 'fixed top-0 headerSlideIn' : 'fixed top-0 headerSlideOut' : 'relative z-10'}`
-
-  }[style] || 'relative z-10';
-
+      swipe: `w-full z-50 ${lastScrollTop > 200 && hasShownOnce ? (showSwipeHeader ? 'fixed top-0 headerSlideIn' : 'fixed top-0 headerSlideOut') : 'relative z-10'}`,
+    }[style] || 'relative z-10';
 
   return (
-    <div className='box-border' style={{ height: `${headerHeight}px`, background: 'var(--tmp-pri)' }}>
-      <header
-        ref={headerRef}
-        className={`w-full box-border py-[10px] ease-in-out ${headerStyleClass} bg-[var(--tmp-pri)] text-[var(--tmp-txt)] border-b border-[#b3b3b36f]`}
-      >
+    <div className="box-border" style={{ height: `${headerHeight}px`, background: 'var(--tmp-pri)' }}>
+      <header ref={headerRef} className={`w-full box-border py-[10px] ease-in-out ${headerStyleClass} bg-[var(--tmp-pri)] text-[var(--tmp-txt)] border-b border-[#b3b3b36f]`}>
         <div className="mx-auto flex justify-between gap-10 items-center max-w-[1200px] min-h-[70px] py-[12px] px-[20px] md:px-[40px]">
-          <button className='md:hidden flex' onClick={toggleMenu}>
+          <button className="md:hidden flex" onClick={toggleMenu}>
             {isOpen ? <AiOutlineClose size={24} /> : <FaBars size={24} />}
           </button>
 
-          <Link href={`${Storepath}/`
-          } className="flex items-center" >
-            {headerLogo && (
-              <img
-                src={headerLogo}
-                alt="Site Logo"
-                className="w-20 max-h-12 object-contain"
-              />
-            )}
-          </Link >
+          <Link href={`${Storepath}/`} className="flex items-center">
+            {(store?.branding?.logo || headerLogo) && <img src={globalLogo ? store?.branding?.logo : headerLogo} alt="Site Logo" className="w-20 max-h-12 object-contain" />}
+          </Link>
 
           <nav className="hidden md:flex gap-3 space-x-4">
             {navLinks.map(({ slug, name }, i) => (
               <Link
                 key={i}
                 href={`${Storepath}${slug}`}
-                className={`text-[18px] font-medium text-[var(--tmp-txt)] cursor-pointer hover:opacity-[0.6] ${pathname === `${Storepath}${slug}` || (pathname === Storepath && slug === '/') ? 'underline font-semibold' : ''
-                  }`}
+                className={`text-[18px] font-medium text-[var(--tmp-txt)] cursor-pointer hover:opacity-[0.6] ${
+                  pathname === `${Storepath}${slug}` || (pathname === Storepath && slug === '/') ? 'underline font-semibold' : ''
+                }`}
                 prefetch={true}
               >
                 {name}
@@ -144,23 +133,19 @@ const TemplateHeader = ({ sectionData }) => {
               </span>
             </Link>
           </div>
-        </div >
+        </div>
 
         <div className={`md:hidden transition-all duration-3000 ease-in-out ${isOpen ? 'max-h-[260px]' : 'max-h-[0px] overflow-hidden'}`}>
           <nav className="flex flex-col gap-6 p-[30px] py-4">
             {navLinks.map(({ name, slug }, i) => (
-              <Link
-                key={i}
-                href={`${Storepath}${slug}`}
-                className="text-[18px] cursor-pointer hover:opacity-[0.6]"
-              >
+              <Link key={i} href={`${Storepath}${slug}`} className="text-[18px] cursor-pointer hover:opacity-[0.6]">
                 {name}
               </Link>
             ))}
           </nav>
         </div>
-      </header >
-    </div >
+      </header>
+    </div>
   );
 };
 

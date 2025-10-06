@@ -1,9 +1,10 @@
-"use client";
+'use client';
 
 import axios from 'axios';
 import BASE_URL from '../../../config';
 import { dispatch } from '@/Redux/Store';
-import { addPage, setEditingMode, setEditingPage, setPageLoading, setPages } from '@/Redux/Pages/PagesSlice';
+import { addPage, deletePage, setEditingMode, setEditingPage, setPageLoading, setPages } from '@/Redux/Pages/PagesSlice';
+import { toast } from 'react-toastify';
 
 // Save Draft Page
 export const saveDraftPage = async (token, storeId, payload) => {
@@ -67,7 +68,6 @@ export const getPublishedPage = async (token, storeId, slug) => {
         Authorization: `Bearer ${token}`,
       },
     });
-
   } catch (error) {
     console.error('Get published error:', error);
     throw error;
@@ -129,5 +129,23 @@ export const createPage = async (token, storeId, payload) => {
   } catch (error) {
     console.error('create page error:', error);
     throw error;
+  }
+};
+
+// Create Page
+export const pageDeleting = async (token, storeId, slug) => {
+  try {
+    const { data } = await axios.delete(`${BASE_URL}/${storeId}/delete/page?slug=${slug}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    dispatch(deletePage(slug));
+    toast.success(data?.message || 'Page Deleted Successfully!');
+    return data;
+  } catch (error) {
+    console.error('create page error:', error);
+    toast.error(error?.message || 'Error Deleting Page!');
   }
 };

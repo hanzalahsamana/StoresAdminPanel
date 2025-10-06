@@ -92,20 +92,16 @@ const PaymentMethods = () => {
   };
 
   const handleFieldChange = (key, fieldName, value) => {
-    setPaymentState((prev) => ({
-      ...prev,
-      [key]: {
-        ...prev[key],
-        [fieldName]: value,
-      },
-    }));
+    const newPaymentState = { ...paymentState, [key]: { ...paymentState[key], [fieldName]: value } };
+
+    setPaymentState(newPaymentState);
+    updatePaymentMethodValidate(key, newPaymentState[key], setValidationErrors, fieldName);
   };
 
-  const callUpdateAPI = async (key) => {
+  const callUpdateAPI = async (key, newPaymentState) => {
     try {
       setLoading(true);
-      const { isEnabled, credentials, ...rest } = paymentState[key];
-      console.log('paymentState', paymentState);
+      const { isEnabled, credentials, ...rest } = newPaymentState[key];
       await updatePaymentMethod(currUser?.token, store?._id, {
         method: key,
         data: {
@@ -128,31 +124,22 @@ const PaymentMethods = () => {
       if (!value) {
         setValidationErrors({});
       }
-
       handleEdit(key);
       return;
     }
-    setPaymentState((prev) => ({
-      ...prev,
-      [key]: {
-        ...prev[key],
-        isEnabled: value,
-      },
-    }));
-    await callUpdateAPI(key);
+    const newPaymentState = { ...paymentState, [key]: { ...paymentState[key], isEnabled: value } };
+    setPaymentState(newPaymentState);
+    await callUpdateAPI(key, newPaymentState);
   };
 
   const handleSave = async (key) => {
     const isValid = updatePaymentMethodValidate(key, paymentState[key], setValidationErrors);
-    console.log('isValid===>', isValid);
     if (!isValid) {
       return;
     }
-    console.log('key===>', key);
-    await callUpdateAPI(key);
+    await callUpdateAPI(key, paymentState);
     setEditVisibleKey(null);
   };
-
   return (
     <BackgroundFrame>
       <div className="border-[1.5px] border-[#788a9a2c] rounded-md overflow-hidden">

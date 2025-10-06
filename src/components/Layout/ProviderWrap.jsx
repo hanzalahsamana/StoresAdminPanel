@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setCartData } from '@/Redux/CartData/cartDataSlice';
 import { getContentByName } from '@/Redux/ContentData/ContentDataSlice';
 import { getStore } from '@/APIs/StoreDetails/getStore';
-import { getPublicStoreConfiguration } from '@/APIs/StoreConfigurations/configuration';
+import { getAdminStoreConfiguration, getPublicStoreConfiguration } from '@/APIs/StoreConfigurations/configuration';
 import { setStore } from '@/Redux/Store/StoreDetail.slice';
 import SiteNotFound from '@/components/404Pages/SiteNotFound';
 import ProtectedRoute from '@/AuthenticRouting/ProtectedRoutes';
@@ -111,10 +111,26 @@ export const StoreProviderWrap = ({ params, children }) => {
 
 export const AdminProviderWrap = ({ children }) => {
   const { currUser } = useSelector((state) => state.currentUser);
+  const { store } = useSelector((state) => state.store);
+  const dispatch = useDispatch();
   useEffect(() => {
     if (!currUser?.token) return;
     getAllStores(currUser?.token);
   }, [currUser?.token]);
+
+  useEffect(() => {
+    if (!store?._id) return;
+
+    const fetchAllData = async () => {
+      try {
+        await Promise.all([getAdminStoreConfiguration(currUser?.token, store?._id)]);
+      } catch (error) {
+        console.error('Data fetching failed:', error);
+      }
+    };
+
+    fetchAllData();
+  }, [store?._id, dispatch]);
   return <ProtectedRoute>{children}</ProtectedRoute>;
 };
 

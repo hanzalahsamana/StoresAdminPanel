@@ -8,13 +8,16 @@ import OrderTrackModal from '@/components/Modals/OrderTrackModal';
 import SubscribeForm from '../Forms/SubscribeForm';
 import Button from '../Actions/Button';
 import { usePathname } from 'next/navigation';
+import { useSelector } from 'react-redux';
 
 const TemplateFooter = ({ sectionData }) => {
   const path = getBasePath();
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
+  const { store } = useSelector((state) => state?.store);
 
-  const { footerLogo, email = '', phone = '', location = '', copyright = '', socialLinks = {}, style = 'style1', navLinks = [] } = sectionData || {};
+  const { footerLogo, globalLogo, email = '', phone = '', location = '', copyright = '', socialLinks = {}, style = 'style1', navLinks = [] } = sectionData || {};
+  console.log('globalLogo', globalLogo);
   return (
     <footer className={`bg-[var(--tmp-sec)] w-full border-t flex flex-col items-center border-[var(--tmp-lBor)]`}>
       <div className="pt-10 text-[var(--tmp-wtxt)] w-full max-w-[1200px] px-[40px]">
@@ -22,9 +25,9 @@ const TemplateFooter = ({ sectionData }) => {
 
         <div className="container mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 text-sm md:px-0">
           <div>
-            {footerLogo && (
+            {(footerLogo || store?.branding?.logo) && (
               <Link href={`${path}/`}>
-                <img src={footerLogo} alt="Footer Logo" className="mb-4 max-w-[200px] max-h-[150px] object-contain" />
+                <img src={globalLogo ? store?.branding?.logo : footerLogo} alt="Footer Logo" className="mb-4 max-w-[200px] max-h-[150px] object-contain" />
               </Link>
             )}
             {(socialLinks.facebook ||
