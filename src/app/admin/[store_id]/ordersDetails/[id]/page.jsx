@@ -1,24 +1,34 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import ProtectedRoute from '@/AuthenticRouting/ProtectedRoutes';
 import Loader from '@/components/Loader/loader';
 import { useParams } from 'next/navigation';
 import { useSelector } from 'react-redux';
 import CustomerInfoTable from '@/components/Tables/CustomerInfoTable';
 import OrderRecipt from '@/components/UI/OrderRecipt';
+import { fetchOrderData } from '@/APIs/Order/getOrderData';
 
 const OrderDetails = () => {
-  const { orders, loading } = useSelector((state) => state?.orderData);
-  const { id } = useParams();
+  const { loading } = useSelector((state) => state?.orderData);
+  const { currUser } = useSelector((state) => state?.currentUser);
+  const { id, store_id } = useParams();
+  const [order, setOrder] = useState(null);
+
+  const getOrder = async () => {
+    const order = await fetchOrderData(currUser?.token, store_id, id);
+    setOrder(order);
+  };
+
+  useEffect(() => {
+    getOrder();
+  }, []);
 
   if (loading) {
     return <Loader />;
   }
 
-  const order = orders?.find((order) => order._id === id);
-
-  if (!order || orders.length === 0) {
+  if (!order) {
     return (
       <div className="flex justify-center items-center h-[calc(100vh-60px)]">
         <h1>No Orders found</h1>

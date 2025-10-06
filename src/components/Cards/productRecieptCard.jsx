@@ -19,7 +19,7 @@ const ProductRecieptCard = ({ product }) => {
                 </div>
             </div>
             <div className='flex items-center'>
-                <div className='flex items-center justify-center rounded-full  bg-[var(--tmp-sec)] text-[var(--tmp-txt)] text-[10px]/[10px] h-max px-2 py-1 mr-[5px] '>{product.quantity}x</div>
+                <div className='flex items-center justify-center rounded-full  bg-[var(--tmp-sec)] text-[var(--tmp-wtxt)] text-[10px]/[10px] h-max px-2 py-1 mr-[5px] '>{product.quantity}x</div>
                 <p className='text-[14px] text-[var(--tmp-txt)]'>Rs {(product?.price * product.quantity)?.toFixed(2)}</p>
             </div>
         </div>

@@ -27,10 +27,14 @@ export const pagesSlice = createSlice({
     setPageLoading: (state, action) => {
       state.pagesLoading = action.payload;
     },
+    deletePage: (state, action) => {
+      const slugToDelete = action.payload;
+      state.pages = state.pages.filter((page) => page.slug !== slugToDelete);
+    },
   },
 });
 
-export const { setPages, addPage, setEditingPage, setEditingMode, setPageLoading } = pagesSlice.actions;
+export const { setPages, addPage, setEditingPage, setEditingMode, setPageLoading, deletePage } = pagesSlice.actions;
 
 export const pagesReducer = pagesSlice.reducer;
 
