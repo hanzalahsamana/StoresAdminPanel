@@ -1,12 +1,22 @@
 import { useEffect, useState } from 'react';
 import FormInput from '../Forms/FormInput';
 import Modal from '../Modals/Modal';
+import { useSelector } from 'react-redux';
 
-const DiscountPopup = ({ discount, isOpen, setIsOpen }) => {
+const DiscountPopup = ({ discountRef, isOpen, setIsOpen }) => {
   const [email, setEmail] = useState('');
+  const { discounts } = useSelector((state) => state?.storeConfiguration?.storeConfiguration);
+  const [discount, setDiscount] = useState({});
+
+  useEffect(() => {
+    if (discounts && discounts?.length > 0) {
+      const newDiscount = discounts.find((d) => d?._id === discountRef);
+      setDiscount(newDiscount);
+    }
+  }, [discounts, discountRef]);
 
   // Guard clause: check for open, discount presence, active status, and expiry
-  const isValidDiscount = isOpen && discount && discount.isActive && new Date(discount.expiryDate) > new Date();
+  const isValidDiscount = isOpen && discount && discount?.isActive && new Date(discount?.expiryDate) > new Date();
 
   if (!isValidDiscount) return null;
 

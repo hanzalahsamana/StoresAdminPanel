@@ -57,7 +57,7 @@ const PaymentForm = ({ selectedMethod = '', setSelectedMethod = () => {}, errors
 
           <DropDown
             placeholder="Select Payment Method"
-            defaultOptions={paymentMethods?.map((method) => ({ label: method?.method, value: method?._id }))}
+            defaultOptions={paymentMethods?.filter((method) => method?.isEnabled)?.map((method) => ({ label: method?.method, value: method?._id }))}
             size="large"
             variant="primary"
             setSelectedOption={setSelectedMethod}

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import ProtectedRoute from '@/AuthenticRouting/ProtectedRoutes';
 import BackgroundFrame from '@/components/Layout/BackgroundFrame';
@@ -14,6 +14,11 @@ import Modal from '@/components/Modals/Modal';
 import RadioButton from '@/components/Actions/RadioButton';
 import Button from '@/components/Actions/Button';
 import ToggleSwitch from '@/components/Actions/ToggleSwitch';
+import FormInput from '@/components/Forms/FormInput';
+import { addAnnouncement } from '@/APIs/StoreDetails/announcement';
+import Loader from '@/components/Loader/loader';
+import CardLoader from '@/components/Loader/CardLoader';
+import { isEqual } from 'lodash';
 
 const defaultDiscount = {
   name: 'NEWYEAR2025',
@@ -25,37 +30,37 @@ const defaultDiscount = {
   expiryDate: '2027-10-09T09:49:00.000+00:00',
 };
 
-const Discount = () => {
-  const { discounts } = useSelector((state) => state?.storeDetail?.storeDetail);
+const Discount = ({ params }) => {
+  const { storeConfiguration, storeConfigurationLoading } = useSelector((state) => state?.storeConfiguration);
+  const { discounts, announcements } = storeConfiguration;
+  const { currUser } = useSelector((state) => state?.currentUser);
   const [modalOpen, setModalOpen] = useState(false);
-  const [target, setTarget] = useState(null);
   const [selectedDiscount, setSelectedDiscount] = useState(null);
+  const [loading, setLoading] = useState({ popup: false, discountBar: false });
+  const [buttonActive, setButtonActive] = useState({ discountBar: false, popup: false });
+  const [errors, setErrors] = useState({});
+  const { store_id } = params;
 
   const [announcementState, setAnnouncementState] = useState({
-    bar: {
-      discount: null,
-      showForm: false,
-      isActive: true,
-      saved: false,
+    discountBar: {
+      isActive: false,
+      description: '',
+      timer: null,
     },
     popup: {
-      discount: null,
-      showForm: false,
-      isActive: true,
+      discountRef: null,
+      isActive: false,
       showType: 'reload',
-      saved: false,
     },
   });
 
   const handleDone = () => {
-    if (selectedDiscount && target) {
+    if (selectedDiscount) {
       setAnnouncementState((prev) => ({
         ...prev,
-        [target]: {
-          ...prev[target],
-          discount: selectedDiscount,
-          showForm: true,
-          saved: false,
+        popup: {
+          ...prev.popup,
+          discountRef: selectedDiscount?._id,
         },
       }));
       setModalOpen(false);
@@ -63,66 +68,46 @@ const Discount = () => {
     }
   };
 
-  const handleSave = (type) => {
+  const handleSave = async (type) => {
+    setLoading((prev) => ({ ...prev, [type]: true }));
     const data = announcementState[type];
-    const payload = {
-      announcementType: type,
-      discountId: data.discount?.id,
-      isActive: data.isActive,
-      ...(type === 'popup' && { showType: data.showType }),
-    };
-
-    setAnnouncementState((prev) => ({
-      ...prev,
-      [type]: {
-        ...prev[type],
-        showForm: false,
-        saved: true,
-      },
-    }));
-  };
-
-  const handleEdit = (type) => {
-    setAnnouncementState((prev) => ({
-      ...prev,
-      [type]: {
-        ...prev[type],
-        showForm: true,
-      },
-    }));
+    await addAnnouncement(data, currUser?.token, store_id, type);
+    setLoading((prev) => ({ ...prev, [type]: false }));
   };
 
   const handleRemoveDiscount = (type) => {
     setAnnouncementState((prev) => ({
       ...prev,
       [type]: {
-        discount: null,
-        showForm: false,
-        isActive: true,
-        showType: 'reload',
-        saved: false,
+        ...prev[type],
+        discountRef: null,
       },
     }));
+    setSelectedDiscount(null)
   };
 
-  const renderSummary = (type) => {
-    const data = announcementState[type];
-    return (
-      <div className="mt-2 text-sm">
-        <p>
-          <strong>Active:</strong> {data.isActive ? 'Yes' : 'No'}
-        </p>
-        {type === 'popup' && (
-          <p>
-            <strong>Show On:</strong> {data.showType}
-          </p>
-        )}
-        <div className="mt-2">
-          <Button label="Edit" action={() => handleEdit(type)} size="small" />
-        </div>
-      </div>
-    );
-  };
+  useEffect(() => {
+    if (announcements) {
+      setAnnouncementState(announcements);
+      if (discounts && discounts.length > 0) {
+        const discount = discounts.find((d) => d?._id === announcements?.popup?.discountRef);
+        setSelectedDiscount(discount);
+      }
+    }
+  }, [announcements]);
+
+  useEffect(() => {
+    if (announcements && announcementState) {
+      const discountBarChanged = !isEqual(announcementState?.discountBar, announcements?.discountBar);
+
+      const popupChanged = !isEqual(announcementState?.popup, announcements?.popup);
+
+      setButtonActive({
+        discountBar: discountBarChanged,
+        popup: popupChanged,
+      });
+    }
+  }, [announcementState, announcements]);
 
   return (
     <BackgroundFrame>
@@ -138,56 +123,54 @@ const Discount = () => {
         className="w-full"
       />
 
-      <CustomCard
-        title="Discount Bar"
-        className="w-full"
-        actions={
-          announcementState.bar.discount ? (
-            <button onClick={() => handleRemoveDiscount('bar')} className="flex items-center gap-1 whitespace-nowrap text-red-500">
-              Remove Discount
-            </button>
-          ) : (
-            <button
-              onClick={() => {
-                setTarget('bar');
-                setModalOpen(true);
-              }}
-              className="flex items-center gap-1 whitespace-nowrap text-primaryC"
-            >
-              <GoPlus /> Connect Discount
-            </button>
-          )
-        }
-      >
-        {!announcementState.bar?.discount || (announcementState.bar.discount.isActive && new Date(announcementState.bar.discount.expiryDate) > new Date()) ? (
-          <>
-            <div className="p-3 border rounded-md w-full">
-              <p className="mb-3">Preview</p>
-              <DiscountCountdownBar discount={announcementState.bar.discount || defaultDiscount} />
-            </div>
-
-            {announcementState.bar.showForm ? (
-              <>
+      <CustomCard title="Discount Bar" className="w-full flex !justify-start">
+        {!storeConfigurationLoading ? (
+          <div className="flex flex-col w-full gap-6 !justify-start">
+            <>
+              <div className="w-max">
                 <ToggleSwitch
                   label="Is Active"
-                  checked={announcementState.bar.isActive}
+                  checked={announcementState?.discountBar?.isActive}
                   setChecked={(val) =>
                     setAnnouncementState((prev) => ({
                       ...prev,
-                      bar: { ...prev.bar, isActive: val },
+                      discountBar: { ...prev.discountBar, isActive: val },
                     }))
                   }
                 />
-                <div className="mt-2">
-                  <Button label="Save" action={() => handleSave('bar')} size="small" />
-                </div>
-              </>
-            ) : (
-              announcementState.bar.saved && renderSummary('bar')
-            )}
-          </>
+              </div>
+              <div className="grid grid-cols-2 gap-4 items-center">
+                <FormInput
+                  name="description"
+                  value={announcementState?.discountBar?.description}
+                  onChange={(e) => {
+                    setAnnouncementState((prev) => ({ ...prev, discountBar: { ...prev?.discountBar, description: e.target.value } }));
+                  }}
+                  label="Text"
+                  placeholder="Enter text"
+                />
+                <FormInput
+                  type="date"
+                  name="timer"
+                  value={announcementState?.discountBar?.timer?.split('T')[0]}
+                  onChange={(e) => {
+                    setAnnouncementState((prev) => ({ ...prev, discountBar: { ...prev?.discountBar, timer: e.target.value } }));
+                  }}
+                  label="Timer"
+                  required={false}
+                />
+              </div>
+            </>
+            <div className="p-3 border rounded-md w-full">
+              <p className="mb-3">Preview</p>
+              <DiscountCountdownBar announcement={announcementState?.discountBar} />
+            </div>
+            <div className="mt-2 ml-auto">
+              <Button label="Save" action={() => handleSave('discountBar')} size="small" loading={loading?.discountBar} active={buttonActive?.discountBar} />
+            </div>
+          </div>
         ) : (
-          <p className="text-textTC italic text-center">Discount is InActive or Expired</p>
+          <CardLoader />
         )}
       </CustomCard>
 
@@ -195,14 +178,13 @@ const Discount = () => {
         title="Popup Modal"
         className="w-full"
         actions={
-          announcementState.popup.discount ? (
+          announcementState.popup.discountRef ? (
             <button onClick={() => handleRemoveDiscount('popup')} className="flex items-center gap-1 whitespace-nowrap text-red-500">
               Remove Discount
             </button>
           ) : (
             <button
               onClick={() => {
-                setTarget('popup');
                 setModalOpen(true);
               }}
               className="flex items-center gap-1 whitespace-nowrap text-primaryC"
@@ -212,46 +194,43 @@ const Discount = () => {
           )
         }
       >
-        {!announcementState.popup?.discount || (announcementState.popup.discount.isActive && new Date(announcementState.popup.discount.expiryDate) > new Date()) ? (
-          <div className="flex flex-col items-start w-full">
-            {announcementState.popup.showForm ? (
-              <>
-                <RadioButton
-                  label="When to show this popup"
-                  options={['reload', 'firstVisit']}
-                  selectedOption={announcementState.popup.showType}
-                  setSelectedOption={(val) =>
-                    setAnnouncementState((prev) => ({
-                      ...prev,
-                      popup: { ...prev.popup, showType: val },
-                    }))
-                  }
-                />
-                <ToggleSwitch
-                  label="Is Active"
-                  checked={announcementState.popup.isActive}
-                  setChecked={(val) =>
-                    setAnnouncementState((prev) => ({
-                      ...prev,
-                      popup: { ...prev.popup, isActive: val },
-                    }))
-                  }
-                />
-                <div className="mt-2">
-                  <Button label="Save" action={() => handleSave('popup')} size="small" />
-                </div>
-              </>
-            ) : (
-              announcementState.popup.saved && renderSummary('popup')
-            )}
+        {!storeConfigurationLoading ? (
+          <div className="flex flex-col items-start w-full gap-4">
+            <div className="flex justify-between w-full items-center mb-4 flex-row-reverse gap-4">
+              <ToggleSwitch
+                label="Is Active"
+                checked={announcementState.popup.isActive}
+                setChecked={(val) =>
+                  setAnnouncementState((prev) => ({
+                    ...prev,
+                    popup: { ...prev.popup, isActive: val },
+                  }))
+                }
+              />
+              <RadioButton
+                label="When to show this popup"
+                options={['reload', 'firstVisit']}
+                selectedOption={announcementState.popup.showType}
+                setSelectedOption={(val) =>
+                  setAnnouncementState((prev) => ({
+                    ...prev,
+                    popup: { ...prev.popup, showType: val },
+                  }))
+                }
+                className="flex gap-4 items-center !space-y-0"
+              />
+            </div>
 
             <div className="p-3 border rounded-md w-full ">
               <p className="mb-3">Preview</p>
-              <DiscountPopup isOpen={true} discount={announcementState.popup.discount || defaultDiscount} />
+              <DiscountPopup isOpen={true} discountRef={announcementState?.popup?.discountRef} />
+            </div>
+            <div className="mt-2 ml-auto">
+              <Button label="Save" action={() => handleSave('popup')} size="small" loading={loading?.popup} active={buttonActive?.popup} />
             </div>
           </div>
         ) : (
-          <p className="text-textTC italic text-center">Discount is InActive or Expired</p>
+          <CardLoader />
         )}
       </CustomCard>
 
@@ -276,10 +255,12 @@ const Discount = () => {
           }
         >
           <RadioButton
-            options={discounts?.map((d) => d.name)}
-            selectedOption={selectedDiscount?.name}
+            options={discounts?.map((d) => ({ label: d?.name, value: d?._id }))}
+            selectedOption={selectedDiscount?._id}
             setSelectedOption={(val) => {
-              const found = discounts.find((d) => d.name === val);
+              console.log('val==>', val);
+              const found = discounts.find((d) => d?._id === val);
+              console.log('found==>', found);
               setSelectedDiscount(found);
             }}
           />

@@ -72,6 +72,7 @@ export default function adminLayout({ children, params }) {
   if (!store?._id || store?.userRef !== currUser?._id) {
     return <NotFound />;
   }
+  console.log('isSidebarOpen', isSidebarOpen);
 
   return (
     <div className={`flex h-[calc(100vh-60px)]  ${assistant.className} antialiased`}>
