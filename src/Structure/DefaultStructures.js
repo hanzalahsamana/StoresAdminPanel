@@ -510,7 +510,7 @@ export const AdminPanelSideBarData = [
   { name: 'Orders', icon: 'https://img.icons8.com/color/48/cardboard-box.png', path: '/ordersList' },
   { name: 'Pages', icon: 'https://img.icons8.com/fluency/48/terms-and-conditions.png', path: '/pages' },
   { name: 'Domain', icon: 'https://img.icons8.com/color/48/internet--v1.png', path: '/domain' },
-  { name: 'Color Theme', icon: 'https://img.icons8.com/emoji/48/artist-palette.png', path: '/theme' },
+  { name: 'Branding', icon: 'https://img.icons8.com/fluency/48/microsoft-paint.png', path: '/branding' },
   { name: 'Payment Methods', icon: 'https://img.icons8.com/color/48/bank-card-back-side.png', path: '/payment-methods' },
   { name: 'Gallery', icon: 'https://img.icons8.com/fluency/48/gallery.png', path: '/gallery' },
   {

@@ -1,5 +1,5 @@
-"use client";
-import { createSlice } from "@reduxjs/toolkit";
+'use client';
+import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   allStores: [],
@@ -7,7 +7,7 @@ const initialState = {
 };
 
 export const allStoresSlice = createSlice({
-  name: "allStores",
+  name: 'allStores',
   initialState,
   reducers: {
     setAllStores: (state, action) => {
@@ -19,9 +19,12 @@ export const allStoresSlice = createSlice({
     setGenratedStore: (state, action) => {
       state.allStores.push(action.payload);
     },
+    deleteStoreFromRedux: (state, action) => {
+      state.allStores = state.allStores.filter((store) => store._id !== action.payload);
+    },
   },
 });
 
-export const { setAllStores, setAllStoresLoading , setGenratedStore } = allStoresSlice.actions;
+export const { setAllStores, setAllStoresLoading, setGenratedStore, deleteStoreFromRedux } = allStoresSlice.actions;
 const allStoresReducer = allStoresSlice.reducer;
 export default allStoresReducer;

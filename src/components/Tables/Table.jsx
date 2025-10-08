@@ -9,6 +9,7 @@ import { IoCopyOutline } from 'react-icons/io5';
 import { copyToClipboard } from '@/Utils/MiniUtils';
 import { motion } from 'framer-motion';
 import Checkbox from '../Actions/CheckBox';
+import { placeholderImageUrl } from '@/Structure/DefaultStructures';
 
 const fadeUpVariant = {
   hidden: { opacity: 0, y: 10 },
@@ -90,7 +91,7 @@ const DynamicTable = ({
                   return (
                     <td key={col.key} className="p-2 text-[14px] text-textC">
                       {col.type === 'image' ? (
-                        <img src={Array.isArray(value) ? value[0] : value || 'https://via.placeholder.com/50'} alt="" className="w-[40px] h-[40px]" />
+                        <img src={Array.isArray(value) ? value[0] : value || placeholderImageUrl} alt="" className="w-[40px] h-[40px]" />
                       ) : col.type === 'id' ? (
                         <div className="flex items-center gap-2">
                           #{value?.length > 16 ? value?.toString()?.slice(0, 10) + '..' : value || '-'}
