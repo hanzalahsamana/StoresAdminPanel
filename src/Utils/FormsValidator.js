@@ -142,7 +142,7 @@ export const userLoginValidate = (formData, setErrors) => {
   return Object.keys(newErrors).length === 0;
 };
 
-export const updatePaymentMethodValidate = (methodKey, data, setErrors) => {
+export const updatePaymentMethodValidate = (methodKey, data, setErrors, fieldName = '') => {
   const newErrors = {};
 
   switch (methodKey) {
@@ -170,6 +170,20 @@ export const updatePaymentMethodValidate = (methodKey, data, setErrors) => {
         newErrors['apiKey'] = 'API Key is required';
       }
       break;
+    case 'account':
+      const checkField = (name, value, regex, msgRequired, msgInvalid) => {
+        if (!value?.trim() && (!fieldName || fieldName === name)) {
+          newErrors[name] = msgRequired;
+        } else if (value?.trim() && !regex.test(value.trim()) && (!fieldName || fieldName === name)) {
+          newErrors[name] = msgInvalid;
+        }
+      };
+
+      checkField('IBAN', data?.IBAN, /^PK\d{2}[A-Z0-9]{20}$/, 'IBAN is required', 'Invalid IBAN format (PK + 22 alphanumeric)');
+      checkField('Account_Name', data?.Account_Name, /^[A-Za-z\s]{3,50}$/, 'Account Name is required', 'Invalid Account Name (only letters & spaces, min 3 chars)');
+      checkField('Account_No', data?.Account_No, /^\d{10,16}$/, 'Account No is required', 'Invalid Account No (10–16 digits required)');
+      checkField('Bank_Name', data?.Bank_Name, /^[A-Za-z\s]{2,50}$/, 'Bank Name is required', 'Invalid Bank Name (only letters & spaces)');
+      break;
 
     default:
       newErrors.general = 'Unsupported payment method';
@@ -177,15 +191,22 @@ export const updatePaymentMethodValidate = (methodKey, data, setErrors) => {
   }
 
   if (Object.keys(newErrors).length > 0) {
-    setErrors((prev) => ({
-      ...prev,
-      [methodKey]: newErrors,
-    }));
+    setErrors((prev) => {
+      return {
+        ...prev,
+        [methodKey]: { ...(prev[methodKey] || {}), ...newErrors },
+      };
+    });
   } else {
-    setErrors((prev) => ({
-      ...prev,
-      [methodKey]: null,
-    }));
+    setErrors((prev) => {
+      const updatedMethod = { ...prev[methodKey] };
+      delete updatedMethod[fieldName];
+      if (Object.keys(updatedMethod).length === 0) {
+        const { [methodKey]: _, ...rest } = prev;
+        return Object.keys(rest).length === 0 ? { [methodKey]: null } : rest;
+      }
+      return { ...prev, [methodKey]: updatedMethod };
+    });
   }
   return Object.keys(newErrors).length === 0;
 };

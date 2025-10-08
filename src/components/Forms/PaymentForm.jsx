@@ -12,6 +12,7 @@ import { paymentFormValidate } from '@/Utils/FormsValidator';
 import { getBasePath } from '@/Utils/GetBasePath';
 import Link from 'next/link';
 import DropDown from '../Actions/DropDown';
+import CustomCard from '../Cards/CustomCard';
 
 const initialFormData = {
   email: '',
@@ -44,6 +45,9 @@ const PaymentForm = ({ selectedMethod = '', setSelectedMethod = () => {}, errors
     return <Loader />;
   }
 
+  const selectedPayment = paymentMethods?.find((m) => m._id === selectedMethod); // if dropdown returns {label, value}
+  const credentials = selectedPayment?.credentials;
+
   return (
     <div className="w-full flex flex-col items-end max-[750px]:items-center mt-4 ">
       <form className="flex flex-wrap">
@@ -60,6 +64,24 @@ const PaymentForm = ({ selectedMethod = '', setSelectedMethod = () => {}, errors
             selectedOption={selectedMethod}
             isStore={true}
           />
+          {selectedPayment?.method === 'account' && (
+            <CustomCard title="Bank Account Details" className="mt-4">
+              <div className="flex justify-between w-full">
+                <div className="flex flex-col gap-3 text-textC font-medium text-[15px]">
+                  <p>Account Title:</p>
+                  <p>Account Number: </p>
+                  <p>Bank Name:</p>
+                  <p>IBAN:</p>
+                </div>
+                <div className="flex items-end flex-col gap-3 text-textTC text-[15px]">
+                  <p>{credentials?.Account_Name}</p>
+                  <p>{credentials?.Account_No}</p>
+                  <p>{credentials?.Bank_Name}</p>
+                  <p>{credentials?.IBAN}</p>
+                </div>
+              </div>
+            </CustomCard>
+          )}
         </div>
         <div className="w-full space-y-[18px]">
           <h2 className="text-[24px] font-semibold my-4 text-[var(--tmp-txt)]">Contact</h2>

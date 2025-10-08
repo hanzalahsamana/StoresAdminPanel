@@ -1,10 +1,11 @@
-import React from "react";
+import React from 'react';
 
 const CustomerInfoTable = ({ order }) => {
   const { customerInfo } = order;
+  console.log('customerInfo==>', order);
   const {
     address,
-    appartment,
+    apartment,
     city,
     country,
     email,
@@ -16,16 +17,16 @@ const CustomerInfoTable = ({ order }) => {
   } = customerInfo;
 
   const customerData = [
-    { label: "Address", value: address },
-    { label: "Appartment", value: appartment },
-    { label: "City", value: city },
-    { label: "Country", value: country },
-    { label: "Email", value: email },
-    { label: "First Name", value: firstName },
-    { label: "Last Name", value: lastName },
-    { label: "Method", value: method },
-    { label: "Phone", value: phone },
-    { label: "Postal Code", value: postalCode },
+    { label: 'Address', value: address },
+    { label: 'Appartment', value: apartment },
+    { label: 'City', value: city },
+    { label: 'Country', value: country },
+    { label: 'Email', value: email },
+    { label: 'First Name', value: firstName },
+    { label: 'Last Name', value: lastName },
+    { label: 'Method', value: method },
+    { label: 'Phone', value: phone },
+    { label: 'Postal Code', value: postalCode },
   ];
 
   return (
@@ -35,12 +36,8 @@ const CustomerInfoTable = ({ order }) => {
         customerData?.map((item, index) => {
           return (
             <div className="py-[16px] flex justify-between items-center border-b border-borderC" key={index}>
-              <p className="text-textC text-[16px] font-semibold ">
-                {item?.label}
-              </p>
-              <p className="text-[16px] text-[#6b7280]">
-                {item?.value}
-              </p>
+              <p className="text-textC text-[16px] font-semibold ">{item?.label}</p>
+              <p className="text-[16px] text-[#6b7280]">{item?.value}</p>
             </div>
           );
         })}

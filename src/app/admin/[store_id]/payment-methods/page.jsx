@@ -23,31 +23,40 @@ const initialData = {
     isEnabled: false,
     credentials: {},
   },
-  jazzcash: {
+  account: {
     isEnabled: false,
-    displayName: 'Online Payment (provider jazzcash)',
     credentials: {
-      merchantId: '',
-      pp_Password: '',
-      integritySalt: '',
+      Account_No: '',
+      Account_Name: '',
+      Bank_Name: '',
+      IBAN: '',
     },
   },
+  // jazzcash: {
+  //   isEnabled: false,
+  //   displayName: 'Online Payment (provider jazzcash)',
+  //   credentials: {
+  //     merchantId: '',
+  //     pp_Password: '',
+  //     integritySalt: '',
+  //   },
+  // },
 
-  easypaisa: {
-    isEnabled: false,
-    credentials: {
-      merchantId: '',
-      apiKey: '',
-    },
-  },
-  konnect: {
-    isEnabled: false,
-    credentials: {},
-  },
-  alfalah: {
-    isEnabled: false,
-    credentials: {},
-  },
+  // easypaisa: {
+  //   isEnabled: false,
+  //   credentials: {
+  //     merchantId: '',
+  //     apiKey: '',
+  //   },
+  // },
+  // konnect: {
+  //   isEnabled: false,
+  //   credentials: {},
+  // },
+  // alfalah: {
+  //   isEnabled: false,
+  //   credentials: {},
+  // },
 };
 
 const PaymentMethods = () => {
@@ -83,24 +92,21 @@ const PaymentMethods = () => {
   };
 
   const handleFieldChange = (key, fieldName, value) => {
-    setPaymentState((prev) => ({
-      ...prev,
-      [key]: {
-        ...prev[key],
-        [fieldName]: value,
-      },
-    }));
+    const newPaymentState = { ...paymentState, [key]: { ...paymentState[key], [fieldName]: value } };
+
+    setPaymentState(newPaymentState);
+    updatePaymentMethodValidate(key, newPaymentState[key], setValidationErrors, fieldName);
   };
 
-  const callUpdateAPI = async (key) => {
+  const callUpdateAPI = async (key, newPaymentState) => {
     try {
       setLoading(true);
-      const { isEnabled, ...credentials } = paymentState[key];
+      const { isEnabled, credentials, ...rest } = newPaymentState[key];
       await updatePaymentMethod(currUser?.token, store?._id, {
         method: key,
         data: {
           isEnabled,
-          credentials,
+          credentials: { ...rest },
         },
       });
       toast.success('Payment method updated.');
@@ -118,18 +124,12 @@ const PaymentMethods = () => {
       if (!value) {
         setValidationErrors({});
       }
-
       handleEdit(key);
       return;
     }
-    setPaymentState((prev) => ({
-      ...prev,
-      [key]: {
-        ...prev[key],
-        isEnabled: value,
-      },
-    }));
-    await callUpdateAPI(key);
+    const newPaymentState = { ...paymentState, [key]: { ...paymentState[key], isEnabled: value } };
+    setPaymentState(newPaymentState);
+    await callUpdateAPI(key, newPaymentState);
   };
 
   const handleSave = async (key) => {
@@ -137,10 +137,9 @@ const PaymentMethods = () => {
     if (!isValid) {
       return;
     }
-    await callUpdateAPI(key);
+    await callUpdateAPI(key, paymentState);
     setEditVisibleKey(null);
   };
-
   return (
     <BackgroundFrame>
       <div className="border-[1.5px] border-[#788a9a2c] rounded-md overflow-hidden">
@@ -188,7 +187,7 @@ const PaymentMethods = () => {
                 )
               }
             >
-              {editVisibleKey === method.key && (
+              {editVisibleKey === method.key && editVisibleKey !== 'cod' && (
                 <div className="grid gap-4 pt-4 w-full" onClick={(e) => e.stopPropagation()}>
                   <div className="grid grid-cols-2 gap-4 pt-4 w-full" onClick={(e) => e.stopPropagation()}>
                     {method.fields
@@ -204,6 +203,7 @@ const PaymentMethods = () => {
                           onChange={(e) => handleFieldChange(method.key, field.name, e.target.value)}
                           value={paymentState[method.key][field.name] || ''}
                           error={validationErrors?.[method.key]?.[`${field.name}`]}
+                          required={field?.required || true}
                         />
                       ))}
                   </div>

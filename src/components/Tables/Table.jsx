@@ -28,7 +28,7 @@ const DynamicTable = ({
   notFoundText = 'Not Found',
   isCheckbox = false,
   handleCheckboxSelectAll,
-  selectedData,
+  selectedData = [],
   handleCheckbox,
 }) => {
   return (

@@ -1,13 +1,13 @@
-"use client";
-import { createSlice } from "@reduxjs/toolkit";
+'use client';
+import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   orders: null,
-  loading: true,
+  loading: false,
 };
 
 export const orderDataSlice = createSlice({
-  name: "orderData",
+  name: 'orderData',
   initialState,
   reducers: {
     setOrderData: (state, action) => {
@@ -32,6 +32,6 @@ export const orderDataSlice = createSlice({
   },
 });
 
-export const { setOrderData, orderLoading , setorderStatus } = orderDataSlice.actions;
+export const { setOrderData, orderLoading, setorderStatus } = orderDataSlice.actions;
 
 export default orderDataSlice.reducer;

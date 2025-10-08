@@ -15,50 +15,49 @@ import ProductsReciept from '@/components/UI/productsRecipt';
 import CheckoutHeader from '@/components/Layout/CheckoutHeader';
 import { getValidGlobalDiscount } from '@/Helpers/CheckoutHelpers';
 import { alfalahPayment } from '@/Utils/PaymentMethodUtils/AlfalahPayment';
-
-
+import CustomCard from '@/components/Cards/CustomCard';
 
 export const initialOrderFormData = {
-  userId: "", // optional (leave empty for guest)
+  userId: '', // optional (leave empty for guest)
 
   customer: {
-    firstName: "",
-    lastName: "",
-    email: "",
-    phone: "",
-    country: "",
-    city: "",
-    postalCode: "",
-    address: "",
-    apartment: "",
+    firstName: '',
+    lastName: '',
+    email: '',
+    phone: '',
+    country: '',
+    city: '',
+    postalCode: '',
+    address: '',
+    apartment: '',
   },
 
   shippingAddress: {
-    firstName: "",
-    lastName: "",
-    email: "",
-    phone: "",
-    country: "",
-    city: "",
-    postalCode: "",
-    address: "",
-    apartment: "",
+    firstName: '',
+    lastName: '',
+    email: '',
+    phone: '',
+    country: '',
+    city: '',
+    postalCode: '',
+    address: '',
+    apartment: '',
   },
 
   orderItems: [
     {
-      productId: "",
-      name: "",
-      image: "",
+      productId: '',
+      name: '',
+      image: '',
       quantity: 1,
       price: 0,
       variant: {},
     },
   ],
 
-  paymentMethod: "", // "credit_card", "paypal", "cash_on_delivery", or "bank_transfer"
-  paymentStatus: "pending",
-  orderStatus: "pending",
+  paymentMethod: '', // "credit_card", "paypal", "cash_on_delivery", or "bank_transfer"
+  paymentStatus: 'pending',
+  orderStatus: 'pending',
 
   taxAmount: 0,
   shippingFee: 0,
@@ -66,12 +65,12 @@ export const initialOrderFormData = {
   totalAmount: 0,
 
   trackingInfo: {
-    carrier: "",
-    trackingNumber: "",
-    estimatedDelivery: "",
+    carrier: '',
+    trackingNumber: '',
+    estimatedDelivery: '',
   },
 
-  notes: "",
+  notes: '',
 };
 
 const Checkout = () => {
@@ -81,12 +80,9 @@ const Checkout = () => {
   const { store } = useSelector((state) => state?.store);
   const { cartData, initialLoading } = useSelector((state) => state?.cartData);
   const { discounts } = useSelector((state) => state?.storeConfiguration?.storeConfiguration);
-  const [selectedMethod, setSelectedMethod] = useState("");
+  const [selectedMethod, setSelectedMethod] = useState('');
   const [errors, setErrors] = useState({});
   const [couponDiscount, setCouponDiscount] = useState(null);
-
-
-
 
   useEffect(() => {
     if (!initialLoading) {
@@ -97,11 +93,8 @@ const Checkout = () => {
     }
   }, [initialLoading, cartData, router]);
 
-
   const totalProductCost = useMemo(() => {
-    return cartData?.reduce((total, product) => (
-      total + (product.price * product.quantity)
-    ), 0) || 0;
+    return cartData?.reduce((total, product) => total + product.price * product.quantity, 0) || 0;
   }, [cartData]);
 
   const globalDiscount = useMemo(() => {
@@ -175,51 +168,56 @@ const Checkout = () => {
     // };
 
     try {
+      setLoading(true);
+      const paymentMethod = await getHashedPaymentCredential(store?._id, selectedMethod);
 
-      setLoading(true)
-      const paymentMethod = await getHashedPaymentCredential(store?._id, selectedMethod)
-
-      if (paymentMethod?.method === "jazzcash") {
-        const { merchantId, pp_Password, integritySalt } = paymentMethod?.credentials
-        jazzCashPayment({ merchantId, password: pp_Password, salt: integritySalt, amount: 1000, returnUrl: `https://dev.xperiode.com/store/683e8be81cd7939b6e016b92/payment/responce`, phone: '0321-8969332', isTestAccount: true });
-      } else if (paymentMethod?.method === "alfalah") {
-        const { merchantId, pp_Password, integritySalt } = paymentMethod?.credentials
+      if (paymentMethod?.method === 'jazzcash') {
+        const { merchantId, pp_Password, integritySalt } = paymentMethod?.credentials;
+        jazzCashPayment({
+          merchantId,
+          password: pp_Password,
+          salt: integritySalt,
+          amount: 1000,
+          returnUrl: `https://dev.xperiode.com/store/683e8be81cd7939b6e016b92/payment/responce`,
+          phone: '0321-8969332',
+          isTestAccount: true,
+        });
+      } else if (paymentMethod?.method === 'alfalah') {
+        const { merchantId, pp_Password, integritySalt } = paymentMethod?.credentials;
         alfalahPayment({
-          merchantId: "TESTMERCHANT123",
-          storeId: "TESTSTORE001",
-          merchantHash: "ABC123HASHCODE",
-          merchantUsername: "testuser",
-          merchantPassword: "testpass",
-          secretKey: "TESTSECRETKEY123",
-          amount: "1000.00",
-          returnUrl: "https://dev.xperiode.com/store/683e8be81cd7939b6e016b92/payment/responce",
+          merchantId: 'TESTMERCHANT123',
+          storeId: 'TESTSTORE001',
+          merchantHash: 'ABC123HASHCODE',
+          merchantUsername: 'testuser',
+          merchantPassword: 'testpass',
+          secretKey: 'TESTSECRETKEY123',
+          amount: '1000.00',
+          returnUrl: 'https://dev.xperiode.com/store/683e8be81cd7939b6e016b92/payment/responce',
           isTest: true,
           customFields: {
-            HS_IsRedirectionRequest: "0"
-          }
+            HS_IsRedirectionRequest: '0',
+          },
         });
       }
-
-
 
       // dispatch(deleteCartData({ siteName }))
       // localStorage.removeItem('cartId')
       // setFormData(initialFormData);
       // setErrors({});
-      setLoading(false)
-      toast.success("Your order has confirmed and will deliverd in 2 to 3 working days")
+      setLoading(false);
+      toast.success('Your order has confirmed and will deliverd in 2 to 3 working days');
     } catch (err) {
-      setLoading(false)
-      toast.error("Error sending email:", err)
+      setLoading(false);
+      toast.error('Error sending email:', err);
     }
   };
 
   return (
-    <div className='grid grid-cols-2 w-full flex-col-reverse md:flex-row'>
-
+    <div className="grid grid-cols-2 w-full flex-col-reverse md:flex-row">
       <div className={`bg-[var(--tmp-pri)] h-screen overflow-auto direction-rtl scroll-left customScroll w-full px-5 py-3 flex justify-end`}>
-        <div className='max-w-[500px] w-full'>
+        <div className="max-w-[500px] w-full">
           <CheckoutHeader />
+
           <PaymentForm errors={errors} selectedMethod={selectedMethod} setSelectedMethod={setSelectedMethod} />
         </div>
       </div>
@@ -230,7 +228,8 @@ const Checkout = () => {
 
           <ProductsReciept products={cartData} />
 
-          <PaymentSummary className="bottom-0"
+          <PaymentSummary
+            className="bottom-0"
             totalProductCost={totalProductCost}
             globalDiscount={globalDiscount}
             couponDiscount={couponDiscount}
@@ -239,13 +238,7 @@ const Checkout = () => {
             tax={tax}
             total={total}
           >
-            <ApplyCoupon
-              email={"abc@gmail.com"}
-              totalProductCost={
-                totalProductCost - globalDiscount?.discountAmount || 0
-              }
-              setCouponDiscount={setCouponDiscount}
-            />
+            <ApplyCoupon email={'abc@gmail.com'} totalProductCost={totalProductCost - globalDiscount?.discountAmount || 0} setCouponDiscount={setCouponDiscount} />
 
             <Button
               label="Proceed To Payment"
@@ -258,11 +251,9 @@ const Checkout = () => {
               iconOnHover={true}
               className="bg-[var(--tmp-sec)] text-[var(--tmp-wtxt)] text-[16px] mt-4 rounded-md !w-full !py-[12px]"
             />
-
           </PaymentSummary>
         </div>
       </div>
-
     </div>
   );
 };

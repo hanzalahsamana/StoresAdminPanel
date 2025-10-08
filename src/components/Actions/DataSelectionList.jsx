@@ -85,10 +85,12 @@ const DataSelectionList = ({ customData = null, selectedData = [], setSelectedDa
 
   return (
     <div className={`md:w-full md:max-w-full max-w-sm rounded-xl border p-2 bg-white ${items?.length && 'space-y-2'}`}>
-      <div onClick={() => setIsOpen(true)} className="flex justify-center items-center gap-3 p-2 w-full bg-gray-100 text-gray-600 hover:bg-gray-200 rounded-md cursor-pointer">
+      {/* <div className='px-2'> */}
+      <div onClick={() => setIsOpen(true)} className="flex justify-center items-center gap-3 p-2 w-full  bg-gray-100 text-gray-600 hover:bg-gray-200 rounded-md cursor-pointer">
         <BsDatabaseGear />
         Select {selectorName || dataName}
       </div>
+      {/* </div> */}
 
       {loading ? (
         <div className="flex flex-col items-center justify-center h-full text-gray-400">
@@ -100,15 +102,25 @@ const DataSelectionList = ({ customData = null, selectedData = [], setSelectedDa
           items={items}
           handleDragEnd={handleDragEnd}
           getKey={(item) => (typeof item === 'string' ? item : item?.slug || item[Object.keys(item)[0]]?.toString())}
-          className="space-y-2"
+          className="space-y-2 max-h-[150px] overflow-scroll customScroll px-2"
         >
           {(item, index, { provided }) => {
             const enrichedItem = loadedData.find((d) => isEqual(d.value, item));
+            if (!enrichedItem) {
+              return (
+                <div key={index} className="flex items-center justify-between rounded-lg p-2 border border-red-400 bg-red-50 text-red-600">
+                  <p className="text-sm">This collection no longer exists</p>
+                  <div onClick={() => handleDelete(item)} className="cursor-pointer hover:text-red-800">
+                    <AiOutlineDelete />
+                  </div>
+                </div>
+              );
+            }
 
             return (
               <div key={enrichedItem?.value} ref={provided.innerRef} {...provided.draggableProps} className={`flex items-center justify-between rounded-lg p-2 border `}>
                 <div className="flex items-center justify-between w-full gap-3">
-                  <div className='flex gap-3'>
+                  <div className="flex gap-3">
                     <div {...provided.dragHandleProps} className="py-2 px-2 hover:bg-gray-200 rounded-md  cursor-move">
                       <RiDraggable />
                     </div>

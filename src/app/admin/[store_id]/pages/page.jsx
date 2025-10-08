@@ -1,25 +1,27 @@
-"use client";
+'use client';
 
-import { getAllPages } from '@/APIs/Pages/Page';
-import Button from '@/components/Actions/Button'
+import { getAllPages, pageDeleting } from '@/APIs/Pages/Page';
+import Button from '@/components/Actions/Button';
 import IconButton from '@/components/Actions/IconButton';
-import ImgToIcon from '@/components/Actions/ImgToIcon'
-import ActionCard from '@/components/Cards/ActionCard'
-import CustomCard from '@/components/Cards/CustomCard'
-import BackgroundFrame from '@/components/Layout/BackgroundFrame'
+import ImgToIcon from '@/components/Actions/ImgToIcon';
+import ActionCard from '@/components/Cards/ActionCard';
+import CustomCard from '@/components/Cards/CustomCard';
+import BackgroundFrame from '@/components/Layout/BackgroundFrame';
 import Loader from '@/components/Loader/loader';
 import AddPageModal from '@/components/Modals/AddPageModal';
 import DynamicDataSelectorModal from '@/components/Modals/DynamicDataSelectorModal';
 import { ScrollShadows, useScrollShadow } from '@/Hooks/useScrollShadow';
-import { ecommercePages } from '@/Structure/DefaultStructures'
+import { ecommercePages } from '@/Structure/DefaultStructures';
 import { formatRelativeTime } from '@/Utils/Formaters';
 import { useRouter } from 'next/navigation';
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
 import { AiOutlineDelete } from 'react-icons/ai';
-import { FaExternalLinkAlt } from 'react-icons/fa'
+import { FaExternalLinkAlt } from 'react-icons/fa';
 import { IoEyeOutline } from 'react-icons/io5';
 import { useSelector } from 'react-redux';
 import { Base_Domain, HTTP } from './../../../../../config';
+import useConfirm from '@/Hooks/useConfirm';
+import { toast } from 'react-toastify';
 
 const Pages = () => {
   const { scrollRef, showTopShadow, showBottomShadow } = useScrollShadow([ecommercePages]);
@@ -28,11 +30,9 @@ const Pages = () => {
   const { pages, pagesLoading } = useSelector((state) => state.pages);
   const [isOpen, setIsOpen] = useState(false);
   const [selectedData, setSelectedData] = useState([]);
+  const { confirm, ConfirmationModal } = useConfirm();
 
-
-
-
-  const router = useRouter()
+  const router = useRouter();
 
   const fetchData = async () => {
     await getAllPages(currUser?.token, store?._id);
@@ -46,12 +46,20 @@ const Pages = () => {
   }, [store?._id, pages]);
 
   if (pagesLoading) {
-    return <Loader />
+    return <Loader />;
   }
 
-  const systemPages = pages.filter(page => page.type === 'system');
-  const customPages = pages.filter(page => page.type === 'custom');
+  const systemPages = pages.filter((page) => page.type === 'system');
+  const customPages = pages.filter((page) => page.type === 'custom');
 
+  const handlePageDelete = async (slug = '') => {
+    const ok = await confirm('Delete Page', 'Are you sure you want to delete this Page?');
+    if (!ok) return;
+    if (!slug) {
+      return toast.error('ProductId is required!');
+    }
+    await pageDeleting(currUser.token, store?._id, slug);
+  };
 
   return (
     <BackgroundFrame className="h-full">
@@ -60,15 +68,23 @@ const Pages = () => {
         label={'Pages'}
         subText={'Customize your Pages'}
         className="sticky top-0 z-10 bg-white pb-2"
-        actionPosition='top'
-        actions={<>
-          <Button label='Create Page' size='small' variant='black' action={() => { setIsOpen(true) }} />
-        </>}
+        actionPosition="top"
+        actions={
+          <>
+            <Button
+              label="Create Page"
+              size="small"
+              variant="black"
+              action={() => {
+                setIsOpen(true);
+              }}
+            />
+          </>
+        }
       />
 
       <div className="flex-1 relative min-h-0">
         <div ref={scrollRef} className="overflow-y-auto customScroll h-full space-y-4 pr-2">
-
           {systemPages.length > 0 && (
             <>
               <p className="text-[20px] font-semibold text-textC">System Pages</p>
@@ -92,11 +108,7 @@ const Pages = () => {
                         tooltipLabel={'Hide Page'}
                         className={'text-textTC !text-[22px] hover:opacity-60'}
                       /> */}
-                      <Button
-                        label="Customize"
-                        size="small"
-                        action={() => router.push(`pages/customize?page=${page.slug}`)}
-                      />
+                      <Button label="Customize" size="small" action={() => router.push(`pages/customize?page=${page.slug}`)} />
                     </div>
                   }
                 />
@@ -127,16 +139,14 @@ const Pages = () => {
                         tooltipLabel={'Hide Page'}
                         className={'text-textTC !text-[22px] hover:opacity-60'}
                       /> */}
-                      <IconButton
-                        icon={<AiOutlineDelete />}
-                        tooltipLabel={'Delete Page'}
-                        className={'text-textTC !text-[22px] hover:text-red-500'}
-                      />
-                      <Button
-                        label="Customize"
-                        size="small"
-                        action={() => router.push(`pages/customize?page=${page.slug}`)}
-                      />
+                      <div
+                        onClick={() => {
+                          handlePageDelete(page?.slug);
+                        }}
+                      >
+                        <IconButton icon={<AiOutlineDelete />} tooltipLabel={'Delete Page'} className={'text-textTC !text-[22px] hover:text-red-500'} />
+                      </div>
+                      <Button label="Customize" size="small" action={() => router.push(`pages/customize?page=${page.slug}`)} />
                     </div>
                   }
                 />
@@ -145,19 +155,13 @@ const Pages = () => {
           )}
         </div>
 
-        <AddPageModal
-          isOpen={isOpen}
-          setIsOpen={setIsOpen}
-        />
+        <AddPageModal isOpen={isOpen} setIsOpen={setIsOpen} />
 
-        <ScrollShadows
-          showTopShadow={showTopShadow}
-          showBottomShadow={showBottomShadow}
-        />
+        <ScrollShadows showTopShadow={showTopShadow} showBottomShadow={showBottomShadow} />
       </div>
-    </BackgroundFrame >
-
-  )
-}
+      {ConfirmationModal}
+    </BackgroundFrame>
+  );
+};
 
 export default Pages

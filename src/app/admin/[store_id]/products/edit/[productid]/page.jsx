@@ -12,33 +12,17 @@ import { dispatch } from '@/Redux/Store';
 
 const EditProduct = () => {
   const [isOpen, setIsOpen] = useState(true);
-  const [editingProduct, seteditingProduct] = useState({});
+  const [editingProduct, setEditingProduct] = useState({});
   const { productid, store_id } = useParams();
-  const { products } = useSelector((state) => state.productData);
 
   const fetchProduct = async () => {
-    try {
-      dispatch(setProductLoading(true));
-      const products = await getProducts(store_id);
-      dispatch(setProductData(products));
-    } catch (error) {
-      console.error(error);
-    } finally {
-      dispatch(setProductLoading(false));
-    }
+    const product = await getProducts(store_id, 1, 0, productid);
+    setEditingProduct(product);
   };
 
   useEffect(() => {
     fetchProduct();
   }, []);
-
-  useEffect(() => {
-    if (products.length > 0) {
-      const EditingProduct = products?.find((product) => product._id === productid);
-
-      seteditingProduct(EditingProduct);
-    }
-  }, [products]);
   return <AddEditProductModal updatedData={editingProduct} isOpen={isOpen} setIsOpen={setIsOpen} />;
 };
 
