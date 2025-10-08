@@ -23,7 +23,7 @@ import { Base_Domain, HTTP } from './../../../../../config';
 import useConfirm from '@/Hooks/useConfirm';
 import { toast } from 'react-toastify';
 
-const page = () => {
+const Pages = () => {
   const { scrollRef, showTopShadow, showBottomShadow } = useScrollShadow([ecommercePages]);
   const { currUser } = useSelector((state) => state.currentUser);
   const { store } = useSelector((state) => state.store);
@@ -164,4 +164,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Pages

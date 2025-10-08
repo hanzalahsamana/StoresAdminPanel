@@ -85,6 +85,7 @@ const StoreDetails = ({ onClose, onComplete }) => {
         label="Your Stores"
         subText="Select a store to proceed or create a new one."
         className="p-[20px] max-w-[450px]"
+        icon={<ImgToIcon url={'https://img.icons8.com/matisse/100/shop.png'} />}
         actions={<Button label="Create Store" action={() => setShowModal(true)} size="small" variant="black" icon={<FaArrowRightLong />} iconPosition="right" iconOnHover={true} />}
         actionPosition="top"
       >

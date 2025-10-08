@@ -1,19 +1,20 @@
-import DragAndDropWrapper, { useDragAndDrop } from '@/Hooks/useDragAndDrop';
-import React, { useEffect, useState } from 'react';
-import { BsDatabaseGear } from 'react-icons/bs';
-import { MdDragIndicator } from 'react-icons/md';
-import { RiDraggable } from 'react-icons/ri';
-import DynamicDataSelectorModal from '../Modals/DynamicDataSelectorModal';
-import { getProducts } from '@/APIs/Product/getProducts';
-import { useSelector } from 'react-redux';
-import { getCollections } from '@/APIs/Collection/getCollections';
-import { getAllPages } from '@/APIs/Pages/Page';
-import { getMenuLinks } from '@/APIs/SearchSuggestions/menuLinks';
-import ImgToIcon from './ImgToIcon';
-import { CiFileOn } from 'react-icons/ci';
-import { AiOutlineDelete } from 'react-icons/ai';
-import { isEqual } from 'lodash';
+import DragAndDropWrapper, { useDragAndDrop } from "@/Hooks/useDragAndDrop";
+import React, { useEffect, useState } from "react";
+import { BsDatabaseGear } from "react-icons/bs";
+import { MdDragIndicator } from "react-icons/md";
+import { RiDraggable } from "react-icons/ri";
+import DynamicDataSelectorModal from "../Modals/DynamicDataSelectorModal";
+import { getProducts } from "@/APIs/Product/getProducts";
+import { useSelector } from "react-redux";
+import { getCollections } from "@/APIs/Collection/getCollections";
+import { getAllPages } from "@/APIs/Pages/Page";
+import { getMenuLinks } from "@/APIs/SearchSuggestions/menuLinks";
+import ImgToIcon from "./ImgToIcon";
+import { CiFileOn } from "react-icons/ci";
+import { AiOutlineDelete } from "react-icons/ai";
+import { isEqual } from "lodash";
 import { v4 as uuidv4 } from 'uuid';
+
 const DataSelectionList = ({ customData = null, selectedData = [], setSelectedData, dataName = 'menu links', label = '', limit = null, selectorName = '' }) => {
   const { items, setItems, handleDragEnd } = useDragAndDrop({
     initialItems: selectedData,

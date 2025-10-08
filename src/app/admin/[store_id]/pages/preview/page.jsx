@@ -1,9 +1,9 @@
 import React from 'react'
 
-const page = () => {
+const Preview = () => {
   return (
     <div>page</div>
   )
 }
 
-export default page
+export default Preview
