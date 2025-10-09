@@ -3,7 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
   maximized: true,
   alwaysExtend: false,
-  isSidebarOpen: true,
+  isSidebarOpen: false,
   selectedDevicePreview: 'laptop',
 };
 

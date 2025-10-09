@@ -2,19 +2,7 @@ import React from 'react';
 
 const CustomerInfoTable = ({ order }) => {
   const { customerInfo } = order;
-  console.log('customerInfo==>', order);
-  const {
-    address,
-    apartment,
-    city,
-    country,
-    email,
-    firstName,
-    lastName,
-    method,
-    phone,
-    postalCode,
-  } = customerInfo;
+  const { address, apartment, city, country, email, firstName, lastName, method, phone, postalCode } = customerInfo;
 
   const customerData = [
     { label: 'Address', value: address },

@@ -20,7 +20,6 @@ export const getPublicStoreConfiguration = async (storeId) => {
 };
 export const getAdminStoreConfiguration = async (token, storeId) => {
   dispatch(setStoreConfigurationLoading(true));
-
   try {
     const { data } = await axios.get(`${BASE_URL}/${storeId}/getAdminConfiguration`, {
       headers: {

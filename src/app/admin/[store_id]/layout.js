@@ -3,17 +3,11 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { usePathname } from 'next/navigation';
-
 import Loader from '@/components/Loader/TemplateLoader';
 import { getStore } from '@/APIs/StoreDetails/getStore';
-import { getSections } from '@/APIs/SectionsData/getSections';
-import { getProducts } from '@/APIs/Product/getProducts';
-import { getCollections } from '@/APIs/Collection/getCollections';
-import { getContents } from '@/APIs/Content/getContents';
 import NotFound from '@/components/404Pages/NotFound';
 import Sidebar from '@/components/Layout/Sidebar';
 import Header from '@/components/Layout/Header';
-import { getAdminStoreConfiguration } from '@/APIs/StoreConfigurations/configuration';
 import { setIsSidebarOpen } from '@/Redux/LivePreview/livePreviewSlice';
 import { Assistant } from 'next/font/google';
 import { AdminPanelSideBarData } from '@/Structure/DefaultStructures';
@@ -40,27 +34,6 @@ export default function adminLayout({ children, params }) {
     getStore(params?.store_id);
   }, [dispatch, params?.store_id]);
 
-  // Fetch all required data once store is ready
-  useEffect(() => {
-    if (!store?._id) return;
-
-    const fetchAllData = async () => {
-      try {
-        await Promise.all([
-          // getProducts(store?._id),
-          // getCollections(store?._id),
-          getSections(store?._id),
-          // getContents(store?._id),
-          // getAdminStoreConfiguration(currUser?.token, store?._id),
-        ]);
-      } catch (error) {
-        console.error('Data fetching failed:', error);
-      }
-    };
-
-    fetchAllData();
-  }, [store?._id, dispatch]);
-
   const toggleSidebar = () => dispatch(setIsSidebarOpen(!isSidebarOpen));
 
   if (shouldExcludeLayout) {
@@ -72,7 +45,6 @@ export default function adminLayout({ children, params }) {
   if (!store?._id || store?.userRef !== currUser?._id) {
     return <NotFound />;
   }
-
   return (
     <div className={`flex h-[calc(100vh-60px)]  ${assistant.className} antialiased`}>
       <Sidebar isOpen={isSidebarOpen} setIsOpen={(state) => dispatch(setIsSidebarOpen(state))} sideBarData={AdminPanelSideBarData} />

@@ -4,20 +4,18 @@ import axios from 'axios';
 import Base_URL from '../../../config';
 // import { setStore } from "@/Redux/AllStores/StoreDetail.slice";
 import { toast } from 'react-toastify';
+import { dispatch } from '@/Redux/Store';
+import { removeDiscount, setStoreConfigurationDiscounts } from '@/Redux/StoreConfiguration/StoreConfigurationSlice';
 
 // ADD DISCOUNT
-export const addDiscount = async (discount, token, dispatch) => {
+export const addDiscount = async (discount, token, storeId) => {
   try {
-    const response = await axios.post(
-      `${Base_URL}/addDiscount`,
-      { discount },
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
-    // dispatch(setStore(response.data?.data));
+    const response = await axios.post(`${Base_URL}/${storeId}/addDiscount`, discount, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    dispatch(setStoreConfigurationDiscounts(response.data?.data));
     return response.data;
   } catch (error) {
     throw error;
@@ -25,18 +23,14 @@ export const addDiscount = async (discount, token, dispatch) => {
 };
 
 // EDIT DISCOUNT
-export const editDiscount = async (discountId, updatedDiscount, token, dispatch) => {
+export const editDiscount = async (discountId, updatedDiscount, token, storeId) => {
   try {
-    const response = await axios.patch(
-      `${Base_URL}/editDiscount`,
-      { discountId, updatedDiscount },
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
-    // dispatch(setStore(response.data?.data));
+    const response = await axios.patch(`${Base_URL}/${storeId}/editDiscount?discountId=${discountId}`, updatedDiscount, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    dispatch(setStoreConfigurationDiscounts(response.data?.data));
     return response.data;
   } catch (error) {
     throw error;
@@ -44,14 +38,14 @@ export const editDiscount = async (discountId, updatedDiscount, token, dispatch)
 };
 
 // DELETE DISCOUNT
-export const deleteDiscount = async (discountId, token, dispatch) => {
+export const deleteDiscount = async (discountId, token, storeId) => {
   try {
-    const response = await axios.delete(`${Base_URL}/deleteDiscount?discountId=${discountId}`, {
+    const response = await axios.delete(`${Base_URL}/${storeId}/deleteDiscount?discountId=${discountId}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     });
-    // dispatch(setStore(response.data?.data));
+    dispatch(removeDiscount(discountId));
     toast.success('Discount deleted successfully!');
     return response.data;
   } catch (error) {

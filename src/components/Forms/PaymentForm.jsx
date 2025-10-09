@@ -5,7 +5,6 @@ import { toast } from 'react-toastify';
 import { deleteCartData } from '@/Redux/CartData/cartDataSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import Loader from '../Loader/TemplateLoader';
-import { getContentByName } from '@/Redux/ContentData/ContentDataSlice';
 import { addOrderDataApi } from '@/APIs/Order/PlaceOrder';
 import FormInput from '@/components/Forms/FormInput';
 import { paymentFormValidate } from '@/Utils/FormsValidator';
@@ -33,7 +32,6 @@ const PaymentForm = ({ selectedMethod = '', setSelectedMethod = () => {}, errors
   const { paymentMethods } = useSelector((state) => state?.storeConfiguration?.storeConfiguration);
   const [loading, setLoading] = useState(false);
   const { siteName } = useSelector((state) => state.siteName);
-  const SiteLogo = useSelector((state) => getContentByName(state, 'Site Logo'));
   const [formData, setFormData] = useState(initialFormData);
 
   const handleChange = (e) => {
@@ -57,7 +55,7 @@ const PaymentForm = ({ selectedMethod = '', setSelectedMethod = () => {}, errors
 
           <DropDown
             placeholder="Select Payment Method"
-            defaultOptions={paymentMethods?.map((method) => ({ label: method?.method, value: method?._id }))}
+            defaultOptions={paymentMethods?.filter((method) => method?.isEnabled)?.map((method) => ({ label: method?.method, value: method?._id }))}
             size="large"
             variant="primary"
             setSelectedOption={setSelectedMethod}

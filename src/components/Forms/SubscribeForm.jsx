@@ -14,7 +14,7 @@ const SubscribeForm = () => {
   const [email, setEmail] = useState('');
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
-  const { siteName } = useSelector((state) => state.siteName);
+  const { store } = useSelector((state) => state.store);
 
   const validateEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
@@ -25,23 +25,14 @@ const SubscribeForm = () => {
       setError('Email is required.');
       return;
     }
-
     if (!validateEmail(email)) {
       setError('Please enter a valid email.');
       return;
     }
-
     setLoading(true);
-
-    try {
-      await addSubscriber(siteName, email);
-      toast.success('Subscribed successfully!');
-      setEmail('');
-    } catch (error) {
-      toast.error(error.response ? error.response.data.message : error.message);
-    } finally {
-      setLoading(false);
-    }
+    await addSubscriber(store?._id, email);
+    setEmail('');
+    setLoading(false);
   };
 
   return (
@@ -61,8 +52,8 @@ const SubscribeForm = () => {
             type="submit"
             disabled={loading}
             className="!w-max !max-w-max !min-w-max "
-            variant='text'
-            label=''
+            variant="text"
+            label=""
             icon={<GoArrowRight className="text-[24px]" />}
             loading={loading}
           />

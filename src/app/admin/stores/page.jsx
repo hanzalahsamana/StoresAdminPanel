@@ -19,6 +19,7 @@ import { generateStore } from '@/APIs/StoreDetails/generateStore';
 import ProtectedRoute from '@/AuthenticRouting/ProtectedRoutes';
 import Loader from '@/components/Loader/loader';
 import { AiOutlineDelete } from 'react-icons/ai';
+import ImgToIcon from '@/components/Actions/ImgToIcon';
 
 const StoreDetails = ({ onClose, onComplete }) => {
   const { allStores, allStoresLoading } = useSelector((state) => state.allStores);
@@ -67,7 +68,7 @@ const StoreDetails = ({ onClose, onComplete }) => {
     };
     await generateStore(currUser?.token, {
       ...payload,
-      referralCode: formData?.referralCode ? referralCode : formData?.referralCode,
+      referralCode: formData?.referralCode ? formData?.referralCode : '',
     });
     setShowModal(false);
     setFormData({ storeName: '', storeType: '' }); // Reset form
