@@ -3,6 +3,9 @@
 import axios from 'axios';
 import Base_URL from '../../../config';
 import { toast } from 'react-toastify';
+import { setAnnouncements } from '@/Redux/StoreConfiguration/StoreConfigurationSlice';
+import { dispatch } from '@/Redux/Store';
+
 export const addAnnouncement = async (announcement, token, storeId, announcementName) => {
   try {
     const response = await axios.post(`${Base_URL}/${storeId}/addAnnouncement?announcementName=${announcementName}`, announcement, {
@@ -11,25 +14,9 @@ export const addAnnouncement = async (announcement, token, storeId, announcement
       },
     });
     toast.success(response?.data?.message || 'Announcement saved successfully!');
-    // dispatch(setStore({ announcements: response.data?.data }));
-    return response.data;
+    dispatch(setAnnouncements(response?.data?.data));
+    return response?.data?.data;
   } catch (error) {
-    console.error(error?.message || err?.response?.data?.message || 'Something wnet wrong!');
-    toast.error(error?.message || err?.response?.data?.message || 'Something wnet wrong!');
-  }
-};
-
-// DELETE ANNOUNCEMENT
-export const deleteAnnouncement = async (announcementId, token, dispatch) => {
-  try {
-    const response = await axios.delete(`${Base_URL}/deleteAnnouncement?announcementId=${announcementId}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    // dispatch(setStore({ announcements: response.data?.data }));
-    return response.data;
-  } catch (error) {
-    throw error;
+    toast.error(error?.response?.data?.message || error?.message || 'Something went wrong!');
   }
 };

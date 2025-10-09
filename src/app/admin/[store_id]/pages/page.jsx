@@ -23,7 +23,7 @@ import { Base_Domain, HTTP } from './../../../../../config';
 import useConfirm from '@/Hooks/useConfirm';
 import { toast } from 'react-toastify';
 
-const page = () => {
+const Pages = () => {
   const { scrollRef, showTopShadow, showBottomShadow } = useScrollShadow([ecommercePages]);
   const { currUser } = useSelector((state) => state.currentUser);
   const { store } = useSelector((state) => state.store);
@@ -38,12 +38,12 @@ const page = () => {
     await getAllPages(currUser?.token, store?._id);
   };
 
+  const storeId = store?._id;
   useEffect(() => {
-    const storeId = store?._id;
     if (!storeId || (pages && pages.length > 0)) return;
 
     fetchData();
-  }, [store?._id, pages]);
+  }, [storeId]);
 
   if (pagesLoading) {
     return <Loader />;
@@ -164,4 +164,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Pages;

@@ -20,8 +20,10 @@ export const storeConfigurationSlice = createSlice({
       state.storeConfiguration.discounts = action.payload;
     },
     removeDiscount: (state, action) => {
-      console.log('action.payload', action.payload);
       state.storeConfiguration.discounts = state.storeConfiguration.discounts.filter((discount) => discount._id !== action.payload);
+    },
+    setAnnouncements: (state, action) => {
+      state.storeConfiguration.announcements = action.payload;
     },
     setStoreConfigurationLoading: (state, action) => {
       state.storeConfigurationLoading = action.payload;
@@ -29,7 +31,7 @@ export const storeConfigurationSlice = createSlice({
   },
 });
 
-export const { setStoreConfiguration, setStoreConfigurationLoading, setStoreConfigurationPayment, setStoreConfigurationDiscounts, removeDiscount } =
+export const { setStoreConfiguration, setStoreConfigurationLoading, setAnnouncements, setStoreConfigurationPayment, setStoreConfigurationDiscounts, removeDiscount } =
   storeConfigurationSlice.actions;
 const storeConfgurationReducer = storeConfigurationSlice.reducer;
 export default storeConfgurationReducer;

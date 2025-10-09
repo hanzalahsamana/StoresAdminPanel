@@ -1,6 +1,6 @@
-import { useEffect, useCallback } from "react";
-import { VscClose } from "react-icons/vsc";
-import { AnimatePresence, motion } from "framer-motion";
+import { useEffect, useCallback } from 'react';
+import { VscClose } from 'react-icons/vsc';
+import { AnimatePresence, motion } from 'framer-motion';
 
 const backdropVariants = {
   hidden: { opacity: 0 },
@@ -14,15 +14,7 @@ const modalVariants = {
   exit: { scale: 1, opacity: 0, y: -50 },
 };
 
-const Modal = ({
-  isOpen,
-  setIsOpen,
-  children,
-  className,
-  extraFuntion = () => { },
-  position = "fixed",
-  closeOnEsc = true,
-}) => {
+const Modal = ({ isOpen, setIsOpen, children, className, extraFuntion = () => {}, position = 'fixed', closeOnEsc = true }) => {
   const closeModal = useCallback(() => {
     extraFuntion();
     setIsOpen(false);
@@ -30,18 +22,18 @@ const Modal = ({
 
   useEffect(() => {
     if (isOpen) {
-      document.body.style.overflow = "hidden";
+      document.body.style.overflow = 'hidden';
     } else {
-      document.body.style.overflow = "auto";
+      document.body.style.overflow = 'auto';
     }
 
     const handleKeyDown = (e) => {
-      if (e.key === "Escape" && closeOnEsc) closeModal();
+      if (e.key === 'Escape' && closeOnEsc) closeModal();
     };
 
-    window.addEventListener("keydown", handleKeyDown);
+    window.addEventListener('keydown', handleKeyDown);
     return () => {
-      window.removeEventListener("keydown", handleKeyDown);
+      window.removeEventListener('keydown', handleKeyDown);
     };
   }, [isOpen, closeModal]);
 
@@ -64,12 +56,11 @@ const Modal = ({
             transition={{ duration: 0.2 }}
             onClick={(e) => e.stopPropagation()}
           >
-            <button
-              className="absolute top-1 right-1 text-gray-500 hover:text-gray-900 z-[1]"
-              onClick={closeModal}
-            >
-              <VscClose size={22} />
-            </button>
+            {setIsOpen && (
+              <button className="absolute top-1 right-1 text-gray-500 hover:text-gray-900 z-[1]" onClick={closeModal}>
+                <VscClose size={22} />
+              </button>
+            )}
             <div className="h-full">{children}</div>
           </motion.div>
         </motion.div>

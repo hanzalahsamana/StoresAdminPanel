@@ -140,7 +140,6 @@ const AddEditDiscountModal = ({ isOpen, setIsOpen, updatedDiscount = null, setUp
 
     try {
       setLoading(true);
-      console.log('updatedDiscount', updatedDiscount);
       if (updatedDiscount) {
         await editDiscount(updatedDiscount._id, data, currUser?.token, store_id);
         toast.success('Discount updated successfully!');

@@ -2,32 +2,45 @@ import { useEffect, useState } from 'react';
 import FormInput from '../Forms/FormInput';
 import Modal from '../Modals/Modal';
 import { useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
+import { addSubscriber } from '@/APIs/Customer/Subscriber';
+import Button from '../Actions/Button';
 
-const DiscountPopup = ({ discountRef, isOpen, setIsOpen }) => {
+const DiscountPopup = ({ discountRef, isOpen, setIsOpen, position = 'absolute' }) => {
   const [email, setEmail] = useState('');
-  const { discounts } = useSelector((state) => state?.storeConfiguration?.storeConfiguration);
+  const { discounts, announcements } = useSelector((state) => state?.storeConfiguration?.storeConfiguration);
   const [discount, setDiscount] = useState({});
+  const [loading, setLoading] = useState(false);
+  const { store } = useSelector((state) => state.store);
 
   useEffect(() => {
     if (discounts && discounts?.length > 0) {
-      const newDiscount = discounts.find((d) => d?._id === discountRef);
+      const newDiscount = discounts.find((d) => d?._id === announcements?.popup?.discountRef);
       setDiscount(newDiscount);
     }
-  }, [discounts, discountRef]);
+  }, [discounts, announcements]);
 
   // Guard clause: check for open, discount presence, active status, and expiry
   const isValidDiscount = isOpen && discount && discount?.isActive && new Date(discount?.expiryDate) > new Date();
 
-  if (!isValidDiscount) return null;
+  if (!isValidDiscount) return;
 
   const isPercent = discount.amountType === 'percent';
   const isCoupon = discount.discountType === 'coupon';
   const isSubscriptionOnly = discount.access === 'subscription';
 
-  const handleSubscribe = () => {};
+  const handleSubscribe = async (e) => {
+    setLoading(true);
+    if (e) e.preventDefault();
+    if (!email) {
+      return toast.error('Email is required!');
+    }
+    await addSubscriber(store?._id, email);
+    setLoading(false);
+  };
 
   return (
-    <Modal isOpen={isOpen} setIsOpen={setIsOpen} position="static" className={'!max-w-[500px]'}>
+    <Modal isOpen={isOpen} setIsOpen={setIsOpen} position={position} className={'!max-w-[500px]'}>
       <div className="p-6 w-full flex flex-col items-center relative">
         <p className="text-[22px] text-textC font-medium mb-8 text-center">Special Discount!</p>
 
@@ -45,10 +58,10 @@ const DiscountPopup = ({ discountRef, isOpen, setIsOpen }) => {
 
         {isSubscriptionOnly ? (
           <div className="w-full mt-4">
-            <FormInput label="Email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Enter your email" />
-            <button onClick={handleSubscribe} className="bg-blue-500 hover:bg-blue-600 text-white w-full mt-2 py-2 rounded">
-              Subscribe
-            </button>
+            <form onSubmit={(e) => handleSubscribe(e)}>
+              <FormInput label="Email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Enter your email" />
+              <Button type="submit" size="" label="Subscribe" variant="store" className="mt-4 w-full !py-2 rounded-md" loading={loading} />
+            </form>
           </div>
         ) : (
           <div className="flex justify-center mt-6">

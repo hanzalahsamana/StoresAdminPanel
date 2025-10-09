@@ -13,10 +13,11 @@ import { duplicateSection, insertSection, removeSection, toggleSectionVisibility
 import { BuilderSideBarCard, GlobalSectionCard, SectionAddAnimationLine, SectionItemCard } from '@/Utils/BuilderUtils/BuilderUtilsComponents';
 import { CiFileOn } from 'react-icons/ci';
 import { useSelector } from 'react-redux';
-import ThemeEditModal from '../Modals/ThemeEditModal';
 import { useRouter } from 'next/navigation';
 import { RenderBuilderInputs } from '@/Utils/RenderBuilderInputs';
 import { BulderTabs } from '@/Structure/DefaultStructures';
+import Modal from '../Modals/Modal';
+import ThemeEditBlock from '../Modals/ThemeEditBlock';
 
 const BuilderCustomizer = ({ customizePageData, setCustomizePageData, activeSection, setActiveSection }) => {
   const [openMenuId, setOpenMenuId] = useState(null);
@@ -107,9 +108,8 @@ const BuilderCustomizer = ({ customizePageData, setCustomizePageData, activeSect
             onClick={() => setActiveTab(tab?.name)}
             data-tooltip-id="customize"
             data-tooltip-content={tab?.name}
-            className={`text-[20px] aspect-square text-gray-700 flex transition-all cursor-pointer rounded-md justify-center items-center p-2 ${
-              activeTab === tab?.name ? 'bg-gray-200' : 'hover:bg-gray-100'
-            }`}
+            className={`text-[20px] aspect-square text-gray-700 flex transition-all cursor-pointer rounded-md justify-center items-center p-2 ${activeTab === tab?.name ? 'bg-gray-200' : 'hover:bg-gray-100'
+              }`}
           >
             {tab?.icon}
           </div>
@@ -241,8 +241,9 @@ const BuilderCustomizer = ({ customizePageData, setCustomizePageData, activeSect
         )}
 
         <WidgetsModal isOpen={isOpen} setIsOpen={setIsOpen} handleAddSection={handleAddSection} selectedOrder={selectedOrder} setSelectedOrder={setSelectedOrder} />
-
-        <ThemeEditModal isOpen={activeTab === 'Theme Setting'} setIsOpen={() => setActiveTab('Editor')} />
+        <Modal isOpen={activeTab === 'Theme Setting'} setIsOpen={() => setActiveTab('Editor')}>
+          <ThemeEditBlock />
+        </Modal>
 
         <Tooltip id="customize" place="top" className="!text-[12px] z-[200]" />
       </div>

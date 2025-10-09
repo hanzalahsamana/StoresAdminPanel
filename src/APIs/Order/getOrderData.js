@@ -15,7 +15,6 @@ export const fetchOrderData = async (token, storeId, orderId) => {
       },
     });
     dispatch(setOrderData(!Array.isArray(response.data.data) ? [response.data.data] : response.data.data));
-    console.log('response?.data?.data', response?.data?.data);
     return response.data.data;
   } catch (error) {
     console.error(error?.response?.data?.message || error?.message || 'Something went wrong!');
