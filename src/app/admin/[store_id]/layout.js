@@ -31,7 +31,7 @@ export default function adminLayout({ children, params }) {
 
   // Load store
   useEffect(() => {
-    getStore(params?.store_id);
+    getStore(params?.store_id, true);
   }, [dispatch, params?.store_id]);
 
   const toggleSidebar = () => dispatch(setIsSidebarOpen(!isSidebarOpen));

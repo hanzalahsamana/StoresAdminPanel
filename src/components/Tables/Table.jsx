@@ -64,11 +64,9 @@ const DynamicTable = ({
             </tr>
           ) : !data || data?.length === 0 ? (
             <tr>
-              <td colSpan={columns?.length + (Object.keys(actions)?.length > 0 ? 1 : 0)} className="text-center p-5 w-full">
-                <div className="flex flex-col gap-[20px] justify-center items-end min-h-[250px] w-full">
-                  <MdOutlineSentimentDissatisfied className="text-borderC text-[40px]" />
-                  <p className="text-borderC text-[12px] font-extralight">{notFoundText}</p>
-                </div>
+              <td colSpan={columns.length + (actions.length > 0 ? 3 : 5)} className="text-center text-gray-400 py-6 mx-auto">
+                <MdOutlineSentimentDissatisfied className="text-borderC text-[40px] mx-auto mb-2" />
+                <p className="text-borderC text-[12px] font-extralight">{notFoundText}</p>
               </td>
             </tr>
           ) : (

@@ -18,6 +18,7 @@ import { addCustomDomain } from '@/APIs/CustomDomain/addCustomDomain';
 import { setStore } from '@/Redux/Store/StoreDetail.slice';
 import { verifyDomain } from '@/APIs/CustomDomain/verifyDomain';
 import { deleteCustomDomain } from '@/APIs/CustomDomain/deleteCustomDomain';
+import { useRouter } from 'next/navigation';
 
 const DomainVerification = () => {
   const [domain, setDomain] = useState('');
@@ -29,6 +30,7 @@ const DomainVerification = () => {
   const { currUser } = useSelector((state) => state.currentUser);
   const { store } = useSelector((state) => state.store);
   const dispatch = useDispatch();
+  const router = useRouter();
 
   // const handleAddDomainDns = async (domain) => {
   //   try {
@@ -150,6 +152,7 @@ const DomainVerification = () => {
       handleVerifyDomain();
     }
   }, [step]);
+  console.log('store==>', store);
   return (
     <div className="flex flex-col gap-[20px] py-[20px] min-h-screen px-8">
       <ActionCard label={'Sub Domain'} subText={'View your sub domain.'} className={'relative'}>
@@ -196,12 +199,14 @@ const DomainVerification = () => {
               </>
             }
           >
-            <div className="w-full h-full absolute top-0 left-0 bg-[#ffffffa0] backdrop-blur-md z-[20] rounded-md flex flex-col gap-4 justify-center items-center">
-              <p className="text-textC font-medium flex items-center gap-3 text-[22px]">
-                <CiUnlock strokeWidth={1.3} size={20} /> Unlock Custom Domain Setup.
-              </p>
-              <Button size="small" label="Upgrade Now" />
-            </div>
+            {store?.subscriptionId?.status !== 'active' && (
+              <div className="w-full h-full absolute top-0 left-0 bg-[#ffffffa0] backdrop-blur-md z-[20] rounded-md flex flex-col gap-4 justify-center items-center">
+                <p className="text-textC font-medium flex items-center gap-3 text-[22px]">
+                  <CiUnlock strokeWidth={1.3} size={20} /> Unlock Custom Domain Setup.
+                </p>
+                <Button size="small" label="Upgrade Now" action={() => router.push('./configurations/subscription')} />
+              </div>
+            )}
             {/* <p className="text-textTC text-[16px]">You have not any Custom Domain to your store.</p> */}
 
             <FormInput value={domain} placeholder="example.com" onChange={(e) => setDomain(e.target.value)} prefix={'https://'} label="Your Domain:" required={false} />

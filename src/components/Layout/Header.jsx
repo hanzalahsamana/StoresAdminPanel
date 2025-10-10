@@ -10,11 +10,13 @@ import { setLoading, setLogout } from '@/Redux/Authentication/AuthSlice';
 import IconButton from '../Actions/IconButton';
 import { BiMenu } from 'react-icons/bi';
 import { GoChevronDown } from 'react-icons/go';
+import { useRouter } from 'next/navigation';
 
 export default function Header({ toggleSidebar }) {
   const currStore = useSelector((state) => state.store?.store);
   const { allStores } = useSelector((state) => state.allStores);
   const dispatch = useDispatch();
+  const router = useRouter();
 
   const data = [
     ...allStores
@@ -34,7 +36,7 @@ export default function Header({ toggleSidebar }) {
 
     {
       icon: <TbLogout2 />,
-      name: "Logout",
+      name: 'Logout',
       action: () => dispatch(setLogout()),
     },
   ];
@@ -49,26 +51,31 @@ export default function Header({ toggleSidebar }) {
         </button>
       </div>
       <div className="flex items-center gap-2 ">
-        <a target="_blank" href={`${HTTP}${currStore?.subDomain}.${Base_Domain}`} className="flex gap-2 text-[18px] items-center cursor-pointer px-[10px] rounded-md py-[7px] bg-gray-100 border-[1.5px] border-borderC font-medium">
+        <a
+          target="_blank"
+          href={`${HTTP}${currStore?.subDomain}.${Base_Domain}`}
+          className="flex gap-2 text-[18px] items-center cursor-pointer px-[10px] rounded-md py-[7px] bg-gray-100 border-[1.5px] border-borderC font-medium"
+        >
           <IoEyeOutline />
           <span className="sm:flex hidden text-[15px]">view your store</span>
         </a>
         <div className="relative inline-block text-gray-700">
           <PopupMenu2
-            trigger={<>
-              <button className={`flex justify-between border-[1.5px] border-primaryC gap-1.5 min-w-[110px] capitalize items-center text-primaryC bg-secondaryC px-2 rounded-md py-[7px] hover:opacity-80 cursor-pointer transition-all ease-in-out duration-300`}
-              >
-                <div className="flex gap-1.5 items-center">
-                  <IoStorefrontOutline />
-                  <span className="sm:flex hidden text-[15px] font-medium" >
-                    {currStore?.storeName}
-                  </span>
-                </div>
-                <div>
-                  <GoChevronDown strokeWidth={0.5} />
-                </div>
-              </button>
-            </>}
+            trigger={
+              <>
+                <button
+                  className={`flex justify-between border-[1.5px] border-primaryC gap-1.5 min-w-[110px] capitalize items-center text-primaryC bg-secondaryC px-2 rounded-md py-[7px] hover:opacity-80 cursor-pointer transition-all ease-in-out duration-300`}
+                >
+                  <div className="flex gap-1.5 items-center">
+                    <IoStorefrontOutline />
+                    <span className="sm:flex hidden text-[15px] font-medium">{currStore?.storeName}</span>
+                  </div>
+                  <div>
+                    <GoChevronDown strokeWidth={0.5} />
+                  </div>
+                </button>
+              </>
+            }
             data={data}
             label="Switch Stores"
           />
