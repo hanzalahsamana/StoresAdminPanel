@@ -180,6 +180,7 @@ const CheckoutWidget = forwardRef(({ sectionData = {}, ...rest }, ref) => {
           phone: '0321-8969332',
           isTestAccount: true,
         });
+
       } else if (paymentMethod?.method === 'alfalah') {
         const { merchantId, pp_Password, integritySalt } = paymentMethod?.credentials;
         alfalahPayment({

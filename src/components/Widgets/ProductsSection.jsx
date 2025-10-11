@@ -30,7 +30,7 @@ const ProductsSection = forwardRef(({ sectionData = {}, ...rest }, ref) => {
   }
 
   if (!products || products?.length === 0) {
-    return <p className="text-[40px] font-bold text-[var(--tmp-txt)] text-center p-10">No Products found 🙄</p>;
+    return <p className="text-[40px] font-bold text-[var(--tmp-txt)] text-center p-10">No Products found</p>;
   }
 
   return (

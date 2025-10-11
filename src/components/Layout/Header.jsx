@@ -39,6 +39,11 @@ export default function Header({ toggleSidebar }) {
       name: 'Logout',
       action: () => dispatch(setLogout()),
     },
+    {
+      icon: <FaRegUser />,
+      name: "Manage Account",
+      action: () => router.push("/admin/account"),
+    },
   ];
 
   return (

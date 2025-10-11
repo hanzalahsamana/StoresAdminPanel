@@ -4,8 +4,7 @@ import Button from '../Actions/Button';
 import { useRouter } from 'next/navigation';
 import { getBasePath } from '@/Utils/GetBasePath';
 
-const CartTotalCard = ({ totalPrice }) => {
-  const router = useRouter();
+const CartTotalCard = ({ totalPrice, checkoutTokenLoading, handleCreateCheckoutToken }) => {
   return (
     <div className="flex flex-col items-end gap-5 max-[750px]:items-center px-[30px] py-12 justify-center text-[var(--tmp-txt)]">
       <div className="flex gap-[50px]">
@@ -17,7 +16,8 @@ const CartTotalCard = ({ totalPrice }) => {
       </div>
       <div className="w-[450px] max-[750px]:w-[80%]">
         <Button
-          action={() => router.push(`${getBasePath()}/checkout`)}
+          action={() => handleCreateCheckoutToken()}
+          loading={checkoutTokenLoading}
           variant="store"
           label="Go To Checkout"
           className="font-bold  transition-all duration-300 hover:scale-105 !h-[50px]"

@@ -27,6 +27,7 @@ const ProductDetailCard = ({ product }) => {
   const dispatch = useDispatch();
   const [quantity, setQuantity] = useState(1);
   const [mainImage, setmainImage] = useState(0);
+  const [buyNowLoading, setBuyNowLoading] = useState(false);
   const sizes = ConvertArray(product?.size || []);
   const [selectedSize, setSelectedSize] = useState(sizes?.[0] || '');
   const { loading } = useSelector((state) => state?.cartData || []);
@@ -55,8 +56,10 @@ const ProductDetailCard = ({ product }) => {
     dispatch(addCartData({ addedProduct: { productId: product?._id, quantity, selectedVariant: selectedOptions || {} }, storeId: store?._id }));
     setQuantity(1);
   };
+
   const handleBuyNow = async () => {
     try {
+      setBuyNowLoading(true)
       const responce = await createCheckoutSession(store?._id, {
         cartItems: [
           {
@@ -67,9 +70,10 @@ const ProductDetailCard = ({ product }) => {
         ],
       });
 
-      router.push(`/checkout/${responce.token}`);
+      router.push(`${getBasePath()}/checkout/${responce.token}`);
     } catch (error) {
       toast.error(error.response ? error.response.data.message : error.message);
+      setBuyNowLoading(false)
     }
   };
 
@@ -98,8 +102,9 @@ const ProductDetailCard = ({ product }) => {
       <div className={`grid grid-cols-1 md:grid-cols-2 gap-[50px] w-full max-w-[1200px]`}>
         <div className={`flex flex-col gap-2.5 w-full space-y-6`}>
           <div className="bg-[var(--tmp-pri)] border border-[var(--tmp-lBor)] rounded-[4px] h-max overflow-hidden">
-            <img src={productDataAccToVariant?.image || product?.displayImage} alt="" className="w-full brightness-[1.3]" />
+            <img src={productDataAccToVariant?.image || product?.displayImage} alt="" className="w-full " />
           </div>
+          
 
           <div className="grid grid-cols-6 gap-4 flex-wrap">
             {[...(product?.gallery || []), ...(product?.variantRules?.map((v) => v.image).filter(Boolean) || [])].map((image, index) => (
@@ -111,9 +116,8 @@ const ProductDetailCard = ({ product }) => {
                     image,
                   });
                 }}
-                className={`rounded-[4px]  w-[80px] h-[80px] flex justify-center items-center border border-[var(--tmp-lBor)] cursor-pointer ${
-                  productDataAccToVariant?.image === image ? 'border-[1.5px] border-primaryC' : 'hover:border-gray-400'
-                }`}
+                className={`rounded-[4px]  w-[80px] h-[80px] flex justify-center items-center border border-[var(--tmp-lBor)] cursor-pointer ${productDataAccToVariant?.image === image ? 'border-[1.5px] border-primaryC' : 'hover:border-gray-400'
+                  }`}
               >
                 <img src={image} alt="" className="w-full object-cover h-full brightness-[1.3]" />
               </div>
@@ -173,9 +177,8 @@ const ProductDetailCard = ({ product }) => {
                         }))
                       }
                       key={idx}
-                      className={`bg-[var(--tmp-acc)] cursor-pointer border-[1.5px] ${
-                        selectedOptions?.[name] === option ? 'border-primaryC text-[var(--tmp-txt)]' : 'border-[var(--tmp-lBor)] hover:border-[#c9c9c9ad] text-[var(--tmp-ltxt)]'
-                      } font-medium px-2 py-2 text-[13px]/[13px] rounded-[5px] flex items-center gap-2`}
+                      className={`bg-[var(--tmp-acc)] cursor-pointer border-[1.5px] ${selectedOptions?.[name] === option ? 'border-primaryC text-[var(--tmp-txt)]' : 'border-[var(--tmp-lBor)] hover:border-[#c9c9c9ad] text-[var(--tmp-ltxt)]'
+                        } font-medium px-2 py-2 text-[13px]/[13px] rounded-[5px] flex items-center gap-2`}
                     >
                       {isColor ? <span className="w-[24px] h-[24px] rounded-full" style={{ backgroundColor: option }}></span> : <span className="px-1">{option}</span>}
                       {/* {!isColor && } */}
@@ -190,6 +193,7 @@ const ProductDetailCard = ({ product }) => {
               disabled={!product?.stock ? true : false || loading}
               action={handleAddToCart}
               loading={loading}
+              active={!loading || !buyNowLoading}
               variant="store"
               label="Add To Cart"
               className="font-bold  transition-all duration-300 hover:scale-105 !h-[50px]"
@@ -197,8 +201,9 @@ const ProductDetailCard = ({ product }) => {
             />
             <Button
               disabled={!product?.stock ? true : false || loading}
-              action={handleAddToCart}
-              loading={loading}
+              action={handleBuyNow}
+              loading={buyNowLoading}
+              active={!loading || !buyNowLoading}
               variant="store"
               label="Buy It Now "
               className="!text-[var(--tmp-ltxt)] !bg-transparent border border-[var(--tmp-lBor)] font-bold  transition-all duration-300 hover:scale-105 !h-[50px]"

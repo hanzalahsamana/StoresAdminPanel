@@ -14,28 +14,43 @@ const modalVariants = {
   exit: { scale: 1, opacity: 0, y: -50 },
 };
 
-const Modal = ({ isOpen, setIsOpen, children, className, extraFuntion = () => {}, position = 'fixed', closeOnEsc = true }) => {
+const Modal = ({
+  isOpen,
+  setIsOpen,
+  children,
+  className,
+  extraFuntion = () => {},
+  position = "fixed",
+  closeOnEsc = true,
+}) => {
   const closeModal = useCallback(() => {
-    extraFuntion();
+    try {
+      extraFuntion();
+    } catch (e) {
+      console.error("Error in extraFuntion:", e);
+    }
     setIsOpen(false);
   }, [extraFuntion, setIsOpen]);
 
   useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'auto';
-    }
+    if (isOpen) document.body.style.overflow = "hidden";
+    else document.body.style.overflow = "auto";
 
     const handleKeyDown = (e) => {
-      if (e.key === 'Escape' && closeOnEsc) closeModal();
+      if (e.key === "Escape" && closeOnEsc) {
+        e.preventDefault();
+        closeModal();
+      }
     };
 
-    window.addEventListener('keydown', handleKeyDown);
+    if (isOpen) {
+      window.addEventListener("keydown", handleKeyDown);
+    }
+
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
     };
-  }, [isOpen, closeModal]);
+  }, [isOpen, closeOnEsc, closeModal]);
 
   return (
     <AnimatePresence>
@@ -46,6 +61,7 @@ const Modal = ({ isOpen, setIsOpen, children, className, extraFuntion = () => {}
           initial="hidden"
           animate="visible"
           exit="exit"
+          onClick={closeModal}
         >
           <motion.div
             className={`relative bg-backgroundC rounded-lg shadow-lg max-w-[750px] max-h-[600px] w-full overflow-auto customScroll ${className}`}
