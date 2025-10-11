@@ -19,6 +19,7 @@ import { generateStore } from '@/APIs/StoreDetails/generateStore';
 import ProtectedRoute from '@/AuthenticRouting/ProtectedRoutes';
 import Loader from '@/components/Loader/loader';
 import { AiOutlineDelete } from 'react-icons/ai';
+import ImgToIcon from '@/components/Actions/ImgToIcon';
 
 const StoreDetails = ({ onClose, onComplete }) => {
   const { allStores, allStoresLoading } = useSelector((state) => state.allStores);
@@ -80,11 +81,11 @@ const StoreDetails = ({ onClose, onComplete }) => {
   }
 
   return (
-    <BackgroundFrame className="flex items-center justify-center min-h-screen">
+    <BackgroundFrame className="flex bg-lbgC items-center justify-center min-h-screen">
       <ActionCard
         label="Your Stores"
         subText="Select a store to proceed or create a new one."
-        className="p-[20px] max-w-[450px]"
+        className="p-[20px] max-w-[500px]"
         icon={<ImgToIcon url={'https://img.icons8.com/matisse/100/shop.png'} />}
         actions={<Button label="Create Store" action={() => setShowModal(true)} size="small" variant="black" icon={<FaArrowRightLong />} iconPosition="right" iconOnHover={true} />}
         actionPosition="top"

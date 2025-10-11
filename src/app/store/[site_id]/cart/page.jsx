@@ -7,11 +7,16 @@ import CartProductCard from '@/components/Cards/cartProductCard';
 import CartTotalCard from '@/components/Cards/cartTotalCard';
 import EmptyCart from '@/components/UI/emptyCart';
 import { getBasePath } from '@/Utils/GetBasePath';
-import EasypaisaCheckout from '@/components/Forms/easypaisaCheckout';
+import { toast } from 'react-toastify';
+import { useRouter } from 'next/navigation';
+import { createCheckoutSession } from '@/APIs/Checkout/Checkout';
 
 const Cart = () => {
   const { cartData, initialLoading } = useSelector((state) => state?.cartData || []);
+  const { store } = useSelector((state) => state?.store);
   const [loading, setLoading] = useState(true);
+  const [checkoutTokenLoading, setCheckoutTokenLoading] = useState(false);
+  const router = useRouter();
 
   useEffect(() => {
     setLoading(false);
@@ -24,6 +29,25 @@ const Cart = () => {
   const totalPrice = cartData?.reduce((accumulator, cartItem) => {
     return accumulator + cartItem.price * cartItem.quantity;
   }, 0);
+
+
+  const handleCreateCheckoutToken = async () => {
+    try {
+      const cartId = localStorage.getItem(`${store?._id}_cartId`);
+      if (!cartId) {
+        toast.error("Cart Id not found")
+        return
+      }
+      setCheckoutTokenLoading(true)
+
+      const responce = await createCheckoutSession(store?._id, { cartId: cartId });
+
+      router.push(`${getBasePath()}/checkout/${responce.token}`);
+    } catch (error) {
+      toast.error(error.response ? error.response.data.message : error.message);
+      setCheckoutTokenLoading(false)
+    }
+  };
 
   return (
     <div className="flex items-center flex-col w-full bg-[var(--tmp-pri)] min-h-screen">
@@ -73,7 +97,7 @@ const Cart = () => {
               ))}
             </div>
             <div>
-              <CartTotalCard totalPrice={totalPrice} />
+              <CartTotalCard totalPrice={totalPrice} checkoutTokenLoading={checkoutTokenLoading} handleCreateCheckoutToken={handleCreateCheckoutToken} />
             </div>
           </div>
         ) : (

@@ -16,7 +16,7 @@ export const deleteStore = async (token, storeId) => {
     });
 
     dispatch(deleteStoreFromRedux(storeId));
-    return toast.success(data?.message);
+    return data;
   } catch (error) {
     throw error;
   }

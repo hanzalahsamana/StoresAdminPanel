@@ -13,79 +13,28 @@ import { getBasePath } from '@/Utils/GetBasePath';
 import Link from 'next/link';
 import DropDown from '../Actions/DropDown';
 import CustomCard from '../Cards/CustomCard';
+import PaymentMethodSelector from '../Blocks/PaymentMethodSelector';
 
-const initialFormData = {
-  email: '',
-  country: '',
-  firstName: '',
-  lastName: '',
-  address: '',
-  appartment: '',
-  city: '',
-  postalCode: '',
-  phone: '',
-};
-
-const PaymentForm = ({ selectedMethod = '', setSelectedMethod = () => {}, errors = {}, requiredContactFields = '' }) => {
-  // todo send email in the coupon code
+const PaymentForm = ({ errors = {}, requiredContactFields = '' , formData , handleChange ,  }) => {
 
   const dispatch = useDispatch();
   const { paymentMethods } = useSelector((state) => state?.storeConfiguration?.storeConfiguration);
-  const [loading, setLoading] = useState(false);
-  const { siteName } = useSelector((state) => state.siteName);
-  const SiteLogo = useSelector((state) => getContentByName(state, 'Site Logo'));
-  const [formData, setFormData] = useState(initialFormData);
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prevData) => ({ ...prevData, [name]: value }));
-  };
-
-  if (loading) {
-    return <Loader />;
-  }
-
-  const selectedPayment = paymentMethods?.find((m) => m._id === selectedMethod); // if dropdown returns {label, value}
-  const credentials = selectedPayment?.credentials;
 
   return (
     <div className="w-full flex flex-col items-end max-[750px]:items-center mt-4 ">
       <form className="flex flex-wrap">
         <div className="w-full ">
           <h2 className="text-[24px] font-semibold my-4 text-[var(--tmp-txt)]">Payment Method</h2>
-          <p className="text-[var(--tmp-ltxt)] mb-4">All transactions are secure and encrypted.</p>
-
-          <DropDown
-            placeholder="Select Payment Method"
-            defaultOptions={paymentMethods?.map((method) => ({ label: method?.method, value: method?._id }))}
-            size="large"
-            variant="primary"
-            setSelectedOption={setSelectedMethod}
-            selectedOption={selectedMethod}
-            isStore={true}
+          <PaymentMethodSelector
+            paymentMethods={paymentMethods}
+            selectedMethod={formData?.paymentInfo}
+            setSelectedMethod={(method) => handleChange({ target: { name: 'paymentInfo', value: method } })}
           />
-          {selectedPayment?.method === 'account' && (
-            <CustomCard title="Bank Account Details" className="mt-4">
-              <div className="flex justify-between w-full">
-                <div className="flex flex-col gap-3 text-textC font-medium text-[15px]">
-                  <p>Account Title:</p>
-                  <p>Account Number: </p>
-                  <p>Bank Name:</p>
-                  <p>IBAN:</p>
-                </div>
-                <div className="flex items-end flex-col gap-3 text-textTC text-[15px]">
-                  <p>{credentials?.Account_Name}</p>
-                  <p>{credentials?.Account_No}</p>
-                  <p>{credentials?.Bank_Name}</p>
-                  <p>{credentials?.IBAN}</p>
-                </div>
-              </div>
-            </CustomCard>
-          )}
         </div>
         <div className="w-full space-y-[18px]">
           <h2 className="text-[24px] font-semibold my-4 text-[var(--tmp-txt)]">Contact</h2>
-          {(requiredContactFields === 'bothOpt' || requiredContactFields === 'email') && (
+          {(!requiredContactFields || requiredContactFields === 'bothOpt' || requiredContactFields === 'email') && (
             <FormInput
               size="large"
               type="email"
@@ -97,7 +46,7 @@ const PaymentForm = ({ selectedMethod = '', setSelectedMethod = () => {}, errors
               labelClassname={'bg-transparent'}
             />
           )}
-          {(requiredContactFields === 'bothOpt' || requiredContactFields === 'phone') && (
+          {(!requiredContactFields || requiredContactFields === 'bothOpt' || requiredContactFields === 'phone') && (
             <FormInput size="large" type="tel" placeholder="Phone" onChange={handleChange} name={'phone'} error={errors?.phone} value={formData?.phone} />
           )}
         </div>
@@ -136,9 +85,6 @@ const PaymentForm = ({ selectedMethod = '', setSelectedMethod = () => {}, errors
             />
           </div>
         </div>
-        {/* <button className="py-[14px] w-full mt-3 bg-[#407fc4] text-[var(--tmp-wtxt)] text-[22px] font-semibold rounded-md transition-all duration-300 hover:scale-105">
-            Place Order
-          </button> */}
       </form>
       <div>
         <p className="text-[var(--tmp-txt)] text-[14px] w-full py-3">

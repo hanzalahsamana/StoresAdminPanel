@@ -9,11 +9,13 @@ import { TbLogout2 } from "react-icons/tb";
 import { setLoading, setLogout } from "@/Redux/Authentication/AuthSlice";
 import { BsChevronExpand } from "react-icons/bs";
 import { GoChevronDown } from "react-icons/go";
+import { useRouter } from "next/navigation";
 
 export default function Header({ toggleSidebar }) {
   const currStore = useSelector((state) => state.store?.store);
   const { allStores } = useSelector((state) => state.allStores);
   const dispatch = useDispatch();
+  const router = useRouter();
 
 
   const data = [
@@ -36,6 +38,11 @@ export default function Header({ toggleSidebar }) {
       icon: <TbLogout2 />,
       name: "Logout",
       action: () => dispatch(setLogout()),
+    },
+    {
+      icon: <FaRegUser />,
+      name: "Manage Account",
+      action: () => router.push("/admin/account"),
     },
   ];
 

@@ -3,6 +3,8 @@ import axios from 'axios';
 import BASE_URL from '../../../config';
 
 export const createCheckoutSession = async (storeId, payload) => {
+  console.log(payload);
+  
   try {
     const { data } = await axios.post(`${BASE_URL}/${storeId}/startCheckout`, payload);
     return data;

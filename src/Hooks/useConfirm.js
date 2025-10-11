@@ -31,23 +31,21 @@ export default function useConfirm() {
     setIsOpen(false);
   };
 
-  const ConfirmationModal = isOpen
-    ? createPortal(
-        <>
-          <Modal setIsOpen={setIsOpen} isOpen={isOpen} extraFuntion={() => resolver(false)} className={'max-w-md'}>
-            <div className="p-4 flex  items-center flex-col w-full">
-              <h1 className="mb-4 font-bold text-center">{message?.label}</h1>
-              <p className="mb-4 text-sm text-center">{message?.text}</p>
-              <div className="flex justify-end gap-3 mt-4 w-full">
-                <Button label={message?.button1} size="small" variant="white" action={handleCancel} />
-                <Button label={message?.button2} size="small" variant="danger" action={handleConfirm} />
-              </div>
-            </div>
-          </Modal>
-        </>,
-        document.body
-      )
-    : null;
+  const ConfirmationModal = createPortal(
+    <>
+      <Modal setIsOpen={setIsOpen} isOpen={isOpen} extraFuntion={() => resolver(false)} className={'max-w-md'}>
+        <div className="p-4 flex  items-center flex-col w-full">
+          <h1 className="mb-4 text-[30px] font-bold text-center">{message?.label}</h1>
+          <p className="mb-4 text-base px-2 text-center">{message?.text}</p>
+          <div className="flex justify-end gap-3 mt-4 w-full">
+            <Button label={message?.button1} size="small" variant="white" action={handleCancel} />
+            <Button label={message?.button2} size="small" variant="danger" action={handleConfirm} />
+          </div>
+        </div>
+      </Modal>
+    </>,
+    document.body
+  );
 
   return { confirm, ConfirmationModal };
 }
