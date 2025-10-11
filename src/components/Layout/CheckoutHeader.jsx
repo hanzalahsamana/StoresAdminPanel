@@ -8,7 +8,7 @@ import { useSelector } from 'react-redux';
 const CheckoutHeader = ({ sectionData }) => {
   const { cartData } = useSelector((state) => state?.cartData);
   const { store } = useSelector((state) => state?.store);
-  const { checkoutLogo, globalLogo } = sectionData;
+  const { checkoutLogo, globalLogo } = sectionData || {};
 
   return (
     <div className="flex justify-between items-center w-full py-[10px]">
