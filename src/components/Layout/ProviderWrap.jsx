@@ -7,12 +7,15 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setCartData } from '@/Redux/CartData/cartDataSlice';
 import { getStore } from '@/APIs/StoreDetails/getStore';
 import { getAdminStoreConfiguration, getPublicStoreConfiguration } from '@/APIs/StoreConfigurations/configuration';
-import { setStore } from '@/Redux/Store/StoreDetail.slice';
+import { setStore, setStoreLoading } from '@/Redux/Store/StoreDetail.slice';
 import SiteNotFound from '@/components/404Pages/SiteNotFound';
 import ProtectedRoute from '@/AuthenticRouting/ProtectedRoutes';
 import { getAllStores } from '@/APIs/StoreDetails/getAllStores';
 import { applyTheme, getFontClass } from '@/Utils/ApplyTheme';
 import DiscountPopup from '../UI/DiscountPopup';
+import SuspendedNotice from '../Suspended/SuspendedNotice';
+import Button from '../Actions/Button';
+import { setLogout } from '@/Redux/Authentication/AuthSlice';
 
 // This is for Only Redux Access
 const ReduxProviderWrap = ({ children }) => {
@@ -130,7 +133,10 @@ export const AdminProviderWrap = ({ children }) => {
   const { store } = useSelector((state) => state.store);
   const dispatch = useDispatch();
   useEffect(() => {
-    if (!currUser?.token) return;
+    if (!currUser?.token) {
+      dispatch(setStoreLoading(false));
+      return;
+    }
     getAllStores(currUser?.token);
   }, [currUser?.token]);
 
@@ -147,7 +153,19 @@ export const AdminProviderWrap = ({ children }) => {
 
     fetchAllData();
   }, [store?._id, dispatch]);
-  return <ProtectedRoute>{children}</ProtectedRoute>;
+  return (
+    <ProtectedRoute>
+      {currUser?.status !== 'active' ? (
+        <SuspendedNotice
+          reason={currUser?.suspendedReason || 'Reason not provided'}
+          type="user"
+          actions={<Button label="logout" action={() => dispatch(setLogout())} size="small" />}
+        />
+      ) : (
+        <>{children}</>
+      )}
+    </ProtectedRoute>
+  );
 };
 
 export default ReduxProviderWrap;
