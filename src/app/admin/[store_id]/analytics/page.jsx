@@ -55,7 +55,7 @@ const Analytics = () => {
 
         <CustomCard title="Sessions by Devices" className="col-span-4 md:col-span-2">
           <MetricsGrid
-            data={Object.keys(Analytics_Devices || {}).map((key) => ({
+            data={Object.keys(Analytics_Devices).map((key) => ({
               name: Analytics_Devices?.[key].name,
               icon: Analytics_Devices?.[key].icon,
               value: analytics?.deviceViews[key] ?? 0,
@@ -65,7 +65,7 @@ const Analytics = () => {
         </CustomCard>
 
         <CustomCard title="Comparison Btw Orders and Carts " className="col-span-4 md:col-span-2">
-          <ComaprisnChart data={{ 'Abandoned Carts': analytics?.abandonedCarts, 'Fullfilled Orders': analytics?.totalOrders }} />
+          <ComaprisnChart data={{ 'Abandoned Carts': analytics?.abandonedCarts ?? 0, 'Fullfilled Orders': analytics?.totalOrders ?? 0 }} />
         </CustomCard>
 
         <CustomCard title="Convertion Rate " className="col-span-4 md:col-span-2">

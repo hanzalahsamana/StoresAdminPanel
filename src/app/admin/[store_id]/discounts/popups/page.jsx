@@ -42,7 +42,6 @@ const Discount = ({ params }) => {
   const [selectedDiscount, setSelectedDiscount] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
   const [errors, setErrors] = useState({});
-  console.log('announcement?.discountBar?.timer');
   const isTimerExpire = announcement?.discountBar?.timer && new Date(announcement?.discountBar?.timer).getTime() - Date.now();
   const { discounts, announcements } = storeConfiguration;
   const discountRef = announcement?.popup?.discountRef;

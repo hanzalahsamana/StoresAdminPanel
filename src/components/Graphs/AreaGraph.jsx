@@ -1,13 +1,12 @@
-"use client";
+'use client';
 
 import { GraphColors } from '@/Structure/DefaultStructures';
 import React from 'react';
 import Chart from 'react-apexcharts';
 import BarLoader from '../Loader/BarLoader';
 
-const AreaGraph = ({ data = {} , analyticsLoading }) => {
-
-  if (analyticsLoading || typeof window === "undefined") {
+const AreaGraph = ({ data = {}, analyticsLoading }) => {
+  if (analyticsLoading || typeof window === 'undefined') {
     return <BarLoader />;
   }
 
@@ -47,7 +46,6 @@ const AreaGraph = ({ data = {} , analyticsLoading }) => {
     tooltip: { theme: 'dark' },
   };
 
-
   const seriesRevenue = [
     {
       name: 'Views',
@@ -57,7 +55,7 @@ const AreaGraph = ({ data = {} , analyticsLoading }) => {
 
   return (
     <div className="revenue w-full" style={{ height: '320px' }}>
-      <Chart options={optionsRevenue} series={seriesRevenue} type="area" height="320" />
+      {collections?.length > 0 && <Chart options={optionsRevenue} series={seriesRevenue} type="area" height="320" />}
     </div>
   );
 };
