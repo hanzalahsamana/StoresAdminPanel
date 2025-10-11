@@ -231,7 +231,7 @@ const StoreDetails = ({ onClose, onComplete }) => {
       </Modal>
 
       {/* delete store modal  */}
-      <Modal isOpen={isDeleteStoreModal} setIsOpen={setIsDeleteStoreModal} extraFuntion={handleCancel} position="fixed bg-opacity-30" className="!max-w-[550px]">
+      <Modal isOpen={isDeleteStoreModal} setIsOpen={setIsDeleteStoreModal} extraFuntion={handleCancel} position="fixed bg-opacity-30" className="!max-w-[450px]">
         <ActionCard
           label="Delete Store"
           subText="Please enter your Password and Delete."
