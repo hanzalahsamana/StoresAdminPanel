@@ -2,21 +2,18 @@
 
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { usePathname } from 'next/navigation';
-
+import { usePathname, useRouter } from 'next/navigation';
 import Loader from '@/components/Loader/TemplateLoader';
 import { getStore } from '@/APIs/StoreDetails/getStore';
-import { getSections } from '@/APIs/SectionsData/getSections';
-import { getProducts } from '@/APIs/Product/getProducts';
-import { getCollections } from '@/APIs/Collection/getCollections';
-import { getContents } from '@/APIs/Content/getContents';
 import NotFound from '@/components/404Pages/NotFound';
 import Sidebar from '@/components/Layout/Sidebar';
 import Header from '@/components/Layout/Header';
-import { getAdminStoreConfiguration } from '@/APIs/StoreConfigurations/configuration';
 import { setIsSidebarOpen } from '@/Redux/LivePreview/livePreviewSlice';
 import { Assistant } from 'next/font/google';
 import { AdminPanelSideBarData } from '@/Structure/DefaultStructures';
+import Button from '@/components/Actions/Button';
+import { setLogout } from '@/Redux/Authentication/AuthSlice';
+import SuspendedNotice from '@/components/Suspended/SuspendedNotice';
 
 const assistant = Assistant({
   subsets: ['latin'],
@@ -26,6 +23,7 @@ const assistant = Assistant({
 export default function adminLayout({ children, params }) {
   const dispatch = useDispatch();
   const pathname = usePathname();
+  const router = useRouter();
   const { currUser } = useSelector((state) => state.currentUser);
   const { store, storeLoading } = useSelector((state) => state.store);
   const { collectionLoading } = useSelector((state) => state.collection);
@@ -37,29 +35,8 @@ export default function adminLayout({ children, params }) {
 
   // Load store
   useEffect(() => {
-    getStore(params?.store_id);
+    getStore(params?.store_id, true);
   }, [dispatch, params?.store_id]);
-
-  // Fetch all required data once store is ready
-  useEffect(() => {
-    if (!store?._id) return;
-
-    const fetchAllData = async () => {
-      try {
-        await Promise.all([
-          // getProducts(store?._id),
-          // getCollections(store?._id),
-          getSections(store?._id),
-          // getContents(store?._id),
-          // getAdminStoreConfiguration(currUser?.token, store?._id),
-        ]);
-      } catch (error) {
-        console.error('Data fetching failed:', error);
-      }
-    };
-
-    fetchAllData();
-  }, [store?._id, dispatch]);
 
   const toggleSidebar = () => dispatch(setIsSidebarOpen(!isSidebarOpen));
 
@@ -69,23 +46,39 @@ export default function adminLayout({ children, params }) {
 
   if (storeLoading) return <Loader />;
 
-  if (!store?._id || store?.userRef !== currUser?._id) {
+  if (!store?._id || store?.userRef?._id !== currUser?._id) {
     return <NotFound />;
   }
-
   return (
-    <div className={`flex h-[calc(100vh-60px)]  ${assistant.className} antialiased`}>
-      <Sidebar isOpen={isSidebarOpen} setIsOpen={(state) => dispatch(setIsSidebarOpen(state))} sideBarData={AdminPanelSideBarData} />
-      <div className="w-full flex justify-end">
-        <Header toggleSidebar={toggleSidebar} />
-        <div
-          className={`${
-            isSidebarOpen ? 'lg:w-[calc(100%-230px)]' : 'lg:w-full'
-          } w-full mt-[60px] h-[100%] transition-all duration-200 ease-in-out overflow-scroll no-scrollbar bg-lbgC`}
-        >
-          {children}
+    <>
+      {store?.userRef?.status === 'active' && store?.storeStatus === 'active' ? (
+        <div className={`flex h-[calc(100vh-60px)]  ${assistant.className} antialiased`}>
+          <Sidebar isOpen={isSidebarOpen} setIsOpen={(state) => dispatch(setIsSidebarOpen(state))} sideBarData={AdminPanelSideBarData} />
+          <div className="w-full flex justify-end">
+            <Header toggleSidebar={toggleSidebar} />
+            <div
+              className={`${
+                isSidebarOpen ? 'lg:w-[calc(100%-230px)]' : 'lg:w-full'
+              } w-full mt-[60px] h-[100%] transition-all duration-200 ease-in-out overflow-scroll no-scrollbar bg-lbgC`}
+            >
+              {children}
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
+      ) : (
+        store?.storeStatus !== 'active' && (
+          <SuspendedNotice
+            reason={store?.suspendedReason || 'Reason not provided'}
+            type="store"
+            actions={
+              <div className="flex gap-4 items-center justify-center">
+                <Button label="logout" action={() => dispatch(setLogout())} size="small" variant="danger" />
+                <Button label="Change Store" variant="black" action={() => router.push('/admin/stores')} size="small" />
+              </div>
+            }
+          />
+        )
+      )}
+    </>
   );
 }

@@ -215,7 +215,7 @@ const CheckoutWidget = forwardRef(({ sectionData = {}, ...rest }, ref) => {
     <div className="grid grid-cols-2 w-full flex-col-reverse md:flex-row" ref={ref} {...rest}>
       <div className={`bg-[var(--tmp-pri)] h-screen overflow-auto direction-rtl scroll-left customScroll w-full px-8 py-3 flex justify-end`}>
         <div className="max-w-[500px] w-full">
-          <CheckoutHeader />
+          <CheckoutHeader sectionData={sectionData} />
           <PaymentForm errors={errors} selectedMethod={selectedMethod} setSelectedMethod={setSelectedMethod} requiredContactFields={contactFields} />
         </div>
       </div>

@@ -1,6 +1,6 @@
-import { useEffect, useCallback } from "react";
-import { VscClose } from "react-icons/vsc";
-import { AnimatePresence, motion } from "framer-motion";
+import { useEffect, useCallback } from 'react';
+import { VscClose } from 'react-icons/vsc';
+import { AnimatePresence, motion } from 'framer-motion';
 
 const backdropVariants = {
   hidden: { opacity: 0 },
@@ -48,7 +48,7 @@ const Modal = ({
     }
 
     return () => {
-      window.removeEventListener("keydown", handleKeyDown);
+      window.removeEventListener('keydown', handleKeyDown);
     };
   }, [isOpen, closeOnEsc, closeModal]);
 
@@ -72,12 +72,11 @@ const Modal = ({
             transition={{ duration: 0.2 }}
             onClick={(e) => e.stopPropagation()}
           >
-            <button
-              className="absolute top-1 right-1 text-gray-500 hover:text-gray-900 z-[1]"
-              onClick={closeModal}
-            >
-              <VscClose size={22} />
-            </button>
+            {setIsOpen && (
+              <button className="absolute top-1 right-1 text-gray-500 hover:text-gray-900 z-[1]" onClick={closeModal}>
+                <VscClose size={22} />
+              </button>
+            )}
             <div className="h-full">{children}</div>
           </motion.div>
         </motion.div>

@@ -67,7 +67,7 @@ const VariantsAddManager = ({ variations = [], variantData = [], setVariantData 
   const handleGroupChange = (groupKey, field, value) => {
     const newVariantData = variantData.map((v) => {
       if (groupByIndex === 0 || (groupByIndex > 0 && v.options[Object.keys(v.options)[groupByIndex - 1]] === groupKey)) {
-        return { ...v, [field]: (field === 'price' || field === 'stock') && value ? Number(value) : value };
+        return { ...v, [field]: (field === 'price' || field === 'stock') && value ? Number(value) : !value ? null : value };
       }
       return v;
     });
@@ -88,7 +88,7 @@ const VariantsAddManager = ({ variations = [], variantData = [], setVariantData 
   };
 
   const handleChange = (sku, field, value) => {
-    setVariantData((prev) => prev.map((v) => (v.sku === sku ? { ...v, [field]: (field === 'price' || field === 'stock') && value ? Number(value) : value } : v)));
+    setVariantData((prev) => prev.map((v) => (v.sku === sku ? { ...v, [field]: (field === 'price' || field === 'stock') && value ? Number(value) : !value ? null : value } : v)));
   };
 
   if (variations.length === 0) {

@@ -25,7 +25,8 @@ const ContentEdit = () => {
   const { editingPage, editingPageMode } = useSelector((state) => state.pages);
   const [isModified, setIsModified] = useState(false);
   const [fetchLoading, setFetchLoading] = useState(true);
-  const [loading, setLoading] = useState(false);
+  const [draftLoading, setDraftLoading] = useState(false);
+  const [publishLoading, setPublishLoading] = useState(false);
   const [activeSection, setActiveSection] = useState(null);
   const [currentMode, setCurrentMode] = useState(null);
   const [customizePageData, setCustomizePageData] = useState(null);
@@ -55,25 +56,25 @@ const ContentEdit = () => {
         );
         if (!ok) return;
       }
-      setLoading(true);
+      setPublishLoading(true);
       await publishPage(currUser?.token, store?._id, customizePageData);
       toast.success('Page updated successfully!');
     } catch (error) {
       toast.error(error.response ? error.response.data.message : error.message);
     } finally {
-      setLoading(false);
+      setPublishLoading(false);
     }
   };
 
   const handleSaveDraftPage = async () => {
     try {
-      setLoading(true);
+      setDraftLoading(true);
       await saveDraftPage(currUser?.token, store?._id, customizePageData);
       toast.success('Section updated successfully!');
     } catch (error) {
       toast.error(error.response ? error.response.data.message : error.message);
     } finally {
-      setLoading(false);
+      setDraftLoading(false);
     }
   };
 
@@ -187,7 +188,7 @@ const ContentEdit = () => {
         handlePublishPage={handlePublishPage}
         handleSaveDraftPage={handleSaveDraftPage}
         handleDiscardDraft={handleDiscardDraft}
-        loading={loading}
+        loading={{ draftLoading, publishLoading }}
         currentMode={currentMode}
       />
       <div className="flex w-full  ">

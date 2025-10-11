@@ -4,11 +4,11 @@ import BASE_URL from '../../../config';
 import { dispatch } from '@/Redux/Store';
 import { setStore, setStoreLoading } from '@/Redux/Store/StoreDetail.slice';
 
-export const getStore = async (storeId) => {
+export const getStore = async (storeId, isAdmin) => {
   dispatch(setStoreLoading(true));
 
   try {
-    const { data } = await axios.get(`${BASE_URL}/${storeId}/getStore`);
+    const { data } = await axios.get(`${BASE_URL}/${storeId}/getStore?isAdmin=${isAdmin ? isAdmin : ''}`);
     dispatch(setStore({ ...data?.data, header: data?.header, footer: data?.footer }));
     return data?.data;
   } catch (error) {

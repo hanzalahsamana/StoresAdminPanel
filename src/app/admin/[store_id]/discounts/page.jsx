@@ -16,10 +16,11 @@ import StatusCard from '@/components/Cards/StatusCard';
 import { deleteDiscount } from '@/APIs/StoreDetails/discount';
 import moment from 'moment';
 
-const Discount = () => {
+const Discount = ({ params }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [updatedDiscount, setUpdatedDiscount] = useState(false);
   const { discounts } = useSelector((state) => state?.storeConfiguration?.storeConfiguration);
+  const { store_id } = params;
 
   // const { discounts } = useSelector((state) => state?.storeDetail?.storeDetail);
   const dispatch = useDispatch();
@@ -57,7 +58,7 @@ const Discount = () => {
                       setIsOpen(true);
                     }}
                   />
-                  <IconButton icon={<AiOutlineDelete />} className="text-red-500" action={() => deleteDiscount(discount?._id, currUser?.token, dispatch)} />
+                  <IconButton icon={<AiOutlineDelete />} className="text-red-500" action={() => deleteDiscount(discount?._id, currUser?.token, store_id)} />
                 </div>
               }
             >

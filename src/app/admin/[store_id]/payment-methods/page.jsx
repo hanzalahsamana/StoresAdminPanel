@@ -70,7 +70,7 @@ const PaymentMethods = () => {
   const [paymentState, setPaymentState] = useState(initialData);
 
   useEffect(() => {
-    if (!paymentMethods) return;
+    if (!paymentMethods || paymentMethods?.length === 0) return;
 
     const merged = PaymentMethodsStructure.reduce((acc, method) => {
       const backend = paymentMethods.find((m) => m.method === method.key);
@@ -93,6 +93,7 @@ const PaymentMethods = () => {
 
   const handleFieldChange = (key, fieldName, value) => {
     const newPaymentState = { ...paymentState, [key]: { ...paymentState[key], [fieldName]: value } };
+    console.log('newPaymentState', newPaymentState);
 
     setPaymentState(newPaymentState);
     updatePaymentMethodValidate(key, newPaymentState[key], setValidationErrors, fieldName);
@@ -201,7 +202,7 @@ const PaymentMethods = () => {
                           className="border border-gray-300 p-2 rounded "
                           placeholder={''}
                           onChange={(e) => handleFieldChange(method.key, field.name, e.target.value)}
-                          value={paymentState[method.key][field.name] || ''}
+                          value={paymentState[method.key]?.[field.name] || ''}
                           error={validationErrors?.[method.key]?.[`${field.name}`]}
                           required={field?.required || true}
                         />

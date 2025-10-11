@@ -16,8 +16,8 @@ const EditProduct = () => {
   const { productid, store_id } = useParams();
 
   const fetchProduct = async () => {
-    const product = await getProducts(store_id, 1, 0, productid);
-    setEditingProduct(product);
+    const product = await getProducts(store_id, 1, 0, { productIds: [productid] });
+    setEditingProduct(product[0]);
   };
 
   useEffect(() => {

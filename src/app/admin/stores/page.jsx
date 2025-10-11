@@ -20,20 +20,27 @@ import ProtectedRoute from '@/AuthenticRouting/ProtectedRoutes';
 import Loader from '@/components/Loader/loader';
 import { AiOutlineDelete } from 'react-icons/ai';
 import ImgToIcon from '@/components/Actions/ImgToIcon';
+import { deleteStore } from '@/APIs/StoreDetails/deleteStore';
+import { useRouter } from 'next/navigation';
 
 const StoreDetails = ({ onClose, onComplete }) => {
   const { allStores, allStoresLoading } = useSelector((state) => state.allStores);
   const { currUser } = useSelector((state) => state.currentUser);
 
+  const [isDeleteStoreModal, setIsDeleteStoreModal] = useState(false);
+  const [deleteStoreLoading, setDeleteStoreLoading] = useState(false);
+  const [selectedStore, setSelectedStore] = useState('');
+  const [showModal, setShowModal] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [password, setPassword] = useState('');
+  const [errors, setErrors] = useState({});
   const [formData, setFormData] = useState({
     storeName: '',
     storeType: '',
     referralCode: '',
   });
 
-  const [errors, setErrors] = useState({});
-  const [loading, setLoading] = useState(false);
-  const [showModal, setShowModal] = useState(false);
+  const router = useRouter();
 
   const handleChange = (name, value) => {
     setFormData((prev) => ({
@@ -68,12 +75,30 @@ const StoreDetails = ({ onClose, onComplete }) => {
     };
     await generateStore(currUser?.token, {
       ...payload,
-      referralCode: formData?.referralCode ? referralCode : formData?.referralCode,
+      referralCode: formData?.referralCode ? formData?.referralCode : '',
     });
     setShowModal(false);
     setFormData({ storeName: '', storeType: '' }); // Reset form
     onComplete?.();
     setLoading(false);
+  };
+
+  const handleDeleteStore = async (e) => {
+    e?.preventDefault();
+    setDeleteStoreLoading(true);
+    if (!selectedStore) return;
+    if (!password) {
+      toast.error('Password is required');
+    }
+    await deleteStore(currUser?.token, selectedStore, password);
+    setDeleteStoreLoading(false);
+    handleCancel();
+  };
+
+  const handleCancel = () => {
+    setPassword('');
+    setSelectedStore('');
+    setIsDeleteStoreModal(false);
   };
 
   if (allStoresLoading) {
@@ -93,9 +118,9 @@ const StoreDetails = ({ onClose, onComplete }) => {
         <div className="max-h-[300px] pr-2 overflow-y-auto customScroll flex flex-col gap-4">
           {allStores.length > 0 &&
             allStores.map((store, index) => (
-              <Link
+              <div
                 key={index}
-                href={`/admin/${store?._id}`}
+                onClick={() => router.push(`/admin/${store?._id}`)}
                 className="flex items-center justify-between gap-3 p-3 rounded-md bg-gray-50 hover:bg-gray-100 transition cursor-pointer group"
               >
                 {/* <div className="text-[30px]">#{index + 1}</div> */}
@@ -112,12 +137,20 @@ const StoreDetails = ({ onClose, onComplete }) => {
                   </a>
                 </div>
                 <div className="flex flex-col gap-2 items-end">
-                  <AiOutlineDelete className="text-textC hover:text-red-500 text-[20px]" />
+                  <div
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setIsDeleteStoreModal(true);
+                      setSelectedStore(store?._id);
+                    }}
+                  >
+                    <AiOutlineDelete className="text-textC hover:text-red-500 text-[20px]" />
+                  </div>
                   <p className="text-textTC text-sm" title="last visited">
                     21 Feb, 24
                   </p>
                 </div>
-              </Link>
+              </div>
             ))}
         </div>
       </ActionCard>
@@ -194,6 +227,33 @@ const StoreDetails = ({ onClose, onComplete }) => {
             placeholder="eg: clothing store"
             error={errors?.storeType}
           />
+        </ActionCard>
+      </Modal>
+
+      {/* delete store modal  */}
+      <Modal isOpen={isDeleteStoreModal} setIsOpen={setIsDeleteStoreModal} extraFuntion={handleCancel} position="fixed bg-opacity-30" className="!max-w-[450px]">
+        <ActionCard
+          label="Delete Store"
+          subText="Please enter your Password and Delete."
+          className="py-[10px] px-[20px]"
+          // actions={}
+          actionPosition="top"
+        >
+          <form onSubmit={handleDeleteStore}>
+            <FormInput
+              name="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              label="Password"
+              type="password"
+              // error={errors.referralCode}
+              placeholder="Enter you password.."
+            />
+            <div className="flex justify-end gap-4 mt-4">
+              <Button label="Cancel" action={handleCancel} size="small" variant="white" iconPosition="right" />
+              <Button label="Delete" type="submit" loading={deleteStoreLoading} size="small" variant="danger" iconPosition="right" active={password} />
+            </div>
+          </form>
         </ActionCard>
       </Modal>
     </BackgroundFrame>

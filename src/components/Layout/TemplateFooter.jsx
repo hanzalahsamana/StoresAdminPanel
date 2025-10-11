@@ -17,7 +17,6 @@ const TemplateFooter = ({ sectionData }) => {
   const { store } = useSelector((state) => state?.store);
 
   const { footerLogo, globalLogo, email = '', phone = '', location = '', copyright = '', socialLinks = {}, style = 'style1', navLinks = [] } = sectionData || {};
-  console.log('globalLogo', globalLogo);
   return (
     <footer className={`bg-[var(--tmp-sec)] w-full border-t flex flex-col items-center border-[var(--tmp-lBor)]`}>
       <div className="pt-10 text-[var(--tmp-wtxt)] w-full max-w-[1200px] px-[40px]">

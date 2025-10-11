@@ -5,14 +5,17 @@ import { useEffect, useState } from 'react';
 import Script from 'next/script';
 import { useDispatch, useSelector } from 'react-redux';
 import { setCartData } from '@/Redux/CartData/cartDataSlice';
-import { getContentByName } from '@/Redux/ContentData/ContentDataSlice';
 import { getStore } from '@/APIs/StoreDetails/getStore';
 import { getAdminStoreConfiguration, getPublicStoreConfiguration } from '@/APIs/StoreConfigurations/configuration';
-import { setStore } from '@/Redux/Store/StoreDetail.slice';
+import { setStore, setStoreLoading } from '@/Redux/Store/StoreDetail.slice';
 import SiteNotFound from '@/components/404Pages/SiteNotFound';
 import ProtectedRoute from '@/AuthenticRouting/ProtectedRoutes';
 import { getAllStores } from '@/APIs/StoreDetails/getAllStores';
 import { applyTheme, getFontClass } from '@/Utils/ApplyTheme';
+import DiscountPopup from '../UI/DiscountPopup';
+import SuspendedNotice from '../Suspended/SuspendedNotice';
+import Button from '../Actions/Button';
+import { setLogout } from '@/Redux/Authentication/AuthSlice';
 
 // This is for Only Redux Access
 const ReduxProviderWrap = ({ children }) => {
@@ -27,8 +30,22 @@ const ReduxProviderWrap = ({ children }) => {
 export const StoreProviderWrap = ({ params, children }) => {
   const dispatch = useDispatch();
   const { store, storeLoading } = useSelector((state) => state.store);
-  const SiteLogo = useSelector((state) => getContentByName(state, 'Site Logo'));
   const [fontClass, setFontClass] = useState('');
+  const { announcements } = useSelector((state) => state.storeConfiguration.storeConfiguration);
+
+  const [isOpen, setIsOpen] = useState(false);
+
+  useEffect(() => {
+    if (typeof window === 'undefined' || !announcements) return;
+    const visited = JSON.parse(localStorage.getItem('popupFirstVisit')) || false;
+    if (announcements?.popup?.showType === 'firstVisit' && !visited) {
+      setIsOpen(true);
+      localStorage.setItem('popupFirstVisit', JSON.stringify(true));
+    } else if (announcements?.popup?.showType === 'reload') {
+      localStorage.removeItem('popupFirstVisit');
+      setIsOpen(true);
+    }
+  }, [announcements]);
 
   useEffect(() => {
     if (params?.site_id) {
@@ -87,6 +104,9 @@ export const StoreProviderWrap = ({ params, children }) => {
 
   return (
     <>
+      <noscript>
+        <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5MLLMDZ7" height="0" width="0" style={{ display: 'none', visibility: 'hidden' }}></iframe>
+      </noscript>
       <Script
         id="gtm-script"
         strategy="afterInteractive"
@@ -100,11 +120,10 @@ export const StoreProviderWrap = ({ params, children }) => {
           `,
         }}
       />
-      <noscript>
-        <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5MLLMDZ7" height="0" width="0" style={{ display: 'none', visibility: 'hidden' }}></iframe>
-      </noscript>
-
-      <div className={`flex flex-col items-center ${fontClass} antialiased`}>{children}</div>
+      <div>
+        <div className={`flex flex-col items-center ${fontClass} antialiased`}>{children}</div>
+        {announcements?.popup?.isActive && isOpen && <DiscountPopup isOpen={isOpen} setIsOpen={setIsOpen} />}
+      </div>
     </>
   );
 };
@@ -114,7 +133,10 @@ export const AdminProviderWrap = ({ children }) => {
   const { store } = useSelector((state) => state.store);
   const dispatch = useDispatch();
   useEffect(() => {
-    if (!currUser?.token) return;
+    if (!currUser?.token) {
+      dispatch(setStoreLoading(false));
+      return;
+    }
     getAllStores(currUser?.token);
   }, [currUser?.token]);
 
@@ -131,7 +153,19 @@ export const AdminProviderWrap = ({ children }) => {
 
     fetchAllData();
   }, [store?._id, dispatch]);
-  return <ProtectedRoute>{children}</ProtectedRoute>;
+  return (
+    <ProtectedRoute>
+      {currUser?.status !== 'active' ? (
+        <SuspendedNotice
+          reason={currUser?.suspendedReason || 'Reason not provided'}
+          type="user"
+          actions={<Button label="logout" action={() => dispatch(setLogout())} size="small" />}
+        />
+      ) : (
+        <>{children}</>
+      )}
+    </ProtectedRoute>
+  );
 };
 
 export default ReduxProviderWrap;

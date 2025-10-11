@@ -67,7 +67,7 @@ const Dashboard = () => {
             </div>
           </div>
           <div>
-            <Button label="Customize" action={() => router.push('/design')} variant="black" className="bg-black" />
+            <Button label="Customize" action={() => router.push(`${window.location.pathname}/pages/customize?page=/`)} variant="black" className="bg-black" />
           </div>
         </div>
       </div>

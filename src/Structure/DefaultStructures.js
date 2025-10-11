@@ -528,12 +528,8 @@ export const AdminPanelSideBarData = [
     icon: 'https://img.icons8.com/fluency/48/settings.png',
     path: '/Configuration',
     subLinks: [
-      { name: 'Over View', path: '/configurations' },
-      { name: 'Shipping', path: '/configurations/shipping' },
       { name: 'Subscription', path: '/configurations/subscription' },
       { name: 'Invoices', path: '/configurations/invoices' },
-      { name: 'Tax', path: '/configurations/tax' },
-      { name: 'Currency', path: '/configurations/currency' },
     ],
   },
   { name: 'Documentation', icon: 'https://img.icons8.com/external-flaticons-flat-flat-icons/64/external-documentation-agile-flaticons-flat-flat-icons.png', path: '/migrkation' },

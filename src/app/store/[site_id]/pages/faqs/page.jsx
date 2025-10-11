@@ -1,6 +1,5 @@
 'use client';
 import { useSelector } from "react-redux";
-import { getContentByName } from "@/Redux/ContentData/ContentDataSlice";
 import FAQs from "@/components/Widgets/Faqs";
 
 const FAQ = () => {

@@ -38,12 +38,12 @@ const Pages = () => {
     await getAllPages(currUser?.token, store?._id);
   };
 
+  const storeId = store?._id;
   useEffect(() => {
-    const storeId = store?._id;
     if (!storeId || (pages && pages.length > 0)) return;
 
     fetchData();
-  }, [store?._id, pages]);
+  }, [storeId]);
 
   if (pagesLoading) {
     return <Loader />;
@@ -164,4 +164,4 @@ const Pages = () => {
   );
 };
 
-export default Pages
+export default Pages;

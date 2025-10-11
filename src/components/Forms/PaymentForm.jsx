@@ -5,7 +5,6 @@ import { toast } from 'react-toastify';
 import { deleteCartData } from '@/Redux/CartData/cartDataSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import Loader from '../Loader/TemplateLoader';
-import { getContentByName } from '@/Redux/ContentData/ContentDataSlice';
 import { addOrderDataApi } from '@/APIs/Order/PlaceOrder';
 import FormInput from '@/components/Forms/FormInput';
 import { paymentFormValidate } from '@/Utils/FormsValidator';

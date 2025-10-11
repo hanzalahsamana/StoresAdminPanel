@@ -1,7 +1,4 @@
 'use client';
-
-import { useParams } from 'next/navigation';
-import HomeLayout from '@/components/Layout/HomeLayout';
 import { useSelector } from 'react-redux';
 import NotFound from '@/components/404Pages/NotFound';
 import PageStructureGenrator from '@/components/Layout/PageStructureGenrator';
